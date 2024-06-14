@@ -43,6 +43,11 @@ registerLocaleData(localeEs, 'es');
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SessionInterceptor } from './interceptors/session.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ProveedoresComponent } from './components/proveedores/proveedores.component';
+import { OfertaComponent } from './components/oferta/oferta.component';
 
 const materialModules = [
   MatCardModule,
@@ -75,7 +80,12 @@ const materialModules = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    NosotrosComponent,
+    MenuComponent,
+    FooterComponent,
+    ProveedoresComponent,
+    OfertaComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +108,7 @@ const materialModules = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'es' },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    
   ],
   bootstrap: [AppComponent]
 })
