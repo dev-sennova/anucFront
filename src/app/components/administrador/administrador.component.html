@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="header">
+        <img src="assets/imagenes/logo_anuc.png" alt="Logo" class="logo-header">
+        <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
+        <span id="tituloAnuc">ADMINISTRACIÓN ANUC</span>        
+        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon">
+    </div>
+
+    <div id="overlay" class="overlay" (click)="closeMenu()"></div>
+
+    <div id="menu" class="side-menu">
+        <div class="menu-header">
+            <img src="assets/imagenes/logo_anuc.png" alt="ANUC Logo" class="logo">
+            <button class="close-btn" (click)="closeMenu()">×</button>
+        </div>
+        <div class="menu-content">
+            <h2>Gestión asociados</h2>
+            <ul>
+                <li>
+                    <img src="assets/iconos/asociados_icon.png" alt="Admin Asociados" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Administrar asociados</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/reportes_icon.png" alt="Reportes Producción" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Reportes de producción</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/reportes_icon.png" alt="Reportes Asociados" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Reportes de asociados</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/location_icon.png" alt="Mapa Asociados" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Mapa de asociados</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/warning_icon.png" alt="Novedades Asociados" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Novedades de asociados</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/oferts_icon.png" alt="Administración Ofertas" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Ofertas de asociados</a>
+                </li>
+            </ul>
+            <h2>Gestión ANUC</h2>
+            <ul>
+                <li>
+                    <img src="assets/iconos/edit_icon.png" alt="Administrar Información Entidad" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Editar información de la entidad</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/time_icon.png" alt="Administrar Horarios" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Administrar horarios</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_icon.png" alt="Administrar Productos y Categorías" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Administrar productos y categorías</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/reportes_icon.png" alt="Gestión Documental" class="icon">
+                    <a routerLink="adminasociados" (click)="closeMenu()">Gestión documental</a>
+                </li>
+            </ul>
+        </div>
+        <button class="logout-btn">            
+            <h2>Cerrar sesión</h2>
+            <img src="assets/iconos/logout_icon.png" alt="Logout" class="logout-icon">
+        </button>
+    </div>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

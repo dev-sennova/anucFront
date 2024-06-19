@@ -16,9 +16,13 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.showMenu = event.url !== '/login';
+        this.showMenu = !(
+          event.url.startsWith('/login') ||
+          event.url.startsWith('/asociado') ||
+          event.url.startsWith('/administrador') ||
+          event.url.startsWith('/crearcontrasena') 
+        );
       }
     });
   }
-
 }

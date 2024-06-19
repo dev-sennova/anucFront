@@ -48,6 +48,12 @@ import { MenuComponent } from './components/menu/menu.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ProveedoresComponent } from './components/proveedores/proveedores.component';
 import { OfertaComponent } from './components/oferta/oferta.component';
+import { AsociadoComponent } from './components/asociado/asociado.component';
+import { AdministradorComponent } from './components/administrador/administrador.component';
+import { GestionarproductosComponent } from './components/asociado/gestionarproductos/gestionarproductos.component';
+import { PublicarofertaComponent } from './components/asociado/publicaroferta/publicaroferta.component';
+import { AdministrarasociadosComponent } from './components/administrador/administrarasociados/administrarasociados.component';
+import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
 
 const materialModules = [
   MatCardModule,
@@ -85,7 +91,14 @@ const materialModules = [
     MenuComponent,
     FooterComponent,
     ProveedoresComponent,
-    OfertaComponent
+    OfertaComponent,
+    AsociadoComponent,
+    AdministradorComponent,
+    GestionarproductosComponent,
+    PublicarofertaComponent,
+    AdministrarasociadosComponent,
+    CreatepasswordComponent,
+    
   ],
   imports: [
     BrowserModule,
