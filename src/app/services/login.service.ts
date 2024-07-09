@@ -21,27 +21,39 @@ export class LoginService {
 
   //private urlBase='http://127.0.0.1:8000';
 
+  private endpointGlobales='api/auth/variables_globales';
+
   private endpoint= 'api/auth/login';
 
   private endpointRegister= 'api/auth/register';
 
-  headers = new HttpHeaders().set('Content-Type', 'application/json');
 
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
   idUsuario: any;
+  globales: any;
 
   constructor(private http: HttpClient, public router: Router){}
 
     // Sign-in
     signIn(user:any) {
+      console.log("Url: "+`${this.urlBase}/${this.endpoint}`);
+      console.log("Usuario: "+JSON.stringify(user));
+
       return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user)
         .subscribe((res: any) => {
           localStorage.setItem('access_token', res.access_token);
-          localStorage.setItem('nombre_usuario', res.nombre_usuario);
-          localStorage.setItem('email_usuario', res.email_usuario);
+          localStorage.setItem('documento_usuario', res.identificacion);
           localStorage.setItem('identificador_usuario', res.id_usuario);
+          //localStorage.setItem('rol', res.rol);
           console.log("Item idUsuario: "+localStorage.getItem('identificador_usuario'));
+          //console.log("Item rol: "+localStorage.getItem('rol'));
+          //console.log("Token: "+res.access_token);
         })
+    }
+
+    public crearAsociado(user: any): Observable<any>{
+      return this.http.post(`${this.urlBase}/${this.endpointRegister}`, user)
     }
 
     getToken() {
@@ -87,4 +99,7 @@ export class LoginService {
       return throwError(msg);
     }
 
+    public lecturaGlobales(): Observable<any> {
+      return this.http.get(`${this.urlBase}/${this.endpointGlobales}`);
+    }
 }
