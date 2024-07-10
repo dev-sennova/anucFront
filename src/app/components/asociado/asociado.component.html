@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="header">
+        <img src="assets/imagenes/logo_anuc.png" alt="Logo" class="logo-header">
+        <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
+        <span id="tituloAnuc">PERFIL ASOCIADO CAMPESINO</span>        
+        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon">
+    </div>
+
+    <div id="overlay" class="overlay" (click)="closeMenu()"></div>
+
+    <div id="menu" class="side-menu">
+        <div class="menu-header">
+            <img src="assets/imagenes/logo_anuc.png" alt="ANUC Logo" class="logo">
+            <button class="close-btn" (click)="closeMenu()">×</button>
+        </div>
+        <div class="menu-content">
+            <h2>Administrar perfil</h2>
+            <ul>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos personales</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de ubicación</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de producción</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de apoderado</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos del núcleo familiar</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Cambiar correo y/o contraseña</a></li>
+            </ul>
+            <h2>Servicios</h2>
+            <ul>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Mi carnet</a></li>
+                <li><a routerLink="publicaroferta" (click)="closeMenu()">Publicación de ofertas</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Informar una novedad</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar mis pagos</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Ruta virtual hasta la ANUC</a></li>
+                <li><a routerLink="gestionproductos" (click)="closeMenu()">Comercializar con demás asociados</a></li>
+            </ul>
+        </div>
+        <button class="logout-btn" (click)="closeMenu()">Cerrar mi sesión</button>
+    </div>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -43,6 +43,18 @@ registerLocaleData(localeEs, 'es');
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SessionInterceptor } from './interceptors/session.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ProveedoresComponent } from './components/proveedores/proveedores.component';
+import { OfertaComponent } from './components/oferta/oferta.component';
+import { AsociadoComponent } from './components/asociado/asociado.component';
+import { AdministradorComponent } from './components/administrador/administrador.component';
+import { GestionarproductosComponent } from './components/asociado/gestionarproductos/gestionarproductos.component';
+import { PublicarofertaComponent } from './components/asociado/publicaroferta/publicaroferta.component';
+import { AdministrarasociadosComponent } from './components/administrador/administrarasociados/administrarasociados.component';
+import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
+import { ListadogeneralComponent } from './components/administrador/listadogeneral/listadogeneral.component';
 
 const materialModules = [
   MatCardModule,
@@ -75,7 +87,20 @@ const materialModules = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    NosotrosComponent,
+    MenuComponent,
+    FooterComponent,
+    ProveedoresComponent,
+    OfertaComponent,
+    AsociadoComponent,
+    AdministradorComponent,
+    GestionarproductosComponent,
+    PublicarofertaComponent,
+    AdministrarasociadosComponent,
+    CreatepasswordComponent,
+    ListadogeneralComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -98,7 +123,7 @@ const materialModules = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'es' },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    
   ],
   bootstrap: [AppComponent]
 })

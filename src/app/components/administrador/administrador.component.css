@@ -1,0 +1,140 @@
+.container {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header img {
+    height: 70px;
+}
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.logout-btn {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    
+    
+}
+
+.logout-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+}
+
+#tituloAnuc {
+    font-size: 18px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#profile_icon {
+    height: 60px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: none;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    padding: 20px;
+}
+
+.side-menu .menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.side-menu .logo {
+    width: 70px;
+    height: auto;
+}
+
+.side-menu .close-btn {
+    background: none;
+    border: none;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.side-menu .menu-content {
+    margin-top: 20px;
+}
+
+.side-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.side-menu ul li {
+    margin: 10px 0;
+}
+
+.side-menu ul li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+}
+
+
+
+.menu-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    top: 30px;
+    left: 150px;
+    z-index: 3;
+}
+
+.menu-btn.hidden {
+    display: none;
+}
+
+.side-menu.open {
+    transform: translateX(0);
+}
+
+.overlay.active {
+    display: block;
+}

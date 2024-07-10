@@ -1,0 +1,49 @@
+.container{
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.about-section {
+    padding: 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+.cover-photo {
+    width: 1200px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.company-details {
+    text-align: left;
+}
+.company-details h1 {
+    margin: 0;
+    font-size: 24px;
+}
+.company-details p {
+    margin: 5px 0;
+}
+.mision_anuc, .vision_anuc, .horarios_anuc {
+    margin-top: 20px;
+    text-align: left;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.mision_anuc h2, .vision_anuc h2, .horarios_anuc h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
