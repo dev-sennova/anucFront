@@ -13,17 +13,26 @@
     border-bottom: 1px solid #e0e0e0;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
-.header img {
-    height: 70px;
+.header .left {
+    display: flex;
+    align-items: center;
 }
+
+.header img.logo-header {
+    height: 70px;
+    margin-right: 20px;
+}
+
 .icon {
     width: 20px;
     height: 20px;
     margin-right: 10px;
     vertical-align: middle;
 }
+
 .logout-btn {
     display: flex;
     align-items: center;
@@ -31,8 +40,6 @@
     background-color: white;
     border: none;
     cursor: pointer;
-    
-    
 }
 
 .logout-icon {
@@ -46,6 +53,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    white-space: nowrap;
 }
 
 #profile_icon {
@@ -114,17 +122,11 @@
     font-size: 16px;
 }
 
-
-
 .menu-btn {
     font-size: 24px;
     background: none;
     border: none;
     cursor: pointer;
-    position: fixed;
-    top: 30px;
-    left: 150px;
-    z-index: 3;
 }
 
 .menu-btn.hidden {

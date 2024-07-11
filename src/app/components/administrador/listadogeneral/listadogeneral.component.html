@@ -1,1 +1,89 @@
-<p>listadogeneral works!</p>
+<div class="body">
+  <div class="container">
+      <h2>Lista usuarios ANUC</h2>
+      <div class="search-bar">
+          <input type="text" placeholder="Buscar producto..." [(ngModel)]="searchTerm" (input)="buscar()">
+          <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
+      </div>
+      <div *ngIf="filtersVisible" class="filters">
+          <label>
+              Género:
+              <select [(ngModel)]="selectedGenero" (change)="buscar()">
+                  <option value="">Todos</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+              </select>
+          </label>
+          <label>
+              Categoría:
+              <select [(ngModel)]="selectedCategoria" (change)="buscar()">
+                  <option value="">Todas</option>
+                  <option *ngFor="let categoria of categorias" [value]="categoria">{{categoria}}</option>
+              </select>
+          </label>
+          <label>
+              Estado Civil:
+              <select [(ngModel)]="selectedEstadoCivil" (change)="buscar()">
+                  <option value="">Todos</option>
+                  <option *ngFor="let estado of estadosCiviles" [value]="estado">{{estado}}</option>
+              </select>
+          </label>
+          <label>
+              Vereda:
+              <select [(ngModel)]="selectedVereda" (change)="buscar()">
+                  <option value="">Todas</option>
+                  <option *ngFor="let vereda of veredas" [value]="vereda">{{vereda}}</option>
+              </select>
+          </label>
+          <label>
+              Tipo de Predio:
+              <select [(ngModel)]="selectedTipoPredio" (change)="buscar()">
+                  <option value="">Todos</option>
+                  <option *ngFor="let tipo of tiposPredio" [value]="tipo">{{tipo}}</option>
+              </select>
+          </label>
+      </div>
+      <table>
+          <thead>
+              <tr>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Género</th>
+                  <th>Categoría</th>
+                  <th>Fecha nacimiento</th>
+                  <th>Tipo de documento</th>
+                  <th>Identificación</th>
+                  <th>Estado civil</th>
+                  <th>Teléfono</th>
+                  <th>Vereda</th>
+                  <th>Nombre de predio</th>
+                  <th>Tipo de predio</th>
+                  <th>Extensión en hectáreas</th>
+                  <th>Acciones</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let asociado of paginatedAsociados">
+                  <td>{{ asociado.nombres }}</td>
+                  <td>{{ asociado.apellidos }}</td>
+                  <td>{{ asociado.sexo }}</td>
+                  <td>{{ asociado.categoria }}</td>
+                  <td>{{ asociado.fecha_nacimiento }}</td>
+                  <td>{{ asociado.tipo_documento }}</td>
+                  <td>{{ asociado.identificacion }}</td>
+                  <td>{{ asociado.estado_civil }}</td>
+                  <td>{{ asociado.telefono }}</td>
+                  <td>{{ asociado.vereda }}</td>
+                  <td>{{ asociado.nombre }}</td>
+                  <td>{{ asociado.tipo_predio }}</td>
+                  <td>{{ asociado.extension }}</td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="pagination">
+          <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+          <span>Página {{currentPage}} de {{totalPages}}</span>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+      </div>
+  </div>
+</div>
