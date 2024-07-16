@@ -12,6 +12,7 @@ import { PublicarofertaComponent } from './components/asociado/publicaroferta/pu
 import { AdministrarasociadosComponent } from './components/administrador/administrarasociados/administrarasociados.component';
 import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
 import { ListadogeneralComponent } from './components/administrador/listadogeneral/listadogeneral.component';
+import { EmpresainfoComponent } from './components/administrador/empresainfo/empresainfo.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
     children: [
       {path: 'adminasociados', component: AdministrarasociadosComponent},
       { path: 'reportes-asociados', component: ListadogeneralComponent },
+      { path: 'informacion-anuc', component: EmpresainfoComponent },
     ]
    },
   { path: 'gestionproductos', component: GestionarproductosComponent },

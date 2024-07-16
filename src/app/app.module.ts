@@ -55,6 +55,7 @@ import { PublicarofertaComponent } from './components/asociado/publicaroferta/pu
 import { AdministrarasociadosComponent } from './components/administrador/administrarasociados/administrarasociados.component';
 import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
 import { ListadogeneralComponent } from './components/administrador/listadogeneral/listadogeneral.component';
+import { EmpresainfoComponent } from './components/administrador/empresainfo/empresainfo.component';
 
 const materialModules = [
   MatCardModule,
@@ -100,6 +101,7 @@ const materialModules = [
     AdministrarasociadosComponent,
     CreatepasswordComponent,
     ListadogeneralComponent,
+    EmpresainfoComponent,
     
   ],
   imports: [
