@@ -1,7 +1,9 @@
 <div class="container">
     <div class="header">
-        <img src="assets/imagenes/logo_anuc.png" alt="Logo" class="logo-header">
-        <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
+        <div class="left">
+            <img src="assets/imagenes/logo_anuc.png" alt="Logo" class="logo-header">
+            <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
+        </div>
         <span id="tituloAnuc">ADMINISTRACIÓN ANUC</span>        
         <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon">
     </div>
@@ -22,11 +24,11 @@
                 </li>
                 <li>
                     <img src="assets/iconos/reportes_icon.png" alt="Reportes Producción" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Reportes de producción</a>
+                    <a routerLink="reportes-asociados" (click)="closeMenu()">Reportes de producción</a>
                 </li>
                 <li>
                     <img src="assets/iconos/reportes_icon.png" alt="Reportes Asociados" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Reportes de asociados</a>
+                    <a routerLink="reportes-asociados" (click)="closeMenu()">Reportes de asociados</a>
                 </li>
                 <li>
                     <img src="assets/iconos/location_icon.png" alt="Mapa Asociados" class="icon">
