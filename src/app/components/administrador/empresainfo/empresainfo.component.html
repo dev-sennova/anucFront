@@ -1,0 +1,48 @@
+<div class="body">
+    <div class="container">
+      <h2>Administrar información de la entidad</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Campo</th>
+            <th>Información</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="empresa">
+          <tr>
+            <td>Nombre de la empresa</td>
+            <td>{{ empresa.nombre }}</td>
+            <td><button class="edit-btn">Editar</button></td>
+          </tr>
+          <tr>
+            <td>Dirección</td>
+            <td>{{ empresa.direccion }}</td>
+            <td><button class="edit-btn">Editar</button></td>
+          </tr>
+          <tr>
+            <td>Misión</td>
+            <td>{{ empresa.mision }}</td>
+            <td><button class="edit-btn">Editar</button></td>
+          </tr>
+          <tr>
+            <td>Visión</td>
+            <td>{{ empresa.vision }}</td>
+            <td><button class="edit-btn">Editar</button></td>
+          </tr>
+          <tr>
+            <td>Estatutos</td>
+            <td>
+              <div class="pdf-container">
+                <object [data]="pdfSrc" type="application/pdf" width="100%" height="1000px">
+                  <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
+                </object>
+              </div>
+            </td>
+            <td><button class="edit-btn">Editar</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
