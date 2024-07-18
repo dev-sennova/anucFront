@@ -1,1 +1,198 @@
-<p>administrarasociados works!</p>
+<div class="body">
+  <div class="container">
+    <h2>Lista de Personas</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+      <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
+      <button class="create-btn" (click)="openCreateModal()">Crear Usuario</button>
+    </div>
+    <div *ngIf="filtersVisible" class="filters">
+      <label>
+        Sexo:
+        <select [(ngModel)]="selectedSexo" (change)="buscar()">
+          <option value="">Todos</option>
+          <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
+        </select>
+      </label>
+      <label>
+        Estado Civil:
+        <select [(ngModel)]="selectedEstadoCivil" (change)="buscar()">
+          <option value="">Todos</option>
+          <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{ estadoCivil.estado_civil }}</option>
+        </select>
+      </label>
+      <label>
+        Tipo Documento:
+        <select [(ngModel)]="selectedTipoDocumento" (change)="buscar()">
+          <option value="">Todos</option>
+          <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.id">{{ tipoDocumento.tipo_documento }}</option>
+        </select>
+      </label>
+      <label>
+        Estado:
+        <select [(ngModel)]="selectedEstado" (change)="buscar()">
+          <option value="">Todos</option>
+          <option value="1">Activo</option>
+          <option value="0">Inactivo</option>
+        </select>
+      </label>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Sexo</th>
+          <th>Fecha de Nacimiento</th>
+          <th>Tipo de Documento</th>
+          <th>Identificación</th>
+          <th>Estado Civil</th>
+          <th>Teléfono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let persona of paginatedPersonas">
+          <td>{{ persona.nombres }}</td>
+          <td>{{ persona.apellidos }}</td>
+          <td>{{ getSexo(persona.sexo) }}</td>
+          <td>{{ persona.fecha_nacimiento }}</td>
+          <td>{{ getTipoDocumento(persona.tipo_documento) }}</td>
+          <td>{{ persona.identificacion }}</td>
+          <td>{{ getEstadoCivil(persona.estado_civil) }}</td>
+          <td>{{ persona.telefono }}</td>
+          <td>{{ getEstado(persona.estado) }}</td>
+          <td>
+            <button class="action-btn edit-btn" (click)="openEditModal(persona)">Editar</button>
+            <button *ngIf="persona.estado === 0" class="action-btn activate-btn" (click)="openActivateModal(persona)">Activar</button>
+            <button *ngIf="persona.estado === 1" class="action-btn deactivate-btn" (click)="openDeactivateModal(persona)">Desactivar</button>
+          </td>          
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{currentPage}} de {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal" id="createModal" *ngIf="createModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeCreateModal()">&times;</span>
+    <h2>Crear Usuario</h2>
+    <form (ngSubmit)="submitCreateForm()">
+      <label>
+        Nombres:
+        <input type="text" [(ngModel)]="newPersona.nombres" name="nombres" required>
+      </label>
+      <label>
+        Apellidos:
+        <input type="text" [(ngModel)]="newPersona.apellidos" name="apellidos" required>
+      </label>
+      <label>
+        Identificación:
+        <input type="text" [(ngModel)]="newPersona.identificacion" name="identificacion" required>
+      </label>
+      <label>
+        Teléfono:
+        <input type="text" [(ngModel)]="newPersona.telefono" name="telefono" required>
+      </label>
+      <label>
+        Fecha de Nacimiento:
+        <input type="date" [(ngModel)]="newPersona.fecha_nacimiento" name="fecha_nacimiento" required>
+      </label>
+      <label>
+        Tipo de Documento:
+        <select [(ngModel)]="newPersona.tipo_documento" name="tipo_documento" required>
+          <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.id">{{ tipoDocumento.tipo_documento }}</option>
+        </select>
+      </label>
+      <label>
+        Sexo:
+        <select [(ngModel)]="newPersona.sexo" name="sexo" required>
+          <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
+        </select>
+      </label>
+      <label>
+        Estado Civil:
+        <select [(ngModel)]="newPersona.estado_civil" name="estado_civil" required>
+          <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{ estadoCivil.estado_civil }}</option>
+        </select>
+      </label>
+      <button type="submit" class="action-btn create-btn">Crear</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div *ngIf="editModalVisible" class="modal" id="editModal" >
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Editar Persona</h2>
+    <form (ngSubmit)="submitEditForm()">
+      <label>
+        Nombres:
+        <input type="text" [(ngModel)]="selectedPersona.nombres" name="nombres">
+      </label>
+      <label>
+        Apellidos:
+        <input type="text" [(ngModel)]="selectedPersona.apellidos" name="apellidos">
+      </label>
+      <label>
+        Identificación:
+        <input type="text" [(ngModel)]="selectedPersona.identificacion" name="identificacion">
+      </label>
+      <label>
+        Teléfono:
+        <input type="text" [(ngModel)]="selectedPersona.telefono" name="telefono">
+      </label>
+      <label>
+        Fecha de Nacimiento:
+        <input type="date" [(ngModel)]="selectedPersona.fecha_nacimiento" name="fecha_nacimiento">
+      </label>
+      <label>
+        Tipo de Documento:
+        <select [(ngModel)]="selectedPersona.tipo_documento" name="tipo_documento">
+          <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.id">{{ tipoDocumento.tipo_documento }}</option>
+        </select>
+      </label>
+      <label>
+        Sexo:
+        <select [(ngModel)]="selectedPersona.sexo" name="sexo">
+          <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
+        </select>
+      </label>
+      <label>
+        Estado Civil:
+        <select [(ngModel)]="selectedPersona.estado_civil" name="estado_civil">
+          <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{ estadoCivil.estado_civil }}</option>
+        </select>
+      </label>
+      <button type="submit" class="action-btn edit-btn">Guardar</button>
+    </form>
+  </div>
+</div>
+
+<!-- Activate Modal -->
+<div class="modal" id="activateModal" *ngIf="activateModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeActivateModal()">&times;</span>
+    <h2>Activar Persona</h2>
+    <p>¿Estás seguro de que quieres activar a {{ selectedPersona.nombres }} {{ selectedPersona.apellidos }}?</p>
+    <button class="action-btn activate-btn" (click)="activatePersona()">Activar</button>
+  </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeDeactivateModal()">&times;</span>
+    <h2>Desactivar Persona</h2>
+    <p>¿Estás seguro de que quieres desactivar a {{ selectedPersona.nombres }} {{ selectedPersona.apellidos }}?</p>
+    <button class="action-btn deactivate-btn" (click)="deactivatePersona()">Desactivar</button>
+  </div>
+</div>

@@ -114,12 +114,22 @@
 
 .side-menu ul li {
     margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: background-color 0.3s, border-radius 0.3s;
+}
+
+.side-menu ul li:hover {
+    border-radius: 4px;
+    background-color: #9f9d9d;
 }
 
 .side-menu ul li a {
     text-decoration: none;
     color: #000;
     font-size: 16px;
+    flex-grow: 1;
 }
 
 .menu-btn {
