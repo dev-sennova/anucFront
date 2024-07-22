@@ -51,7 +51,6 @@
                   <th>Género</th>
                   <th>Categoría</th>
                   <th>Fecha nacimiento</th>
-                  <th>Tipo de documento</th>
                   <th>Identificación</th>
                   <th>Estado civil</th>
                   <th>Teléfono</th>
@@ -59,7 +58,6 @@
                   <th>Nombre de predio</th>
                   <th>Tipo de predio</th>
                   <th>Extensión en hectáreas</th>
-                  <th>Acciones</th>
               </tr>
           </thead>
           <tbody>
@@ -69,7 +67,6 @@
                   <td>{{ asociado.sexo }}</td>
                   <td>{{ asociado.categoria }}</td>
                   <td>{{ asociado.fecha_nacimiento }}</td>
-                  <td>{{ asociado.tipo_documento }}</td>
                   <td>{{ asociado.identificacion }}</td>
                   <td>{{ asociado.estado_civil }}</td>
                   <td>{{ asociado.telefono }}</td>
@@ -84,6 +81,7 @@
           <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
           <span>Página {{currentPage}} de {{totalPages}}</span>
           <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+          <span class="record-count">Total registros: {{ filteredAsociados.length }}</span>
       </div>
   </div>
 </div>

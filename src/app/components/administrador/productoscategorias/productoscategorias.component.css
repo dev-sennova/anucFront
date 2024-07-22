@@ -60,6 +60,7 @@
 
 .filters select {
     padding: 10px;
+    color: black;
     border: 1px solid #ccc;
     border-radius: 4px;
 }

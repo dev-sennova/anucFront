@@ -33,6 +33,7 @@ export class AdministrarasociadosComponent implements OnInit {
   createModalVisible: boolean = false;
   selectedPersona: any = {};
   newPersona: any = {}; 
+  totalRegistros: number = 0;
 
   constructor(
     private personasService: PersonasService,
@@ -99,6 +100,7 @@ export class AdministrarasociadosComponent implements OnInit {
       this.matchesSearchTerm(persona) && this.matchesFilters(persona)
     );
     this.currentPage = 1;
+    this.totalRegistros = this.filteredPersonas.length;
     this.updatePagination();
   }
 
@@ -125,6 +127,7 @@ export class AdministrarasociadosComponent implements OnInit {
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredPersonas.length / this.itemsPerPage);
     this.paginatedPersonas = this.filteredPersonas.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
+    this.totalRegistros = this.filteredPersonas.length;
   }
 
   prevPage() {

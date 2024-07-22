@@ -13,6 +13,9 @@ import { AdministrarasociadosComponent } from './components/administrador/admini
 import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
 import { ListadogeneralComponent } from './components/administrador/listadogeneral/listadogeneral.component';
 import { EmpresainfoComponent } from './components/administrador/empresainfo/empresainfo.component';
+import { InformaciondesplegableComponent } from './components/administrador/informaciondesplegable/informaciondesplegable.component';
+import { VeredasComponent } from './components/administrador/veredas/veredas.component';
+import { ProductoscategoriasComponent } from './components/administrador/productoscategorias/productoscategorias.component';
 
 
 const routes: Routes = [
@@ -34,6 +37,12 @@ const routes: Routes = [
       {path: 'adminasociados', component: AdministrarasociadosComponent},
       { path: 'reportes-asociados', component: ListadogeneralComponent },
       { path: 'informacion-anuc', component: EmpresainfoComponent },
+      { path: 'unidades-anuc', component: InformaciondesplegableComponent },
+      { path: 'veredas-anuc', component: VeredasComponent },
+      { path: 'productos-categorias', component: ProductoscategoriasComponent },
+
+
+
     ]
    },
   { path: 'gestionproductos', component: GestionarproductosComponent },

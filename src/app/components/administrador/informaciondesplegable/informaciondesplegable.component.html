@@ -1,0 +1,87 @@
+<div class="body">
+    <div class="container">
+        <h2>Lista de Unidades de Medida</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+            <button class="create-btn" (click)="openCreateModal()">Crear Unidad</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id de la unidad</th>
+                    <th>Unidad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let unidad of paginatedUnidades">
+                    <td>{{ unidad.id }}</td>
+                    <td>{{ unidad.unidad }}</td>
+                    <td>{{ unidad.estado === 1 ? 'Activo' : 'Inactivo' }}</td>
+                    <td>
+                        <button class="action-btn edit-btn" (click)="openEditModal(unidad)">Editar</button>
+                        <button *ngIf="unidad.estado === 0" class="action-btn activate-btn" (click)="openActivateModal(unidad)">Activar</button>
+                        <button *ngIf="unidad.estado === 1" class="action-btn deactivate-btn" (click)="openDeactivateModal(unidad)">Desactivar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+            <span>Página {{currentPage}} de {{totalPages}}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+            <span class="record-count">Total registros: {{ filteredUnidades.length }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal" id="createModal" *ngIf="createModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeCreateModal()">&times;</span>
+        <h2>Crear Unidad</h2>
+        <form (ngSubmit)="submitCreateForm()">
+            <label>
+                Unidad:
+                <input type="text" [(ngModel)]="newUnidad.unidad" name="unidad" required>
+            </label>
+            <button type="submit" class="action-btn create-btn">Crear</button>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal" *ngIf="editModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeEditModal()">&times;</span>
+        <h2>Editar Unidad</h2>
+        <form (ngSubmit)="submitEditForm()">
+            <label>
+                Unidad:
+                <input type="text" [(ngModel)]="selectedUnidad.unidad" name="unidad">
+            </label>
+            <button type="submit" class="action-btn edit-btn">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Activate Modal -->
+<div class="modal" id="activateModal" *ngIf="activateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeActivateModal()">&times;</span>
+        <h2>Activar Unidad</h2>
+        <p>¿Estás seguro de que quieres activar la unidad {{ selectedUnidad.unidad }}?</p>
+        <button class="action-btn activate-btn" (click)="activateUnidad()">Activar</button>
+    </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeDeactivateModal()">&times;</span>
+        <h2>Desactivar Unidad</h2>
+        <p>¿Estás seguro de que quieres desactivar la unidad {{ selectedUnidad.unidad }}?</p>
+        <button class="action-btn deactivate-btn" (click)="deactivateUnidad()">Desactivar</button>
+    </div>
+</div>

@@ -75,7 +75,9 @@
       <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
       <span>Página {{currentPage}} de {{totalPages}}</span>
       <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+      <span class="record-count">Total registros: {{ filteredPersonas.length }}</span>
     </div>
+    
   </div>
 </div>
 
