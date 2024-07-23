@@ -50,23 +50,23 @@
                     <a routerLink="informacion-anuc" (click)="closeMenu()">Editar información de la entidad</a>
                 </li>
                 <li>
+                    <img src="assets/iconos/edit_icon.png" alt="Administrar Productos y Categorías" class="icon">
+                    <a routerLink="productos-categorias" (click)="closeMenu()">Administrar productos y categorías</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_icon.png" alt="Administrar información desplegable" class="icon">
+                    <a routerLink="desplegables-anuc" (click)="closeMenu()">Administrar unidades de peso</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_icon.png" alt="Administrar veredas" class="icon">
+                    <a routerLink="veredas-anuc" (click)="closeMenu()">Administrar veredas</a>
+                </li>
+                <li>
                     <img src="assets/iconos/time_icon.png" alt="Administrar Horarios" class="icon">
                     <a routerLink="adminasociados" (click)="closeMenu()">Administrar horarios</a>
                 </li>
-                <li>
-                    <img src="assets/iconos/edit_icon.png" alt="Administrar Productos y Categorías" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Administrar productos y categorías</a>
-                </li>
-                <li>
-                    <img src="assets/iconos/reportes_icon.png" alt="Gestión Documental" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Gestión documental</a>
-                </li>
             </ul>
         </div>
-        <button class="logout-btn">            
-            <h2>Cerrar sesión</h2>
-            <img src="assets/iconos/logout_icon.png" alt="Logout" class="logout-icon">
-        </button>
     </div>
     <div>
         <router-outlet></router-outlet>

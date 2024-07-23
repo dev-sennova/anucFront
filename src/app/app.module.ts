@@ -56,6 +56,10 @@ import { AdministrarasociadosComponent } from './components/administrador/admini
 import { CreatepasswordComponent } from './components/createpassword/createpassword.component';
 import { ListadogeneralComponent } from './components/administrador/listadogeneral/listadogeneral.component';
 import { EmpresainfoComponent } from './components/administrador/empresainfo/empresainfo.component';
+import { InformaciondesplegableComponent } from './components/administrador/informaciondesplegable/informaciondesplegable.component';
+import { VeredasComponent } from './components/administrador/veredas/veredas.component';
+import { ProductoscategoriasComponent } from './components/administrador/productoscategorias/productoscategorias.component';
+
 
 const materialModules = [
   MatCardModule,
@@ -102,6 +106,9 @@ const materialModules = [
     CreatepasswordComponent,
     ListadogeneralComponent,
     EmpresainfoComponent,
+    InformaciondesplegableComponent,
+    VeredasComponent,
+    ProductoscategoriasComponent,
     
   ],
   imports: [

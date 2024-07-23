@@ -85,3 +85,7 @@ th {
 .pagination span {
     margin: 0 10px;
 }
+.pagination .record-count {
+    margin-left: 20px;
+    font-weight: bold;
+}

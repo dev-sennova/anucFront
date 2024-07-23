@@ -33,20 +33,7 @@
     vertical-align: middle;
 }
 
-.logout-btn {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    background-color: white;
-    border: none;
-    cursor: pointer;
-}
 
-.logout-icon {
-    width: 40px;
-    height: 40px;
-    margin-left: 10px;
-}
 
 #tituloAnuc {
     font-size: 18px;
@@ -114,12 +101,22 @@
 
 .side-menu ul li {
     margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: background-color 0.3s, border-radius 0.3s;
+}
+
+.side-menu ul li:hover {
+    border-radius: 5px;
+    background-color: #9f9d9d;
 }
 
 .side-menu ul li a {
     text-decoration: none;
     color: #000;
     font-size: 16px;
+    flex-grow: 1;
 }
 
 .menu-btn {

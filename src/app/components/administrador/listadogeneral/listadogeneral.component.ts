@@ -24,6 +24,7 @@ export class ListadogeneralComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
+  totalRegistros: number = 0;
 
   constructor(private listadosService: ListadosService) { }
 
@@ -49,6 +50,7 @@ export class ListadogeneralComponent implements OnInit {
       this.matchesSearchTerm(asociado) && this.matchesFilters(asociado)
     );
     this.currentPage = 1;
+    this.totalRegistros = this.filteredAsociados.length;
     this.updatePagination();
   }
 
@@ -75,6 +77,7 @@ export class ListadogeneralComponent implements OnInit {
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredAsociados.length / this.itemsPerPage);
     this.paginatedAsociados = this.filteredAsociados.slice((this.currentPage - 1) * this.itemsPerPage, this.currentPage * this.itemsPerPage);
+    this.totalRegistros = this.filteredAsociados.length;
   }
 
   prevPage() {
