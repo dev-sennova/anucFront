@@ -9,7 +9,8 @@ import { GlobalConstants } from '../commons/global-constants';
 })
 export class EmpresaGlobalesService {
 
-  private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1'; // Actualiza esta URL según tu configuración
+  private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1'; 
+  private apiUrlEstadisticas = GlobalConstants.apiURL + '/api/auth/empresa_globales/estadisticas'; 
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +26,20 @@ export class EmpresaGlobalesService {
       catchError(this.handleError)
     );
   }
+
+  getEmpresaEstadisticas(): Observable<any> {
+    return this.http.get<any>(this.apiUrlEstadisticas).pipe(
+      map(response => {
+        if (response.estado === "Ok") {
+          return response; 
+        } else {
+          throw new Error('Respuesta inválida del servidor');
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

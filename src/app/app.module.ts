@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -59,6 +60,7 @@ import { EmpresainfoComponent } from './components/administrador/empresainfo/emp
 import { InformaciondesplegableComponent } from './components/administrador/informaciondesplegable/informaciondesplegable.component';
 import { VeredasComponent } from './components/administrador/veredas/veredas.component';
 import { ProductoscategoriasComponent } from './components/administrador/productoscategorias/productoscategorias.component';
+import { InicioComponent } from './components/administrador/inicio/inicio.component';
 
 
 const materialModules = [
@@ -109,10 +111,14 @@ const materialModules = [
     InformaciondesplegableComponent,
     VeredasComponent,
     ProductoscategoriasComponent,
+    InicioComponent,
     
   ],
   imports: [
     BrowserModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts')
+    }),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
