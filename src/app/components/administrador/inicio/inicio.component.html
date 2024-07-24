@@ -1,0 +1,9 @@
+<div class="charts-container">
+    <div echarts [options]="sexoChartOptions" class="chart"></div>
+    <div echarts [options]="edadChartOptions" class="chart"></div>
+    <div echarts [options]="veredaChartOptions" class="chart"></div>
+    <div echarts [options]="hectareasChartOptions" class="chart"></div>
+    <div echarts [options]="tipoPredioChartOptions" class="chart"></div>
+    <div echarts [options]="productosCategoriasChartOptions" class="chart"></div>
+    <div echarts *ngFor="let chartOption of productosChartOptions" [options]="chartOption" class="chart"></div>
+</div>
