@@ -1,9 +1,26 @@
 <div class="charts-container">
-    <div echarts [options]="sexoChartOptions" class="chart"></div>
-    <div echarts [options]="edadChartOptions" class="chart"></div>
-    <div echarts [options]="veredaChartOptions" class="chart"></div>
-    <div echarts [options]="hectareasChartOptions" class="chart"></div>
-    <div echarts [options]="tipoPredioChartOptions" class="chart"></div>
-    <div echarts [options]="productosCategoriasChartOptions" class="chart"></div>
-    <div echarts *ngFor="let chartOption of productosChartOptions" [options]="chartOption" class="chart"></div>
-</div>
+    <div class="chart-card">
+      <div echarts [options]="sexoChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card">
+      <div echarts [options]="edadChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card">
+      <div echarts [options]="veredaChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card">
+      <div echarts [options]="hectareasChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card">
+      <div echarts [options]="tipoPredioChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card">
+      <div echarts [options]="productosCategoriasChartOptions" class="chart"></div>
+    </div>
+    <div class="chart-card" 
+         *ngFor="let chartOption of productosChartOptions" 
+         [ngClass]="{'full-width': isFullWidthChart(chartOption.title.text)}">
+      <div echarts [options]="chartOption" class="chart"></div>
+    </div>
+  </div>
+  

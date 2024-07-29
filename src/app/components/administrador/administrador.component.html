@@ -5,7 +5,12 @@
             <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
         </div>
         <span id="tituloAnuc">ADMINISTRACIÓN ANUC</span>        
-        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon">
+        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
+        <div id="profile-menu" class="profile-menu">
+            <button>Administrar Perfil</button>
+            <button>Cambiar Contraseña</button>
+            <button>Cerrar Sesión</button>
+        </div>
     </div>
 
     <div id="overlay" class="overlay" (click)="closeMenu()"></div>
@@ -15,16 +20,13 @@
             <img src="assets/imagenes/logo_anuc.png" alt="ANUC Logo" class="logo">
             <button class="close-btn" (click)="closeMenu()">×</button>
         </div>
-        <div class="menu-content">
-            <h2>Anuc</h2>
+        <div class="menu-content">            
+            <h2>Gestión asociados</h2>
             <ul>
                 <li>
                     <img src="assets/iconos/home_icon.png" alt="Admin Asociados" class="icon">
                     <a routerLink="inicio" (click)="closeMenu()">Inicio</a>
                 </li>
-            </ul>
-            <h2>Gestión asociados</h2>
-            <ul>
                 <li>
                     <img src="assets/iconos/asociados_icon.png" alt="Admin Asociados" class="icon">
                     <a routerLink="adminasociados" (click)="closeMenu()">Administrar asociados</a>

@@ -35,21 +35,35 @@ export class InicioComponent implements AfterViewInit {
     );
   }
 
+  isFullWidthChart(chartTitle: string): boolean {
+    const fullWidthCategories = ["Otros productos", "Frutas", "Verduras/vegetales"];
+    return fullWidthCategories.some(category => chartTitle.includes(category));
+  }
+
+
   createSexoChartOptions(data: any) {
     const totalAsociados = data.cantidad_masculinos + data.cantidad_femeninos + data.cantidad_otro_sexo;
 
     return {
       title: {
-        text: 'Cantidad de Asociados por Genero',
+        text: 'Cantidad de Asociados por Género',
         subtext: `Total asociados: ${totalAsociados}`,
-        left: 'center'
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        orient: 'vertical',
-        left: 'left'
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 0,
+        textStyle: {
+          fontSize: 10
+        },
       },
       series: [
         {
@@ -69,28 +83,47 @@ export class InicioComponent implements AfterViewInit {
             }
           }
         }
-      ]
+      ],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
 
   createEdadChartOptions(data: any) {
     return {
       title: {
-        text: 'Cantidad de Asociados por Edad'
+        text: 'Cantidad de Asociados por Edad',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {},
       legend: {
-        data: ['Edad']
+        data: ['Edad'],
+        textStyle: {
+          fontSize: 10
+        },
       },
       xAxis: {
-        data: Object.values(data).filter((value: any, index: number) => index % 2 === 0)
+        data: Object.values(data).filter((value: any, index: number) => index % 2 === 0),
+        axisLabel: {
+          fontSize: 10
+        }
       },
-      yAxis: {},
+      yAxis: {
+        axisLabel: {
+          fontSize: 10
+        }
+      },
       series: [{
         name: 'Cantidad',
         type: 'bar',
-        data: Object.values(data).filter((value: any, index: number) => index % 2 !== 0)
-      }]
+        data: Object.values(data).filter((value: any, index: number) => index % 2 !== 0),
+        barWidth: '50%'
+      }],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
 
@@ -99,14 +132,22 @@ export class InicioComponent implements AfterViewInit {
       title: {
         text: 'Cantidad de Asociados por Vereda',
         subtext: 'Asociados por veredas',
-        left: 'center'
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        orient: 'vertical',
-        left: 'left'
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 0,
+        textStyle: {
+          fontSize: 10
+        },
       },
       series: [
         {
@@ -122,29 +163,48 @@ export class InicioComponent implements AfterViewInit {
             }
           }
         }
-      ]
+      ],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
 
   createHectareasChartOptions(data: any) {
     return {
       title: {
-        text: 'Fincas por Hectáreas'
+        text: 'Fincas por Hectáreas',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {},
       legend: {
-        data: ['Hectáreas']
+        data: ['Hectáreas'],
+        textStyle: {
+          fontSize: 10
+        },
       },
       xAxis: {
         type: 'category',
-        data: Object.keys(data)
+        data: Object.keys(data),
+        axisLabel: {
+          fontSize: 10
+        }
       },
-      yAxis: {},
+      yAxis: {
+        axisLabel: {
+          fontSize: 10
+        }
+      },
       series: [{
         name: 'Cantidad',
         type: 'bar',
-        data: Object.values(data).map((value: any) => parseInt(value, 10))
-      }]
+        data: Object.values(data).map((value: any) => parseInt(value, 10)),
+        barWidth: '50%'
+      }],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
 
@@ -152,14 +212,22 @@ export class InicioComponent implements AfterViewInit {
     return {
       title: {
         text: 'Fincas por Tipo de Predio',
-        left: 'center'
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {
         trigger: 'item'
       },
       legend: {
-        orient: 'vertical',
-        left: 'left'
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 0,
+        textStyle: {
+          fontSize: 10
+        },
       },
       series: [
         {
@@ -175,7 +243,9 @@ export class InicioComponent implements AfterViewInit {
             }
           }
         }
-      ]
+      ],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
 
@@ -183,40 +253,89 @@ export class InicioComponent implements AfterViewInit {
     return data.map((categoria: any) => ({
       title: {
         text: `Productos de Categoría: ${categoria.categoria}`,
-        left: 'center'
+        left: 'center',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {
-        trigger: 'item'
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        formatter: (params: any) => {
+          const param = params[0];
+          const producto = categoria.detalles_productos[param.dataIndex];
+          return `${param.name}<br/>Cantidad por Fincas: ${producto.cantidad_por_fincas}<br/>Porcentaje: ${producto.porcentaje}%`;
+        }
       },
       legend: {
-        orient: 'vertical',
-        left: 'left'
+        orient: 'horizontal',
+        left: 'center',
+        bottom: 0,
+        textStyle: {
+          fontSize: 10
+        },
+      },
+      xAxis: {
+        type: 'category',
+        data: categoria.detalles_productos.map((producto: any) =>
+          producto.producto.includes('MASAS DE MAÍZ') ? 'Masa de maíz' : producto.producto
+        ),
+        axisLabel: {
+          rotate: 0,
+          interval: 0,
+          textStyle: {
+            fontSize: 10,
+          }
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLabel: {
+          textStyle: {
+            fontSize: 10,
+          }
+        }
       },
       series: [
         {
-          name: 'Producto',
-          type: 'pie',
-          radius: '50%',
-          data: categoria.detalles_productos.map((producto: any) => ({
-            value: producto.cantidad_por_fincas,
-            name: producto.producto
-          })),
-          emphasis: {
-            itemStyle: {
+          name: 'Cantidad por Fincas',
+          type: 'bar',
+          data: categoria.detalles_productos.map((producto: any) => producto.cantidad_por_fincas),
+          itemStyle: {
+            emphasis: {
               shadowBlur: 10,
               shadowOffsetX: 0,
               shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
+          },
+          label: {
+            show: true,
+            position: 'top',
+            textStyle: {
+              fontSize: 10
+            },
+            formatter: (params: any) => {
+              const producto = categoria.detalles_productos[params.dataIndex];
+              return `${producto.porcentaje}%`;
+            }
           }
         }
-      ]
+      ],
+      responsive: true,
+      maintainAspectRatio: false
     }));
   }
+
 
   createProductosCategoriasChartOptions(data: any) {
     return {
       title: {
-        text: 'Productos por Categorías'
+        text: 'Productos por Categorías',
+        textStyle: {
+          fontSize: 16,
+          overflow: 'truncate',
+        },
       },
       tooltip: {
         trigger: 'axis',
@@ -238,7 +357,10 @@ export class InicioComponent implements AfterViewInit {
         }
       },
       legend: {
-        data: ['Cantidad por Fincas', 'Porcentaje']
+        data: ['Cantidad por Fincas', 'Porcentaje'],
+        textStyle: {
+          fontSize: 10
+        },
       },
       xAxis: [
         {
@@ -247,12 +369,13 @@ export class InicioComponent implements AfterViewInit {
           axisTick: {
             alignWithLabel: true
           },
-          axisLabel: {  
-            interval: 0, // Muestra todas las etiquetas
-            rotate: 0, // Rotación de las etiquetas
+          axisLabel: {
+            interval: 0,
+            rotate: 0,
             formatter: function (value: string) {
               return value.length > 10 ? value.slice(0, 10) + '...' : value;
-            }
+            },
+            fontSize: 10
           }
         }
       ],
@@ -260,14 +383,18 @@ export class InicioComponent implements AfterViewInit {
         {
           type: 'value',
           name: 'Cantidad por Fincas',
-          position: 'left'
+          position: 'left',
+          axisLabel: {
+            fontSize: 10
+          }
         },
         {
           type: 'value',
           name: 'Porcentaje',
           position: 'right',
           axisLabel: {
-            formatter: '{value}%'
+            formatter: '{value}%',
+            fontSize: 10
           }
         }
       ],
@@ -275,7 +402,8 @@ export class InicioComponent implements AfterViewInit {
         {
           name: 'Cantidad por Fincas',
           type: 'bar',
-          data: data.map((item: any) => item.cantidad_por_fincas)
+          data: data.map((item: any) => item.cantidad_por_fincas),
+          barWidth: '50%'
         },
         {
           name: 'Porcentaje',
@@ -283,9 +411,9 @@ export class InicioComponent implements AfterViewInit {
           yAxisIndex: 1,
           data: data.map((item: any) => item.porcentaje)
         }
-      ]
+      ],
+      responsive: true,
+      maintainAspectRatio: false
     };
   }
-  
-
 }
