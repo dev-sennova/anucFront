@@ -42,6 +42,7 @@ export class ProductoscategoriasComponent implements OnInit {
         if(data && data.estado === 'Ok' && Array.isArray(data.productos)) {
           this.productos = data.productos;
           this.filteredProductos = [...this.productos];
+          this.searchTerm = '';
           this.updatePagination();
         } else {
           console.error('Error en la respuesta del servicio:', data);

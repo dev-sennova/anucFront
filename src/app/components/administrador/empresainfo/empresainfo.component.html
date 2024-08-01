@@ -1,58 +1,71 @@
 <div class="body">
-    <div class="container">
-      <h2>Administrar información de la entidad</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Campo</th>
-            <th>Información</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="empresa">
-          <tr>
-            <td>Nombre de la empresa</td>
-            <td>{{ empresa.nombre }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>NIT de la empresa</td>
-            <td>{{ empresa.nit }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Dirección</td>
-            <td>{{ empresa.direccion }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Horarios</td>
-            <td>{{ empresa.horarios }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Misión</td>
-            <td>{{ empresa.mision }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Visión</td>
-            <td>{{ empresa.vision }}</td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-          <tr>
-            <td>Estatutos</td>
-            <td>
-              <div class="pdf-container">
-                <object [data]="pdfSrc" type="application/pdf" width="100%" height="1000px">
-                  <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
-                </object>
-              </div>
-            </td>
-            <td><button class="edit-btn">Editar</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="container">
+    <h2>Administrar información de la entidad</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Información</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="empresa">
+        <tr>
+          <td>Nombre de la empresa</td>
+          <td>{{ empresa.nombre }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('nombre')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>NIT de la empresa</td>
+          <td>{{ empresa.nit }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('nit')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Dirección</td>
+          <td>{{ empresa.direccion }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('direccion')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Horarios</td>
+          <td>{{ empresa.horarios }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('horarios')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Misión</td>
+          <td>{{ empresa.mision }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('mision')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Visión</td>
+          <td>{{ empresa.vision }}</td>
+          <td><button class="edit-btn" (click)="openEditModal('vision')">Editar</button></td>
+        </tr>
+        <tr>
+          <td>Estatutos</td>
+          <td>
+            <div class="pdf-container">
+              <object [data]="pdfSrc" type="application/pdf" width="100%" height="1000px">
+                <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
+              </object>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  
+</div>
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal" *ngIf="editModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Editar {{ selectedField }}</h2>
+    <form (ngSubmit)="submitEditForm()">
+      <label>
+        {{ selectedField | titlecase }}:
+        <textarea [(ngModel)]="editValue" name="fieldValue" rows="4"></textarea>
+      </label>
+      <button type="submit" class="action-btn edit-btn">Guardar</button>
+    </form>
+  </div>
+</div>

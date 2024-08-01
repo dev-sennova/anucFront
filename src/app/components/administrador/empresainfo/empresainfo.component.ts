@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EmpresaGlobalesService } from 'src/app/services/empresa-globales.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-empresainfo',
@@ -10,7 +11,11 @@ import { EmpresaGlobalesService } from 'src/app/services/empresa-globales.servic
 export class EmpresainfoComponent implements OnInit {
 
   empresa: any;
+  editEmpresa: any;
   pdfSrc: SafeResourceUrl = '';
+  editModalVisible: boolean = false;
+  selectedField: string = '';
+  editValue: string = '';
 
   constructor(private empresaGlobalesService: EmpresaGlobalesService, private sanitizer: DomSanitizer) {}
 
@@ -25,6 +30,31 @@ export class EmpresainfoComponent implements OnInit {
       }
     );
   }
+
+  openEditModal(field: string) {
+    this.selectedField = field;
+    this.editValue = this.empresa[field]; 
+    this.editModalVisible = true;
+  }
+
+  closeEditModal() {
+    this.editModalVisible = false;
+    this.editValue = '';
+  }
+
+  submitEditForm() {
+    this.empresa[this.selectedField] = this.editValue;
+    this.empresaGlobalesService.updateEmpresa(this.empresa).subscribe(
+      response => {
+        Swal.fire('¡Éxito!', 'Información de la empresa actualizada correctamente.', 'success');
+        this.closeEditModal();
+      },
+      error => {
+        Swal.fire('Error', 'No se pudo actualizar la información de la empresa', 'error');
+      }
+    );
+  }
+
 
 
 }

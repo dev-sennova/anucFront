@@ -1,0 +1,99 @@
+<div class="body">
+    <div class="container">
+        <h2>Lista de categorias de productos</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+            <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
+            <button class="create-btn" (click)="openCreateModal()">Crear Producto</button>
+        </div>
+        <div *ngIf="filtersVisible" class="filters">
+            <label>
+                Categoría:
+                <select [(ngModel)]="selectedCategoria" (change)="buscar()">
+                    <option value="">Todas</option>
+                    <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}
+                    </option>
+                </select>
+            </label>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let categoria of paginatedCategorias">
+                    <td>{{ categoria.categoria }}</td>
+                    <td>{{ getEstado(categoria.estado) }}</td>
+                    <td>
+                        <button class="action-btn edit-btn" (click)="openEditModal(categoria)">Editar</button>
+                        <button *ngIf="categoria.estado == 1" class="action-btn deactivate-btn"
+                            (click)="openDeactivateModal(categoria)">Desactivar</button>
+                        <button *ngIf="categoria.estado == 0" class="action-btn activate-btn"
+                            (click)="openActivateModal(categoria)">Activar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">« Anterior</button>
+            <span>Página {{ currentPage }} de {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente »</button>
+            <span class="record-count">Total de registros: {{ totalRegistros }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Crear -->
+<div *ngIf="createModalVisible" class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="closeCreateModal()">&times;</span>
+        <h2>Crear Categoría</h2>
+        <form (submit)="submitCreateForm()">
+            <label>
+                Nombre:
+                <input type="text" [(ngModel)]="newCategoria.categoria" name="categoria" required>
+            </label>
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Editar -->
+<div *ngIf="editModalVisible" class="modal">
+    <div class="modal-content">
+        <span class="close" (click)="closeEditModal()">&times;</span>
+        <h2>Editar Categoría</h2>
+        <form (submit)="submitEditForm()">
+            <label>
+                Nombre:
+                <input type="text" [(ngModel)]="selectedCategoriaObj.categoria" name="categoria" required>
+            </label>
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Activate Modal -->
+<div class="modal" id="activateModal" *ngIf="activateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeActivateModal()">&times;</span>
+        <h2>Activar Categoría</h2>
+        <p>¿Estás seguro de que quieres activar la categoría {{ selectedCategoriaObj.categoria }}?</p>
+        <button class="action-btn activate-btn" (click)="activateCategoria()">Activar</button>
+    </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeDeactivateModal()">&times;</span>
+        <h2>Desactivar Categoría</h2>
+        <p>¿Estás seguro de que quieres desactivar la categoría {{ selectedCategoriaObj.categoria }}?</p>
+        <button class="action-btn deactivate-btn" (click)="deactivateCategoria()">Desactivar</button>
+    </div>
+</div>

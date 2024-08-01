@@ -35,6 +35,7 @@ export class InformaciondesplegableComponent implements OnInit {
       data => {
         this.unidades = data;
         this.filteredUnidades = [...this.unidades];
+        this.searchTerm = '';
         this.updatePagination();
       },
       error => {

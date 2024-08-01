@@ -61,6 +61,8 @@ import { InformaciondesplegableComponent } from './components/administrador/info
 import { VeredasComponent } from './components/administrador/veredas/veredas.component';
 import { ProductoscategoriasComponent } from './components/administrador/productoscategorias/productoscategorias.component';
 import { InicioComponent } from './components/administrador/inicio/inicio.component';
+import { CategoriasproductosComponent } from './components/administrador/categoriasproductos/categoriasproductos.component';
+import { ParentescosComponent } from './components/administrador/parentescos/parentescos.component';
 
 
 const materialModules = [
@@ -112,6 +114,8 @@ const materialModules = [
     VeredasComponent,
     ProductoscategoriasComponent,
     InicioComponent,
+    CategoriasproductosComponent,
+    ParentescosComponent,
     
   ],
   imports: [
