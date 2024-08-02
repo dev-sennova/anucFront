@@ -11,6 +11,7 @@ export class EmpresaGlobalesService {
 
   private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1'; 
   private apiUrlEstadisticas = GlobalConstants.apiURL + '/api/auth/empresa_globales/estadisticas'; 
+  private apiUrlUpdate = GlobalConstants.apiURL + '/api/auth/empresa_globales'
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,12 @@ export class EmpresaGlobalesService {
           throw new Error('Respuesta inválida del servidor');
         }
       }),
+      catchError(this.handleError)
+    );
+  }
+  updateEmpresa(empresa: any): Observable<any> {
+    const url = `${this.apiUrlUpdate}/update`;
+    return this.http.put<any>(url, empresa).pipe(
       catchError(this.handleError)
     );
   }

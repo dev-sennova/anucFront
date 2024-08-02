@@ -33,6 +33,7 @@ export class VeredasComponent implements OnInit {
       data => {
         this.veredas = data;
         this.filteredVeredas = [...this.veredas];
+        this.searchTerm = '';
         this.updatePagination();
       },
       error => {

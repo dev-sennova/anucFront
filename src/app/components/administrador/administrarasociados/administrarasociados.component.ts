@@ -87,6 +87,7 @@ export class AdministrarasociadosComponent implements OnInit {
       data => {
         this.personas = data;
         this.filteredPersonas = [...this.personas];
+        this.searchTerm = '';
         this.updatePagination();
       },
       error => {

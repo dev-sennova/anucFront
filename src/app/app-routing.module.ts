@@ -17,6 +17,8 @@ import { InformaciondesplegableComponent } from './components/administrador/info
 import { VeredasComponent } from './components/administrador/veredas/veredas.component';
 import { ProductoscategoriasComponent } from './components/administrador/productoscategorias/productoscategorias.component';
 import { InicioComponent } from './components/administrador/inicio/inicio.component';
+import { ParentescosComponent } from './components/administrador/parentescos/parentescos.component';
+import { CategoriasproductosComponent } from './components/administrador/categoriasproductos/categoriasproductos.component';
 
 
 const routes: Routes = [
@@ -37,12 +39,14 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component:InicioComponent},
-      { path: 'adminasociados', component: AdministrarasociadosComponent},
+      { path: 'personas', component: AdministrarasociadosComponent},
       { path: 'reportes-asociados', component: ListadogeneralComponent },
       { path: 'informacion-anuc', component: EmpresainfoComponent },
       { path: 'unidades-anuc', component: InformaciondesplegableComponent },
       { path: 'veredas-anuc', component: VeredasComponent },
       { path: 'productos-categorias', component: ProductoscategoriasComponent },
+      { path: 'categorias-productos', component: CategoriasproductosComponent },
+      { path: 'parentescos-anuc', component: ParentescosComponent },
 
     ]
    },
