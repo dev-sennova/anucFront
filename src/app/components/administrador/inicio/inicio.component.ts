@@ -40,7 +40,7 @@ export class InicioComponent implements AfterViewInit {
     return fullWidthCategories.some(category => chartTitle.includes(category));
   }
 
-
+  
   createSexoChartOptions(data: any) {
     const totalAsociados = data.cantidad_masculinos + data.cantidad_femeninos + data.cantidad_otro_sexo;
 
@@ -416,4 +416,6 @@ export class InicioComponent implements AfterViewInit {
       maintainAspectRatio: false
     };
   }
+
+  
 }
