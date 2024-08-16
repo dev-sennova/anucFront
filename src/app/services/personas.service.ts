@@ -10,7 +10,8 @@ import Swal from 'sweetalert2';
 })
 export class PersonasService {
 
-  private apiUrl = GlobalConstants.apiURL + '/api/auth/personas'; // Actualiza esta URL según tu configuración
+  private apiUrl = GlobalConstants.apiURL + '/api/auth/personas';
+  private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,15 @@ export class PersonasService {
       catchError(this.handleError)
     );
   }
+
+  getInfoAsociado(asociado: number): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/${asociado}`;
+    return this.http.get<any>(url).pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
+  }
+  
 
   addPersona(persona: any): Observable<any> {
     const url = `${this.apiUrl}/store`;

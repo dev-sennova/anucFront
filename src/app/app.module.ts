@@ -136,7 +136,7 @@ const materialModules = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    DragDropModule
+    DragDropModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
