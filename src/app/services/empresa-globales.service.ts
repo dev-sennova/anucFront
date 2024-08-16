@@ -10,6 +10,7 @@ import { GlobalConstants } from '../commons/global-constants';
 export class EmpresaGlobalesService {
 
   private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1'; 
+  private apiUrlPublico = GlobalConstants.apiURL + '/api/auth/empresa_globales_publico'; 
   private apiUrlEstadisticas = GlobalConstants.apiURL + '/api/auth/empresa_globales/estadisticas'; 
   private apiUrlUpdate = GlobalConstants.apiURL + '/api/auth/empresa_globales'
 
@@ -17,6 +18,18 @@ export class EmpresaGlobalesService {
 
   getEmpresaGlobales(): Observable<any> {
     return this.http.get<any>(this.apiUrl).pipe(
+      map(response => {
+        if (response.estado === "Ok" && response.empresa) {
+          return response.empresa[0]; // Asumiendo que siempre hay al menos una empresa en la respuesta
+        } else {
+          throw new Error('Respuesta inválida del servidor');
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+  getEmpresaPublico(): Observable<any> {
+    return this.http.get<any>(this.apiUrlPublico).pipe(
       map(response => {
         if (response.estado === "Ok" && response.empresa) {
           return response.empresa[0]; // Asumiendo que siempre hay al menos una empresa en la respuesta

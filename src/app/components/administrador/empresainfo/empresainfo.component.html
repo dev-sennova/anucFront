@@ -43,12 +43,9 @@
         <tr>
           <td>Estatutos</td>
           <td>
-            <div class="pdf-container">
-              <object [data]="pdfSrc" type="application/pdf" width="100%" height="1000px">
-                <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
-              </object>
-            </div>
+            <button class="edit-btn" (click)="openPdfModal()">Ver PDF</button>
           </td>
+          <td><button class="edit-btn">Editar</button></td>
         </tr>
       </tbody>
     </table>
@@ -67,5 +64,17 @@
       </label>
       <button type="submit" class="action-btn edit-btn">Guardar</button>
     </form>
+  </div>
+</div>
+<!-- PDF Modal -->
+<div class="modal" id="pdfModal" *ngIf="pdfModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closePdfModal()">&times;</span>
+    <h2>Visualizar Estatutos</h2>
+    <div class="pdf-container">
+      <object [data]="pdfSrc" type="application/pdf" width="100%" height="500px">
+        <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
+      </object>
+    </div>
   </div>
 </div>

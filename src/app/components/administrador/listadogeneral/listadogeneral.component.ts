@@ -1,5 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ListadosService } from 'src/app/services/listados.service';
+import { PersonasService } from 'src/app/services/personas.service';
+import { ParentescosService } from 'src/app/services/parentescos.service';
+
+
+interface Parentesco {
+  id: number;
+  parentesco: string;
+  estado: number;
+}
+
+interface ParentescoMap {
+  [key: number]: string;
+}
 
 @Component({
   selector: 'app-listadogeneral',
@@ -7,6 +20,10 @@ import { ListadosService } from 'src/app/services/listados.service';
   styleUrls: ['./listadogeneral.component.css']
 })
 export class ListadogeneralComponent implements OnInit {
+
+  selectedAsociado: any;
+  parentescoMap: ParentescoMap = {}; 
+  showModal: boolean = false;
   asociadosFinca: any[] = [];
   filteredAsociados: any[] = [];
   paginatedAsociados: any[] = [];
@@ -19,6 +36,7 @@ export class ListadogeneralComponent implements OnInit {
   selectedTipoPredio: string = '';
   categorias: string[] = [];
   estadosCiviles: string[] = [];
+  parentescos: Parentesco[] = [];
   veredas: string[] = [];
   tiposPredio: string[] = [];
   currentPage: number = 1;
@@ -26,9 +44,18 @@ export class ListadogeneralComponent implements OnInit {
   totalPages: number = 1;
   totalRegistros: number = 0;
 
-  constructor(private listadosService: ListadosService) { }
+  constructor(
+    private listadosService: ListadosService,
+    private personasService: PersonasService,
+    private parentescosService: ParentescosService
+  ) { }
 
   ngOnInit(): void {
+    this.loadAsociados();
+    this.loadParentescos();
+  }
+
+  loadAsociados() {
     this.listadosService.getAsociadosFinca().subscribe(
       data => {
         this.asociadosFinca = data;
@@ -43,6 +70,74 @@ export class ListadogeneralComponent implements OnInit {
         console.error('Error al obtener los datos:', error);
       }
     );
+  }
+
+  loadParentescos() {
+    this.parentescosService.getParentescos().subscribe(
+      data => {
+        console.log('Respuesta completa del servicio:', data); // Verifica que la respuesta es como se espera
+
+        // Aquí asumimos que `data` es un arreglo de objetos de parentesco
+        if (Array.isArray(data)) {
+          this.parentescoMap = data.reduce((map: ParentescoMap, parentesco: Parentesco) => {
+            map[parentesco.id] = parentesco.parentesco;
+            return map;
+          }, {});
+          console.log('ParentescoMap:', this.parentescoMap); // Verifica el resultado final del reduce
+        } else {
+          this.parentescoMap = {};
+          console.warn('No se recibieron parentescos válidos.');
+        }
+      },
+      error => {
+        console.error('Error al cargar los parentescos:', error);
+      }
+    );
+  }
+
+
+  getParentesco(id: number): string {
+    return this.parentescoMap[id] || 'Desconocido'; // Usa el mapeo para obtener el nombre del parentesco
+  }
+
+  getUniqueFincas(produccion: any[]): any[] {
+    if (!produccion) {
+      return []; // Devuelve un array vacío si produccion es null o undefined
+    }
+
+    const fincaNames = new Set();
+    const uniqueFincas: any[] = [];
+
+    produccion.forEach(producto => {
+      if (producto && !fincaNames.has(producto.nombre)) {
+        fincaNames.add(producto.nombre);
+        uniqueFincas.push({
+          nombre: producto.nombre,
+          extension: producto.extension
+        });
+      }
+    });
+
+    return uniqueFincas;
+  }
+
+
+
+  verInformacion(asociado: number) {
+    this.personasService.getInfoAsociado(asociado).subscribe(
+      data => {
+        this.selectedAsociado = data;
+        console.log('Familiares:', this.selectedAsociado?.familiares);
+        this.showModal = true;
+      },
+      error => {
+        console.error('Error al obtener la información del asociado:', error);
+      }
+    );
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 
   buscar() {
@@ -93,5 +188,6 @@ export class ListadogeneralComponent implements OnInit {
       this.updatePagination();
     }
   }
-  
+
+
 }

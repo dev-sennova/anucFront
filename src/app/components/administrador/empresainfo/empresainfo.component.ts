@@ -14,8 +14,10 @@ export class EmpresainfoComponent implements OnInit {
   editEmpresa: any;
   pdfSrc: SafeResourceUrl = '';
   editModalVisible: boolean = false;
+  pdfModalVisible: boolean = false; 
   selectedField: string = '';
   editValue: string = '';
+
 
   constructor(private empresaGlobalesService: EmpresaGlobalesService, private sanitizer: DomSanitizer) {}
 
@@ -53,6 +55,14 @@ export class EmpresainfoComponent implements OnInit {
         Swal.fire('Error', 'No se pudo actualizar la información de la empresa', 'error');
       }
     );
+  }
+
+  openPdfModal() {
+    this.pdfModalVisible = true;
+  }
+
+  closePdfModal() {
+    this.pdfModalVisible = false;
   }
 
 

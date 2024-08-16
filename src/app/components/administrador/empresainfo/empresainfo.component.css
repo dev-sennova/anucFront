@@ -46,9 +46,37 @@ th {
     color: #ffffff;
 }
 
+/* PDF Container */
 .pdf-container {
     width: 100%;
-    height: 1000px;
+    height: 80vh; /* Mejor altura para visualizar */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-container object {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .modal {
@@ -69,7 +97,7 @@ th {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #888;
-    width: 60%;
+    width: 70%;
     max-width: 800px;
     max-height: 80vh;
     border-radius: 10px;
