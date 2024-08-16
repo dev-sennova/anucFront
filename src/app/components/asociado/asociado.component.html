@@ -1,39 +1,69 @@
 <div class="container">
     <div class="header">
-        <img src="assets/imagenes/logo_anuc.png" alt="Logo" class="logo-header">
-        <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
-        <span id="tituloAnuc">PERFIL ASOCIADO CAMPESINO</span>        
-        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon">
+        <div class="left">
+            <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo" class="logo-header">
+            <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
+        </div>
+        <span id="tituloAnuc">ASOCIADO ANUC</span>        
+        <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
+        <div id="profile-menu" class="profile-menu">
+            <button>Administrar Perfil</button>
+            <button>Cambiar Contraseña</button>
+            <button>Cerrar Sesión</button>
+        </div>
     </div>
 
     <div id="overlay" class="overlay" (click)="closeMenu()"></div>
 
     <div id="menu" class="side-menu">
         <div class="menu-header">
-            <img src="assets/imagenes/logo_anuc.png" alt="ANUC Logo" class="logo">
+            <img src="assets/imagenes/logo_anuc_edited.png" alt="ANUC Logo" class="logo">
             <button class="close-btn" (click)="closeMenu()">×</button>
         </div>
-        <div class="menu-content">
-            <h2>Administrar perfil</h2>
+        <div class="menu-content">            
+            <h2>Administrar Perfil</h2>
             <ul>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos personales</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de ubicación</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de producción</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos de apoderado</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar datos del núcleo familiar</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Cambiar correo y/o contraseña</a></li>
+                <li>
+                    <img src="assets/iconos/home_icon.png" alt="Admin Asociados" class="icon">
+                    <a routerLink="inicio-asociado" (click)="closeMenu()">Inicio</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_user_icon.png" alt="Admin Asociados" class="icon">
+                    <a routerLink="edit-datos-asociado" (click)="closeMenu()">Editar datos personales</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_location_icon.png" alt="Mapa Asociados" class="icon">
+                    <a routerLink="edit-ubicacion-asociado" (click)="closeMenu()">Editar ubicación</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_productos_icon.png" alt="Mapa Asociados" class="icon">
+                    <a routerLink="edit-productos-asociado" (click)="closeMenu()">Editar productos</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/gestionar_nucleo_familiar_icon.png" alt="nucleo familiar Asociados" class="icon">
+                    <a routerLink="gestionar-nucleo-familiar" (click)="closeMenu()">Gestionar núcleo familiar</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/edit_passport.png" alt="Administración Ofertas" class="icon">
+                    <a routerLink="edit-password-asociado" (click)="closeMenu()">Cambiar contraseña</a>
+                </li>
             </ul>
-            <h2>Servicios</h2>
+            <h2>Servicios ANUC</h2>
             <ul>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Mi carnet</a></li>
-                <li><a routerLink="publicaroferta" (click)="closeMenu()">Publicación de ofertas</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Informar una novedad</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Gestionar mis pagos</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Ruta virtual hasta la ANUC</a></li>
-                <li><a routerLink="gestionproductos" (click)="closeMenu()">Comercializar con demás asociados</a></li>
+                <li>
+                    <img src="assets/iconos/id_card_icon.png" alt="Carnet asociado" class="icon">
+                    <a routerLink="carnet-asociado" (click)="closeMenu()">Mi carnet</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/publicacion_oferta_icon.png" alt="Oferta asociado" class="icon">
+                    <a routerLink="oferta-asociado" (click)="closeMenu()">Publicación de Ofertas</a>
+                </li>
+                <li>
+                    <img src="assets/iconos/informar_novedades_icon.png" alt="Informar Novedades" class="icon">
+                    <a routerLink="novedades-asociado" (click)="closeMenu()">Informar novedades</a>
+                </li>
             </ul>
         </div>
-        <button class="logout-btn" (click)="closeMenu()">Cerrar mi sesión</button>
     </div>
     <div>
         <router-outlet></router-outlet>

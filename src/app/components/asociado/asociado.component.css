@@ -1,5 +1,5 @@
 .container {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -9,14 +9,22 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: white;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-bottom: 1px solid #00332c;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
-.header img {
-    height: 70px;
+.header .left {
+    display: flex;
+    align-items: center;
+}
+
+.header img.logo-header {
+    height: 50px;
+    margin-right: 20px;
 }
 
 #tituloAnuc {
@@ -24,10 +32,55 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    white-space: nowrap;
+    color: #000000;
 }
 
-#profile_icon {
-    height: 60px;
+.profile-icon {
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.profile-menu.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.profile-menu button {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: #000000;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.profile-menu button:hover {
+    background-color: #555;
+}
+
+.profile-menu button:active {
+    background-color: #777;
 }
 
 .overlay {
@@ -47,7 +100,8 @@
     left: 0;
     width: 250px;
     height: 100%;
-    background: #fff;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     z-index: 2;
     transform: translateX(-100%);
@@ -62,7 +116,7 @@
 }
 
 .side-menu .logo {
-    width: 70px;
+    width: 50px;
     height: auto;
 }
 
@@ -71,6 +125,7 @@
     border: none;
     font-size: 40px;
     cursor: pointer;
+    color: #000000;
 }
 
 .side-menu .menu-content {
@@ -84,23 +139,29 @@
 
 .side-menu ul li {
     margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: background-color 0.3s, border-radius 0.3s;
+}
+
+.side-menu ul li:hover {
+    border-radius: 5px;
+    background-color: #aba9a9;
 }
 
 .side-menu ul li a {
     text-decoration: none;
-    color: #000;
     font-size: 16px;
+    color: black;    
+    flex-grow: 1;
 }
 
-.side-menu .logout-btn {
-    display: block;
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    background: #f00;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .menu-btn {
@@ -108,10 +169,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    position: fixed;
-    top: 30px;
-    left: 150px;
-    z-index: 3;
+    color: #000000;
 }
 
 .menu-btn.hidden {
@@ -124,4 +182,63 @@
 
 .overlay.active {
     display: block;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header img.logo-header {
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .profile-icon {
+        height: 30px;
+    }
+
+    #tituloAnuc {
+        font-size: 14px;
+    }
+
+    .side-menu {
+        width: 200px;
+    }
+
+    .side-menu .logo {
+        width: 40px;
+    }
+
+    .side-menu ul li a {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header img.logo-header {
+        height: 30px;
+        margin-right: 5px;
+    }
+
+    .profile-icon {
+        height: 25px;
+    }
+
+    #tituloAnuc {
+        font-size: 12px;
+    }
+
+    .side-menu {
+        width: 180px;
+    }
+
+    .side-menu .logo {
+        width: 30px;
+    }
+
+    .side-menu ul li a {
+        font-size: 12px;
+    }
+
+    .menu-btn {
+        font-size: 20px;
+    }
 }

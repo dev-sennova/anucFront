@@ -49,7 +49,8 @@ export class LoginService {
           console.log("Item idUsuario: "+localStorage.getItem('identificador_usuario'));
           //console.log("Item rol: "+localStorage.getItem('rol'));
           //console.log("Token: "+res.access_token);
-          this.router.navigate(['administrador']);
+          //this.router.navigate(['administrador']);
+          this.router.navigate(['asociado']);
         })
     }
 

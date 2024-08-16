@@ -19,6 +19,14 @@ import { ProductoscategoriasComponent } from './components/administrador/product
 import { InicioComponent } from './components/administrador/inicio/inicio.component';
 import { ParentescosComponent } from './components/administrador/parentescos/parentescos.component';
 import { CategoriasproductosComponent } from './components/administrador/categoriasproductos/categoriasproductos.component';
+import { InicioAsociadoComponent } from './components/asociado/inicio-asociado/inicio-asociado.component';
+import { EditDatosComponent } from './components/asociado/edit-datos/edit-datos.component';
+import { EditProductosComponent } from './components/asociado/edit-productos/edit-productos.component';
+import { EditUbicacionComponent } from './components/asociado/edit-ubicacion/edit-ubicacion.component';
+import { EditPasswordAsociadoComponent } from './components/asociado/edit-password-asociado/edit-password-asociado.component';
+import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/carnet-asociado.component';
+import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
+import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
 
 
 const routes: Routes = [
@@ -32,7 +40,16 @@ const routes: Routes = [
   { path: 'asociado', component: AsociadoComponent, 
     children: [
       { path: 'gestionproductos', component: GestionarproductosComponent },
-      { path: 'publicaroferta', component: PublicarofertaComponent }
+      { path: 'publicaroferta', component: PublicarofertaComponent },
+      { path: 'inicio-asociado', component: InicioAsociadoComponent },
+      { path: 'edit-datos-asociado', component: EditDatosComponent },
+      { path: 'edit-productos-asociado', component: EditProductosComponent},
+      { path: 'edit-ubicacion-asociado', component: EditUbicacionComponent},
+      { path: 'edit-password-asociado', component:EditPasswordAsociadoComponent},
+      { path: 'gestionar-nucleo-familiar', component:GestionarproductosComponent},
+      { path: 'carnet-asociado', component:CarnetAsociadoComponent},
+      { path: 'oferta-asociado', component:OfertaAsociadoComponent},
+      { path: 'novedades-asociado', component:NovedadesAsociadoComponent},
     ]
   },
   { path: 'administrador', component: AdministradorComponent,
@@ -49,7 +66,7 @@ const routes: Routes = [
       { path: 'parentescos-anuc', component: ParentescosComponent },
 
     ]
-   },
+  },
   { path: 'gestionproductos', component: GestionarproductosComponent },
   { path: 'publicaroferta', component: PublicarofertaComponent },
   
