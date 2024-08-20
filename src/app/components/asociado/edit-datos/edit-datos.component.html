@@ -1,1 +1,49 @@
-<p>edit-datos works!</p>
+<body class="body">
+
+    <div class="container">
+        <div class="modal-content">
+            <h2>Formulario de Personas</h2>
+            <form>
+                <label for="identificacion">Identificación:</label>
+                <input type="text" id="identificacion" name="identificacion" required>
+    
+                <label for="nombres">Nombres:</label>
+                <input type="text" id="nombres" name="nombres" required>
+    
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" name="apellidos" required>
+    
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" required>
+    
+                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+    
+                <label for="tipo_documento">Tipo de Documento:</label>
+                <select id="tipo_documento" name="tipo_documento" required>
+                    <option value="">Seleccione...</option>
+                    <!-- Opciones dinámicas generadas desde la base de datos -->
+                </select>
+    
+                <label for="sexo">Sexo:</label>
+                <select id="sexo" name="sexo" required>
+                    <option value="">Seleccione...</option>
+                    <!-- Opciones dinámicas generadas desde la base de datos -->
+                </select>
+    
+                <label for="estado_civil">Estado Civil:</label>
+                <select id="estado_civil" name="estado_civil" required>
+                    <option value="">Seleccione...</option>
+                    <!-- Opciones dinámicas generadas desde la base de datos -->
+                </select>
+    
+                <label for="estado">Estado:</label>
+                <select id="estado" name="estado" required>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+    
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
