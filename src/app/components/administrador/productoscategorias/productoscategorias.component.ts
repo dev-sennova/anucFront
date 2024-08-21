@@ -23,13 +23,15 @@ export class ProductoscategoriasComponent implements OnInit {
   activateModalVisible: boolean = false;
   deactivateModalVisible: boolean = false;
   createModalVisible: boolean = false;
+  imageModalVisible: boolean = false;
+  imagenProductoUrl: string = '';
   selectedProducto: any = {};
   newProducto: any = {};
   totalRegistros: number = 0;
 
   constructor(
     private productosCategoriasService: ProductosCategoriasService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadProductos();
@@ -39,7 +41,7 @@ export class ProductoscategoriasComponent implements OnInit {
   loadProductos(): void {
     this.productosCategoriasService.getProductos().subscribe(
       data => {
-        if(data && data.estado === 'Ok' && Array.isArray(data.productos)) {
+        if (data && data.estado === 'Ok' && Array.isArray(data.productos)) {
           this.productos = data.productos;
           this.filteredProductos = [...this.productos];
           this.searchTerm = '';
@@ -68,6 +70,32 @@ export class ProductoscategoriasComponent implements OnInit {
         console.error('Error al obtener las categorías:', error);
       }
     );
+  }
+
+  openImageModal(base64Image: string): void {
+    this.imagenProductoUrl = `data:image/png;base64,${base64Image}`;
+    this.imageModalVisible = true;
+  }
+  
+  closeImageModal(): void {
+    this.imageModalVisible = false;
+    this.imagenProductoUrl = '';
+  }
+
+  onFileSelected(event: any, mode: string): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Image = reader.result?.toString().split(',')[1];
+        if (mode === 'create') {
+          this.newProducto.imagenProducto = base64Image;
+        } else if (mode === 'edit') {
+          this.selectedProducto.imagenProducto = base64Image;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   buscar() {

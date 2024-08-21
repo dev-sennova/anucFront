@@ -16,33 +16,53 @@
 
 .search-bar {
     display: flex;
+    align-items: center;
+    /* Centrar verticalmente */
     margin-bottom: 20px;
 }
 
 .search-bar input[type="text"] {
-    width: calc(40% - 100px);
-    padding: 10px;
+    width: 600px;
+    /* Ajusta el ancho según sea necesario */
+    height: 17px;
+    /* Ajusta la altura para que coincida con los botones */
+    padding: 10px 40px;
+    /* Aumenta el padding para dar espacio al ícono */
     border: 1px solid #ccc;
     border-radius: 4px;
+    background: url('/assets/iconos/lupa_icon.png') no-repeat 10px center;
+    /* Añade el ícono como fondo */
+    background-size: 20px 20px;
+    /* Tamaño del ícono */
 }
 
-.search-bar button {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    background-color: white;
-    color: black;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.filter-btn {
-    padding: 10px 20px;
+.filter-btn,
+.excel-btn {
+    height: 39px;
+    /* Asegura que la altura de los botones coincida con la del input */
+    padding: 0 20px;
+    /* Ajusta el padding para centrar el texto */
     border: 1px solid #ccc;
     background-color: #fff;
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente el contenido dentro del botón */
+    font-size: 14px;
+    /* Ajusta el tamaño del texto */
 }
+
+.filter-btn .icon,
+.excel-btn .icon {
+    margin-right: 8px;
+    width: 20px;
+    /* Ajusta el tamaño del icono */
+    height: 20px;
+    /* Ajusta el tamaño del icono */
+}
+
 
 .filters {
     display: flex;
