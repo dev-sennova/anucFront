@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ListadosService } from 'src/app/services/listados.service';
 import { PersonasService } from 'src/app/services/personas.service';
 import { ParentescosService } from 'src/app/services/parentescos.service';
+import * as XLSX from 'xlsx';
+import { saveAs} from 'file-saver';
 
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
 interface Parentesco {
   id: number;
@@ -189,5 +192,39 @@ export class ListadogeneralComponent implements OnInit {
     }
   }
 
+  exportToExcel() {
+    // Filtrar los datos que están visibles en la tabla
+    const dataToExport = this.filteredAsociados.map(({ nombres, apellidos, sexo, categoria, fecha_nacimiento, identificacion, estado_civil, telefono, vereda, nombre, tipo_predio, extension }) => ({
+      nombres, 
+      apellidos, 
+      sexo, 
+      categoria, 
+      fecha_nacimiento, 
+      identificacion, 
+      estado_civil, 
+      telefono, 
+      vereda, 
+      nombre, 
+      tipo_predio, 
+      extension 
+    }));
+  
+    // Crear un libro de Excel
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook: XLSX.WorkBook = { Sheets: { 'Datos': worksheet }, SheetNames: ['Datos'] };
+  
+    // Generar el archivo Excel
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  
+    // Guardar el archivo
+    this.saveAsExcelFile(excelBuffer, 'Usuarios_ANUC');
+  }
+  
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+    saveAs(data, `${fileName}_export_${new Date().getTime()}.xlsx`);
+  }
+  
+  
 
 }
