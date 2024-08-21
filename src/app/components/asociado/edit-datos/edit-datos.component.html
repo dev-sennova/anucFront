@@ -21,28 +21,21 @@
     
                 <label for="tipo_documento">Tipo de Documento:</label>
                 <select id="tipo_documento" name="tipo_documento" required>
-                    <option value="">Seleccione...</option>
+                    <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
     
                 <label for="sexo">Sexo:</label>
                 <select id="sexo" name="sexo" required>
-                    <option value="">Seleccione...</option>
+                    <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
     
                 <label for="estado_civil">Estado Civil:</label>
-                <select id="estado_civil" name="estado_civil" required>
-                    <option value="">Seleccione...</option>
+                <select id="estado_civil" name="estado_civil"  required>
+                    <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
-    
-                <label for="estado">Estado:</label>
-                <select id="estado" name="estado" required>
-                    <option value="1">Activo</option>
-                    <option value="0">Inactivo</option>
-                </select>
-    
                 <button type="submit">Guardar</button>
             </form>
         </div>
