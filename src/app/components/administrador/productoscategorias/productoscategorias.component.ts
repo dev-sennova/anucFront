@@ -73,9 +73,14 @@ export class ProductoscategoriasComponent implements OnInit {
   }
 
   openImageModal(base64Image: string): void {
-    this.imagenProductoUrl = `data:image/png;base64,${base64Image}`;
+    if (base64Image) {
+      this.imagenProductoUrl = `data:image/png;base64,${base64Image}`;
+    } else {
+      this.imagenProductoUrl = ''; // Asigna un valor vacío si no hay imagen
+    }
     this.imageModalVisible = true;
   }
+  
   
   closeImageModal(): void {
     this.imageModalVisible = false;
