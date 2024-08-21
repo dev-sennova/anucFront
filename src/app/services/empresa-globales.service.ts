@@ -28,6 +28,7 @@ export class EmpresaGlobalesService {
       catchError(this.handleError)
     );
   }
+
   getEmpresaPublico(): Observable<any> {
     return this.http.get<any>(this.apiUrlPublico).pipe(
       map(response => {
@@ -40,6 +41,7 @@ export class EmpresaGlobalesService {
       catchError(this.handleError)
     );
   }
+  
   updateEmpresa(empresa: any): Observable<any> {
     const url = `${this.apiUrlUpdate}/update`;
     return this.http.put<any>(url, empresa).pipe(
@@ -60,7 +62,6 @@ export class EmpresaGlobalesService {
     );
   }
 
-
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
@@ -72,4 +73,5 @@ export class EmpresaGlobalesService {
     }
     return throwError(errorMessage);
   }
+
 }

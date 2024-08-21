@@ -45,7 +45,7 @@
           <td>
             <button class="edit-btn" (click)="openPdfModal()">Ver PDF</button>
           </td>
-          <td><button class="edit-btn">Editar</button></td>
+          <td><button class="edit-btn" (click)="openEditEstatutosModal()">Editar</button></td>
         </tr>
       </tbody>
     </table>
@@ -76,5 +76,17 @@
         <p>Tu navegador no soporta PDFs embebidos. <a [href]="pdfSrc" target="_blank">Descargar PDF</a>.</p>
       </object>
     </div>
+  </div>
+</div>
+<!-- Edit Estatutos Modal -->
+<div class="modal" id="editEstatutosModal" *ngIf="editEstatutosModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditEstatutosModal()">&times;</span>
+    <h2>Editar Estatutos</h2>
+    <form (ngSubmit)="submitEstatutosForm()">
+      <label for="estatutosFile">Seleccionar PDF:</label>
+      <input type="file" id="estatutosFile" (change)="onFileSelected($event)" accept="application/pdf" required>
+      <button type="submit" class="action-btn edit-btn">Guardar</button>
+    </form>
   </div>
 </div>

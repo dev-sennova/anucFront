@@ -1,110 +1,131 @@
 <div class="body">
-    <div class="container">
-      <h2>Lista de Productos</h2>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
-        <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
-        <button class="create-btn" (click)="openCreateModal()">Crear Producto</button>
-      </div>
-      <div *ngIf="filtersVisible" class="filters">
-        <label>
-          Categoría:
-          <select [(ngModel)]="selectedCategoria" (change)="buscar()">
-            <option value="">Todas</option>
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
-          </select>
-        </label>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Categoría</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let producto of paginatedProductos">
-            <td>{{ producto.producto }}</td>
-            <td>{{ getCategoria(producto.categoria) }}</td>
-            <td>{{ getEstado(producto.estado) }}</td>
-            <td>
-              <button class="action-btn edit-btn" (click)="openEditModal(producto)">Editar</button>
-              <button *ngIf="producto.estado === 0" class="action-btn activate-btn" (click)="openActivateModal(producto)">Activar</button>
-              <button *ngIf="producto.estado === 1" class="action-btn deactivate-btn" (click)="openDeactivateModal(producto)">Desactivar</button>
-            </td>          
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-        <span>Página {{currentPage}} de {{totalPages}}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
-        <span class="record-count">Total registros: {{ filteredProductos.length }}</span>
-      </div>
+  <div class="container">
+    <h2>Lista de Productos</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+      <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
+      <button class="create-btn" (click)="openCreateModal()">Crear Producto</button>
+    </div>
+    <div *ngIf="filtersVisible" class="filters">
+      <label>
+        Categoría:
+        <select [(ngModel)]="selectedCategoria" (change)="buscar()">
+          <option value="">Todas</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
+        </select>
+      </label>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Estado</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of paginatedProductos">
+          <td>{{ producto.producto }}</td>
+          <td>{{ getCategoria(producto.categoria) }}</td>
+          <td>{{ getEstado(producto.estado) }}</td>
+          <td>
+            <button class="action-btn edit-btn" (click)="openImageModal(producto.imagenProducto)">Ver Imagen</button>
+          </td>
+          <td>
+            <button class="action-btn edit-btn" (click)="openEditModal(producto)">Editar</button>
+            <button *ngIf="producto.estado === 0" class="action-btn activate-btn"
+              (click)="openActivateModal(producto)">Activar</button>
+            <button *ngIf="producto.estado === 1" class="action-btn deactivate-btn"
+              (click)="openDeactivateModal(producto)">Desactivar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{currentPage}} de {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+      <span class="record-count">Total registros: {{ filteredProductos.length }}</span>
     </div>
   </div>
-  
-  <!-- Create Modal -->
-  <div class="modal" id="createModal" *ngIf="createModalVisible">
-    <div class="modal-content">
-      <span class="close" (click)="closeCreateModal()">&times;</span>
-      <h2>Crear Producto</h2>
-      <form (ngSubmit)="submitCreateForm()">
-        <label>
-          Nombre:
-          <input type="text" [(ngModel)]="newProducto.producto" name="producto" required>
-        </label>
-        <label>
-          Categoría:
-          <select [(ngModel)]="newProducto.categoria" name="categoria" required>
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
-          </select>
-        </label>
-        <button type="submit" class="action-btn create-btn">Crear</button>
-      </form>
-    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal" id="createModal" *ngIf="createModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeCreateModal()">&times;</span>
+    <h2>Crear Producto</h2>
+    <form (ngSubmit)="submitCreateForm()">
+      <label>
+        Nombre:
+        <input type="text" [(ngModel)]="newProducto.producto" name="producto" required>
+      </label>
+      <label>
+        Categoría:
+        <select [(ngModel)]="newProducto.categoria" name="categoria" required>
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
+        </select>
+      </label>
+      <label>
+        Imagen:
+        <input type="file" (change)="onFileSelected($event, 'create')">
+      </label>
+      <button type="submit" class="action-btn create-btn">Crear</button>
+    </form>
   </div>
-  
-  <!-- Edit Modal -->
-  <div *ngIf="editModalVisible" class="modal" id="editModal">
-    <div class="modal-content">
-      <span class="close" (click)="closeEditModal()">&times;</span>
-      <h2>Editar Producto</h2>
-      <form (ngSubmit)="submitEditForm()">
-        <label>
-          Nombre:
-          <input type="text" [(ngModel)]="selectedProducto.producto" name="producto">
-        </label>
-        <label>
-          Categoría:
-          <select [(ngModel)]="selectedProducto.categoria" name="categoria">
-            <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
-          </select>
-        </label>
-        <button type="submit" class="action-btn edit-btn">Guardar</button>
-      </form>
-    </div>
+</div>
+
+<!-- Edit Modal -->
+<div *ngIf="editModalVisible" class="modal" id="editModal">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Editar Producto</h2>
+    <form (ngSubmit)="submitEditForm()">
+      <label>
+        Nombre:
+        <input type="text" [(ngModel)]="selectedProducto.producto" name="producto">
+      </label>
+      <label>
+        Categoría:
+        <select [(ngModel)]="selectedProducto.categoria" name="categoria">
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">{{ categoria.categoria }}</option>
+        </select>
+      </label>
+      <label>
+        Imagen:
+        <input type="file" (change)="onFileSelected($event, 'edit')">
+      </label>
+      <button type="submit" class="action-btn edit-btn">Guardar</button>
+    </form>
   </div>
-  
-  <!-- Activate Modal -->
-  <div class="modal" id="activateModal" *ngIf="activateModalVisible">
-    <div class="modal-content">
-      <span class="close" (click)="closeActivateModal()">&times;</span>
-      <h2>Activar Producto</h2>
-      <p>¿Estás seguro de que quieres activar el producto {{ selectedProducto.producto }}?</p>
-      <button class="action-btn activate-btn" (click)="activateProducto()">Activar</button>
-    </div>
+</div>
+
+<!-- Activate Modal -->
+<div class="modal" id="activateModal" *ngIf="activateModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeActivateModal()">&times;</span>
+    <h2>Activar Producto</h2>
+    <p>¿Estás seguro de que quieres activar el producto {{ selectedProducto.producto }}?</p>
+    <button class="action-btn activate-btn" (click)="activateProducto()">Activar</button>
   </div>
-  
-  <!-- Deactivate Modal -->
-  <div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
-    <div class="modal-content">
-      <span class="close" (click)="closeDeactivateModal()">&times;</span>
-      <h2>Desactivar Producto</h2>
-      <p>¿Estás seguro de que quieres desactivar el producto {{ selectedProducto.producto }}?</p>
-      <button class="action-btn deactivate-btn" (click)="deactivateProducto()">Desactivar</button>
-    </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeDeactivateModal()">&times;</span>
+    <h2>Desactivar Producto</h2>
+    <p>¿Estás seguro de que quieres desactivar el producto {{ selectedProducto.producto }}?</p>
+    <button class="action-btn deactivate-btn" (click)="deactivateProducto()">Desactivar</button>
   </div>
-  
+</div>
+<!-- Image Modal -->
+<div class="modal" id="imageModal" *ngIf="imageModalVisible">
+  <div class="modal-content">
+    <span class="close" (click)="closeImageModal()">&times;</span>
+    <h2>Imagen del Producto</h2>
+    <img [src]="imagenProductoUrl" alt="Imagen del Producto" style="width: 100%;">
+  </div>
+</div>

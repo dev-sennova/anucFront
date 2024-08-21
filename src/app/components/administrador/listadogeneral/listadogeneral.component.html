@@ -2,9 +2,14 @@
   <div class="container">
     <h2>Lista usuarios ANUC</h2>
     <div class="search-bar">
-      <input type="text" placeholder="Buscar producto..." [(ngModel)]="searchTerm" (input)="buscar()">
-      <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
-    </div>
+      <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+      <button class="filter-btn" (click)="toggleFilters()">
+          <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
+      </button>
+      <button class="excel-btn" (click)="exportToExcel()">
+          <img src="assets/iconos/exel_icon.png" alt="Exportar Excel" class="icon"> Exportar Excel
+      </button>
+  </div>
     <div *ngIf="filtersVisible" class="filters">
       <label>
         Género:
