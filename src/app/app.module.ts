@@ -63,6 +63,15 @@ import { ProductoscategoriasComponent } from './components/administrador/product
 import { InicioComponent } from './components/administrador/inicio/inicio.component';
 import { CategoriasproductosComponent } from './components/administrador/categoriasproductos/categoriasproductos.component';
 import { ParentescosComponent } from './components/administrador/parentescos/parentescos.component';
+import { EditDatosComponent } from './components/asociado/edit-datos/edit-datos.component';
+import { EditProductosComponent } from './components/asociado/edit-productos/edit-productos.component';
+import { EditUbicacionComponent } from './components/asociado/edit-ubicacion/edit-ubicacion.component';
+import { InicioAsociadoComponent } from './components/asociado/inicio-asociado/inicio-asociado.component';
+import { EditPasswordAsociadoComponent } from './components/asociado/edit-password-asociado/edit-password-asociado.component';
+import { GestionarNucleoFamiliarComponent } from './components/asociado/gestionar-nucleo-familiar/gestionar-nucleo-familiar.component';
+import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/carnet-asociado.component';
+import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
+import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
 
 
 const materialModules = [
@@ -116,6 +125,15 @@ const materialModules = [
     InicioComponent,
     CategoriasproductosComponent,
     ParentescosComponent,
+    EditDatosComponent,
+    EditProductosComponent,
+    EditUbicacionComponent,
+    InicioAsociadoComponent,
+    EditPasswordAsociadoComponent,
+    GestionarNucleoFamiliarComponent,
+    CarnetAsociadoComponent,
+    OfertaAsociadoComponent,
+    NovedadesAsociadoComponent,
     
   ],
   imports: [
