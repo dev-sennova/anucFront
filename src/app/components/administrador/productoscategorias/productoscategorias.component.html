@@ -126,6 +126,11 @@
   <div class="modal-content">
     <span class="close" (click)="closeImageModal()">&times;</span>
     <h2>Imagen del Producto</h2>
-    <img [src]="imagenProductoUrl" alt="Imagen del Producto" style="width: 100%;">
+    <div *ngIf="imagenProductoUrl; else noImage">
+      <img [src]="imagenProductoUrl" alt="Imagen del Producto" style="width: 100%;">
+    </div>
+    <ng-template #noImage>
+      <p>La imagen no se cargó correctamente o no está disponible.</p>
+    </ng-template>
   </div>
 </div>
