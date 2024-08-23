@@ -11,21 +11,22 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { GlobalConstants } from '../commons/global-constants';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private urlBase=GlobalConstants.apiURL;
+  private urlBase = GlobalConstants.apiURL;
 
   //private urlBase='http://127.0.0.1:8000';
 
-  private endpointGlobales='api/auth/variables_globales';
+  private endpointGlobales = 'api/auth/variables_globales';
 
-  private endpoint= 'api/auth/login';
+  private endpoint = 'api/auth/login';
 
-  private endpointRegister= 'api/auth/register';
+  private endpointRegister = 'api/auth/register';
 
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -33,101 +34,103 @@ export class LoginService {
   idUsuario: any;
   globales: any;
 
-  constructor(private http: HttpClient, public router: Router){}
+  private openRoleSelectionSubject = new Subject<void>();
+  openRoleSelection$ = this.openRoleSelectionSubject.asObservable();
 
-    // Sign-in
-    signIn(user:any) {
-      console.log("Url: "+`${this.urlBase}/${this.endpoint}`);
-      console.log("Usuario: "+JSON.stringify(user));
+  constructor(private http: HttpClient, public router: Router) { }
 
-      return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user)
-        .subscribe((res: any) => {
-          localStorage.setItem('access_token', res.access_token);
-          localStorage.setItem('documento_usuario', res.identificacion);
-          localStorage.setItem('identificador_usuario', res.id_usuario);
-          localStorage.setItem('nombre_usuario', res.nombres);
-          localStorage.setItem('apellido_usuario', res.apellidos);
+  // Sign-in
+  signIn(user: any) {
+    console.log("Url: " + `${this.urlBase}/${this.endpoint}`);
+    console.log("Usuario: " + JSON.stringify(user));
 
-           // Si solo es un rol lo Adjudico y redirijo segun rol
-           // Si es mas de un rol Adjudico rol mas alto y redirijo a eleccion de rol
-           localStorage.setItem('idRol_usuario', res.roles[0].idRol);
-           localStorage.setItem('rol_usuario', res.roles[0].rol);
-           localStorage.setItem('roles', JSON.stringify(res.roles));
+    return this.http.post<any>(`${this.urlBase}/${this.endpoint}`, user)
+      .subscribe((res: any) => {
+        localStorage.setItem('access_token', res.access_token);
+        localStorage.setItem('documento_usuario', res.identificacion);
+        localStorage.setItem('identificador_usuario', res.id_usuario);
+        localStorage.setItem('nombre_usuario', res.nombres);
+        localStorage.setItem('apellido_usuario', res.apellidos);
 
-          if(res.numeroRoles===1){
+        // Si solo es un rol lo Adjudico y redirijo segun rol
+        // Si es mas de un rol Adjudico rol mas alto y redirijo a eleccion de rol
+        localStorage.setItem('idRol_usuario', res.roles[0].idRol);
+        localStorage.setItem('rol_usuario', res.roles[0].rol);
+        localStorage.setItem('roles', JSON.stringify(res.roles));
+
+        if (res.numeroRoles === 1) {
 
 
-            if(res.roles[0].idRol===1){
-              this.router.navigate(['administrador']);
-            }
+          if (res.roles[0].idRol === 1) {
+            this.router.navigate(['administrador']);
+          }
 
-            if(res.roles[0].idRol===2){
-              this.router.navigate(['administrador']);
-            }
+          if (res.roles[0].idRol === 2) {
+            this.router.navigate(['administrador']);
+          }
 
-            if(res.roles[0].idRol===3){
-              this.router.navigate(['asociado']);
-            }
-
-          }else{
-            //this.router.navigate(['eleccionRol']);
+          if (res.roles[0].idRol === 3) {
             this.router.navigate(['asociado']);
           }
 
-          console.log("Item idUsuario: "+localStorage.getItem('identificador_usuario'));
-          console.log("Item rol: "+localStorage.getItem('rol_usuario'));
-          //console.log("Token: "+res.access_token);
-        })
-    }
+        } else {
+          this.openRoleSelectionSubject.next();
+        }
 
-    public crearAsociado(user: any): Observable<any>{
-      return this.http.post(`${this.urlBase}/${this.endpointRegister}`, user)
-    }
+        console.log("Item idUsuario: " + localStorage.getItem('identificador_usuario'));
+        console.log("Item rol: " + localStorage.getItem('rol_usuario'));
+        //console.log("Token: "+res.access_token);
+      })
+  }
 
-    getToken() {
-      return localStorage.getItem('access_token');
-    }
+  public crearAsociado(user: any): Observable<any> {
+    return this.http.post(`${this.urlBase}/${this.endpointRegister}`, user)
+  }
 
-    getUsuario() {
-      return localStorage.getItem('nombre_usuario');
-    }
+  getToken() {
+    return localStorage.getItem('access_token');
+  }
 
-    getIdUsuario() {
-      return localStorage.getItem('identificador_usuario');
-    }
+  getUsuario() {
+    return localStorage.getItem('nombre_usuario');
+  }
 
-    get isLoggedIn(): boolean {
-      let authToken = localStorage.getItem('access_token');
-      return (authToken !== null) ? true : false;
-    }
+  getIdUsuario() {
+    return localStorage.getItem('identificador_usuario');
+  }
 
-    get isLoggedOut(): boolean {
-      let authToken = localStorage.getItem('access_token');
-      return (authToken === null) ? true : false;
-    }
+  get isLoggedIn(): boolean {
+    let authToken = localStorage.getItem('access_token');
+    return (authToken !== null) ? true : false;
+  }
 
-    doLogout() {
-      let removeToken = localStorage.removeItem('access_token');
-      localStorage.clear();
-      if (removeToken == null) {
-        this.router.navigate(['auth']);
-      }
-    }
+  get isLoggedOut(): boolean {
+    let authToken = localStorage.getItem('access_token');
+    return (authToken === null) ? true : false;
+  }
 
-    // Error
-    handleError(error: HttpErrorResponse) {
-      let msg = '';
-      if (error.error instanceof ErrorEvent) {
-        // client-side error
-        msg = error.error.message;
-      } else {
-        // server-side error
-        msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      }
-      return throwError(msg);
+  doLogout() {
+    let removeToken = localStorage.removeItem('access_token');
+    localStorage.clear();
+    if (removeToken == null) {
+      this.router.navigate(['auth']);
     }
+  }
 
-    public lecturaGlobales(): Observable<any> {
-      return this.http.get(`${this.urlBase}/${this.endpointGlobales}`);
+  // Error
+  handleError(error: HttpErrorResponse) {
+    let msg = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      msg = error.error.message;
+    } else {
+      // server-side error
+      msg = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    return throwError(msg);
+  }
+
+  public lecturaGlobales(): Observable<any> {
+    return this.http.get(`${this.urlBase}/${this.endpointGlobales}`);
+  }
 }
