@@ -16,6 +16,7 @@ export class EditDatosComponent implements OnInit {
   nombresUsuarioCargado: any;
   apellidosUsuarioCargado: any;
   identificacionUsuarioCargado: any;
+  roles: any;
 
   constructor(
     private estadoCivilService: EstadoCivilService,
@@ -27,11 +28,13 @@ export class EditDatosComponent implements OnInit {
     this.nombresUsuarioCargado = localStorage.getItem('nombre_usuario');
     this.apellidosUsuarioCargado = localStorage.getItem('apellido_usuario');
     this.identificacionUsuarioCargado = localStorage.getItem('documento_usuario');
+    this.roles = localStorage.getItem('roles');
     //
     console.log("IdUsuario cargado: " + this.idUsuarioCargado);
     console.log("NombresUsuario cargado: " + this.nombresUsuarioCargado);
     console.log("ApellidosUsuario cargado: " + this.apellidosUsuarioCargado);
     console.log("IdentificacionUsuario cargado: " + this.identificacionUsuarioCargado);
+    console.log("RolesUsuario cargado: " + JSON.stringify(this.roles));
 
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
