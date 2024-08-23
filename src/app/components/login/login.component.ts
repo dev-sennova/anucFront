@@ -1,33 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+
   usuario: string;
   password: string;
+  roles: any[] = [];
+  showRoleSelection: boolean = false;
+  private roleSelectionSub!: Subscription;
 
   constructor(public loginService: LoginService, public router: Router) {
-    this.usuario="";
-    this.password="";
+    this.usuario = "";
+    this.password = "";
   }
 
-  login(){
-    const user = {identificacion:this.usuario, password:this.password};
+  login() {
+    const user = { identificacion: this.usuario, password: this.password };
     this.loginService.signIn(user);
-    
+
   }
 
-  loginFake(){
+  loginFake() {
     this.router.navigate(['home']);
   }
 
   ngOnInit(): void {
-    console.log("Valor isLoggedIn: "+this.loginService.isLoggedIn);
+    this.roleSelectionSub = this.loginService.openRoleSelection$.subscribe(() => {
+      this.checkRoles();
+    });
   }
+
+  ngOnDestroy(): void {
+    this.roleSelectionSub.unsubscribe();
+  }
+
+  checkRoles() {
+    const roles = JSON.parse(localStorage.getItem('roles') || '[]');
+
+    if (roles.length > 1) {
+      this.showRoleSelection = true;
+      this.roles = roles;
+    } else {
+      this.showRoleSelection = false;
+    }
+  }
+
+  selectRole(role: any) {
+    localStorage.setItem('idRol_usuario', role.idRol);
+    localStorage.setItem('rol_usuario', role.rol);
+
+    if (role.idRol === 1 || role.idRol === 2) {
+      this.router.navigate(['administrador']);
+    } else if (role.idRol === 3) {
+      this.router.navigate(['asociado']);
+    }
+  }
+
+  closeModal() {
+    this.loginService.doLogout();
+    this.showRoleSelection = false;
+  }
+
+
 
 }

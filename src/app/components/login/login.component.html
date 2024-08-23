@@ -1,37 +1,36 @@
 <div class="container">
-    <div class="header">
-        <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo">
-        <span id="tituloAnuc">ASOCIACIÓN MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA</span>
-    </div>
-    <div class="content">
-        <div class="login-container">
-            <h2>Inicia sesión como nuestro asociado</h2>
-            <p>Digita tu documento y contraseña para poder ingresar</p>
-            <form method="post">
-              <input
-                type="text"
-                [(ngModel)]="usuario"
-                name="usuario"
-                placeholder="Documento de identidad"
-                maxlength="10"
-                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
-                required="required"
-              />
+  <div class="header">
+    <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo">
+    <span id="tituloAnuc">ASOCIACIÓN MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA</span>
+  </div>
+  <div class="content">
+    <div class="login-container">
+      <h2>Inicia sesión como nuestro asociado</h2>
+      <p>Digita tu documento y contraseña para poder ingresar</p>
+      <form method="post">
+        <input type="text" [(ngModel)]="usuario" name="usuario" placeholder="Documento de identidad" maxlength="10"
+          oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" required="required" />
 
-              <input
-                type="password"
-                [(ngModel)]="password"
-                name="password"
-                placeholder="Contraseña"
-                required="required"
-              />
-              <button type="submit" (click)="login()">Iniciar sesión</button>
-            </form>
-            <small>
-                Al hacer click en iniciar sesión estás aceptando nuestros
-                <a href="#">Términos de Servicio</a> y
-                <a href="#">Políticas de Privacidad</a>
-            </small>
-        </div>
+        <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required="required" />
+        <button type="submit" (click)="login()">Iniciar sesión</button>
+      </form>
+      <small>
+        Al hacer click en iniciar sesión estás aceptando nuestros
+        <a href="#">Términos de Servicio</a> y
+        <a href="#">Políticas de Privacidad</a>
+      </small>
     </div>
+  </div>
+</div>
+<!-- Modal para la selección de roles -->
+<div class="modal" *ngIf="showRoleSelection">
+  <div class="modal-content">
+    <h3>Selecciona tu rol</h3>
+    <ul>
+      <li *ngFor="let role of roles" (click)="selectRole(role)">
+        {{ role.rol }}
+      </li>
+    </ul>
+    <button class="close-modal" (click)="closeModal()">Cerrar</button>
+  </div>
 </div>

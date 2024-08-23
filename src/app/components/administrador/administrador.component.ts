@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administrador',
@@ -6,6 +7,8 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./administrador.component.css']
 })
 export class AdministradorComponent {
+
+  constructor(public router: Router){}
 
   openMenu() {
     document.getElementById('menu')!.classList.add('open');
@@ -23,6 +26,14 @@ export class AdministradorComponent {
     const profileMenu = document.getElementById('profile-menu');
     if (profileMenu) {
       profileMenu.classList.toggle('active');
+    }
+  }
+
+  cerrarSesion() {
+    let removeToken = localStorage.removeItem('access_token');
+    localStorage.clear();
+    if (removeToken == null) {
+      this.router.navigate(['home']);
     }
   }
 
