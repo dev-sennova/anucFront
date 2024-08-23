@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asociado',
@@ -6,6 +7,8 @@ import { Component, HostListener } from '@angular/core';
   styleUrls: ['./asociado.component.css']
 })
 export class AsociadoComponent {
+
+  constructor(public router: Router){}
 
   openMenu() {
     document.getElementById('menu')!.classList.add('open');
@@ -17,6 +20,14 @@ export class AsociadoComponent {
     document.getElementById('menu')!.classList.remove('open');
     document.getElementById('overlay')!.classList.remove('active');
     document.getElementById('menu-btn')!.classList.remove('hidden');
+  }
+
+  cerrarSesion() {
+    let removeToken = localStorage.removeItem('access_token');
+    localStorage.clear();
+    if (removeToken == null) {
+      this.router.navigate(['home']);
+    }
   }
 
   toggleProfileMenu() {

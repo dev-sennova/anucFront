@@ -4,12 +4,12 @@
             <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo" class="logo-header">
             <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
         </div>
-        <span id="tituloAnuc">ASOCIADO ANUC</span>        
+        <span id="tituloAnuc">ASOCIADO ANUC</span>
         <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
         <div id="profile-menu" class="profile-menu">
             <button>Administrar Perfil</button>
             <button>Cambiar Contraseña</button>
-            <button>Cerrar Sesión</button>
+            <button (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
             <img src="assets/imagenes/logo_anuc_edited.png" alt="ANUC Logo" class="logo">
             <button class="close-btn" (click)="closeMenu()">×</button>
         </div>
-        <div class="menu-content">            
+        <div class="menu-content">
             <h2>Administrar Perfil</h2>
             <ul>
                 <li>

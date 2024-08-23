@@ -12,6 +12,10 @@ export class EditDatosComponent implements OnInit {
   estadosCiviles: any[] = [];
   tipoDocumentos: any[] = [];
   sexos: any[] = [];
+  idUsuarioCargado: any;
+  nombresUsuarioCargado: any;
+  apellidosUsuarioCargado: any;
+  identificacionUsuarioCargado: any;
 
   constructor(
     private estadoCivilService: EstadoCivilService,
@@ -19,6 +23,16 @@ export class EditDatosComponent implements OnInit {
     private sexoService: SexoService
   ) {}
   ngOnInit(): void {
+    this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
+    this.nombresUsuarioCargado = localStorage.getItem('nombre_usuario');
+    this.apellidosUsuarioCargado = localStorage.getItem('apellido_usuario');
+    this.identificacionUsuarioCargado = localStorage.getItem('documento_usuario');
+    //
+    console.log("IdUsuario cargado: " + this.idUsuarioCargado);
+    console.log("NombresUsuario cargado: " + this.nombresUsuarioCargado);
+    console.log("ApellidosUsuario cargado: " + this.apellidosUsuarioCargado);
+    console.log("IdentificacionUsuario cargado: " + this.identificacionUsuarioCargado);
+
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {

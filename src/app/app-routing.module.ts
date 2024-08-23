@@ -37,8 +37,9 @@ const routes: Routes = [
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'oferta', component: OfertaComponent },
-  { path: 'asociado', component: AsociadoComponent, 
+  { path: 'asociado', component: AsociadoComponent,
     children: [
+      { path: '', redirectTo: 'inicio-asociado', pathMatch: 'full' },
       { path: 'gestionproductos', component: GestionarproductosComponent },
       { path: 'publicaroferta', component: PublicarofertaComponent },
       { path: 'inicio-asociado', component: InicioAsociadoComponent },
@@ -69,7 +70,7 @@ const routes: Routes = [
   },
   { path: 'gestionproductos', component: GestionarproductosComponent },
   { path: 'publicaroferta', component: PublicarofertaComponent },
-  
+
 
 
 ];

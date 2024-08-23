@@ -5,32 +5,32 @@
             <h2>Formulario de Personas</h2>
             <form>
                 <label for="identificacion">Identificación:</label>
-                <input type="text" id="identificacion" name="identificacion" required>
-    
+                <input type="text" id="identificacion" name="identificacion" [(ngModel)]="identificacionUsuarioCargado" required>
+
                 <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres" name="nombres" required>
-    
+                <input type="text" id="nombres" name="nombres" [(ngModel)]="nombresUsuarioCargado" required>
+
                 <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos" required>
-    
+                <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidosUsuarioCargado" required>
+
                 <label for="telefono">Teléfono:</label>
                 <input type="text" id="telefono" name="telefono" required>
-    
+
                 <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-    
+
                 <label for="tipo_documento">Tipo de Documento:</label>
                 <select id="tipo_documento" name="tipo_documento" required>
                     <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
-    
+
                 <label for="sexo">Sexo:</label>
                 <select id="sexo" name="sexo" required>
                     <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
-    
+
                 <label for="estado_civil">Estado Civil:</label>
                 <select id="estado_civil" name="estado_civil"  required>
                     <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>

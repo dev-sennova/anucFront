@@ -45,12 +45,36 @@ export class LoginService {
           localStorage.setItem('access_token', res.access_token);
           localStorage.setItem('documento_usuario', res.identificacion);
           localStorage.setItem('identificador_usuario', res.id_usuario);
-          //localStorage.setItem('rol', res.rol);
+          localStorage.setItem('nombre_usuario', res.nombres);
+          localStorage.setItem('apellido_usuario', res.apellidos);
+
+          if(res.numeroRoles===1){
+            // Si solo es un rol lo Adjudico y redirijo segun rol
+            localStorage.setItem('idRol_usuario', res.roles[0].idRol);
+            localStorage.setItem('rol_usuario', res.roles[0].rol);
+
+            if(res.roles[0].idRol===1){
+              this.router.navigate(['administrador']);
+            }
+
+            if(res.roles[0].idRol===2){
+              this.router.navigate(['administrador']);
+            }
+
+            if(res.roles[0].idRol===3){
+              this.router.navigate(['asociado']);
+            }
+
+          }else{
+            // Adjudico rol mas alto y redirijo a eleccion de rol
+            localStorage.setItem('idRol_usuario', res.roles[0].idRol);
+            localStorage.setItem('rol_usuario', res.roles[0].rol);
+            //this.router.navigate(['eleccionRol']);
+          }
+
           console.log("Item idUsuario: "+localStorage.getItem('identificador_usuario'));
-          //console.log("Item rol: "+localStorage.getItem('rol'));
+          console.log("Item rol: "+localStorage.getItem('rol_usuario'));
           //console.log("Token: "+res.access_token);
-          //this.router.navigate(['administrador']);
-          this.router.navigate(['asociado']);
         })
     }
 
