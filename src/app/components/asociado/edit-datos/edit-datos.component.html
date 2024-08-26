@@ -1,23 +1,23 @@
 <body class="body">
 
     <div class="container">
-        <div class="modal-content">
+        <div *ngIf="persona" class="modal-content">
             <h2>Formulario de Personas</h2>
             <form>
                 <label for="identificacion">Identificación:</label>
-                <input type="text" id="identificacion" name="identificacion" [(ngModel)]="identificacionUsuarioCargado" required>
+                <input type="text" id="identificacion" name="identificacion" [value]="persona.id" [(ngModel)]="persona.identificacion" required>
 
                 <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres" name="nombres" [(ngModel)]="nombresUsuarioCargado" required>
+                <input type="text" id="nombres" name="nombres" [value]="persona.id" [(ngModel)]="persona.nombres" required>
 
                 <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos" [(ngModel)]="apellidosUsuarioCargado" required>
+                <input type="text" id="apellidos" name="apellidos" [value]="persona.id" [(ngModel)]="persona.apellidos" required>
 
                 <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" required>
+                <input type="text" id="telefono" name="telefono" [value]="persona.id" [(ngModel)]="persona.telefono">
 
                 <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                <input type="date" id="fecha_nacimiento" [value]="persona.id" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
 
                 <label for="tipo_documento">Tipo de Documento:</label>
                 <select id="tipo_documento" name="tipo_documento" required>
@@ -26,7 +26,7 @@
                 </select>
 
                 <label for="sexo">Sexo:</label>
-                <select id="sexo" name="sexo" required>
+                <select [(ngModel)]="persona.sexo"  id="sexo" name="sexo" required>
                     <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
@@ -36,7 +36,7 @@
                     <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
                     <!-- Opciones dinámicas generadas desde la base de datos -->
                 </select>
-                <button type="submit">Guardar</button>
+                <button (click)="submitEditForm()" type="submit">Guardar</button>
             </form>
         </div>
     </div>
