@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { roleGuard } from './guards/role.guard';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
@@ -38,6 +39,8 @@ const routes: Routes = [
   { path: 'proveedores', component: ProveedoresComponent },
   { path: 'oferta', component: OfertaComponent },
   { path: 'asociado', component: AsociadoComponent,
+    canActivate: [roleGuard],
+    data: { roles: ['Asociado'] },
     children: [
       { path: '', redirectTo: 'inicio-asociado', pathMatch: 'full' },
       { path: 'gestionproductos', component: GestionarproductosComponent },
@@ -54,6 +57,8 @@ const routes: Routes = [
     ]
   },
   { path: 'administrador', component: AdministradorComponent,
+    canActivate: [roleGuard],
+    data: { roles: ['Administrador', 'SuperAdministrador'] },
     children: [
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       { path: 'inicio', component:InicioComponent},
@@ -70,7 +75,6 @@ const routes: Routes = [
   },
   { path: 'gestionproductos', component: GestionarproductosComponent },
   { path: 'publicaroferta', component: PublicarofertaComponent },
-
 
 
 ];
