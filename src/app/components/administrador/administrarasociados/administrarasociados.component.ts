@@ -52,6 +52,7 @@ export class AdministrarasociadosComponent implements OnInit {
           console.log('Sexos:', this.sexos);
         }
       },
+      
       error => {
         console.error('Error al obtener los sexos:', error);
       }
