@@ -1,16 +1,56 @@
-<body class="body">
-
+<div class="body">
     <div class="container">
-        <div class="modal-content">
-            <h2>Formulario de Productos</h2>
-            <form>
-                <label for="producto">Producto:</label>
-                <input type="text" id="producto" name="producto" required>
-    
-                <label for="imagenProducto">Imagen del Producto:</label>
-                <input type="file" id="imagenProducto" name="imagenProducto">
-    
-                <button type="submit">Guardar</button>
-            </form>
-        </div>
+    <h2>Lista Productos</h2>
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar...">
+        <button class="filter-btn">
+            <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
+        </button>
     </div>
+    </div>
+    
+    <div>
+        <div class="filters">
+            <label>
+            Categoria:
+            <select>
+                <option value="">Todos</option>
+                <option value="Cafe/Cacao/Leche">Cafe/Cacao/Leche</option>
+                <option value="Carnes/Huevos">Carnes/Huevos</option>
+            </select>
+            </label>
+            
+            <label>
+                Productos
+                <select>
+                <option value="">Todos</option>
+                <option value="Acelgas">Acelgas</option>
+                <option value="Aguacate">Aguacate</option>
+                </select>
+            </label>
+            <table>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Imagen</th>
+                    <th>Ver</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Producto1</td>
+                    <td>Aguacate</td>
+                    <td>Categoria1</td>
+                    <td><img
+                        class="projcard-img"
+                        src="assets/imagenes/Tomate chonto.jpg"alt="Foto del producto"/></td>
+                    <td>
+                        <button class="action-btn edit-btn">Información</button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+
+</div>

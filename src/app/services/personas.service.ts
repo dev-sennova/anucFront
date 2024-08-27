@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { GlobalConstants } from '../commons/global-constants';
 import Swal from 'sweetalert2';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,8 @@ export class PersonasService {
 
   private apiUrl = GlobalConstants.apiURL + '/api/auth/personas';
   private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
+  private apiUrlOnePersona = GlobalConstants.apiURL + '/api/auth/personas/selectpersonas';
+  
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +24,37 @@ export class PersonasService {
       catchError(this.handleError)
     );
   }
+
+  getPersona(id:string): Observable<any> {
+    const url = `${this.apiUrlOnePersona}/${id}`;
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getPerson(id:string): Observable<any> {
+    const url = `${this.apiUrlOnePersona}/${id}`;
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+
+  getInfoOneAsociado(id: string): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/${id}`;
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getInfoOneFamiliares(id: string): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/${id}`;
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 
   getInfoAsociado(asociado: number): Observable<any> {
     const url = `${this.apiUrlInfoAsociados}/${asociado}`;
