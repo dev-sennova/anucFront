@@ -1,68 +1,100 @@
 body {
-  background-color: #ffffff; /* Fondo gris claro */
-  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  font-size: 20px; 
 }
 
 .data-wall-container {
-  background-color: #eeeeee; /* Fondo blanco */
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Sombra fuerte para relieve */
-  max-width: 400px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.data-wall-container:hover {
-  transform: translateY(-10px); /* Efecto de elevación al hacer hover */
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px; 
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  margin-top: -65px;
 }
 
 .data-wall-content h2 {
-  font-size: 26px;
-  color: #000000; /* Texto negro */
+  font-size: 32px; 
+  color: #333;
   margin-bottom: 20px;
-  text-transform: uppercase; /* Texto en mayúsculas */
-  letter-spacing: 2px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
 }
 
 .data-wall-content p {
-  font-size: 18px;
-  color: #555555; /* Texto gris oscuro */
-  margin: 10px 0;
-  padding: 10px 15px;
-  background-color: #f9f9f9; /* Fondo gris muy claro para cada línea de texto */
-  border-radius: 10px;
-  box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra interna para efecto de relieve */
-}
-
-.data-wall-content strong {
-  color: #000000; /* Texto en negrita negro */
+  font-size: 20px; 
+  color: #555;
+  margin: 10px 0; 
+  background-color: #f9f9f9;
+  padding: 15px; 
+  border-radius: 8px;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .edit-button {
-  margin-top: 20px;
-  padding: 12px 30px;
-  background-color: #000000; /* Botón negro */
-  color: #ffffff; /* Texto blanco */
+  margin-top: 30px; 
+  padding: 15px 30px; 
+  background-color: #333;
+  color: #fff;
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Sombra para efecto de relieve */
   transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  width: 100%;
 }
 
 .edit-button:hover {
-  background-color: #333333; /* Cambia a gris oscuro al hacer hover */
-  transform: translateY(-5px); /* Efecto de elevación al hacer hover */
+  background-color: #555;
+  transform: translateY(-3px);
 }
 
-/* Contenedor principal */
+/* Media Queries para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .data-wall-container {
+    padding: 20px;
+    margin-top: -40px; 
+  }
+
+  .modal-content {
+    padding: 20px;
+    max-width: 90%; 
+  }
+  
+}
+
+/* Media Queries para tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+
+  /* Ajustes específicos para tablets si es necesario */
+}
+
+/* Media Queries para pantallas grandes */
+@media screen and (min-width: 1025px) {
+  body {
+    font-size: 20px; 
+  }
+}
+
 .modal {
   display: flex;
   justify-content: center;
