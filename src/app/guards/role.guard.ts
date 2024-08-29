@@ -15,7 +15,7 @@ export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
     return true;
   } else {
     switch (userRole) {
-      case 'Administrador':
+      case 'Administrador' || 'SuperAdministrador':
         router.navigate(['administrador/inicio']);
         break;
       case 'Asociado':

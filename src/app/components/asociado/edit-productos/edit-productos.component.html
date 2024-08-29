@@ -1,56 +1,27 @@
-<div class="body">
-    <div class="container">
-    <h2>Lista Productos</h2>
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button class="filter-btn">
-            <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
-        </button>
+<div class="asociado-container">
+    <div class="asociado-info" *ngIf="asociado">
+        <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
+        <p><strong>Identificación:</strong> {{ asociado.identificacion }}</p>
+        <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+        <p><strong>Correo:</strong> {{ asociado.correo }}</p>
     </div>
-    </div>
-    
-    <div>
-        <div class="filters">
-            <label>
-            Categoria:
-            <select>
-                <option value="">Todos</option>
-                <option value="Cafe/Cacao/Leche">Cafe/Cacao/Leche</option>
-                <option value="Carnes/Huevos">Carnes/Huevos</option>
-            </select>
-            </label>
-            
-            <label>
-                Productos
-                <select>
-                <option value="">Todos</option>
-                <option value="Acelgas">Acelgas</option>
-                <option value="Aguacate">Aguacate</option>
-                </select>
-            </label>
-            <table>
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Producto</th>
-                    <th>Categoría</th>
-                    <th>Imagen</th>
-                    <th>Ver</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Producto1</td>
-                    <td>Aguacate</td>
-                    <td>Categoria1</td>
-                    <td><img
-                        class="projcard-img"
-                        src="assets/imagenes/Tomate chonto.jpg"alt="Foto del producto"/></td>
-                    <td>
-                        <button class="action-btn edit-btn">Información</button>
-                    </td>
-                    </tr>
-                </tbody>
-            </table>
 
+    <div class="produccion-list" *ngIf="produccionUnica && produccionUnica.length > 0">
+        <h3>Mis productos</h3>
+        <div *ngFor="let prod of produccionUnica" class="produccion-card">
+            <h4>{{ prod.producto }}</h4>
+            <p><strong>Nombre de la Finca:</strong> {{ prod.nombre }}</p>
+            <p><strong>Vereda:</strong> {{ prod.vereda }}</p>
+            <div *ngIf="prod.imagenProducto; else noImage">
+                <img [src]="prod.imagenProducto" alt="{{ prod.producto }}" class="producto-img">
+            </div>
+            <ng-template #noImage>
+                <p><em>No hay imagen disponible para este producto.</em></p>
+            </ng-template>
+        </div>
+    </div>
+
+    <div *ngIf="!produccionUnica || produccionUnica.length === 0">
+        <p>No se encontraron productos para este asociado.</p>
+    </div>
 </div>

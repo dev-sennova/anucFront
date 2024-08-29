@@ -36,6 +36,7 @@ export class AsociadoComponent {
       profileMenu.classList.toggle('active');
     }
   }
+  
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {

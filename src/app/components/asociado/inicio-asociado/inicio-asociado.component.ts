@@ -10,6 +10,8 @@ import { EstadoCivilService } from 'src/app/services/estado-civil.service';
   styleUrls: ['./inicio-asociado.component.css'],
 })
 export class InicioAsociadoComponent implements OnInit {
+
+
   persona: any;
   sexos: any[] = [];
   tiposDocumento: any[] = [];
