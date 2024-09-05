@@ -37,6 +37,10 @@ export class AsociadoComponent {
     }
   }
 
+  handleMenuEvent() {
+    this.openMenu();
+  }
+
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
     const profileMenu = document.getElementById('profile-menu');

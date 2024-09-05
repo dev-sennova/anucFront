@@ -1,42 +1,64 @@
 <body class="body">
-
-    <div class="container">
-        <div *ngIf="persona" class="modal-content">
-            <h2>Formulario de Personas</h2>
-            <form>
-                <label for="identificacion">Identificación:</label>
-                <input type="text" id="identificacion" name="identificacion" [value]="persona.id" [(ngModel)]="persona.identificacion" required>
-
-                <label for="nombres">Nombres:</label>
-                <input type="text" id="nombres" name="nombres" [value]="persona.id" [(ngModel)]="persona.nombres" required>
-
-                <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos" [value]="persona.id" [(ngModel)]="persona.apellidos" required>
-
-                <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" [value]="persona.id" [(ngModel)]="persona.telefono">
-
-                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-                <input type="date" id="fecha_nacimiento" [value]="persona.id" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
-
-                <label for="tipo_documento">Tipo de Documento:</label>
-                <select id="tipo_documento" name="tipo_documento" required>
-                    <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
-                    <!-- Opciones dinámicas generadas desde la base de datos -->
-                </select>
-
-                <label for="sexo">Sexo:</label>
-                <select [(ngModel)]="persona.sexo"  id="sexo" name="sexo" required>
-                    <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
-                    <!-- Opciones dinámicas generadas desde la base de datos -->
-                </select>
-
-                <label for="estado_civil">Estado Civil:</label>
-                <select id="estado_civil" name="estado_civil"  required>
-                    <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
-                    <!-- Opciones dinámicas generadas desde la base de datos -->
-                </select>
-                <button (click)="submitEditForm()" type="submit">Guardar</button>
-            </form>
+    <div class="data-wall-container">
+      <div class="data-wall-content">
+        <h2>Información Personal</h2>
+        <div *ngIf="persona">
+          <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
+          <p><strong>Nombres:</strong> {{ persona.nombres }}</p>
+          <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
+          <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
+          <p><strong>Fecha de Nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
+          <p><strong>Tipo de Documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
+          <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
+          <p><strong>Estado Civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
+          <button class="edit-button" (click)="openEditModal(persona)">Editar</button>
         </div>
+      </div>
     </div>
+  </body>
+  
+    
+
+
+    <div *ngIf="editModalVisible" class="modal" id="editModal" >
+        <div class="modal-content">
+            <div *ngIf="persona" class="modal-content">
+                <span class="close" (click)="closeEditModal()">&times;</span>
+                <h2>Editar Información Personal</h2>
+                <form>
+                    <label for="identificacion">Identificación:</label>
+                    <input type="text" id="identificacion" name="identificacion" [value]="persona.id" [(ngModel)]="persona.identificacion" required>
+    
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" [value]="persona.id" [(ngModel)]="persona.nombres" required>
+    
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" name="apellidos" [value]="persona.id" [(ngModel)]="persona.apellidos" required>
+    
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" [value]="persona.id" [(ngModel)]="persona.telefono">
+    
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" [value]="persona.id" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
+    
+                    <label for="tipo_documento">Tipo de Documento:</label>
+                    <select id="tipo_documento" name="tipo_documento" required>
+                        <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
+                        <!-- Opciones dinámicas generadas desde la base de datos -->
+                    </select>
+    
+                    <label for="sexo">Sexo:</label>
+                    <select [(ngModel)]="persona.sexo"  id="sexo" name="sexo" required>
+                        <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
+                        <!-- Opciones dinámicas generadas desde la base de datos -->
+                    </select>
+    
+                    <label for="estado_civil">Estado Civil:</label>
+                    <select id="estado_civil" name="estado_civil"  required>
+                        <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
+                        <!-- Opciones dinámicas generadas desde la base de datos -->
+                    </select>
+                    <button (click)="submitEditForm()" type="submit">Guardar</button>
+        </form>
+        </div>
+</div>
