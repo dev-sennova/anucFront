@@ -1,135 +1,129 @@
-body {
-    font-family: 'Open Sans', Arial, sans-serif;
-    color: #333;
-    font-size: 14px;
-}
-
-.projcard-container,
-.projcard-container * {
-    box-sizing: border-box;
-}
-
 .projcard-container {
-    width: 1000px;
-    margin: 20px auto;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center; /* Centra las tarjetas en el contenedor */
+    padding: 1rem;
 }
 
 .projcard {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    font-size: 18px;
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 4px 21px -12px rgba(0, 0, 0, .66);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem; /* Espacio interno aumentado */
+    flex: 1 1 calc(25% - 1rem); /* Cuatro tarjetas por fila con espacio */
+    max-width: calc(25% - 1rem);
+    min-height: 200px; /* Altura mínima */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido dentro de la tarjeta */
+    overflow: hidden; /* Evita el desbordamiento */
 }
 
-.projcard:hover {
-    box-shadow: 0 34px 32px -33px rgba(0, 0, 0, .18);
-    transform: translate(0px, -3px);
+.projcard-blue {
+    border-left: 4px solid #000000;
+}
+
+.projcard-red {
+    border-left: 4px solid #000000;
+}
+
+.projcard-green {
+    border-left: 4px solid #000000;
 }
 
 .projcard-innerbox {
-    position: relative;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    padding: 20px;
+    width: 100%; /* Asegura que el contenido use todo el ancho disponible */
 }
 
 .projcard-textbox {
-    width: 100%;
-    height: 100%;
-    padding-left: 20px;
-    overflow-y: auto;
-    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Ocupa el espacio disponible */
+    align-items: center; /* Centra el contenido dentro de la tarjeta */
+    justify-content: center; /* Centra verticalmente el contenido */
 }
 
 .projcard-title {
-    font-family: 'Voces', 'Open Sans', Arial, sans-serif;
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 1.5rem; /* Tamaño de fuente aumentado */
+    font-weight: bold;
+    color: #0d0d0d;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
 .projcard-description {
-    font-size: 15px;
-    color: #424242;
-    overflow-y: auto;
-    padding-left: 20px;
+    font-size: 1rem; /* Tamaño de fuente ajustado */
+    color: #000000;
+    line-height: 1.4;
+    overflow: hidden; /* Evita el scroll */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido en la tarjeta */
+    padding: 0.5rem;
 }
 
 .subtitle {
     font-weight: bold;
-    color: #0088FF;
-    transition: color 0.3s ease;
 }
 
 .response {
     color: #000;
-    transition: color 0.3s ease;
 }
 
-.projcard-blue .subtitle { color: #030405; }
-.projcard-red .subtitle { color: #030405; }
-.projcard-green .subtitle { color: #030405; }
-
-.projcard .subtitle:hover {
-    color: #666;
+.podback {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #f3f3f3;
+    background-color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    align-self: center;
 }
 
-.projcard-blue .projcard-bar { background-color: #030405; }
-.projcard-red .projcard-bar { background-color: #030405; }
-.projcard-green .projcard-bar { background-color: #030405; }
-
-.projcard-tagbox {
-    position: absolute;
-    bottom: 3%;
-    font-size: 14px;
-    cursor: default;
-    user-select: none;
-    pointer-events: none;
+.podback:hover {
+    background-color: #050505;
 }
 
-.projcard-tag {
-    display: inline-block;
-    background: #E0E0E0;
-    color: #777;
-    border-radius: 3px 0 0 3px;
-    line-height: 26px;
-    padding: 0 10px 0 23px;
-    position: relative;
-    margin-right: 20px;
-    cursor: default;
-    user-select: none;
-    transition: color 0.2s;
+.collage-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center; /* Centra los bloques en el contenedor */
 }
 
-.projcard-tag::before {
-    content: '';
-    position: absolute;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
-    height: 6px;
-    left: 10px;
-    width: 6px;
-    top: 10px;
+.collage-item {
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(50% - 0.5rem); /* Dos columnas */
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
 }
 
-.projcard-tag::after {
-    content: '';
-    position: absolute;
-    border-bottom: 13px solid transparent;
-    border-left: 10px solid #E0E0E0;
-    border-top: 13px solid transparent;
-    right: -10px;
-    top: 0;
+/* Media Query for Small Screens */
+@media (max-width: 600px) {
+    .projcard-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .projcard {
+        max-width: 100%;
+    }
+
+    .collage-item {
+        flex: 1 1 100%; /* Acomoda los elementos en una columna en pantallas pequeñas */
+    }
 }
+
+

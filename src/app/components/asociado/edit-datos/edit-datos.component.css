@@ -1,62 +1,187 @@
-.body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #ffffff;
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+  font-family: Arial, sans-serif;
+  font-size: 20px; 
 }
 
-.container {
-    max-width: 95%;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.data-wall-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px; 
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  margin-top: -65px;
 }
 
+.data-wall-content h2 {
+  font-size: 32px; 
+  color: #333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.data-wall-content p {
+  font-size: 20px; 
+  color: #555;
+  margin: 10px 0; 
+  background-color: #f9f9f9;
+  padding: 15px; 
+  border-radius: 8px;
+  box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-button {
+  margin-top: 30px; 
+  padding: 15px 30px; 
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  width: 100%;
+}
+
+.edit-button:hover {
+  background-color: #555;
+  transform: translateY(-3px);
+}
+
+/* Media Queries para dispositivos móviles */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .data-wall-container {
+    padding: 20px;
+    margin-top: -40px; 
+  }
+
+  .modal-content {
+    padding: 20px;
+    max-width: 90%; 
+  }
+  
+}
+
+/* Media Queries para tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  body {
+    font-size: 18px;
+  }
+
+  /* Ajustes específicos para tablets si es necesario */
+}
+
+/* Media Queries para pantallas grandes */
+@media screen and (min-width: 1025px) {
+  body {
+    font-size: 20px; 
+  }
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Contenido de la Modal */
 .modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-height: 80vh;
-    overflow-y: auto;
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px; /* Limitar ancho máximo */
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3); /* Sombra profunda */
+  position: relative;
+  box-sizing: border-box;
 }
 
+/* Título del formulario */
 .modal-content h2 {
-    margin-top: 0;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #000000;
+  font-size: 22px;
+  border-bottom: 2px solid #00332c; /* Línea bajo el título */
+  padding-bottom: 10px;
 }
 
-.modal-content p {
-    font-size: 16px;
-    margin: 20px 0;
+/* Etiquetas de los campos */
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  color: #000000;
+  font-size: 16px;
 }
 
-.modal-content form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+/* Campos de texto */
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
-.modal-content form input[type="text"],
-.modal-content form input[type="date"],
-.modal-content form select {
-    width: 98%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
+/* Botón Guardar */
+.modal-content button[type="submit"] {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra del botón */
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.modal-content form button {
-    padding: 10px 20px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
+.modal-content button[type="submit"]:hover {
+  background-color: #555555; /* Color al pasar el cursor */
+  transform: translateY(-3px); /* Elevación al pasar el cursor */
 }
+
+/* Botón Cerrar */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #555555;
+}
+

@@ -65,7 +65,9 @@
             </ul>
         </div>
     </div>
+
     <div>
-        <router-outlet></router-outlet>
+      
+        <router-outlet (openMenuEvent)="handleMenuEvent()"></router-outlet>
     </div>
 </div>

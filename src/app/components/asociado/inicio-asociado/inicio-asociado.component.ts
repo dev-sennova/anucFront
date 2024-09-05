@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , EventEmitter , Output } from '@angular/core';
 import { PersonasService } from 'src/app/services/personas.service';
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { EstadoCivilService } from 'src/app/services/estado-civil.service';
-
+import { ParentescosService } from 'src/app/services/parentescos.service';
+import { TiposPredioService } from 'src/app/services/tipos-predio.service';
 @Component({
   selector: 'app-inicio-asociado',
   templateUrl: './inicio-asociado.component.html',
@@ -12,18 +13,34 @@ import { EstadoCivilService } from 'src/app/services/estado-civil.service';
 export class InicioAsociadoComponent implements OnInit {
 
 
+  @Output() openMenuEvent = new EventEmitter<void>();
+  openMenu() {
+    const menu = document.getElementById('menu');
+    const overlay = document.getElementById('overlay');
+    const menuBtn = document.getElementById('menu-btn');
+
+    if (menu && overlay && menuBtn) {
+      menu.classList.add('open');
+      overlay.classList.add('active');
+      menuBtn.classList.add('hidden');
+    }
+  }
   persona: any;
   sexos: any[] = [];
   tiposDocumento: any[] = [];
   estadosCiviles: any[] = [];
   produccion: any;
   familiares: any;
+  parentescos: any[] = [];
+  tiposdepredios: any[] = [];
 
   constructor(
     private personasService: PersonasService,
     private sexoService: SexoService,
     private tipoDocumentoService: TipoDocumentoService,
-    private estadoCivilService: EstadoCivilService
+    private estadoCivilService: EstadoCivilService,
+    private parentescosService: ParentescosService,
+    private tiposPredioService: TiposPredioService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +67,7 @@ export class InicioAsociadoComponent implements OnInit {
       this.personasService.getInfoOneFamiliares(idUsuario).subscribe(
         (data) => {
           if (data && data.familiares && data.familiares.length > 0) {
-            this.familiares = data.familiares[0];
+            this.familiares = data.familiares.slice(0,3);
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -109,7 +126,41 @@ export class InicioAsociadoComponent implements OnInit {
         console.error('Error al obtener los estados civiles:', error);
       }
     );
+
+    this.parentescosService.getParentescos().subscribe(
+      (data) => {
+        if (data) {
+          this.parentescos = data;
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los estados civiles:', error);
+      }
+    );
+
+    this.tiposPredioService.getPredio().subscribe(
+      (data) => {
+        if (data) {
+          this.tiposdepredios = data;
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los estados civiles:', error);
+      }
+    );
   }
+
+  
+  getTipoPredio(id: number): string {
+    const tipoPredio = this.tiposdepredios.find((tp) => tp.id === id);
+    return tipoPredio ? tipoPredio.tipo_predio : '';
+  }
+
+  getParentescos(id: number): string {
+    const parentesco = this.parentescos.find((s) => s.id === id);
+    return parentesco ? parentesco.parentesco : '';
+  }
+  
   getSexo(id: number): string {
     const sexo = this.sexos.find((s) => s.id === id);
     return sexo ? sexo.sexo : '';
