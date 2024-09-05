@@ -42,7 +42,7 @@
                     <input type="date" id="fecha_nacimiento" [value]="persona.id" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
     
                     <label for="tipo_documento">Tipo de Documento:</label>
-                    <select id="tipo_documento" name="tipo_documento" required>
+                    <select [(ngModel)]="persona.tipo_documento" id="tipo_documento" name="tipo_documento" required>
                         <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
                         <!-- Opciones dinámicas generadas desde la base de datos -->
                     </select>
@@ -54,7 +54,7 @@
                     </select>
     
                     <label for="estado_civil">Estado Civil:</label>
-                    <select id="estado_civil" name="estado_civil"  required>
+                    <select [(ngModel)]="persona.estado_civil" id="estado_civil" name="estado_civil"  required>
                         <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
                         <!-- Opciones dinámicas generadas desde la base de datos -->
                     </select>

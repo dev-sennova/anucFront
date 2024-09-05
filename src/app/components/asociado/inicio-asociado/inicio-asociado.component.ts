@@ -5,6 +5,7 @@ import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { EstadoCivilService } from 'src/app/services/estado-civil.service';
 import { ParentescosService } from 'src/app/services/parentescos.service';
 import { TiposPredioService } from 'src/app/services/tipos-predio.service';
+import { VeredasService } from 'src/app/services/veredas.service';
 @Component({
   selector: 'app-inicio-asociado',
   templateUrl: './inicio-asociado.component.html',
@@ -27,6 +28,7 @@ export class InicioAsociadoComponent implements OnInit {
   }
   persona: any;
   sexos: any[] = [];
+  veredas: any[] = [];
   tiposDocumento: any[] = [];
   estadosCiviles: any[] = [];
   produccion: any;
@@ -40,7 +42,8 @@ export class InicioAsociadoComponent implements OnInit {
     private tipoDocumentoService: TipoDocumentoService,
     private estadoCivilService: EstadoCivilService,
     private parentescosService: ParentescosService,
-    private tiposPredioService: TiposPredioService
+    private tiposPredioService: TiposPredioService,
+    private veredasService: VeredasService
   ) {}
 
   ngOnInit(): void {
@@ -116,6 +119,16 @@ export class InicioAsociadoComponent implements OnInit {
         console.error('Error al obtener los estados civiles:', error);
       }
     );
+    this.veredasService.getVeredas().subscribe(
+      (data) => {
+        if (data) {
+          this.veredas = data;
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los estados civiles:', error);
+      }
+    );
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {
@@ -164,6 +177,11 @@ export class InicioAsociadoComponent implements OnInit {
   getSexo(id: number): string {
     const sexo = this.sexos.find((s) => s.id === id);
     return sexo ? sexo.sexo : '';
+  }
+
+  getVeredas(id: number): string {
+    const vereda = this.veredas.find((s) => s.id === id);
+    return vereda ? vereda.vereda : '';
   }
 
   getTipoDocumento(id: number): string {

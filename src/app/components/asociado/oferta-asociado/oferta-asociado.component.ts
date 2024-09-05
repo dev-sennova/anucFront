@@ -97,13 +97,13 @@ export class OfertaAsociadoComponent {
   }
 
   getProductoNombre(productId: number): string {
-    const producto = this.productos.find(prod => prod.id === productId);
-    return producto ? producto.producto : 'Desconocido';
+    const producto = this.productos.find(prod => prod.idProducto === productId);
+    return producto ? producto.producto : '';
   }
 
   getUnidadNombre(unidadId: number): string {
     const unidad = this.unidades.find(unid => unid.id === unidadId);
-    return unidad ? unidad.unidad : 'Desconocido';
+    return unidad ? unidad.unidad : '';
   }
 
   buscar(): void {

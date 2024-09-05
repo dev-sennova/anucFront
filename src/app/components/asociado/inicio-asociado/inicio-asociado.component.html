@@ -28,10 +28,11 @@
             <strong class="subtitle">Producto {{ i + 1 }}:</strong>
             <span class="response">{{ prod.producto }}</span>
           </p>
-          <p><strong class="subtitle">Nombre de la vereda:</strong> <span class="response">{{ produccion[0].vereda }}</span></p>
+          <p><strong class="subtitle">Nombre de la vereda:</strong> <span class="response">{{ getVeredas(produccion[0].vereda) }}</span></p>
           <p><strong class="subtitle">Finca:</strong> <span class="response">{{ produccion[0].nombre }}</span></p>
+          <!-- 
           <p><strong class="subtitle">Extensión:</strong> <span class="response">{{ produccion[0].extension }}</span></p>
-          <p><strong class="subtitle">Tipo de predio:</strong> <span class="response">{{  getTipoPredio(produccion[0].tipo_predio) }}</span></p>
+          <p><strong class="subtitle">Tipo de predio:</strong> <span class="response">{{  getTipoPredio(produccion[0].tipo_predio) }}</span></p>-->
           <button class="podback" (click)="openMenu()" value="Menú" >Menú</button>
         </div>
       </div>
