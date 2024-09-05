@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OfertasAsociadoService } from 'src/app/services/ofertas-asociado.service';
+import { PersonasService } from 'src/app/services/personas.service';
 import { ProductosCategoriasService } from 'src/app/services/productos-categorias.service';
 import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service';
 import Swal from 'sweetalert2';
@@ -33,6 +34,7 @@ export class OfertaAsociadoComponent {
     private ofertasAsociadoService: OfertasAsociadoService,
     private productosService: ProductosCategoriasService,
     private unidadesService: UnidadesMedidaService,
+    private personasService: PersonasService,
   private router: Router) { }
 
   ngOnInit(): void {
@@ -60,10 +62,11 @@ export class OfertaAsociadoComponent {
   }
 
   loadProductos(): void {
-    this.productosService.getProductos().subscribe(
+    const asociadosFincaId  = localStorage.getItem('identificador_usuario') || '';
+    this.personasService.getInfoOneAsociadoProductos(asociadosFincaId).subscribe(
       data => {
-        if (data && data.estado === 'Ok' && Array.isArray(data.productos)) {
-          this.productos = data.productos;
+        if (data) {
+          this.productos = data;
           this.searchTerm = '';
           this.updatePagination();
         } else {

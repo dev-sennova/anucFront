@@ -49,7 +49,7 @@
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="product_id" required>
-                    <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>
@@ -85,7 +85,7 @@
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>

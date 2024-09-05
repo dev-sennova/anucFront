@@ -1,3 +1,4 @@
+<!-- HTML con Modales -->
 <div class="asociado-container">
     <div class="asociado-info" *ngIf="asociado">
         <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
@@ -8,16 +9,27 @@
 
     <div class="produccion-list" *ngIf="produccionUnica && produccionUnica.length > 0">
         <h3>Mis productos</h3>
-        <div *ngFor="let prod of produccionUnica" class="produccion-card">
+        <div *ngFor="let prod of produccionUnica; let i = index" class="produccion-card">
             <h4>{{ prod.producto }}</h4>
-            <p><strong>Nombre de la Finca:</strong> {{ prod.nombre }}</p>
-            <p><strong>Vereda:</strong> {{ prod.vereda }}</p>
             <div *ngIf="prod.imagenProducto; else noImage">
                 <img [src]="prod.imagenProducto" alt="{{ prod.producto }}" class="producto-img">
             </div>
             <ng-template #noImage>
                 <p><em>No hay imagen disponible para este producto.</em></p>
             </ng-template>
+            <div class="card-buttons">
+                <button class="btn-edit" (click)="openEditModal(prod)">Editar</button>
+                <button 
+                  *ngIf="prod.estadoProduccion === 1; else activateBtn" 
+                  class="btn-disable" 
+                  (click)="openDeactivateModal(prod)">Desactivar</button>
+                <ng-template #activateBtn>
+                  <button class="btn-activate" (click)="openActivateModal(prod)">Activar</button>
+                </ng-template>
+            </div>          
+        </div>
+        <div class="add-product-card">
+            <button class="btn-add-product" (click)="openAddProductModal()">Agregar Nuevo Producto</button>
         </div>
     </div>
 
@@ -25,3 +37,75 @@
         <p>No se encontraron productos para este asociado.</p>
     </div>
 </div>
+<!-- Modal para Editar Producto -->
+<div id="editModal" class="modal" *ngIf="showEditModal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>Editar Producto</h2>
+
+        <label for="producto">Producto:</label>
+        <select id="producto" [(ngModel)]="selectedProduct.idProducto" class="modal-input">
+            <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
+        </select>
+
+        <label for="produccion">Producción:</label>
+        <input id="produccion" [(ngModel)]="selectedProduct.produccion" type="number" class="modal-input">
+
+        <label for="medida">Unidad de Medida:</label>
+        <select id="medida" [(ngModel)]="selectedProduct.medida" class="modal-input">
+            <option *ngFor="let unidad of unidadesDeMedida" [value]="unidad.id">{{ unidad.unidad }}</option>
+        </select>
+
+        <label for="periodicidad">Periodicidad:</label>
+        <select id="periodicidad" [(ngModel)]="selectedProduct.periodicidad" class="modal-input">
+            <option *ngFor="let periodicidad of periodicidades" [value]="periodicidad.id">{{ periodicidad.periodicidad
+                }}</option>
+        </select>
+        <button (click)="editarProducto()" class="btn-modal">Guardar</button>
+    </div>
+</div>
+
+<!-- Modal para Agregar Producto -->
+<div id="addProductModal" class="modal" *ngIf="showAddProductModal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>Agregar Nuevo Producto</h2>
+
+        <label for="newProducto">Producto:</label>
+        <select id="newProducto" [(ngModel)]="newProduct.producto" class="modal-input">
+            <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
+        </select>
+
+        <label for="newProduccion">Producción:</label>
+        <input id="newProduccion" [(ngModel)]="newProduct.produccion" type="number" class="modal-input">
+
+        <label for="newMedida">Unidad de Medida:</label>
+        <select id="newMedida" [(ngModel)]="newProduct.medida" class="modal-input">
+            <option *ngFor="let unidad of unidadesDeMedida" [value]="unidad.id">{{ unidad.unidad }}</option>
+        </select>
+
+        <label for="newPeriodicidad">Periodicidad:</label>
+        <select id="newPeriodicidad" [(ngModel)]="newProduct.periodicidad" class="modal-input">
+            <option *ngFor="let periodicidad of periodicidades" [value]="periodicidad.id">{{ periodicidad.periodicidad
+                }}</option>
+        </select>
+
+        <button (click)="agregarProducto()" class="btn-modal">Agregar</button>
+    </div>
+</div>
+<!-- Modal para Desactivar Producto -->
+<div id="deactivateModal" class="modal" *ngIf="showDeactivateModal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>¿Estás seguro que quieres desactivar este producto?</h2>
+        <button (click)="desactivarProducto()" class="btn-modal">Desactivar</button>
+    </div>
+</div> 
+<!-- Modal para Activar Producto -->
+<div id="deactivateModal" class="modal" *ngIf="showActivateModal">
+    <div class="modal-content">
+        <span class="close" (click)="closeModal()">&times;</span>
+        <h2>¿Estás seguro que quieres activar este producto?</h2>
+        <button (click)="activarProducto()" class="btn-modal">Activar</button>
+    </div>
+</div> 

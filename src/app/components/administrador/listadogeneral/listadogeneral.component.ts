@@ -226,5 +226,4 @@ export class ListadogeneralComponent implements OnInit {
   }
   
   
-
 }

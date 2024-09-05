@@ -47,6 +47,15 @@ export class PersonasService {
     );
   }
 
+  
+  getInfoOneAsociadoProductos(id: string): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/${id}`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.produccion),
+      catchError(this.handleError)
+    );
+  }
+
   getInfoOneFamiliares(id: string): Observable<any> {
     const url = `${this.apiUrlInfoAsociados}/${id}`;
     return this.http.get<any>(url).pipe(
