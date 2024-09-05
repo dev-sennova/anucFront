@@ -36,6 +36,7 @@ export class AsociadoComponent {
       profileMenu.classList.toggle('active');
     }
   }
+  
 
   handleMenuEvent() {
     this.openMenu();

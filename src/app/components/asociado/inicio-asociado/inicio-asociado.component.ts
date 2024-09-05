@@ -11,6 +11,8 @@ import { TiposPredioService } from 'src/app/services/tipos-predio.service';
   styleUrls: ['./inicio-asociado.component.css'],
 })
 export class InicioAsociadoComponent implements OnInit {
+
+
   @Output() openMenuEvent = new EventEmitter<void>();
   openMenu() {
     const menu = document.getElementById('menu');

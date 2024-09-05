@@ -18,9 +18,11 @@ export class ProductosCategoriasService {
 
   getProductos(): Observable<any> {
     return this.http.get<any>(this.apiUrlProductos).pipe(
+      map(response => response.productos),
       catchError(this.handleError)
     );
   }
+
 
   addProducto(producto: any): Observable<any> {
     const url = `${this.apiUrlProductos}/store`;

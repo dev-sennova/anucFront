@@ -1,1 +1,123 @@
-<p>oferta-asociado works!</p>
+<div class="body">
+    <div class="container">
+        <h2>Mis ofertas</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
+            <button class="create-btn" (click)="openCreateModal()">Crear Oferta</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Unidad de Medida</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Fin</th>
+                    <th>Contacto Visible</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let oferta of ofertas">
+                    <td>{{ getProductoNombre(oferta.product_id) }}</td>
+                    <td>{{ oferta.cantidad }}</td>
+                    <td>{{ getUnidadNombre(oferta.medida_unidades_id) }}</td>
+                    <td>{{ oferta.start_date }}</td>
+                    <td>{{ oferta.end_date }}</td>
+                    <td>{{ oferta.contacto_visible ? 'Sí' : 'No' }}</td>
+                    <td>
+                        <button class="action-btn edit-btn" (click)="openEditModal(oferta)">Editar</button>
+                        <button  class="action-btn deactivate-btn" (click)="openDeactivateModal(oferta)">Desactivar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+            <span>Página {{currentPage}} de {{totalPages}}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+        </div>
+    </div>
+</div>
+
+<!-- Create Modal -->
+<div class="modal" id="createModal" *ngIf="createModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeCreateModal()">&times;</span>
+        <h2>Crear Oferta</h2>
+        <form (ngSubmit)="submitCreateForm()">
+            <label>
+                Producto:
+                <select [(ngModel)]="newOferta.product_id" name="product_id" required>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                </select>
+            </label>
+            <label>
+                Fecha de Inicio:
+                <input type="date" [(ngModel)]="newOferta.start_date" name="start_date" required>
+            </label>
+            <label>
+                Cantidad:
+                <input type="number" [(ngModel)]="newOferta.cantidad" name="cantidad" required>
+            </label>
+            <label>
+                Unidad de Medida:
+                <select [(ngModel)]="newOferta.medida_unidades_id" name="medida_unidades_id" required>
+                    <option *ngFor="let unidad of unidades" [value]="unidad.id">{{ unidad.unidad }}</option>
+                </select>
+            </label>
+            <label>
+                Contacto Visible:
+                <input type="checkbox" [(ngModel)]="newOferta.contacto_visible" name="contacto_visible">
+            </label>
+            
+            <button type="submit" class="action-btn create-btn">Crear</button>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal" *ngIf="editModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeEditModal()">&times;</span>
+        <h2>Editar Oferta</h2>
+        <form (ngSubmit)="submitEditForm()">
+            <label>
+                Producto:
+                <select [(ngModel)]="selectedOferta.product_id" name="product_id">
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                </select>
+            </label>
+            <label>
+                Fecha de Inicio:
+                <input type="date" [(ngModel)]="selectedOferta.start_date" name="start_date">
+            </label>
+            <label>
+                Cantidad:
+                <input type="number" [(ngModel)]="selectedOferta.cantidad" name="cantidad">
+            </label>
+            <label>
+                Unidad de Medida:
+                <select [(ngModel)]="selectedOferta.medida_unidades_id" name="medida_unidades_id">
+                    <option *ngFor="let unidad of unidades" [value]="unidad.id">{{ unidad.unidad }}</option>
+                </select>
+            </label>
+            <label>
+                Contacto Visible:
+                <input type="checkbox" [(ngModel)]="selectedOferta.contacto_visible" name="contacto_visible">
+            </label>
+            <button type="submit" class="action-btn edit-btn">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+
+<!-- Deactivate Modal -->
+<div class="modal" id="deactivateModal" *ngIf="deactivateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeDeactivateModal()">&times;</span>
+        <h2>Desactivar Oferta</h2>
+        <p>¿Estás seguro de que deseas desactivar esta oferta?</p>
+        <button class="action-btn deactivate-btn" (click)="deactivateOferta()">Desactivar</button>
+        <button class="action-btn close-btn" (click)="closeDeactivateModal()">Cancelar</button>
+    </div>
+</div>
