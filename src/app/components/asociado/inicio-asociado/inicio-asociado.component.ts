@@ -14,18 +14,6 @@ import { VeredasService } from 'src/app/services/veredas.service';
 export class InicioAsociadoComponent implements OnInit {
 
 
-  @Output() openMenuEvent = new EventEmitter<void>();
-  openMenu() {
-    const menu = document.getElementById('menu');
-    const overlay = document.getElementById('overlay');
-    const menuBtn = document.getElementById('menu-btn');
-
-    if (menu && overlay && menuBtn) {
-      menu.classList.add('open');
-      overlay.classList.add('active');
-      menuBtn.classList.add('hidden');
-    }
-  }
   persona: any;
   sexos: any[] = [];
   veredas: any[] = [];
@@ -35,6 +23,7 @@ export class InicioAsociadoComponent implements OnInit {
   familiares: any;
   parentescos: any[] = [];
   tiposdepredios: any[] = [];
+  activeTab: string = 'personal';
 
   constructor(
     private personasService: PersonasService,
@@ -162,7 +151,9 @@ export class InicioAsociadoComponent implements OnInit {
       }
     );
   }
-
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
   
   getTipoPredio(id: number): string {
     const tipoPredio = this.tiposdepredios.find((tp) => tp.id === id);
@@ -197,4 +188,5 @@ export class InicioAsociadoComponent implements OnInit {
   getEstado(estado: number): string {
     return estado === 1 ? 'Activo' : 'Inactivo';
   }
+
 }
