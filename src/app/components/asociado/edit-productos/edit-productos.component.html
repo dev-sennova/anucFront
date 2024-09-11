@@ -1,42 +1,35 @@
-<!-- HTML con Modales -->
-<div class="asociado-container">
-    <div class="asociado-info" *ngIf="asociado">
-        <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
-        <p><strong>Identificación:</strong> {{ asociado.identificacion }}</p>
-        <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
-        <p><strong>Correo:</strong> {{ asociado.correo }}</p>
-    </div>
+<div class="body">
+    <div class="container">
+        <h2>Mis Productos</h2>
+        <div class="create-offer-bar">
+            <button class="btn-primary" (click)="openAddProductModal()">Agregar Nuevo Producto</button>
+        </div>
 
-    <div class="produccion-list" *ngIf="produccionUnica && produccionUnica.length > 0">
-        <h3>Mis productos</h3>
-        <div *ngFor="let prod of produccionUnica; let i = index" class="produccion-card">
-            <h4>{{ prod.producto }}</h4>
-            <div *ngIf="prod.imagenProducto; else noImage">
-                <img [src]="prod.imagenProducto" alt="{{ prod.producto }}" class="producto-img">
+        <div class="card-container">
+            <div *ngFor="let prod of produccionUnica" class="card">
+                <div class="card-header">
+                    <h4>{{ prod.producto }}</h4>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="prod.imagenProducto; else noImage">
+                        <img [src]="prod.imagenProducto" alt="{{ prod.producto }}" class="producto-img">
+                    </div>
+                    <ng-template #noImage>
+                        <p><em>No hay imagen disponible para este producto.</em></p>
+                    </ng-template>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-secondary" (click)="openEditModal(prod)">Editar</button>
+                    <button *ngIf="prod.estadoProduccion === 1; else activateBtn" class="btn-danger" (click)="openDeactivateModal(prod)">Desactivar</button>
+                    <ng-template #activateBtn>
+                        <button class="btn-primary" (click)="openActivateModal(prod)">Activar</button>
+                    </ng-template>
+                </div>
             </div>
-            <ng-template #noImage>
-                <p><em>No hay imagen disponible para este producto.</em></p>
-            </ng-template>
-            <div class="card-buttons">
-                <button class="btn-edit" (click)="openEditModal(prod)">Editar</button>
-                <button 
-                  *ngIf="prod.estadoProduccion === 1; else activateBtn" 
-                  class="btn-disable" 
-                  (click)="openDeactivateModal(prod)">Desactivar</button>
-                <ng-template #activateBtn>
-                  <button class="btn-activate" (click)="openActivateModal(prod)">Activar</button>
-                </ng-template>
-            </div>          
         </div>
-        <div class="add-product-card">
-            <button class="btn-add-product" (click)="openAddProductModal()">Agregar Nuevo Producto</button>
-        </div>
-    </div>
-
-    <div *ngIf="!produccionUnica || produccionUnica.length === 0">
-        <p>No se encontraron productos para este asociado.</p>
     </div>
 </div>
+
 <!-- Modal para Editar Producto -->
 <div id="editModal" class="modal" *ngIf="showEditModal">
     <div class="modal-content">
@@ -71,28 +64,38 @@
         <span class="close" (click)="closeModal()">&times;</span>
         <h2>Agregar Nuevo Producto</h2>
 
+        <!-- Producto -->
         <label for="newProducto">Producto:</label>
         <select id="newProducto" [(ngModel)]="newProduct.producto" class="modal-input">
+            <option value="" disabled>Seleccione un producto</option>
             <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
         </select>
 
+        <!-- Producción -->
         <label for="newProduccion">Producción:</label>
-        <input id="newProduccion" [(ngModel)]="newProduct.produccion" type="number" class="modal-input">
+        <input id="newProduccion" [(ngModel)]="newProduct.produccion" type="number" class="modal-input" placeholder="Ingrese la cantidad de producción">
 
+        <!-- Unidad de Medida -->
         <label for="newMedida">Unidad de Medida:</label>
         <select id="newMedida" [(ngModel)]="newProduct.medida" class="modal-input">
+            <option value="" disabled>Seleccione una unidad de medida</option>
             <option *ngFor="let unidad of unidadesDeMedida" [value]="unidad.id">{{ unidad.unidad }}</option>
         </select>
 
+        <!-- Periodicidad -->
         <label for="newPeriodicidad">Periodicidad:</label>
         <select id="newPeriodicidad" [(ngModel)]="newProduct.periodicidad" class="modal-input">
-            <option *ngFor="let periodicidad of periodicidades" [value]="periodicidad.id">{{ periodicidad.periodicidad
-                }}</option>
+            <option value="" disabled>Seleccione una periodicidad</option>
+            <option *ngFor="let periodicidad of periodicidades" [value]="periodicidad.id">{{ periodicidad.periodicidad }}</option>
         </select>
 
+        <!-- Botón para agregar -->
         <button (click)="agregarProducto()" class="btn-modal">Agregar</button>
     </div>
 </div>
+
+
+
 <!-- Modal para Desactivar Producto -->
 <div id="deactivateModal" class="modal" *ngIf="showDeactivateModal">
     <div class="modal-content">

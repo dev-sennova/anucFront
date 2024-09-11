@@ -86,10 +86,6 @@ export class EditProductosComponent implements OnInit {
     );
 
   }
-  forzarDeteccionCambios() {
-    this.cdr.detectChanges();  // Fuerza la detección de cambios
-    this.ngOnInit();  // Reejecuta manualmente el ngOnInit
-  }
 
   getPeriodicidad(id: number): string {
     const periodicidad = this.periodicidades.find((s) => s.id === id);
@@ -137,8 +133,16 @@ export class EditProductosComponent implements OnInit {
 
   // Abrir modal para agregar nuevo producto
   openAddProductModal() {
+    this.newProduct = {
+      producto: '',
+      produccion: '',
+      medida: '',
+      periodicidad: ''
+    };
     this.showAddProductModal = true;
   }
+  
+  
 
   // Cerrar todos los modales
   closeModal() {
@@ -162,8 +166,8 @@ export class EditProductosComponent implements OnInit {
 
     this.produccionAsociadoService.updateProduccion(updatedProduct).subscribe(response => {
       Swal.fire('Guardado', 'El producto ha sido actualizado correctamente.', 'success');
-      this.forzarDeteccionCambios(); 
       this.closeModal(); 
+      this.ngOnInit();
     }, error => {
       Swal.fire('Error', 'Ocurrió un error al actualizar el producto.', 'error');
     });
@@ -174,7 +178,7 @@ export class EditProductosComponent implements OnInit {
     this.produccionAsociadoService.deactivateProducciond(this.selectedProduct.idProduccion).subscribe(response => {
       Swal.fire('Desactivado', 'El producto ha sido desactivado.', 'success');
       this.closeModal();
-      this.forzarDeteccionCambios();
+      this.ngOnInit();
     }, error => {
       Swal.fire('Error', 'Ocurrió un error al desactivar el producto.', 'error');
     });
@@ -185,7 +189,7 @@ export class EditProductosComponent implements OnInit {
     this.produccionAsociadoService.activateProduccion(this.selectedProduct.idProduccion).subscribe(response => {
       Swal.fire('Activado', 'El producto ha sido activado.', 'success');
       this.closeModal();
-      this.forzarDeteccionCambios();
+      this.ngOnInit();
     }, error => {
       Swal.fire('Error', 'Ocurrió un error al activar el producto.', 'error');
     });
@@ -197,7 +201,7 @@ export class EditProductosComponent implements OnInit {
     this.produccionAsociadoService.addProduccion(this.newProduct).subscribe(response => {
       Swal.fire('Agregado', 'El nuevo producto ha sido agregado.', 'success');
       this.closeModal();
-      this.forzarDeteccionCambios();
+      this.ngOnInit();
     }, error => {
       Swal.fire('Error', 'Ocurrió un error al agregar el producto.', 'error');
     });
