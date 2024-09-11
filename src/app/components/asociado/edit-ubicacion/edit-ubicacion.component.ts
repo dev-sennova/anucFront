@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { PersonasService } from 'src/app/services/personas.service';
 import { SexoService } from 'src/app/services/sexo.service';
 import { TiposPredioService } from 'src/app/services/tipos-predio.service';
@@ -25,23 +25,25 @@ export class EditUbicacionComponent implements OnInit{
     private personasService: PersonasService,
     private veredasService: VeredasService,
     private fincasService: FincasService,
-    private route: Router
+    private route: Router,
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_usuario') || '';
-
+  
     this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
       (data) => {
         if (data) {
           this.produccion = data[0];
-          this.fincasService.getFinca(this.produccion.idFinca).subscribe(
+          
+          this.veredasService.getVeredas().subscribe(
             (data) => {
-              this.finca = data[0];
-              
+              this.veredas = data || [];
+              this.cargarFinca();
             },
             (error) => {
-              console.error('Error al obtener la finca:', error);
+              console.error('Error al obtener las veredas:', error);
             }
           );
         }
@@ -50,16 +52,23 @@ export class EditUbicacionComponent implements OnInit{
         console.error('Error al obtener los datos de producción del asociado', error);
       }
     );
-
-    this.veredasService.getVeredas().subscribe(
-      (data) => { this.veredas = data || []; },
-      (error) => { console.error('Error al obtener las veredas:', error); }
+  }
+  
+  cargarFinca(): void {
+    this.fincasService.getFinca(this.produccion.idFinca).subscribe(
+      (data) => {
+        this.finca = data[0];
+        this.produccion.vereda = this.finca.vereda;
+      },
+      (error) => {
+        console.error('Error al obtener la finca:', error);
+      }
     );
   }
   
-  getVeredas(id: number): string {
-    const vereda = this.veredas.find((s) => s.id === id);
-    return vereda ? vereda.vereda : '';
+  
+  trackByVereda(index: number, vereda: any): number {
+    return vereda.id; 
   }
 
   saveFinca() {
@@ -78,7 +87,7 @@ export class EditUbicacionComponent implements OnInit{
           icon: 'success',
           title: 'Finca actualizada',
           text: 'La finca se ha actualizado exitosamente',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
         this.ngOnInit();
       },
