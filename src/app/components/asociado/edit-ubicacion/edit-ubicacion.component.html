@@ -1,1 +1,36 @@
-<p>edit-ubicacion works!</p>
+<div class="body" *ngIf="produccion && finca">
+    <div class="container">
+        <h2>Mi Ubicación</h2>
+        <div class="card-container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group">
+                        <label><strong>Nombre de la Finca:</strong></label>
+                        <input [(ngModel)]="produccion.nombre" placeholder="Ingrese nombre de la finca" />
+                    </div>
+                    <div class="input-group">
+                        <label><strong>Extensión en hectáreas:</strong></label>
+                        <input [(ngModel)]="produccion.extension" placeholder="Ingrese extensión en hectáreas" />
+                    </div>
+                    <div class="input-group">
+                        <label><strong>Vereda:</strong></label>
+                        <select [(ngModel)]="produccion.vereda">
+                            <option *ngFor="let vereda of veredas" [value]="vereda.id">{{ vereda.vereda }}</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label><strong>Longitud:</strong></label>
+                        <input [(ngModel)]="finca.longitud" placeholder="Ingrese longitud" />
+                    </div>
+                    <div class="input-group">
+                        <label><strong>Latitud:</strong></label>
+                        <input [(ngModel)]="finca.latitud" placeholder="Ingrese latitud" />
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-secondary" (click)="saveFinca()">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

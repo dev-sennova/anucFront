@@ -19,10 +19,10 @@ export class InicioAsociadoComponent implements OnInit {
   veredas: any[] = [];
   tiposDocumento: any[] = [];
   estadosCiviles: any[] = [];
-  produccion: any;
-  familiares: any;
   parentescos: any[] = [];
   tiposdepredios: any[] = [];
+  produccion: any;
+  familiares: any;
   activeTab: string = 'personal';
 
   constructor(

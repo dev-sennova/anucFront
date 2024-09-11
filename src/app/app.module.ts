@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -72,6 +72,7 @@ import { GestionarNucleoFamiliarComponent } from './components/asociado/gestiona
 import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/carnet-asociado.component';
 import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
+
 
 
 const materialModules = [
@@ -162,7 +163,8 @@ const materialModules = [
     { provide: LOCALE_ID, useValue: 'es' },
     
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class AppModule {
 

@@ -28,6 +28,7 @@ import { EditPasswordAsociadoComponent } from './components/asociado/edit-passwo
 import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/carnet-asociado.component';
 import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
+import { GestionarNucleoFamiliarComponent } from './components/asociado/gestionar-nucleo-familiar/gestionar-nucleo-familiar.component';
 
 
 const routes: Routes = [
@@ -50,7 +51,7 @@ const routes: Routes = [
       { path: 'edit-productos-asociado', component: EditProductosComponent},
       { path: 'edit-ubicacion-asociado', component: EditUbicacionComponent},
       { path: 'edit-password-asociado', component:EditPasswordAsociadoComponent},
-      { path: 'gestionar-nucleo-familiar', component:GestionarproductosComponent},
+      { path: 'gestionar-nucleo-familiar', component:GestionarNucleoFamiliarComponent},
       { path: 'carnet-asociado', component:CarnetAsociadoComponent},
       { path: 'oferta-asociado', component:OfertaAsociadoComponent},
       { path: 'novedades-asociado', component:NovedadesAsociadoComponent},

@@ -32,6 +32,7 @@
       <div class="location-info">
           <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) }}</p>
           <p><strong>Finca:</strong> {{ produccion[0]?.nombre }}</p>
+          <p><strong>Extension en hectareas:</strong> {{ produccion[0]?.extension }}</p>
       </div>
   </div>
 
@@ -41,7 +42,7 @@
       <div class="card-container">
           <div *ngFor="let fami of familiares" class="family-card">
               <div class="family-info">
-                  <h4>{{ fami.nombres }} {{ fami.apellidos }}</h4>
+                  <h4 style="text-transform:uppercase">{{ fami.nombres }} {{ fami.apellidos }}</h4>
                   <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) }}</p>
                   <p><strong>Identificación:</strong> {{ fami.identificacion }}</p>
                   <p><strong>Teléfono:</strong> {{ fami.telefono || 'N/A' }}</p>
