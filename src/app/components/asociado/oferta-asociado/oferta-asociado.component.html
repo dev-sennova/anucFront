@@ -1,44 +1,31 @@
 <div class="body">
     <div class="container">
-        <h2>Mis ofertas</h2>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
-            <button class="create-btn" (click)="openCreateModal()">Crear Oferta</button>
+        <h2>Mis Ofertas</h2>
+        <div class="create-offer-bar">
+            <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Unidad de Medida</th>
-                    <th>Fecha de Inicio</th>
-                    <th>Fecha de Fin</th>
-                    <th>Contacto Visible</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let oferta of ofertas">
-                    <td>{{ getProductoNombre(oferta.product_id) }}</td>
-                    <td>{{ oferta.cantidad }}</td>
-                    <td>{{ getUnidadNombre(oferta.medida_unidades_id) }}</td>
-                    <td>{{ oferta.start_date }}</td>
-                    <td>{{ oferta.end_date }}</td>
-                    <td>{{ oferta.contacto_visible ? 'Sí' : 'No' }}</td>
-                    <td>
-                        <button class="action-btn edit-btn" (click)="openEditModal(oferta)">Editar</button>
-                        <button  class="action-btn deactivate-btn" (click)="openDeactivateModal(oferta)">Desactivar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="pagination">
-            <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-            <span>Página {{currentPage}} de {{totalPages}}</span>
-            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
+
+        <div class="card-container">
+            <div *ngFor="let oferta of ofertas" class="card">
+                <div class="card-header">
+                    <h3>{{ getProductoNombre(oferta.product_id) }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Cantidad:</strong> {{ oferta.cantidad }}</p>
+                    <p><strong>Unidad de Medida:</strong> {{ getUnidadNombre(oferta.medida_unidades_id) }}</p>
+                    <p><strong>Fecha de Inicio:</strong> {{ oferta.start_date }}</p>
+                    <p><strong>Fecha de Fin:</strong> {{ oferta.end_date }}</p>
+                    <p><strong>Contacto Visible:</strong> {{ oferta.contacto_visible ? 'Sí' : 'No' }}</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-secondary" (click)="openEditModal(oferta)">Editar</button>
+                    <button class="btn-danger" (click)="openDeactivateModal(oferta)">Desactivar</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Create Modal -->
 <div class="modal" id="createModal" *ngIf="createModalVisible">
@@ -49,7 +36,8 @@
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="product_id" required>
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
             <label>
@@ -70,7 +58,7 @@
                 Contacto Visible:
                 <input type="checkbox" [(ngModel)]="newOferta.contacto_visible" name="contacto_visible">
             </label>
-            
+
             <button type="submit" class="action-btn create-btn">Crear</button>
         </form>
     </div>
@@ -85,7 +73,8 @@
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
             <label>

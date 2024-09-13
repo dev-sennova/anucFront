@@ -1,1 +1,153 @@
-<p>gestionar-nucleo-familiar works!</p>
+<div class="body">
+    <div class="container">
+        <h2>Mi núcleo familiar</h2>
+        <div class="create-offer-bar">
+            <button class="btn-primary" (click)="openCreateModal()">Agregar familiar</button>
+        </div>
+
+        <div class="card-container">
+            <div *ngFor="let familiar of familiares" class="card">
+                <div class="card-header">
+                    <h3 style="text-transform:uppercase">{{ familiar.nombres }} {{ familiar.apellidos }}</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Identificación:</strong> {{ familiar.identificacion }}</p>
+                    <p><strong>Teléfono:</strong> {{ familiar.telefono }}</p>
+                    <p><strong>Fecha de Nacimiento:</strong> {{ familiar.fecha_nacimiento }}</p>
+                    <p><strong>Parentesco:</strong> {{ getParentescos(familiar.parentesco) }}</p>
+                    <p><strong>Estado Civil:</strong> {{ getEstadoCivil(familiar.estado_civil) }}</p>
+                    <p><strong>Sexo:</strong> {{ getSexo(familiar.sexo) }}</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-secondary" (click)="openEditModal(familiar)">Editar</button>
+                    <button class="btn-danger" (click)="openDeactivateModal(familiar)">Desactivar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Crear Familiar -->
+<div class="modal" *ngIf="createModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeCreateModal()">&times;</span>
+        <h2>Agregar Familiar</h2>
+        <form (ngSubmit)="submitCreateForm()">
+            <label>
+                Nombres:
+                <input type="text" [(ngModel)]="newFamiliar.nombres" name="nombres" placeholder="Ej: Juan" required>
+            </label>
+            <label>
+                Apellidos:
+                <input type="text" [(ngModel)]="newFamiliar.apellidos" name="apellidos" placeholder="Ej: Pérez" required>
+            </label>
+            <label>
+                Identificación:
+                <input type="text" [(ngModel)]="newFamiliar.identificacion" name="identificacion" placeholder="Ej: 12345678" required>
+            </label>
+            <label>
+                Teléfono:
+                <input type="text" [(ngModel)]="newFamiliar.telefono" name="telefono" placeholder="Ej: 555-1234">
+            </label>
+            <label>
+                Fecha de Nacimiento:
+                <input type="date" [(ngModel)]="newFamiliar.fecha_nacimiento" name="fecha_nacimiento" required>
+            </label>
+            <label>
+                Tipo de Documento:
+                <select [(ngModel)]="newFamiliar.tipo_documento" name="tipo_documento" required>
+                    <option value="" disabled selected>Seleccione Tipo de Documento</option>
+                    <option *ngFor="let tipo of tiposDocumento" [value]="tipo.id">{{ tipo.tipo_documento }}</option>
+                </select>
+            </label>
+            <label>
+                Sexo:
+                <select [(ngModel)]="newFamiliar.sexo" name="sexo" required>
+                    <option value="" disabled selected>Seleccione Sexo</option>
+                    <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
+                </select>
+            </label>
+            <label>
+                Estado Civil:
+                <select [(ngModel)]="newFamiliar.estado_civil" name="estado_civil" required>
+                    <option value="" disabled selected>Seleccione Estado Civil</option>
+                    <option *ngFor="let estado of estadosCiviles" [value]="estado.id">{{ estado.estado_civil }}</option>
+                </select>
+            </label>
+            <label>
+                Parentesco:
+                <select [(ngModel)]="newFamiliar.parentesco" name="parentesco" required>
+                    <option value="" disabled selected>Seleccione Parentesco</option>
+                    <option *ngFor="let parentesco of parentescos" [value]="parentesco.id">{{ parentesco.parentesco }}</option>
+                </select>
+            </label>
+            <button type="submit" class="action-btn create-btn">Agregar</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Editar Familiar -->
+<div class="modal" *ngIf="editModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeEditModal()">&times;</span>
+        <h2>Editar Familiar</h2>
+        <form (ngSubmit)="submitEditForm()">
+            <label>
+                Nombres:
+                <input type="text" [(ngModel)]="selectedFamiliar.nombres" name="nombres">
+            </label>
+            <label>
+                Apellidos:
+                <input type="text" [(ngModel)]="selectedFamiliar.apellidos" name="apellidos">
+            </label>
+            <label>
+                Identificación:
+                <input type="text" [(ngModel)]="selectedFamiliar.identificacion" name="identificacion">
+            </label>
+            <label>
+                Teléfono:
+                <input type="text" [(ngModel)]="selectedFamiliar.telefono" name="telefono">
+            </label>
+            <label>
+                Fecha de Nacimiento:
+                <input type="date" [(ngModel)]="selectedFamiliar.fecha_nacimiento" name="fecha_nacimiento">
+            </label>
+            <label>
+                Tipo de Documento:
+                <select [(ngModel)]="selectedFamiliar.tipo_documento" name="tipo_documento">
+                    <option *ngFor="let tipo of tiposDocumento" [value]="tipo.id">{{ tipo.tipo_documento }}</option>
+                </select>
+            </label>
+            <label>
+                Sexo:
+                <select [(ngModel)]="selectedFamiliar.sexo" name="sexo">
+                    <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
+                </select>
+            </label>
+            <label>
+                Estado Civil:
+                <select [(ngModel)]="selectedFamiliar.estado_civil" name="estado_civil">
+                    <option *ngFor="let estado of estadosCiviles" [value]="estado.id">{{ estado.estado_civil }}</option>
+                </select>
+            </label>
+            <label>
+                Parentesco:
+                <select [(ngModel)]="selectedFamiliar.parentesco" name="parentesco">
+                    <option *ngFor="let parentesco of parentescos" [value]="parentesco.id">{{ parentesco.parentesco }}</option>
+                </select>
+            </label>
+
+            <button type="submit" class="action-btn edit-btn">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+<!-- Modal de Desactivar Familiar -->
+<div class="modal" *ngIf="deactivateModalVisible">
+    <div class="modal-content">
+        <span class="close" (click)="closeDeactivateModal()">&times;</span>
+        <h2>Desactivar Familiar</h2>
+        <p>¿Estás seguro de que deseas desactivar a {{ selectedFamiliar.nombres }} {{ selectedFamiliar.apellidos }}?</p>
+        <button class="btn-danger" (click)="confirmDeactivate()">Confirmar Desactivación</button>
+        <button class="btn-secondary" (click)="closeDeactivateModal()">Cancelar</button>
+    </div>
+</div>

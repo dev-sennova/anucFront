@@ -5,6 +5,7 @@ import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { EstadoCivilService } from 'src/app/services/estado-civil.service';
 import { ParentescosService } from 'src/app/services/parentescos.service';
 import { TiposPredioService } from 'src/app/services/tipos-predio.service';
+import { VeredasService } from 'src/app/services/veredas.service';
 @Component({
   selector: 'app-inicio-asociado',
   templateUrl: './inicio-asociado.component.html',
@@ -13,26 +14,16 @@ import { TiposPredioService } from 'src/app/services/tipos-predio.service';
 export class InicioAsociadoComponent implements OnInit {
 
 
-  @Output() openMenuEvent = new EventEmitter<void>();
-  openMenu() {
-    const menu = document.getElementById('menu');
-    const overlay = document.getElementById('overlay');
-    const menuBtn = document.getElementById('menu-btn');
-
-    if (menu && overlay && menuBtn) {
-      menu.classList.add('open');
-      overlay.classList.add('active');
-      menuBtn.classList.add('hidden');
-    }
-  }
   persona: any;
   sexos: any[] = [];
+  veredas: any[] = [];
   tiposDocumento: any[] = [];
   estadosCiviles: any[] = [];
-  produccion: any;
-  familiares: any;
   parentescos: any[] = [];
   tiposdepredios: any[] = [];
+  produccion: any;
+  familiares: any;
+  activeTab: string = 'personal';
 
   constructor(
     private personasService: PersonasService,
@@ -40,7 +31,8 @@ export class InicioAsociadoComponent implements OnInit {
     private tipoDocumentoService: TipoDocumentoService,
     private estadoCivilService: EstadoCivilService,
     private parentescosService: ParentescosService,
-    private tiposPredioService: TiposPredioService
+    private tiposPredioService: TiposPredioService,
+    private veredasService: VeredasService
   ) {}
 
   ngOnInit(): void {
@@ -116,6 +108,16 @@ export class InicioAsociadoComponent implements OnInit {
         console.error('Error al obtener los estados civiles:', error);
       }
     );
+    this.veredasService.getVeredas().subscribe(
+      (data) => {
+        if (data) {
+          this.veredas = data;
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los estados civiles:', error);
+      }
+    );
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {
@@ -149,7 +151,9 @@ export class InicioAsociadoComponent implements OnInit {
       }
     );
   }
-
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
   
   getTipoPredio(id: number): string {
     const tipoPredio = this.tiposdepredios.find((tp) => tp.id === id);
@@ -166,6 +170,11 @@ export class InicioAsociadoComponent implements OnInit {
     return sexo ? sexo.sexo : '';
   }
 
+  getVeredas(id: number): string {
+    const vereda = this.veredas.find((s) => s.id === id);
+    return vereda ? vereda.vereda : '';
+  }
+
   getTipoDocumento(id: number): string {
     const tipoDocumento = this.tiposDocumento.find((td) => td.id === id);
     return tipoDocumento ? tipoDocumento.tipo_documento : '';
@@ -179,4 +188,5 @@ export class InicioAsociadoComponent implements OnInit {
   getEstado(estado: number): string {
     return estado === 1 ? 'Activo' : 'Inactivo';
   }
+
 }
