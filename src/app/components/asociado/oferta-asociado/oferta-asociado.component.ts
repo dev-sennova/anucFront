@@ -29,6 +29,8 @@ export class OfertaAsociadoComponent {
   selectedOferta: any = {};
   newOferta: any = {};
   idUsuario: string = '';
+  imagenBase64: string | ArrayBuffer | null = null; 
+
 
   constructor(
     private ofertasAsociadoService: OfertasAsociadoService,
@@ -97,13 +99,13 @@ export class OfertaAsociadoComponent {
   }
 
   getProductoNombre(productId: number): string {
-    const producto = this.productos.find(prod => prod.id === productId);
-    return producto ? producto.producto : 'Desconocido';
+    const producto = this.productos.find(prod => prod.idProducto === productId);
+    return producto ? producto.producto : '';
   }
 
   getUnidadNombre(unidadId: number): string {
     const unidad = this.unidades.find(unid => unid.id === unidadId);
-    return unidad ? unidad.unidad : 'Desconocido';
+    return unidad ? unidad.unidad : '';
   }
 
   buscar(): void {
@@ -207,5 +209,38 @@ export class OfertaAsociadoComponent {
       }
     );
 }
+
+onFileSelected(event: any, mode: string): void {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Image = reader.result?.toString().split(',')[1];
+      if (mode === 'create') {
+        this.newOferta.imagenProducto = base64Image;
+      } else if (mode === 'edit') {
+        this.selectedOferta.imagenProducto = base64Image;
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+onFileChange(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    
+    // Cuando el archivo se haya leído como base64, lo guardamos
+    reader.onload = () => {
+      this.imagenBase64 = reader.result;
+      console.log('Imagen en Base64: ', this.imagenBase64); // Muestra el valor Base64
+    };
+
+    // Leer el archivo como una URL en base64
+    reader.readAsDataURL(file);
+  }
+}
+
 
 }
