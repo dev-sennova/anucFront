@@ -3,9 +3,6 @@
         <h2>Mis Ofertas</h2>
         <div class="create-offer-bar">
             <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
-        <h2>Mis Ofertas</h2>
-        <div class="create-offer-bar">
-            <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
         </div>
 
         <div class="card-container">
@@ -14,27 +11,23 @@
                 <div class="card-header">
                     <h3>{{ getProductoNombre(oferta.product_id) }}</h3>
                 </div>
-                <div class="card-body">
-                    <h4>{{ oferta.producto }}</h4>
-                    <div *ngIf="oferta.imagenProducto; else noImage">
-                        <img [src]="oferta.imagenProducto" alt="{{ oferta.producto }}" class="producto-img">
+                <div class="card-body grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <div *ngIf="oferta.imagenProducto; else noImage">
+                            <img [src]="'data:image/jpeg;base64,' + oferta.imagenProducto" alt="{{ oferta.producto }}" class="producto-img">
+                        </div>
+                        <ng-template #noImage>
+                            <p><em>No hay imagen disponible para este producto.</em></p>
+                        </ng-template>
                     </div>
-                    <ng-template #noImage>
-                        <p><em>No hay imagen disponible para este producto.</em></p>
-                    </ng-template>
                     <p><strong>Cantidad:</strong> {{ oferta.cantidad }}</p>
-                    <p><strong>Asociado Finca:</strong> {{ oferta.asociados_finca_id }}</p>
                     <p><strong>Unidad de Medida:</strong> {{ getUnidadNombre(oferta.medida_unidades_id) }}</p>
                     <p><strong>Precio:</strong> {{ oferta.precio }}</p>
                     <p><strong>Fecha de Inicio:</strong> {{ oferta.start_date }}</p>
                     <p><strong>Fecha de Fin:</strong> {{ oferta.end_date }}</p>
                     <p><strong>Teléfono:</strong> {{ oferta.telefono }}</p>
-                    <p><strong>Teléfono Visible:</strong> {{ oferta.telefono_visible ? 'Sí' : 'No' }}</p>
                     <p><strong>WhatsApp:</strong> {{ oferta.whatsapp }}</p>
-                    <p><strong>WhatsApp Visible:</strong> {{ oferta.whatsapp_visible ? 'Sí' : 'No' }}</p>
-                    <p><strong>Correo:</strong> {{ oferta.correo }}</p>
-                    <p><strong>Correo Visible:</strong> {{ oferta.correo_visible ? 'Sí' : 'No' }}</p>
-                    <p><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
+                    <p class="col-span-2"><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
                 </div>
                 <div class="card-actions">
                     <button class="btn-secondary" (click)="openEditModal(oferta)">Editar</button>
@@ -55,8 +48,7 @@
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="product_id" required>
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
-                    </option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>
@@ -124,8 +116,7 @@
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
-                    </option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>

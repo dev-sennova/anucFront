@@ -12,6 +12,12 @@
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+.producto-img {
+    width: 200px; 
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+  }
 
 h2 {
     font-size: 2rem;
@@ -34,7 +40,6 @@ h2 {
     color: #fff;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     transition: background-color 0.3s ease;
 }
 
@@ -73,7 +78,6 @@ h2 {
     margin: 10px 0;
 }
 
-.card-actions {
 .card-actions {
     display: flex;
     justify-content: space-between;
