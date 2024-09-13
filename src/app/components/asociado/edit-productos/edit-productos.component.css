@@ -1,53 +1,32 @@
-.asociado-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
   padding: 20px;
 }
 
-.asociado-info {
-  background-color: #f9f9f9;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ececec;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.produccion-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.produccion-card {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+.create-offer-bar {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.produccion-card h4 {
-  margin-top: 0;
-}
-
-.producto-img {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.card-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.card-buttons .btn-edit,
-.card-buttons .btn-disable,
-.card-buttons .btn-activate {
+.btn-primary {
   padding: 10px 20px;
   background-color: #007bff;
   border: none;
@@ -58,51 +37,71 @@
   transition: background-color 0.3s ease;
 }
 
-.card-buttons .btn-edit {
-  padding: 10px 20px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.card-buttons .btn-edit:hover {
+.btn-primary:hover {
   background-color: #0056b3;
 }
 
-.card-buttons .btn-disable {
-  background-color: #dc3545;
-  color: #fff;
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
-.card-buttons .btn-disable:hover {
-  background-color: #c82333;  
-}
-
-.card-buttons .btn-activate {
-  background-color: #22db66; 
-  color: white;
-}
-
-.add-product-card {
-  text-align: center;
+.card {
+  background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.add-product-card .btn-add-product {
+.card-header h4 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.card-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn-secondary {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #6c757d;
   border: none;
   border-radius: 8px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-danger {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
 }
 
 /* Estilos básicos del modal */

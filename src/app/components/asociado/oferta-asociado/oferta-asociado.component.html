@@ -3,6 +3,9 @@
         <h2>Mis Ofertas</h2>
         <div class="create-offer-bar">
             <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
+        <h2>Mis Ofertas</h2>
+        <div class="create-offer-bar">
+            <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
         </div>
 
         <div class="card-container">
@@ -42,6 +45,7 @@
     </div>
 </div>
 
+
 <!-- Create Modal -->
 <div class="modal" id="createModal" *ngIf="createModalVisible">
     <div class="modal-content">
@@ -51,7 +55,8 @@
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="product_id" required>
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
             <label>
@@ -119,7 +124,8 @@
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
             <label>
