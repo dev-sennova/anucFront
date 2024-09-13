@@ -48,42 +48,23 @@
 .card-buttons .btn-edit,
 .card-buttons .btn-disable,
 .card-buttons .btn-activate {
-  padding: 10px 20px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .card-buttons .btn-edit {
-  padding: 10px 20px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.card-buttons .btn-edit:hover {
-  background-color: #0056b3;
+  background-color: #4CAF50; /* Verde */
+  color: white;
 }
 
 .card-buttons .btn-disable {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.card-buttons .btn-disable:hover {
-  background-color: #c82333;  
+  background-color: #f44336; /* Rojo para desactivar */
+  color: white;
 }
 
 .card-buttons .btn-activate {
-  background-color: #22db66; 
+  background-color: #FFC107; /* Amarillo para activar */
   color: white;
 }
 
@@ -95,14 +76,11 @@
 }
 
 .add-product-card .btn-add-product {
+  background-color: #2196F3; /* Azul */
+  color: white;
   padding: 10px 20px;
-  background-color: #007bff;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-weight: 600;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 /* Estilos básicos del modal */
@@ -139,7 +117,7 @@
 }
 
 .btn-modal {
-  background-color: #328bde;
+  background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -149,7 +127,7 @@
 }
 
 .btn-modal:hover {
-  background-color: #1e7dd6;
+  background-color: #45a049;
 }
 
 .modal-input {

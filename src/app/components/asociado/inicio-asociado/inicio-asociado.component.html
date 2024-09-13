@@ -1,53 +1,64 @@
-<div class="tabs-container">
-  <ul class="tabs">
-      <li [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">Información Personal</li>
-      <li [class.active]="activeTab === 'productos'" (click)="setActiveTab('productos')">Productos y Ubicación</li>
-      <li [class.active]="activeTab === 'familiares'" (click)="setActiveTab('familiares')">Familiares</li>
-  </ul>
-
-  <!-- Información Personal -->
-  <div *ngIf="activeTab === 'personal'" class="tab-content">
-      <h3>Información Personal</h3>
-      <p><strong>Nombre:</strong> {{ persona.nombres }}</p>
-      <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
-      <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
-      <p><strong>Tipo de documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
-      <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
-      <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
-      <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
-      <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
-      <p><strong>Correo:</strong> {{ persona.correo }}</p>
+<div class="projcard-container">
+  <div class="projcard projcard-blue">
+    <div class="projcard-innerbox">
+      <div class="projcard-textbox">
+        <div class="projcard-title">Información personal</div>
+        <div *ngIf="persona" class="projcard-description">
+          <p><strong class="subtitle">Nombre:</strong> <span class="response">{{ persona.nombres }}</span></p>
+          <p><strong class="subtitle">Apellidos:</strong> <span class="response">{{ persona.apellidos }}</span></p>
+          <p><strong class="subtitle">Sexo:</strong> <span class="response">{{ getSexo(persona.sexo) }}</span></p>
+          <p><strong class="subtitle">Tipo de documento:</strong> <span class="response">{{ getTipoDocumento(persona.tipo_documento) }}</span></p>
+          <p><strong class="subtitle">Identificación:</strong> <span class="response">{{ persona.identificacion }}</span></p>
+          <p><strong class="subtitle">Fecha de nacimiento:</strong> <span class="response">{{ persona.fecha_nacimiento }}</span></p>
+          <p><strong class="subtitle">Estado civil:</strong> <span class="response">{{ getEstadoCivil(persona.estado_civil) }}</span></p>
+          <p><strong class="subtitle">Teléfono:</strong> <span class="response">{{ persona.telefono }}</span></p>
+          <p><strong class="subtitle">Correo:</strong> <span class="response">{{ persona.correo }}</span></p>
+          <button class="podback" (click)="openMenu()" value="Menú">Menú</button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Productos -->
-  <div *ngIf="activeTab === 'productos'" class="tab-content">
-      <h3>Productos y Ubicación</h3>
-      <div class="card-container">
-          <div *ngFor="let prod of produccion" class="product-card">
-              <div class="product-info">
-                  <h4>{{ prod.producto }}</h4>
-              </div>
+  <div class="projcard projcard-red">
+    <div class="projcard-innerbox">
+      <div class="projcard-textbox">
+        <div class="projcard-title">Productos y Ubicación</div>
+        <div *ngIf="produccion && produccion.length > 0" class="projcard-description">
+          <p *ngFor="let prod of produccion; let i = index">
+            <strong class="subtitle">Producto {{ i + 1 }}:</strong>
+            <span class="response">{{ prod.producto }}</span>
+          </p>
+          <p><strong class="subtitle">Nombre de la vereda:</strong> <span class="response">{{ produccion[0].vereda }}</span></p>
+          <p><strong class="subtitle">Finca:</strong> <span class="response">{{ produccion[0].nombre }}</span></p>
+          <p><strong class="subtitle">Extensión:</strong> <span class="response">{{ produccion[0].extension }}</span></p>
+          <p><strong class="subtitle">Tipo de predio:</strong> <span class="response">{{  getTipoPredio(produccion[0].tipo_predio) }}</span></p>
+          <button class="podback" (click)="openMenu()" value="Menú" >Menú</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="projcard projcard-green">
+    <div class="projcard-innerbox">
+      <div class="projcard-textbox">
+        <div class="projcard-title">Familiares</div>
+        <div class="projcard-description">
+          <div class="collage-container">
+            <div *ngFor="let fami of familiares" class="collage-item">
+              <p><strong class="subtitle">Parentesco:</strong> <span class="response">{{ getParentescos(fami.parentesco) }}</span></p>
+              <p><strong class="subtitle">Identificación:</strong> <span class="response">{{ fami.identificacion }}</span></p>
+              <p><strong class="subtitle">Nombre:</strong> <span class="response">{{ fami.nombres }}</span></p>
+              <p><strong class="subtitle">Apellido:</strong> <span class="response">{{ fami.apellidos }}</span></p>
+              <p><strong class="subtitle">Teléfono:</strong> <span class="response">{{ fami.telefono }}</span></p>
+              <p><strong class="subtitle">Sexo:</strong> <span class="response">{{ getSexo(fami.sexo)}}</span></p>
+              <p><strong class="subtitle">Estado Civil:</strong> <span class="response">{{ getEstadoCivil(fami.estado_civil) }}</span></p>
+            </div>
           </div>
+          <button class="podback" (click)="openMenu()" value="Menú">Menú</button>
+        </div>
       </div>
-      <div class="location-info">
-          <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) }}</p>
-          <p><strong>Finca:</strong> {{ produccion[0]?.nombre }}</p>
-      </div>
+    </div>
   </div>
+</div>
 
-  <!-- Familiares -->
-  <div *ngIf="activeTab === 'familiares'" class="tab-content">
-      <h3>Familiares</h3>
-      <div class="card-container">
-          <div *ngFor="let fami of familiares" class="family-card">
-              <div class="family-info">
-                  <h4>{{ fami.nombres }} {{ fami.apellidos }}</h4>
-                  <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) }}</p>
-                  <p><strong>Identificación:</strong> {{ fami.identificacion }}</p>
-                  <p><strong>Teléfono:</strong> {{ fami.telefono || 'N/A' }}</p>
-                  <p><strong>Sexo:</strong> {{ getSexo(fami.sexo) }}</p>
-                  <p><strong>Estado Civil:</strong> {{ getEstadoCivil(fami.estado_civil) }}</p>
-              </div>
-          </div>
-      </div>
-  </div>
+

@@ -1,95 +1,129 @@
-.tabs-container {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 1rem;
-}
-
-.tabs {
+.projcard-container {
     display: flex;
-    justify-content: space-between;
-    list-style-type: none;
-    padding: 0;
-    border-bottom: 2px solid #ccc;
-}
-
-.tabs li {
-    cursor: pointer;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center; /* Centra las tarjetas en el contenedor */
     padding: 1rem;
-    font-size: 1.2rem;
-    flex: 1;
-    text-align: center;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom 0.3s;
 }
 
-.tabs li.active {
-    border-bottom: 2px solid #007bff;
+.projcard {
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem; /* Espacio interno aumentado */
+    flex: 1 1 calc(25% - 1rem); /* Cuatro tarjetas por fila con espacio */
+    max-width: calc(25% - 1rem);
+    min-height: 200px; /* Altura mínima */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido dentro de la tarjeta */
+    overflow: hidden; /* Evita el desbordamiento */
+}
+
+.projcard-blue {
+    border-left: 4px solid #000000;
+}
+
+.projcard-red {
+    border-left: 4px solid #000000;
+}
+
+.projcard-green {
+    border-left: 4px solid #000000;
+}
+
+.projcard-innerbox {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%; /* Asegura que el contenido use todo el ancho disponible */
+}
+
+.projcard-textbox {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Ocupa el espacio disponible */
+    align-items: center; /* Centra el contenido dentro de la tarjeta */
+    justify-content: center; /* Centra verticalmente el contenido */
+}
+
+.projcard-title {
+    font-size: 1.5rem; /* Tamaño de fuente aumentado */
+    font-weight: bold;
+    color: #0d0d0d;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.projcard-description {
+    font-size: 1rem; /* Tamaño de fuente ajustado */
+    color: #000000;
+    line-height: 1.4;
+    overflow: hidden; /* Evita el scroll */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido en la tarjeta */
+    padding: 0.5rem;
+}
+
+.subtitle {
     font-weight: bold;
 }
 
-.tab-content {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.response {
+    color: #000;
 }
 
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-    margin-top: 16px;
+.podback {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: #f3f3f3;
+    background-color: #000000;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    align-self: center;
 }
 
-.product-card,
-.family-card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    transition: box-shadow 0.3s ease-in-out;
+.podback:hover {
+    background-color: #050505;
 }
 
-.product-card:hover,
-.family-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.collage-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center; /* Centra los bloques en el contenedor */
 }
 
-.product-info h4,
-.family-info h4 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: #333;
+.collage-item {
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(50% - 0.5rem); /* Dos columnas */
+    box-sizing: border-box;
+    margin-bottom: 0.5rem;
 }
 
-.product-info p,
-.family-info p {
-    margin: 4px 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.location-info {
-    margin-top: 16px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-}
-
-
+/* Media Query for Small Screens */
 @media (max-width: 600px) {
-    .tabs {
+    .projcard-container {
         flex-direction: column;
+        align-items: center;
     }
 
-    .tabs li {
-        text-align: left;
-        padding: 0.5rem;
+    .projcard {
+        max-width: 100%;
     }
 
-    .tab-content {
-        padding: 1rem 0;
+    .collage-item {
+        flex: 1 1 100%; /* Acomoda los elementos en una columna en pantallas pequeñas */
     }
 }
+
+
