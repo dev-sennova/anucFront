@@ -6,16 +6,28 @@
         </div>
 
         <div class="card-container">
+            <!-- Iteración única con *ngFor -->
             <div *ngFor="let oferta of ofertas" class="card">
                 <div class="card-header">
                     <h3>{{ getProductoNombre(oferta.product_id) }}</h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
+                        <div *ngIf="oferta.imagenProducto; else noImage">
+                            <img [src]="'data:image/jpeg;base64,' + oferta.imagenProducto" alt="{{ oferta.producto }}" class="producto-img">
+                        </div>
+                        <ng-template #noImage>
+                            <p><em>No hay imagen disponible para este producto.</em></p>
+                        </ng-template>
+                    </div>
                     <p><strong>Cantidad:</strong> {{ oferta.cantidad }}</p>
                     <p><strong>Unidad de Medida:</strong> {{ getUnidadNombre(oferta.medida_unidades_id) }}</p>
+                    <p><strong>Precio:</strong> {{ oferta.precio }}</p>
                     <p><strong>Fecha de Inicio:</strong> {{ oferta.start_date }}</p>
                     <p><strong>Fecha de Fin:</strong> {{ oferta.end_date }}</p>
-                    <p><strong>Contacto Visible:</strong> {{ oferta.contacto_visible ? 'Sí' : 'No' }}</p>
+                    <p><strong>Teléfono:</strong> {{ oferta.telefono }}</p>
+                    <p><strong>WhatsApp:</strong> {{ oferta.whatsapp }}</p>
+                    <p class="col-span-2"><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
                 </div>
                 <div class="card-actions">
                     <button class="btn-secondary" (click)="openEditModal(oferta)">Editar</button>
@@ -36,8 +48,7 @@
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="product_id" required>
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
-                    </option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>
@@ -55,10 +66,41 @@
                 </select>
             </label>
             <label>
-                Contacto Visible:
-                <input type="checkbox" [(ngModel)]="newOferta.contacto_visible" name="contacto_visible">
+                Precio:
+                <input type="number" [(ngModel)]="newOferta.precio" name="precio" required>
             </label>
-
+            <label>
+                Descripción:
+                <input type="text" [(ngModel)]="newOferta.descripcion" name="descripcion" required>
+            </label>
+            <label>
+                Teléfono:
+                <input type="number" [(ngModel)]="newOferta.telefono" name="telefono" required>
+            </label>
+            <label>
+                Teléfono Visible:
+                <input type="checkbox" [(ngModel)]="newOferta.telefono_visible" name="telefono_visible">
+            </label>
+            <label>
+                WhatsApp:
+                <input type="number" [(ngModel)]="newOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10" required>
+            </label>
+            <label>
+                WhatsApp Visible:
+                <input type="checkbox" [(ngModel)]="newOferta.whatsapp_visible" name="whatsapp_visible">
+            </label>
+            <label>
+                Correo:
+                <input type="email" [(ngModel)]="newOferta.correo" name="correo" required>
+            </label>
+            <label>
+                Correo Visible:
+                <input type="checkbox" [(ngModel)]="newOferta.correo_visible" name="correo_visible">
+            </label>
+            <label>
+                Imagen:
+                <input type="file" (change)="onFileSelected($event, 'create')">
+            </label>
             <button type="submit" class="action-btn create-btn">Crear</button>
         </form>
     </div>
@@ -70,11 +112,11 @@
         <span class="close" (click)="closeEditModal()">&times;</span>
         <h2>Editar Oferta</h2>
         <form (ngSubmit)="submitEditForm()">
+            <!-- Reutilizando los mismos campos para editar la oferta seleccionada -->
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
-                    </option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>
@@ -86,14 +128,50 @@
                 <input type="number" [(ngModel)]="selectedOferta.cantidad" name="cantidad">
             </label>
             <label>
+                Asociado Finca:
+                <input type="number" [(ngModel)]="selectedOferta.asociados_finca_id" name="asociados_finca_id" required>
+            </label>
+            <label>
                 Unidad de Medida:
                 <select [(ngModel)]="selectedOferta.medida_unidades_id" name="medida_unidades_id">
                     <option *ngFor="let unidad of unidades" [value]="unidad.id">{{ unidad.unidad }}</option>
                 </select>
             </label>
             <label>
-                Contacto Visible:
-                <input type="checkbox" [(ngModel)]="selectedOferta.contacto_visible" name="contacto_visible">
+                Precio:
+                <input type="number" [(ngModel)]="selectedOferta.precio" name="precio">
+            </label>
+            <label>
+                Descripción:
+                <input type="text" [(ngModel)]="selectedOferta.descripcion" name="descripcion">
+            </label>
+            <label>
+                Teléfono:
+                <input type="number" [(ngModel)]="selectedOferta.telefono" name="telefono">
+            </label>
+            <label>
+                Teléfono Visible:
+                <input type="checkbox" [(ngModel)]="selectedOferta.telefono_visible" name="telefono_visible">
+            </label>
+            <label>
+                WhatsApp:
+                <input type="number" [(ngModel)]="selectedOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10">
+            </label>
+            <label>
+                WhatsApp Visible:
+                <input type="checkbox" [(ngModel)]="selectedOferta.whatsapp_visible" name="whatsapp_visible">
+            </label>
+            <label>
+                Correo:
+                <input type="email" [(ngModel)]="selectedOferta.correo" name="correo">
+            </label>
+            <label>
+                Correo Visible:
+                <input type="checkbox" [(ngModel)]="selectedOferta.correo_visible" name="correo_visible">
+            </label>
+            <label>
+                Imagen:
+                <input type="file" (change)="onFileSelected($event, 'edit')">
             </label>
             <button type="submit" class="action-btn edit-btn">Guardar Cambios</button>
         </form>
@@ -107,6 +185,3 @@
         <h2>Desactivar Oferta</h2>
         <p>¿Estás seguro de que deseas desactivar esta oferta?</p>
         <button class="action-btn deactivate-btn" (click)="deactivateOferta()">Desactivar</button>
-        <button class="action-btn close-btn" (click)="closeDeactivateModal()">Cancelar</button>
-    </div>
-</div>
