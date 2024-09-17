@@ -1,18 +1,21 @@
 <div class="container">
   <div class="header">
-    <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo">
+    <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo" (click)="navigateHome()">
     <span id="tituloAnuc">ASOCIACIÓN MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA</span>
+    <button (click)="navigateHome()" class="logout-button">Salir</button>
   </div>
+
   <div class="content">
     <div class="login-container">
       <h2>Inicia sesión como nuestro asociado</h2>
       <p>Digita tu documento y contraseña para poder ingresar</p>
       <form method="post">
         <input type="text" [(ngModel)]="usuario" name="usuario" placeholder="Documento de identidad" maxlength="10"
-          oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);" required="required" />
+          (input)="validateNumberInput($event)" required="required" />
 
         <input type="password" [(ngModel)]="password" name="password" placeholder="Contraseña" required="required" />
         <button type="submit" (click)="login()">Iniciar sesión</button>
+        <a (click)="forgotPassword()" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
       </form>
       <small>
         Al hacer click en iniciar sesión estás aceptando nuestros

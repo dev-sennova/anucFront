@@ -27,6 +27,7 @@
                     <p><strong>Fecha de Fin:</strong> {{ oferta.end_date }}</p>
                     <p><strong>Teléfono:</strong> {{ oferta.telefono }}</p>
                     <p><strong>WhatsApp:</strong> {{ oferta.whatsapp }}</p>
+                    <p><strong>Correo:</strong> {{ oferta.correo }}</p>
                     <p class="col-span-2"><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
                 </div>
                 <div class="card-actions">
@@ -47,35 +48,37 @@
         <form (ngSubmit)="submitCreateForm()">
             <label>
                 Producto:
-                <select [(ngModel)]="newOferta.product_id" name="product_id" required>
+                <select [(ngModel)]="newOferta.product_id" name="producto" required>
+                    <option value="" disabled>Seleccione un producto</option>
                     <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
                 </select>
             </label>
             <label>
                 Fecha de Inicio:
-                <input type="date" [(ngModel)]="newOferta.start_date" name="start_date" required>
+                <input type="date" [(ngModel)]="newOferta.start_date" name="start_date" placeholder="Selecciona una fecha" required>
             </label>
             <label>
                 Cantidad:
-                <input type="number" [(ngModel)]="newOferta.cantidad" name="cantidad" required>
+                <input type="number" [(ngModel)]="newOferta.cantidad" name="cantidad" placeholder="Ingrese la cantidad" min="1" required>
             </label>
             <label>
                 Unidad de Medida:
                 <select [(ngModel)]="newOferta.medida_unidades_id" name="medida_unidades_id" required>
+                    <option value="" disabled>Seleccione una unidad</option>
                     <option *ngFor="let unidad of unidades" [value]="unidad.id">{{ unidad.unidad }}</option>
                 </select>
             </label>
             <label>
                 Precio:
-                <input type="number" [(ngModel)]="newOferta.precio" name="precio" required>
+                <input type="number" [(ngModel)]="newOferta.precio" name="precio" placeholder="Ingrese el precio" min="0.01" step="0.01" required>
             </label>
             <label>
                 Descripción:
-                <input type="text" [(ngModel)]="newOferta.descripcion" name="descripcion" required>
+                <input type="text" [(ngModel)]="newOferta.descripcion" name="descripcion" placeholder="Ingrese una descripción" maxlength="255" required>
             </label>
             <label>
                 Teléfono:
-                <input type="number" [(ngModel)]="newOferta.telefono" name="telefono" required>
+                <input type="tel" [(ngModel)]="newOferta.telefono" name="telefono" placeholder="Ingrese su número de teléfono" pattern="[0-9]{10}" required>
             </label>
             <label>
                 Teléfono Visible:
@@ -83,7 +86,7 @@
             </label>
             <label>
                 WhatsApp:
-                <input type="number" [(ngModel)]="newOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10" required>
+                <input type="tel" [(ngModel)]="newOferta.whatsapp" name="whatsapp" placeholder="Ingrese su número de WhatsApp" pattern="[0-9]{10}" maxlength="10" required>
             </label>
             <label>
                 WhatsApp Visible:
@@ -91,7 +94,7 @@
             </label>
             <label>
                 Correo:
-                <input type="email" [(ngModel)]="newOferta.correo" name="correo" required>
+                <input type="email" [(ngModel)]="newOferta.correo" name="correo" placeholder="Ingrese su correo electrónico" required>
             </label>
             <label>
                 Correo Visible:
@@ -99,12 +102,13 @@
             </label>
             <label>
                 Imagen:
-                <input type="file" (change)="onFileSelected($event, 'create')">
+                <input type="file" (change)="onFileSelected($event, 'create')" accept="image/*">
             </label>
             <button type="submit" class="action-btn create-btn">Crear</button>
         </form>
     </div>
 </div>
+
 
 <!-- Edit Modal -->
 <div class="modal" id="editModal" *ngIf="editModalVisible">

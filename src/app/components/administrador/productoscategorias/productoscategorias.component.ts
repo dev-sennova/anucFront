@@ -41,8 +41,8 @@ export class ProductoscategoriasComponent implements OnInit {
   loadProductos(): void {
     this.productosCategoriasService.getProductos().subscribe(
       data => {
-        if (data && data.estado === 'Ok' && Array.isArray(data.productos)) {
-          this.productos = data.productos;
+        if (data) {
+          this.productos = data;
           this.filteredProductos = [...this.productos];
           this.searchTerm = '';
           this.updatePagination();
