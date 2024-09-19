@@ -24,6 +24,32 @@ export interface Oferta {
   medida_unidades_id: number;
 }
 
+import { Component, OnInit } from '@angular/core';
+import { OfertasAsociadoService } from 'src/app/services/ofertas-asociado.service';
+import { ProductosCategoriasService } from 'src/app/services/productos-categorias.service';
+import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service';
+import { CategoriasproductosComponent } from '../administrador/categoriasproductos/categoriasproductos.component';
+
+export interface Oferta {
+  id: number;
+  imagenProducto: string;
+  start_date: string;
+  end_date: string;
+  estado: number;
+  telefono_visible: number;
+  telefono: string;
+  whatsapp_visible: number;
+  whatsapp: string;
+  correo_visible: number;
+  correo: string;
+  cantidad: number;
+  precio: string;
+  descripcion: string;
+  product_id: number;
+  asociados_finca_id: number;
+  medida_unidades_id: number;
+}
+
 
 @Component({
   selector: 'app-home',
