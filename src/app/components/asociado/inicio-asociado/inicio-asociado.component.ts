@@ -42,7 +42,7 @@ export class InicioAsociadoComponent implements OnInit {
       this.personasService.getInfoOneAsociado(idUsuario).subscribe(
         (data) => {
           if (data && data.produccion && data.produccion.length > 0) {
-            this.produccion = data.produccion.slice(0, 3);
+            this.produccion = data.produccion.slice(0, 100);
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -59,7 +59,7 @@ export class InicioAsociadoComponent implements OnInit {
       this.personasService.getInfoOneFamiliares(idUsuario).subscribe(
         (data) => {
           if (data && data.familiares && data.familiares.length > 0) {
-            this.familiares = data.familiares.slice(0,3);
+            this.familiares = data.familiares.slice(0, 100);
           } else {
             console.error('No se encontraron personas en la respuesta');
           }

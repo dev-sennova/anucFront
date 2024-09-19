@@ -21,6 +21,7 @@ body {
     border-bottom: 1px solid #e0e0e0;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .header img {
@@ -29,8 +30,20 @@ body {
 }
 
 #tituloAnuc {
-    margin-left: 29%;
+    margin-left: 20px;
     font-size: 18px;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.logout-button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 20px;
 }
 
 .content {
@@ -63,7 +76,6 @@ body {
     color: #555;
 }
 
-.login-container input[type="number"],
 .login-container input[type="text"],
 .login-container input[type="password"] {
     width: 90%;
@@ -71,14 +83,6 @@ body {
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-
-
-.login-container input[type="number"]::-webkit-outer-spin-button,
-.login-container input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
 }
 
 .login-container button {
@@ -96,6 +100,18 @@ body {
     background-color: #333;
 }
 
+.login-container a.forgot-password-link {
+    display: block;
+    margin-top: 10px;
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.login-container a.forgot-password-link:hover {
+    text-decoration: underline;
+}
+
 .login-container small {
     display: block;
     margin-top: 10px;
@@ -107,6 +123,7 @@ body {
     color: #000;
     text-decoration: none;
 }
+
 /* Estilos para el modal */
 .modal {
     position: fixed;
@@ -166,4 +183,38 @@ body {
 
 .close-modal:hover {
     background-color: #333;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    #tituloAnuc {
+        margin-left: 0;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .content {
+        margin-top: 5%;
+        padding: 10px;
+    }
+
+    .login-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .header img {
+        height: 40px;
+    }
+
+    .logout-button {
+        margin-left: 0;
+        margin-top: 10px;
+    }
 }

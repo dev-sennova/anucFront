@@ -22,6 +22,12 @@ export class OfertasAsociadoService {
     );
   }
 
+  getOfertaPublicas(): Observable<any> {
+    return this.http.get<any>(this.apiUrlOfertas).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   addOferta(oferta: any, asociados_finca_id: string): Observable<any> {
     const url = `${this.apiUrlOfertas}/store`;
     const body = { ...oferta, asociados_finca_id };
