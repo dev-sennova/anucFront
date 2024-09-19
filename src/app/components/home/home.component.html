@@ -24,10 +24,10 @@
     </div>
   </div>
 
-  <!-- Mensaje de no hay resultados -->
   <div *ngIf="ofertas.length === 0" class="no-results">
     <p>No hay resultados para tu búsqueda</p>
   </div>
+  
 
   <div *ngIf="ofertaSeleccionada && ofertas.length > 0" class="featured-product">
     <!-- Mostrar detalles de oferta seleccionada -->

@@ -72,6 +72,7 @@ import { GestionarNucleoFamiliarComponent } from './components/asociado/gestiona
 import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/carnet-asociado.component';
 import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
+import { AdministrarofertasComponent } from './components/administrador/administrarofertas/administrarofertas.component';
 
 
 
@@ -135,6 +136,7 @@ const materialModules = [
     CarnetAsociadoComponent,
     OfertaAsociadoComponent,
     NovedadesAsociadoComponent,
+    AdministrarofertasComponent,
     
   ],
   imports: [
