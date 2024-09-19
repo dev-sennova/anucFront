@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +8,8 @@ import { Component, HostListener } from '@angular/core';
 })
 export class MenuComponent {
   menuOpen = false;
+
+  constructor(private router: Router){}
 
   toggleMenu(event: Event) {
     event.stopPropagation(); // Evitar que se cierre el menú si se hace clic en el botón
@@ -28,5 +31,11 @@ export class MenuComponent {
     if (this.menuOpen) {
       this.menuOpen = false;
     }
+  }
+
+  reiniciar(): void{
+    this.router.navigate(['/home']);
+    location.reload();
+
   }
 }

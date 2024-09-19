@@ -22,7 +22,7 @@ export class ProductoscategoriasComponent implements OnInit {
   editModalVisible: boolean = false;
   activateModalVisible: boolean = false;
   deactivateModalVisible: boolean = false;
-  createModalVisible: boolean = false;
+  createModalVisible: boolean = false; 
   imageModalVisible: boolean = false;
   imagenProductoUrl: string = '';
   selectedProducto: any = {};

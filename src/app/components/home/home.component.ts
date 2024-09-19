@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit{
       data => {
         if (data) {
           this.productos = data;
-          console.log('Productos cargados:', this.productos); // Verificar si se están cargando los productos
+          
         }
       },
       error => {
@@ -149,10 +149,10 @@ export class HomeComponent implements OnInit{
 
   seleccionarOferta(oferta: Oferta): void {
     // Restaurar las ofertas visibles incluyendo la oferta seleccionada previamente
-    this.ofertas = [...this.todasOfertas]; 
+    //this.ofertas = [...this.todasOfertas]; 
 
     // Eliminar la oferta seleccionada actual de la lista de ofertas visibles
-    this.ofertas = this.ofertas.filter(o => o.id !== oferta.id);
+    //this.ofertas = this.ofertas.filter(o => o.id !== oferta.id);
 
     // Asignar la nueva oferta seleccionada
     this.ofertaSeleccionada = oferta;

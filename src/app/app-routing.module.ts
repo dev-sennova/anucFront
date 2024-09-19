@@ -29,6 +29,7 @@ import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/c
 import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
 import { GestionarNucleoFamiliarComponent } from './components/asociado/gestionar-nucleo-familiar/gestionar-nucleo-familiar.component';
+import { AdministrarofertasComponent } from './components/administrador/administrarofertas/administrarofertas.component';
 
 
 const routes: Routes = [
@@ -71,6 +72,7 @@ const routes: Routes = [
       { path: 'productos-categorias', component: ProductoscategoriasComponent },
       { path: 'categorias-productos', component: CategoriasproductosComponent },
       { path: 'parentescos-anuc', component: ParentescosComponent },
+      { path: 'administrar-ofertas', component: AdministrarofertasComponent },
 
     ]
   },
