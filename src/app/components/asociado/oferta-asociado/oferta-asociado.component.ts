@@ -136,11 +136,26 @@ export class OfertaAsociadoComponent {
       this.updatePagination();
     }
   }
-
   openCreateModal(): void {
-    this.newOferta = {};
+    this.newOferta = {
+      product_id: '',  // Mantén vacío para que seleccione la opción deshabilitada
+      unidadId: '',  // Igual aquí
+      start_date: '',
+      cantidad: '',
+      medida_unidades_id: '',
+      precio: '',
+      descripcion: '',
+      telefono: '',
+      telefono_visible: false,
+      whatsapp: '',
+      whatsapp_visible: false,
+      correo: '',
+      correo_visible: false,
+      imagenProducto: ''
+    };
     this.createModalVisible = true;
   }
+  
 
   closeCreateModal(): void {
     this.createModalVisible = false;

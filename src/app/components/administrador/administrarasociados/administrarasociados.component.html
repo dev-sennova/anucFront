@@ -40,6 +40,7 @@
     <table>
       <thead>
         <tr>
+          <th>Id</th>
           <th>Nombres</th>
           <th>Apellidos</th>
           <th>Sexo</th>
@@ -54,6 +55,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let persona of paginatedPersonas">
+          <td>{{ persona.id }}</td>
           <td>{{ persona.nombres }}</td>
           <td>{{ persona.apellidos }}</td>
           <td>{{ getSexo(persona.sexo) }}</td>

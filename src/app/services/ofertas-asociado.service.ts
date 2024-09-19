@@ -22,6 +22,12 @@ export class OfertasAsociadoService {
     );
   }
 
+  getOfertaPublicas(): Observable<any> {
+    return this.http.get<any>(this.apiUrlOfertas).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   addOferta(oferta: any, asociados_finca_id: string): Observable<any> {
     const url = `${this.apiUrlOfertas}/store`;
     const body = { ...oferta, asociados_finca_id };
@@ -30,7 +36,7 @@ export class OfertasAsociadoService {
     );
   }
 
-  updateOferta(oferta: any, asociados_finca_id: string ): Observable<any> {
+  updateOferta(oferta: any, asociados_finca_id: string): Observable<any> {
     const url = `${this.apiUrlOfertas}/update`;
     const body = { ...oferta, asociados_finca_id };
     return this.http.put<any>(url, body).pipe(
@@ -41,9 +47,16 @@ export class OfertasAsociadoService {
   deactivateOferta(id: number): Observable<any> {
     const url = `${this.apiUrlOfertas}/deactivate`;
     return this.http.put<any>(url, { id }).pipe(
-        catchError(this.handleError)
+      catchError(this.handleError)
     );
-}
+  }
+
+  activateOferta(id: number): Observable<any> {
+    const url = `${this.apiUrlOfertas}/activate`;
+    return this.http.put<any>(url, { id }).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

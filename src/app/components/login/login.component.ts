@@ -69,6 +69,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.showRoleSelection = false;
   }
 
+  validateNumberInput(event: any) {
+    const inputValue = event.target.value;
+    // Solo permitir números
+    event.target.value = inputValue.replace(/[^0-9]/g, '');
+  }
+
+  forgotPassword() {
+    this.router.navigate(['/forgot-password']);
+  }
+  
+  navigateHome() {
+    this.router.navigate(['/home']);
+  }
+  
+  
+
 
 
 }
