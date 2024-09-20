@@ -37,9 +37,12 @@ export class InicioAsociadoComponent implements OnInit {
 
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_usuario') || '';
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
+    const idPersona = localStorage.getItem('identificador_persona') || '';
 
-    if (idUsuario) {
-      this.personasService.getInfoOneAsociado(idUsuario).subscribe(
+    if (idAsociado) {
+      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
         (data) => {
           if (data && data.produccion && data.produccion.length > 0) {
             this.produccion = data.produccion.slice(0, 100);
@@ -55,8 +58,8 @@ export class InicioAsociadoComponent implements OnInit {
       console.error('No se encontró id_usuario en el localStorage');
     }
 
-    if (idUsuario) {
-      this.personasService.getInfoOneFamiliares(idUsuario).subscribe(
+    if (idAsociado) {
+      this.personasService.getInfoOneFamiliares(idAsociado).subscribe(
         (data) => {
           if (data && data.familiares && data.familiares.length > 0) {
             this.familiares = data.familiares.slice(0, 100);
@@ -72,8 +75,8 @@ export class InicioAsociadoComponent implements OnInit {
       console.error('No se encontró id_usuario en el localStorage');
     }
 
-    if (idUsuario) {
-      this.personasService.getPersona(idUsuario).subscribe(
+    if (idPersona) {
+      this.personasService.getPersona(idPersona).subscribe(
         (data) => {
           if (data && data.personas && data.personas.length > 0) {
             this.persona = data.personas[0];
