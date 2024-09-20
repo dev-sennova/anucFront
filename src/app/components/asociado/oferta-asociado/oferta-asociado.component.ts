@@ -46,7 +46,7 @@ export class OfertaAsociadoComponent {
   }
 
   loadOfertas(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_usuario') || '';
+    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
     this.ofertasAsociadoService.getOfertas(asociadosFincaId).subscribe(
       data => {
         if (data && data.estado === 'Ok' && Array.isArray(data.ofertasActivas)) {
@@ -64,7 +64,7 @@ export class OfertaAsociadoComponent {
   }
 
   loadProductos(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_usuario') || '';
+    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
     this.personasService.getInfoOneAsociadoProductos(asociadosFincaId).subscribe(
       data => {
         if (data) {
@@ -162,7 +162,7 @@ export class OfertaAsociadoComponent {
   }
 
   submitCreateForm(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_usuario') || '';
+    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
 
     this.ofertasAsociadoService.addOferta(this.newOferta, asociadosFincaId).subscribe(
       response => {
@@ -187,7 +187,7 @@ export class OfertaAsociadoComponent {
 
   submitEditForm(): void {
 
-    const asociadosFincaId  = localStorage.getItem('identificador_usuario') || '';
+    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
 
     this.ofertasAsociadoService.updateOferta(this.selectedOferta, asociadosFincaId).subscribe(
       response => {

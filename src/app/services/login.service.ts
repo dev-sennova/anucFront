@@ -49,6 +49,9 @@ export class LoginService {
         localStorage.setItem('access_token', res.access_token);
         localStorage.setItem('documento_usuario', res.identificacion);
         localStorage.setItem('identificador_usuario', res.id_usuario);
+        localStorage.setItem('identificador_persona', res.id_persona);
+        localStorage.setItem('identificador_asociado', res.id_asociado);
+        localStorage.setItem('identificador_asociado_finca', res.id_asociados_finca);
         localStorage.setItem('nombre_usuario', res.nombres);
         localStorage.setItem('apellido_usuario', res.apellidos);
 

@@ -38,7 +38,7 @@ export class EditProductosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const asociadosFincaId = localStorage.getItem('identificador_usuario') || '';
+    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
 
     this.produccionService.getInfoOneAsociado(asociadosFincaId).subscribe(
       response => {
@@ -197,7 +197,8 @@ export class EditProductosComponent implements OnInit {
 
   // Agregar nuevo producto
   agregarProducto() {
-    this.newProduct.asociados_finca = this.asociado.id; // Asegurarse de tener el ID del asociado
+    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
+    this.newProduct.asociados_finca = asociadosFincaId; // Asegurarse de tener el ID del asociado
     this.produccionAsociadoService.addProduccion(this.newProduct).subscribe(response => {
       Swal.fire('Agregado', 'El nuevo producto ha sido agregado.', 'success');
       this.closeModal();

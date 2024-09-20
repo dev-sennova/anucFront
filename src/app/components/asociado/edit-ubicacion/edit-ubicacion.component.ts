@@ -30,7 +30,7 @@ export class EditUbicacionComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    const idUsuario = localStorage.getItem('identificador_usuario') || '';
+    const idUsuario = localStorage.getItem('identificador_asociado') || '';
   
     this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
       (data) => {

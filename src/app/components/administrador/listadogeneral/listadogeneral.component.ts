@@ -127,6 +127,7 @@ export class ListadogeneralComponent implements OnInit {
 
 
   verInformacion(asociado: number) {
+    
     this.personasService.getInfoAsociado(asociado).subscribe(
       data => {
         this.selectedAsociado = data;

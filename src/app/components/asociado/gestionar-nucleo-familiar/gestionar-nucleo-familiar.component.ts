@@ -41,7 +41,7 @@ export class GestionarNucleoFamiliarComponent {
   ) { }
 
   ngOnInit(): void {
-    const idUsuario = localStorage.getItem('identificador_usuario') || '';
+    const idUsuario = localStorage.getItem('identificador_asociado') || '';
 
     this.personasService.getInfoOneFamiliares(idUsuario).subscribe(
       data => {
@@ -127,7 +127,7 @@ export class GestionarNucleoFamiliarComponent {
     this.personasService.addPersona(this.newFamiliar).subscribe(
       (response: any) => {
         const personaId = response.id; // Asegúrate de que el ID de la persona creada se reciba en la respuesta
-        const idUsuario = localStorage.getItem('identificador_usuario') || ''; // Obtener el ID del asociado (usuario)
+        const idUsuario = localStorage.getItem('identificador_asociado') || ''; // Obtener el ID del asociado (usuario)
         const parentescoId = this.newFamiliar.parentesco; // Obtener el parentesco seleccionado
 
         // Segundo paso: asignar la persona al asociado
@@ -183,7 +183,7 @@ export class GestionarNucleoFamiliarComponent {
     this.personasService.updatePersona(personaToUpdate).subscribe(
       (response: any) => {
         const personaId = response.id || this.selectedFamiliar.persona;  
-        const idUsuario = localStorage.getItem('identificador_usuario') || '';  
+        const idUsuario = localStorage.getItem('identificador_asociado') || '';  
         const parentescoId = this.selectedFamiliar.parentesco;
         const familiarId = this.selectedFamiliar.idFamiliar;  
 
