@@ -7,7 +7,6 @@
         <span id="tituloAnuc">ASOCIADO ANUC</span>
         <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
         <div id="profile-menu" class="profile-menu">
-            <button>Administrar Perfil</button>
             <button id="openModalBtn" class="open-modal-btn" (click)="openModal()">Cambiar Contraseña</button>
             <button (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
@@ -43,24 +42,12 @@
                     <img src="assets/iconos/gestionar_nucleo_familiar_icon.png" alt="nucleo familiar Asociados" class="icon">
                     <a routerLink="gestionar-nucleo-familiar" (click)="closeMenu()">Gestionar núcleo familiar</a>
                 </li>
-                <li>
-                    <img src="assets/iconos/edit_passport.png" alt="Administración Ofertas" class="icon">
-                    <a routerLink="edit-password-asociado" (click)="closeMenu()">Cambiar contraseña</a>
-                </li>
             </ul>
             <h2>Servicios ANUC</h2>
             <ul>
                 <li>
-                    <img src="assets/iconos/id_card_icon.png" alt="Carnet asociado" class="icon">
-                    <a routerLink="carnet-asociado" (click)="closeMenu()">Mi carnet</a>
-                </li>
-                <li>
                     <img src="assets/iconos/publicacion_oferta_icon.png" alt="Oferta asociado" class="icon">
                     <a routerLink="oferta-asociado" (click)="closeMenu()">Publicación de Ofertas</a>
-                </li>
-                <li>
-                    <img src="assets/iconos/informar_novedades_icon.png" alt="Informar Novedades" class="icon">
-                    <a routerLink="novedades-asociado" (click)="closeMenu()">Informar novedades</a>
                 </li>
             </ul>
         </div>
