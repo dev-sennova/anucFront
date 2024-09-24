@@ -8,7 +8,7 @@
         <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
         <div id="profile-menu" class="profile-menu">
             <button>Administrar Perfil</button>
-            <button>Cambiar Contraseña</button>
+            <button id="openModalBtn" class="open-modal-btn" (click)="openModal()">Cambiar Contraseña</button>
             <button (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
     </div>
@@ -71,3 +71,22 @@
         <router-outlet (openMenuEvent)="handleMenuEvent()"></router-outlet>
     </div>
 </div>
+<!-- Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Cambiar Contraseña</h2>
+      <form (submit)="onSubmit()">
+        <div class="input-group">
+          <label for="password">Nueva Contraseña</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+        <div class="input-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        </div>
+        <button type="submit" class="btn-submit">Actualizar Contraseña</button>
+      </form>
+    </div>
+  </div>
+  

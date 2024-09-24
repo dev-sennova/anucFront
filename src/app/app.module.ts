@@ -73,6 +73,7 @@ import { CarnetAsociadoComponent } from './components/asociado/carnet-asociado/c
 import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/oferta-asociado.component';
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
 import { AdministrarofertasComponent } from './components/administrador/administrarofertas/administrarofertas.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 
@@ -137,6 +138,7 @@ const materialModules = [
     OfertaAsociadoComponent,
     NovedadesAsociadoComponent,
     AdministrarofertasComponent,
+    LoadingComponent,
     
   ],
   imports: [
