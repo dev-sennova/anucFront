@@ -3,7 +3,12 @@
     <h2>Lista de Personas</h2>
     <div class="search-bar">
       <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
-      <button class="filter-btn" (click)="toggleFilters()">Filtrar</button>
+      <button class="filter-btn" (click)="toggleFilters()">
+        <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
+      </button>
+      <button class="excel-btn" (click)="exportToExcel()">
+        <img src="assets/iconos/exel_icon.png" alt="Exportar Excel" class="icon"> Exportar Excel
+      </button>
       <button class="create-btn" (click)="openCreateModal()">Crear Usuario</button>
     </div>
     <div *ngIf="filtersVisible" class="filters">
@@ -14,6 +19,21 @@
           <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
         </select>
       </label>
+      <label>
+        Rango de Edad:
+        <select [(ngModel)]="selectedAgeRange" (change)="buscar()">
+          <option value="">Todos</option>
+          <option value="0-4">0 - 4 años</option>
+          <option value="5-9">5 - 9 años</option>
+          <option value="10-18">10 - 18 años</option>
+          <option value="19-30">19 - 30 años</option>
+          <option value="31-50">31 - 50 años</option>
+          <option value="51-70">51 - 70 años</option>
+          <option value="71-90">71 - 90 años</option>
+          <option value="91-110">91 - 110 años</option>
+        </select>
+      </label>
+      
       <label>
         Estado Civil:
         <select [(ngModel)]="selectedEstadoCivil" (change)="buscar()">

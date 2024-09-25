@@ -26,14 +26,33 @@
     border-radius: 4px;
 }
 
-.filter-btn {
-    padding: 10px 20px;
+.filter-btn,
+.excel-btn {
+    height: 39px;
+    /* Asegura que la altura de los botones coincida con la del input */
+    padding: 0 20px;
+    /* Ajusta el padding para centrar el texto */
     border: 1px solid #ccc;
     background-color: #fff;
     border-radius: 4px;
     cursor: pointer;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    /* Centra verticalmente el contenido dentro del botón */
+    font-size: 14px;
+    /* Ajusta el tamaño del texto */
 }
+
+.filter-btn .icon,
+.excel-btn .icon {
+    margin-right: 8px;
+    width: 20px;
+    /* Ajusta el tamaño del icono */
+    height: 20px;
+    /* Ajusta el tamaño del icono */
+}
+
 
 .create-btn {
     padding: 10px 20px;

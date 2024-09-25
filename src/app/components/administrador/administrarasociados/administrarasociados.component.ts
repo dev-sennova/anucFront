@@ -4,6 +4,10 @@ import { SexoService } from 'src/app/services/sexo.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { EstadoCivilService } from 'src/app/services/estado-civil.service';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
+import { saveAs} from 'file-saver';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
 @Component({
   selector: 'app-administrarasociados',
@@ -24,6 +28,7 @@ export class AdministrarasociadosComponent implements OnInit {
   selectedEstadoCivil: string = '';
   selectedEstado: string = '';
   selectedTipoDocumento: string = ''; 
+  selectedAgeRange: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalPages: number = 1;
@@ -96,10 +101,32 @@ export class AdministrarasociadosComponent implements OnInit {
       }
     );
   }
+  // Calcular edad desde la fecha de nacimiento
+  calcularEdad(fechaNacimiento: string): number {
+    const today = new Date();
+    const birthDate = new Date(fechaNacimiento);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  // Filtrar según la edad seleccionada
+  matchesAgeRange(persona: any): boolean {
+    if (!this.selectedAgeRange) return true; // Si no se selecciona rango de edad
+    const edad = this.calcularEdad(persona.fecha_nacimiento);
+    const [minAge, maxAge] = this.selectedAgeRange.split('-').map(Number);
+    return edad >= minAge && edad <= maxAge;
+  }
+
   
   buscar() {
     this.filteredPersonas = this.personas.filter(persona =>
-      this.matchesSearchTerm(persona) && this.matchesFilters(persona)
+      this.matchesSearchTerm(persona) &&
+      this.matchesFilters(persona) &&
+      this.matchesAgeRange(persona)
     );
     this.currentPage = 1;
     this.totalRegistros = this.filteredPersonas.length;
@@ -257,4 +284,47 @@ export class AdministrarasociadosComponent implements OnInit {
   getEstado(estado: number): string {
     return estado === 1 ? 'Activo' : 'Inactivo';
   }
+
+  exportToExcel() {
+    // Filtrar los datos que están visibles en la tabla
+    const dataToExport = this.filteredPersonas.map(({ 
+      id, 
+      nombres, 
+      apellidos, 
+      sexo, 
+      fecha_nacimiento, 
+      tipo_documento, 
+      identificacion, 
+      estado_civil, 
+      telefono, 
+      estado 
+    }) => ({
+      Id: id, 
+      Nombres: nombres, 
+      Apellidos: apellidos, 
+      Sexo: this.getSexo(sexo),  // Usar la función para mostrar el texto correcto
+      'Fecha de Nacimiento': fecha_nacimiento, 
+      'Tipo de Documento': this.getTipoDocumento(tipo_documento),  // Usar la función para mostrar el texto correcto
+      Identificación: identificacion, 
+      'Estado Civil': this.getEstadoCivil(estado_civil),  // Usar la función para mostrar el texto correcto
+      Teléfono: telefono, 
+      Estado: this.getEstado(estado)  // Usar la función para mostrar el texto correcto
+    }));
+  
+    // Crear un libro de Excel
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook: XLSX.WorkBook = { Sheets: { 'Datos': worksheet }, SheetNames: ['Datos'] };
+  
+    // Generar el archivo Excel
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  
+    // Guardar el archivo
+    this.saveAsExcelFile(excelBuffer, 'Usuarios_ANUC');
+  }
+  
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+    saveAs(data, `${fileName}_export_${new Date().getTime()}.xlsx`);
+  }
+  
 }

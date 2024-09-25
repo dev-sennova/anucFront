@@ -1,0 +1,14 @@
+<div class="container">
+    <!-- Barra de búsqueda -->
+    <h1 class="title">Busca asociados ANUC</h1>
+    <input type="text" class="search-bar" placeholder="Buscar por nombre, apellidos, vereda o finca"
+        [(ngModel)]="searchTerm" (input)="filtrarAsociados()" />
+
+    <!-- Lista de Tarjetas de Asociados -->
+    <div *ngFor="let asociado of asociadosFiltrados" class="card">
+        <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
+        <p><strong>Finca:</strong> {{ asociado.nombre }}</p>
+        <p><strong>Vereda:</strong> {{ asociado.vereda }}</p>
+        <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+    </div>
+</div>
