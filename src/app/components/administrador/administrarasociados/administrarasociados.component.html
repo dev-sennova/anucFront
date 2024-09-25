@@ -109,40 +109,50 @@
     <h2>Crear Usuario</h2>
     <form (ngSubmit)="submitCreateForm()">
       <label>
+        Rol:
+        <select [(ngModel)]="newPersona.idRol" name="rol" required>
+          <option value="" disabled selected>Seleccione un rol</option>
+          <option *ngFor="let rol of filteredRoles" [value]="rol.id">{{ rol.rol }}</option>
+        </select>
+      </label>
+      <label>
         Nombres:
-        <input type="text" [(ngModel)]="newPersona.nombres" name="nombres" required>
+        <input type="text" [(ngModel)]="newPersona.nombres" name="nombres" placeholder="Ingrese nombres" required>
       </label>
       <label>
         Apellidos:
-        <input type="text" [(ngModel)]="newPersona.apellidos" name="apellidos" required>
+        <input type="text" [(ngModel)]="newPersona.apellidos" name="apellidos" placeholder="Ingrese apellidos" required>
       </label>
       <label>
         Identificación:
-        <input type="text" [(ngModel)]="newPersona.identificacion" name="identificacion" required>
+        <input type="text" [(ngModel)]="newPersona.identificacion" name="identificacion" placeholder="Ingrese identificación" required>
       </label>
       <label>
         Teléfono:
-        <input type="text" [(ngModel)]="newPersona.telefono" name="telefono" required>
+        <input type="text" [(ngModel)]="newPersona.telefono" name="telefono" placeholder="Ingrese teléfono" required>
       </label>
       <label>
         Fecha de Nacimiento:
-        <input type="date" [(ngModel)]="newPersona.fecha_nacimiento" name="fecha_nacimiento" required>
+        <input type="date" [(ngModel)]="newPersona.fecha_nacimiento" name="fecha_nacimiento" placeholder="Seleccione fecha de nacimiento" required>
       </label>
       <label>
         Tipo de Documento:
         <select [(ngModel)]="newPersona.tipo_documento" name="tipo_documento" required>
+          <option value="" disabled selected>Seleccione tipo de documento</option>
           <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.id">{{ tipoDocumento.tipo_documento }}</option>
         </select>
       </label>
       <label>
         Sexo:
         <select [(ngModel)]="newPersona.sexo" name="sexo" required>
+          <option value="" disabled selected>Seleccione sexo</option>
           <option *ngFor="let sexo of sexos" [value]="sexo.id">{{ sexo.sexo }}</option>
         </select>
       </label>
       <label>
         Estado Civil:
         <select [(ngModel)]="newPersona.estado_civil" name="estado_civil" required>
+          <option value="" disabled selected>Seleccione estado civil</option>
           <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{ estadoCivil.estado_civil }}</option>
         </select>
       </label>
@@ -157,6 +167,13 @@
     <span class="close" (click)="closeEditModal()">&times;</span>
     <h2>Editar Persona</h2>
     <form (ngSubmit)="submitEditForm()">
+      <label>
+        Rol:
+        <select [(ngModel)]="selectedPersona.idRol" name="rol" required>
+          <option value="" disabled selected>Seleccione un rol</option>
+          <option *ngFor="let rol of filteredRoles" [value]="rol.id">{{ rol.rol }}</option>
+        </select>
+      </label>  
       <label>
         Nombres:
         <input type="text" [(ngModel)]="selectedPersona.nombres" name="nombres">

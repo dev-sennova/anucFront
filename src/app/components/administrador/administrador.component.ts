@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
@@ -8,12 +8,26 @@ import Swal from 'sweetalert2';
   templateUrl: './administrador.component.html',
   styleUrls: ['./administrador.component.css']
 })
-export class AdministradorComponent {
+export class AdministradorComponent implements OnInit{
 
   password: string = '';
   confirmPassword: string = '';
+  tituloAnuc: string = 'ADMINISTRACIÓN ANUC';
 
   constructor(public router: Router, private loginService: LoginService){}
+
+  ngOnInit() {
+    this.setMenuTitle();
+  }
+
+  setMenuTitle() {
+    const rolUsuario = localStorage.getItem('rol_usuario');
+    if (rolUsuario === 'SuperAdministrador') {
+      this.tituloAnuc = 'SUPERADMINISTRADOR ANUC';
+    } else if (rolUsuario === 'Administrador') {
+      this.tituloAnuc = 'ADMINISTRACIÓN ANUC';
+    }
+  }
 
   openMenu() {
     document.getElementById('menu')!.classList.add('open');

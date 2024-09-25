@@ -3,6 +3,7 @@ import { PersonasService } from 'src/app/services/personas.service';
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { EstadoCivilService } from 'src/app/services/estado-civil.service';
+import { RolesService } from 'src/app/services/roles.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import { saveAs} from 'file-saver';
@@ -20,6 +21,8 @@ export class AdministrarasociadosComponent implements OnInit {
   filteredPersonas: any[] = [];
   paginatedPersonas: any[] = [];
   sexos: any[] = [];
+  roles: any[] = [];
+  filteredRoles: any[] = [];
   tiposDocumento: any[] = [];
   estadosCiviles: any[] = [];
   searchTerm: string = '';
@@ -44,17 +47,18 @@ export class AdministrarasociadosComponent implements OnInit {
     private personasService: PersonasService,
     private sexoService: SexoService,
     private tipoDocumentoService: TipoDocumentoService,
-    private estadoCivilService: EstadoCivilService
+    private estadoCivilService: EstadoCivilService,
+    private rolesService: RolesService
   ) {}
 
   ngOnInit(): void {
     this.loadPersonas();
+    this.loadRoles();
 
     this.sexoService.getSexos().subscribe(
       data => {
         if (data) {
           this.sexos = data;
-          console.log('Sexos:', this.sexos);
         }
       },
       
@@ -62,12 +66,12 @@ export class AdministrarasociadosComponent implements OnInit {
         console.error('Error al obtener los sexos:', error);
       }
     );
+
   
     this.tipoDocumentoService.getTiposDocumento().subscribe(
       data => {
         if (data) {
           this.tiposDocumento = data;
-          console.log('Tipos de Documento:', this.tiposDocumento);
         }
       },
       error => {
@@ -79,7 +83,6 @@ export class AdministrarasociadosComponent implements OnInit {
       data => {
         if (data) {
           this.estadosCiviles = data;
-          console.log('Estados Civiles:', this.estadosCiviles);
         }
       },
       error => {
@@ -99,6 +102,24 @@ export class AdministrarasociadosComponent implements OnInit {
       error => {
         console.error('Error al obtener los datos:', error);
       }
+    );
+  }
+
+  loadRoles(): void {
+    this.rolesService.getRoles().subscribe(
+      data => {
+        const allRoles = data || [];
+        const userRole = localStorage.getItem('rol_usuario');
+
+        if (userRole === 'SuperAdministrador') {
+          // Si es SuperAdministrador, mostrar todos los roles
+          this.filteredRoles = allRoles;
+        } else if (userRole === 'Administrador') {
+          // Si es Administrador, solo mostrar el rol de Asociado
+          this.filteredRoles = allRoles.filter((rol: any) => rol.rol === 'Asociado');
+        }
+      },
+      error => console.error('Error al obtener los roles:', error)
     );
   }
   // Calcular edad desde la fecha de nacimiento
@@ -243,9 +264,20 @@ export class AdministrarasociadosComponent implements OnInit {
   }
 
   openCreateModal(): void {
-    this.newPersona = {};
+    this.newPersona = {
+      idRol: '',
+      nombres: '',
+      apellidos: '',
+      identificacion: '',
+      telefono: '',
+      fecha_nacimiento: '',
+      tipo_documento: '',
+      sexo: '',
+      estado_civil: ''
+    };
     this.createModalVisible = true;
   }
+  
 
   closeCreateModal(): void {
     this.createModalVisible = false;
