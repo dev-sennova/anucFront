@@ -76,7 +76,7 @@ h2 {
 
 .btn-secondary {
   padding: 10px 20px;
-  background-color: #6c757d;
+  background-color: #17a2b8;
   border: none;
   border-radius: 8px;
   color: #fff;
@@ -86,7 +86,7 @@ h2 {
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
+  background-color: #17a2b8;
 }
 
 .btn-danger {
@@ -138,7 +138,7 @@ h2 {
 }
 
 .btn-modal {
-  background-color: #328bde;
+  background-color: #17a2b8;
   color: white;
   padding: 10px 20px;
   border: none;

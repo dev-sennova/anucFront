@@ -98,7 +98,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 250px;
+    width: 100%; /* Cambiado a 100% para pantallas pequeñas */
     height: 100%;
     background: #ffffff;
     color: rgb(0, 0, 0);
@@ -107,6 +107,7 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     padding: 20px;
+    overflow-y: auto; /* Permite desplazamiento vertical */
 }
 
 .side-menu .menu-header {
@@ -135,6 +136,7 @@
 .side-menu ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .side-menu ul li {
@@ -165,11 +167,13 @@
 }
 
 .menu-btn {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #000000;
+    font-size: 14px; /* Tamaño del texto ajustado */
+    padding: 25px 0px; /* Ajusta el padding */
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    color: #000000; /* Color del texto */
+    font-weight: bold; /* Texto en negrita */
 }
 
 .menu-btn.hidden {
@@ -184,8 +188,23 @@
     display: block;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
+/* Media query para pantallas grandes */
+@media (min-width: 768px) {
+    .menu-btn {
+        font-size: 18px; /* Tamaño moderado en pantallas grandes */
+    }
+
+    .side-menu {
+        width: 250px; /* Ajusta el ancho del menú en pantallas grandes */
+    }
+
+    .side-menu ul li a {
+        font-size: 16px; /* Tamaño de texto en pantallas grandes */
+    }
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 767px) {
     .header img.logo-header {
         height: 40px;
         margin-right: 10px;
@@ -200,15 +219,17 @@
     }
 
     .side-menu {
-        width: 200px;
-    }
-
-    .side-menu .logo {
-        width: 40px;
+        width: 100%; /* Asegúrate de que el menú ocupe todo el ancho */
+        padding: 10px; /* Reduce el padding para pantallas pequeñas */
     }
 
     .side-menu ul li a {
-        font-size: 14px;
+        font-size: 12px; /* Tamaño de texto en pantallas pequeñas */
+    }
+
+    .menu-btn {
+        padding: 10px; /* Ajusta el padding para pantallas pequeñas */
+        font-size: 12px; /* Tamaño reducido en pantallas pequeñas */
     }
 }
 
@@ -227,7 +248,7 @@
     }
 
     .side-menu {
-        width: 180px;
+        width: 180px; /* Ajusta el ancho para pantallas más pequeñas */
     }
 
     .side-menu .logo {
@@ -235,10 +256,10 @@
     }
 
     .side-menu ul li a {
-        font-size: 12px;
+        font-size: 10px; /* Tamaño de texto en pantallas muy pequeñas */
     }
 
     .menu-btn {
-        font-size: 20px;
+        font-size: 10px; /* Tamaño reducido en pantallas pequeñas */
     }
 }

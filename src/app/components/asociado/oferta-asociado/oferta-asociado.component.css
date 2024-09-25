@@ -1,4 +1,4 @@
-.body {
+body {
     font-family: 'Poppins', sans-serif;
     background-color: #f7f7f7;
     padding: 30px;
@@ -12,12 +12,13 @@
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .producto-img {
     width: 200px; 
     height: 200px; 
     object-fit: cover; 
     border-radius: 10px; 
-  }
+}
 
 h2 {
     font-size: 2rem;
@@ -136,6 +137,7 @@ h2 {
     max-width: 600px;
     max-height: 80vh;
     overflow-y: auto;
+    position: relative; /* Para el posicionamiento del botón de cerrar */
 }
 
 .modal-content h2 {
@@ -149,21 +151,23 @@ h2 {
 .modal-content form {
     display: flex;
     flex-direction: column;
+    gap: 15px; /* Espacio uniforme entre los campos */
 }
 
 .modal-content form label {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     font-weight: 500;
     color: #333;
 }
 
 .modal-content form input,
 .modal-content form select {
-    width: 100%;
+    width: 100%; /* Asegura que todos los campos ocupen el 100% */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-top: 5px;
+    box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
 }
 
 .modal-content form input[type="checkbox"] {
@@ -181,21 +185,21 @@ h2 {
 }
 
 .create-btn {
-    background-color: #28a745;
+    background-color: #17a2b8;
     color: #fff;
 }
 
 .create-btn:hover {
-    background-color: #218838;
+    background-color: #17a2b8;
 }
 
 .edit-btn {
-    background-color: #ffc107;
+    background-color: #17a2b8;
     color: #fff;
 }
 
 .edit-btn:hover {
-    background-color: #e0a800;
+    background-color: #17a2b8;
 }
 
 .deactivate-btn {
@@ -207,13 +211,32 @@ h2 {
     background-color: #c82333;
 }
 
-.close-btn {
-    background-color: #6c757d;
-    color: #fff;
+.close {
+    color: #000000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.close-btn:hover {
-    background-color: #5a6268;
+.close:hover,
+.close:focus {
+    color: #ff0303;
+}
+
+/* Estilo para los selects con icono de selección */
+.modal form select {
+    appearance: none; /* Elimina el estilo predeterminado del select */
+    -webkit-appearance: none; /* Safari y Chrome */
+    -moz-appearance: none; /* Firefox */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"%3E%3Cpath d="M5 7l5 5 5-5H5z" fill="%23000"/%3E%3C/svg%3E') no-repeat right 10px center; /* Icono de selección */
+    background-size: 10px; /* Tamaño del icono */
 }
 
 @media (max-width: 768px) {
@@ -233,7 +256,15 @@ h2 {
         width: 95%;
         max-width: 400px;
     }
+
+    /* Ajuste en campos para pantallas pequeñas */
+    .modal-content form input,
+    .modal-content form select {
+        font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+        padding: 8px; /* Menos padding */
+    }
 }
+
 /* Asegurar que los select tengan el mismo tamaño que los otros campos */
 .modal form input[type="text"],
 .modal form input[type="number"],
@@ -241,19 +272,6 @@ h2 {
 .modal form select,
 .modal form input[type="email"] {
     width: 100%; /* Ocupa todo el ancho disponible */
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-/* Opcional: para mantener la coherencia visual en todos los campos, agregar el mismo estilo de borde, padding y márgenes */
-.modal form select {
-    appearance: none; /* Elimina el estilo predeterminado del select en algunos navegadores */
-    -webkit-appearance: none; /* Safari y Chrome */
-    -moz-appearance: none; /* Firefox */
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;

@@ -13,7 +13,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: calc(100vh - 200px); /* Reduce la altura del contenedor principal */
+  height: calc(100vh - 200px); /* Reduce the height of the main container */
   background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -62,7 +62,6 @@ p {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  text-decoration: none;
 }
 
 .edit-button:hover {
@@ -84,9 +83,9 @@ p {
   box-sizing: border-box;
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
-
 /* Modal Content */
 .modal-content {
+  position: relative; /* Necesario para que el botón .close se posicione relativo al contenido del modal */
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
@@ -96,25 +95,24 @@ p {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Permite scroll si el contenido es muy largo */
 }
 
-/* Close Button */
-.close-button {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  color: #ffffff; /* White text */
-  background-color: #007bff; /* Blue background */
-  border: none;
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px;
-  cursor: pointer;
+/* Close Button dentro del formulario */
+.close {
+  position: absolute; /* Relativo al contenedor del formulario */
+  top: 20px; /* Posición desde la parte superior del modal */
+  right: 20px; /* Posición desde la parte derecha del modal */
+  font-size: 28px; /* Tamaño del ícono de cerrar */
+  font-weight: bold; /* Hace que el texto sea más grueso */
+  color: #000000; /* Color inicial */
+  cursor: pointer; /* Cambia el cursor a puntero */
+  transition: color 0.3s ease; /* Transición suave para el color */
 }
 
-.close-button:hover {
-  background-color: #0056b3; /* Hover background color */
+.close:hover,
+.close:focus {
+  color: #ff0303; /* Cambia a rojo al hacer hover o al recibir foco */
 }
 
 /* Form */
@@ -130,7 +128,9 @@ label {
   color: #333333;
 }
 
-input[type="text"], input[type="date"], select {
+input[type="text"],
+input[type="date"],
+select {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #cccccc;
@@ -140,11 +140,19 @@ input[type="text"], input[type="date"], select {
   box-sizing: border-box;
 }
 
+/* Ensure all input fields are the same size */
+input[type="text"],
+input[type="date"],
+select {
+  min-width: 300px; /* Set a minimum width for uniformity */
+}
+
+/* Submit Button */
 button[type="submit"] {
   padding: 10px 20px;
   font-size: 16px;
   color: #ffffff;
-  background-color: #007bff;
+  background-color: #17a2b8;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -152,30 +160,32 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #17a2b8;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .data-wall-container {
-    height: calc(100vh - 150px); /* Ajusta el alto para pantallas más pequeñas */
+    height: calc(100vh - 150px); /* Adjust height for smaller screens */
   }
-  
+
   .modal-content {
     padding: 15px;
     width: 95%;
     max-width: 500px;
   }
-  
+
   h2 {
     font-size: 20px;
   }
-  
-  p, label {
+
+  p,
+  label {
     font-size: 14px;
   }
-  
-  .edit-button, button[type="submit"] {
+
+  .edit-button,
+  button[type="submit"] {
     font-size: 14px;
     padding: 8px 16px;
   }
@@ -183,25 +193,27 @@ button[type="submit"]:hover {
 
 @media (max-width: 480px) {
   .data-wall-container {
-    height: calc(100vh - 120px); /* Ajusta el alto para pantallas muy pequeñas */
+    height: calc(100vh - 120px); /* Adjust height for very small screens */
   }
-  
+
   .modal-content {
     padding: 10px;
     width: 100%;
     max-width: 100%;
     max-height: 80vh;
   }
-  
+
   h2 {
     font-size: 18px;
   }
-  
-  p, label {
+
+  p,
+  label {
     font-size: 12px;
   }
-  
-  .edit-button, button[type="submit"] {
+
+  .edit-button,
+  button[type="submit"] {
     font-size: 12px;
     padding: 6px 12px;
   }
