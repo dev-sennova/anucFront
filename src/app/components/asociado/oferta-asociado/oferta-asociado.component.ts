@@ -171,7 +171,7 @@ export class OfertaAsociadoComponent {
         this.closeCreateModal();
       },
       error => {
-        Swal.fire('Error', 'No se pudo crear la oferta.', 'error');
+        Swal.fire('Error', 'Ya tienes una oferta creada. No puedes crear más de una oferta activa.', 'error');
       }
     );
   }

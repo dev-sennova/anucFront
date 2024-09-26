@@ -94,11 +94,12 @@
     display: none;
 }
 
+
 .side-menu {
     position: fixed;
     top: 0;
     left: 0;
-    width: 250px;
+    width: 250px; /* Ancho fijo para el menú */
     height: 100%;
     background: #ffffff;
     color: rgb(0, 0, 0);
@@ -107,6 +108,9 @@
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     padding: 20px;
+    display: flex;
+    flex-direction: column; /* Elementos en columna */
+    overflow-y: auto; /* Permitir desplazamiento solo si es necesario */
 }
 
 .side-menu .menu-header {
@@ -141,7 +145,7 @@
     margin: 10px 0;
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: 5px; /* Reducir el padding para evitar el desbordamiento */
     transition: background-color 0.3s, border-radius 0.3s;
 }
 
@@ -165,12 +169,29 @@
 }
 
 .menu-btn {
-    font-size: 24px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #000000;
+    font-size: 14px; /* Tamaño del texto ajustado */
+    padding: 25px 0px; /* Puedes ajustar el padding */
+    background: none; /* Si quieres que no tenga fondo */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    color: #000000; /* Color del texto */
+    font-weight: bold; /* Texto en negrita */
 }
+
+/* Media query para pantallas grandes */
+@media (min-width: 768px) {
+    .menu-btn {
+        font-size: 18px; /* Tamaño moderado en pantallas grandes */
+    }
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 767px) {
+    .menu-btn {
+        font-size: 12px; /* Tamaño reducido en pantallas pequeñas */
+    }
+}
+
 
 .menu-btn.hidden {
     display: none;
@@ -276,7 +297,8 @@
     }
 
     .side-menu {
-        width: 200px;
+        width: 80%; /* Cambiar el ancho a un porcentaje para pantallas pequeñas */
+        max-width: 250px; /* Establecer un ancho máximo para pantallas pequeñas */
     }
 
     .side-menu .logo {
@@ -303,7 +325,8 @@
     }
 
     .side-menu {
-        width: 180px;
+        width: 90%; /* Aumentar el ancho a un porcentaje para pantallas muy pequeñas */
+        max-width: 250px; /* Mantener un ancho máximo */
     }
 
     .side-menu .logo {
