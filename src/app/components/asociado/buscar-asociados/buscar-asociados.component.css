@@ -1,0 +1,119 @@
+/* Estilos generales */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.title {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2rem; /* Ajuste del tamaño de fuente para responsividad */
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    width: 100%; /* Se asegura que ocupe todo el ancho en móviles */
+    max-width: 90%; /* Ancho máximo para evitar que se estire mucho en pantallas grandes */
+    margin: 0 auto 20px;
+    padding: 12px 40px;
+    font-size: 1rem; /* Uso de unidades relativas para responsividad */
+    border: 2px solid #1abc9c;
+    border-radius: 6px;
+    background-color: #fff;
+    background: url('/assets/iconos/lupa_icon.png') no-repeat 10px center;
+    background-size: 20px 20px;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+    outline: none;
+    border-color: #2980b9;
+}
+
+/* Estilos para las tarjetas */
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #1abc9c;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+    font-size: 1.5rem; /* Ajuste para diferentes tamaños de pantalla */
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.card p {
+    font-size: 1rem; /* Ajuste del tamaño de fuente para responsividad */
+    margin: 5px 0;
+    color: #34495e;
+}
+
+.card strong {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 1.8rem; /* Ajuste de tamaño de fuente en tablets y móviles */
+    }
+
+    .search-bar {
+        font-size: 1rem; /* Fuente más pequeña en dispositivos móviles */
+        padding: 10px 35px; /* Ajuste del padding en móviles */
+    }
+
+    .card {
+        padding: 15px; /* Reducción del padding en móviles */
+    }
+
+    .card h2 {
+        font-size: 1.4rem; /* Ajuste de tamaño de fuente en móviles */
+    }
+
+    .card p {
+        font-size: 0.9rem; /* Texto más pequeño en pantallas pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar {
+        padding: 8px 32px; /* Reducción adicional del padding en móviles pequeños */
+        font-size: 0.9rem; /* Fuente aún más pequeña en pantallas muy pequeñas */
+        width: 80%;
+    }
+
+    .card h2 {
+        font-size: 1.2rem; /* Tamaño de fuente aún más pequeño para pantallas pequeñas */
+    }
+
+    .card p {
+        font-size: 0.85rem; /* Ajuste para texto más pequeño */
+    }
+
+    .container {
+        padding: 5px; /* Ajuste de padding en móviles más pequeños */
+    }
+}

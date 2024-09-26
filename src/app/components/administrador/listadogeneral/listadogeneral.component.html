@@ -4,12 +4,12 @@
     <div class="search-bar">
       <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
       <button class="filter-btn" (click)="toggleFilters()">
-          <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
+        <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
       </button>
       <button class="excel-btn" (click)="exportToExcel()">
-          <img src="assets/iconos/exel_icon.png" alt="Exportar Excel" class="icon"> Exportar Excel
+        <img src="assets/iconos/exel_icon.png" alt="Exportar Excel" class="icon"> Exportar Excel
       </button>
-  </div>
+    </div>
     <div *ngIf="filtersVisible" class="filters">
       <label>
         Género:
@@ -17,6 +17,20 @@
           <option value="">Todos</option>
           <option value="Masculino">Masculino</option>
           <option value="Femenino">Femenino</option>
+        </select>
+      </label>
+      <label>
+        Rango de Edad:
+        <select [(ngModel)]="selectedAgeRange" (change)="buscar()">
+          <option value="">Todos</option>
+          <option value="0-4">0 - 4 años</option>
+          <option value="5-9">5 - 9 años</option>
+          <option value="10-18">10 - 18 años</option>
+          <option value="19-30">19 - 30 años</option>
+          <option value="31-50">31 - 50 años</option>
+          <option value="51-70">51 - 70 años</option>
+          <option value="71-90">71 - 90 años</option>
+          <option value="91-110">91 - 110 años</option>
         </select>
       </label>
       <label>
@@ -123,7 +137,7 @@
           {{finca.nombre}} ({{finca.extension}} hectáreas)
         </li>
       </ul>
-      
+
     </div>
   </div>
 </div>

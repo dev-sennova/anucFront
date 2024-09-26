@@ -3,6 +3,7 @@ import { OfertasAsociadoService } from 'src/app/services/ofertas-asociado.servic
 import { ProductosCategoriasService } from 'src/app/services/productos-categorias.service';
 import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service';
 import { CategoriasproductosComponent } from '../administrador/categoriasproductos/categoriasproductos.component';
+import { LoadingService } from 'src/app/services/loading.service';
 
 export interface Oferta {
   id: number;
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit{
   constructor(private ofertasAsociados: OfertasAsociadoService,
     private productosService: ProductosCategoriasService,
     private unidadesService: UnidadesMedidaService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {

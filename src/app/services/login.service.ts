@@ -28,6 +28,8 @@ export class LoginService {
 
   private endpointRegister = 'api/auth/register';
 
+  private apiUrlUpdatePassword = 'api/auth/asociados/passwordupdate';
+
 
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
@@ -118,6 +120,15 @@ export class LoginService {
     if (removeToken == null) {
       this.router.navigate(['auth']);
     }
+  }
+
+  updatePassword(id: string, password: string): Observable<any> {
+    const url = `${this.urlBase}/api/auth/asociados/passwordupdate`;
+    const body = { id, password };
+    
+    return this.http.put<any>(url, body).pipe(
+      catchError(this.handleError)
+    );
   }
 
   // Error

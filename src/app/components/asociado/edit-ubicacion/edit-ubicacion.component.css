@@ -73,7 +73,7 @@ h2 {
 }
 
 .btn-secondary {
-    background-color: #17a2b8;
+    background-color: #007bff;
     color: #fff;
     padding: 10px 16px;
     border: none;
@@ -84,5 +84,5 @@ h2 {
 }
 
 .btn-secondary:hover {
-    background-color: #138496;
+    background-color: #007bff;
 }
