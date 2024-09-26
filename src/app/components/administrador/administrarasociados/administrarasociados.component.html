@@ -112,6 +112,7 @@
         Rol:
         <select [(ngModel)]="newPersona.idRol" name="rol" required>
           <option value="" disabled selected>Seleccione un rol</option>
+          <option value="0">Persona</option>
           <option *ngFor="let rol of filteredRoles" [value]="rol.id">{{ rol.rol }}</option>
         </select>
       </label>
@@ -171,6 +172,7 @@
         Rol:
         <select [(ngModel)]="selectedPersona.idRol" name="rol" required>
           <option value="" disabled selected>Seleccione un rol</option>
+          <option value="0">Persona</option>
           <option *ngFor="let rol of filteredRoles" [value]="rol.id">{{ rol.rol }}</option>
         </select>
       </label>  
