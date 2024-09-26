@@ -4,11 +4,11 @@
             <img src="assets/imagenes/logo_anuc_edited.png" alt="Logo" class="logo-header">
             <button id="menu-btn" class="menu-btn" (click)="openMenu()">☰ Menú</button>
         </div>
-        <span id="tituloAnuc">ADMINISTRACIÓN ANUC</span>        
+        <span id="tituloAnuc">{{ tituloAnuc }}</span>      
         <img id="profile_icon" src="assets/iconos/profile_icon.png" alt="Profile" class="profile-icon" (click)="toggleProfileMenu()">
         <div id="profile-menu" class="profile-menu">
             <button>Administrar perfil</button>
-            <button>Cambiar Contraseña</button>
+            <button id="openModalBtn" class="open-modal-btn" (click)="openModal()">Cambiar Contraseña</button>
             <button (click)="cerrarSesion()">Cerrar Sesión</button>
         </div>
     </div>
@@ -34,14 +34,6 @@
                 <li>
                     <img src="assets/iconos/reportes_icon.png" alt="Reportes Asociados" class="icon">
                     <a routerLink="reportes-asociados" (click)="closeMenu()">Reporte de asociados</a>
-                </li>
-                <li>
-                    <img src="assets/iconos/location_icon.png" alt="Mapa Asociados" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Mapa de asociados</a>
-                </li>
-                <li>
-                    <img src="assets/iconos/warning_icon.png" alt="Novedades Asociados" class="icon">
-                    <a routerLink="adminasociados" (click)="closeMenu()">Novedades de asociados</a>
                 </li>
                 <li>
                     <img src="assets/iconos/oferts_icon.png" alt="Administración Ofertas" class="icon">
@@ -81,3 +73,22 @@
         <router-outlet></router-outlet>
     </div>
 </div>
+<!-- Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Cambiar Contraseña</h2>
+      <form (submit)="onSubmit()">
+        <div class="input-group">
+          <label for="password">Nueva Contraseña</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+        <div class="input-group">
+          <label for="confirmPassword">Confirmar Contraseña</label>
+          <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        </div>
+        <button type="submit" class="btn-submit">Actualizar Contraseña</button>
+      </form>
+    </div>
+  </div>
+  

@@ -1,62 +1,63 @@
 <div class="body">
-    <div class="container">
-      <h2>Lista de Ofertas</h2>
-      <div class="search-bar">
-        <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Id oferta</th>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Cantidad</th>
-            <th>Unidad de medida</th>
-            <th>Precio</th>
-            <th>Fecha inicio</th>
-            <th>Fecha fin</th>
-            <th>Estado</th>
-            <th>Asociado</th>
-            <th>Imagen</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let oferta of ofertasFiltradas">
-            <td>{{ oferta.id}}</td>
-            <td>{{ getProductoNombre(oferta.product_id) }}</td>
-            <td>{{ oferta.descripcion }}</td>
-            <td>{{ oferta.cantidad }}</td>
-            <td>{{ getUnidadNombre(oferta.medida_unidades_id) }}</td>
-            <td>{{ oferta.precio }}</td>
-            <td>{{ oferta.start_date }}</td>
-            <td>{{ oferta.end_date }}</td>
-            <td>{{ oferta.estado ? 'Activo' : 'Inactivo' }}</td>
-            <td>{{ oferta.asociados_finca_id}}</td>
-            <td>
-              <button class="action-btn" (click)="openImageModal(oferta.imagenProducto)">Ver Imagen</button>
-            </td>
-            <td>
-                <button *ngIf="oferta.estado === 1" class="deactivate-btn" (click)="openDeactivateModal(oferta)">Desactivar</button>
-                <button *ngIf="oferta.estado === 0" class="activate-btn" (click)="openActivateModal(oferta)">Activar</button>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-        <span>Página {{currentPage}} de {{totalPages}}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
-      </div>
+  <div class="container">
+    <h2>Lista de Ofertas</h2>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar..." [(ngModel)]="searchTerm" (input)="buscar()">
     </div>
-  
-    <!-- Modal de imagen -->
-    <div class="modal" *ngIf="imageModalVisible">
-      <div class="modal-content">
-        <span class="close" (click)="closeImageModal()">&times;</span>
-        <h2>Imagen del Producto</h2>
-        <img [src]="'data:image/jpeg;base64,' + imagenOfertaUrl" alt="Imagen" style="width: 100%;">
-      </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Id oferta</th>
+          <th>Producto</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Unidad de medida</th>
+          <th>Precio</th>
+          <th>Fecha inicio</th>
+          <th>Fecha fin</th>
+          <th>Estado</th>
+          <th>Asociado</th>
+          <th>Imagen</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let oferta of ofertasFiltradas">
+          <td>{{ oferta.id}}</td>
+          <td>{{ getProductoNombre(oferta.product_id) }}</td>
+          <td>{{ oferta.descripcion }}</td>
+          <td>{{ oferta.cantidad }}</td>
+          <td>{{ getUnidadNombre(oferta.medida_unidades_id) }}</td>
+          <td>{{ oferta.precio }}</td>
+          <td>{{ oferta.start_date }}</td>
+          <td>{{ oferta.end_date }}</td>
+          <td>{{ oferta.estado ? 'Activo' : 'Inactivo' }}</td>
+          <td>{{ oferta.asociados_finca_id}}</td>
+          <td>
+            <button class="action-btn" (click)="openImageModal(oferta.imagenProducto)">Ver Imagen</button>
+          </td>
+          <td>
+            <button *ngIf="oferta.estado === 1" class="deactivate-btn"
+              (click)="openDeactivateModal(oferta)">Desactivar</button>
+            <button *ngIf="oferta.estado === 0" class="activate-btn"
+              (click)="openActivateModal(oferta)">Activar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination">
+      <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{currentPage}} de {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente</button>
     </div>
   </div>
-  
+
+  <!-- Modal de imagen -->
+  <div class="modal" *ngIf="imageModalVisible">
+    <div class="modal-content">
+      <span class="close" (click)="closeImageModal()">&times;</span>
+      <h2>Imagen del Producto</h2>
+      <img [src]="'data:image/jpeg;base64,' + imagenOfertaUrl" alt="Imagen" style="width: 100%;">
+    </div>
+  </div>
+</div>

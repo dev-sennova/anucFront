@@ -30,6 +30,8 @@ import { OfertaAsociadoComponent } from './components/asociado/oferta-asociado/o
 import { NovedadesAsociadoComponent } from './components/asociado/novedades-asociado/novedades-asociado.component';
 import { GestionarNucleoFamiliarComponent } from './components/asociado/gestionar-nucleo-familiar/gestionar-nucleo-familiar.component';
 import { AdministrarofertasComponent } from './components/administrador/administrarofertas/administrarofertas.component';
+import { InformacionAnucAsociadoComponent } from './components/asociado/informacion-anuc-asociado/informacion-anuc-asociado.component';
+import { BuscarAsociadosComponent } from './components/asociado/buscar-asociados/buscar-asociados.component';
 
 
 const routes: Routes = [
@@ -46,7 +48,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'inicio-asociado', pathMatch: 'full' },
       { path: 'gestionproductos', component: GestionarproductosComponent },
-      { path: 'publicaroferta', component: PublicarofertaComponent },
+      { path: 'informacion-anuc', component: InformacionAnucAsociadoComponent },
+      { path: 'buscar-asociados', component: BuscarAsociadosComponent },
       { path: 'inicio-asociado', component: InicioAsociadoComponent },
       { path: 'edit-datos-asociado', component: EditDatosComponent },
       { path: 'edit-productos-asociado', component: EditProductosComponent},

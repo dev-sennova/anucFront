@@ -6,6 +6,7 @@ import { EstadoCivilService } from 'src/app/services/estado-civil.service';
 import { ParentescosService } from 'src/app/services/parentescos.service';
 import { TiposPredioService } from 'src/app/services/tipos-predio.service';
 import { VeredasService } from 'src/app/services/veredas.service';
+import { LoadingService } from 'src/app/services/loading.service';
 @Component({
   selector: 'app-inicio-asociado',
   templateUrl: './inicio-asociado.component.html',
@@ -32,10 +33,12 @@ export class InicioAsociadoComponent implements OnInit {
     private estadoCivilService: EstadoCivilService,
     private parentescosService: ParentescosService,
     private tiposPredioService: TiposPredioService,
-    private veredasService: VeredasService
+    private veredasService: VeredasService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.showLoading();
     const idUsuario = localStorage.getItem('identificador_usuario') || '';
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
     const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
@@ -46,6 +49,7 @@ export class InicioAsociadoComponent implements OnInit {
         (data) => {
           if (data && data.produccion && data.produccion.length > 0) {
             this.produccion = data.produccion.slice(0, 100);
+            this.loadingService.hideLoading();
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -63,6 +67,7 @@ export class InicioAsociadoComponent implements OnInit {
         (data) => {
           if (data && data.familiares && data.familiares.length > 0) {
             this.familiares = data.familiares.slice(0, 100);
+            this.loadingService.hideLoading();
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -80,6 +85,7 @@ export class InicioAsociadoComponent implements OnInit {
         (data) => {
           if (data && data.personas && data.personas.length > 0) {
             this.persona = data.personas[0];
+            this.loadingService.hideLoading();
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -95,6 +101,7 @@ export class InicioAsociadoComponent implements OnInit {
       (data) => {
         if (data) {
           this.tiposDocumento = data;
+          this.loadingService.hideLoading();
         }
       },
       (error) => {
@@ -105,6 +112,7 @@ export class InicioAsociadoComponent implements OnInit {
       (data) => {
         if (data) {
           this.sexos = data;
+          this.loadingService.hideLoading();
         }
       },
       (error) => {
@@ -115,6 +123,7 @@ export class InicioAsociadoComponent implements OnInit {
       (data) => {
         if (data) {
           this.veredas = data;
+          this.loadingService.hideLoading();
         }
       },
       (error) => {
@@ -125,6 +134,7 @@ export class InicioAsociadoComponent implements OnInit {
       (data) => {
         if (data) {
           this.estadosCiviles = data;
+          this.loadingService.hideLoading();
         }
       },
       (error) => {

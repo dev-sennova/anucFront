@@ -37,6 +37,7 @@ export class ListadogeneralComponent implements OnInit {
   selectedEstadoCivil: string = '';
   selectedVereda: string = '';
   selectedTipoPredio: string = '';
+  selectedAgeRange: string = '';
   categorias: string[] = [];
   estadosCiviles: string[] = [];
   parentescos: Parentesco[] = [];
@@ -144,9 +145,29 @@ export class ListadogeneralComponent implements OnInit {
     this.showModal = false;
   }
 
+  // Calcular edad desde la fecha de nacimiento
+  calcularEdad(fechaNacimiento: string): number {
+    const today = new Date();
+    const birthDate = new Date(fechaNacimiento);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  // Filtrar según la edad seleccionada
+  matchesAgeRange(asociado: any): boolean {
+    if (!this.selectedAgeRange) return true; // Si no se selecciona rango de edad
+    const edad = this.calcularEdad(asociado.fecha_nacimiento);
+    const [minAge, maxAge] = this.selectedAgeRange.split('-').map(Number);
+    return edad >= minAge && edad <= maxAge;
+  }
+
   buscar() {
     this.filteredAsociados = this.asociadosFinca.filter(asociado =>
-      this.matchesSearchTerm(asociado) && this.matchesFilters(asociado)
+      this.matchesSearchTerm(asociado) && this.matchesFilters(asociado) && this.matchesAgeRange(asociado)
     );
     this.currentPage = 1;
     this.totalRegistros = this.filteredAsociados.length;
