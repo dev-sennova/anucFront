@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* Data Wall Container */
@@ -13,12 +13,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: calc(100vh - 200px); /* Reduce the height of the main container */
+  height: calc(100vh - 200px);
   background-color: #ffffff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
   width: 100%;
 }
 
@@ -32,7 +32,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   position: relative;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 /* Heading */
@@ -68,6 +68,35 @@ p {
   background-color: #0056b3;
 }
 
+/* Info Container: flexbox para organizar texto e imagen */
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Centrado vertical de la imagen */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.info-text {
+  flex: 1;
+  padding-right: 20px; /* Separación entre texto e imagen */
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 150px; /* Controla el tamaño del contenedor de la imagen */
+}
+
+.profile-photo {
+  width: 100%;
+  max-width: 150px; /* Asegura que la imagen no sobrepase un tamaño específico */
+  height: auto;
+  border-radius: 10%;
+  margin-bottom: 30px;
+}
+
 /* Modal Styles */
 .modal {
   display: flex;
@@ -81,45 +110,47 @@ p {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Asegura que aparezca el scroll cuando sea necesario */
+  padding: 10px; /* Añadir padding para evitar que el modal quede pegado al borde */
 }
+
 /* Modal Content */
 .modal-content {
-  position: relative; /* Necesario para que el botón .close se posicione relativo al contenido del modal */
+  position: relative;
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  width: 90%; /* Responsive width */
+  width: 90%;
   max-width: 600px;
-  max-height: 90vh; /* Prevent content from exceeding viewport height */
+  max-height: 90vh; /* Limitar la altura del modal para que no sobrepase la pantalla */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+  overflow-y: auto; /* Activar scroll si el contenido sobrepasa la altura */
 }
 
-/* Close Button dentro del formulario */
+
+/* Close Button */
 .close {
-  position: absolute; /* Relativo al contenedor del formulario */
-  top: 20px; /* Posición desde la parte superior del modal */
-  right: 20px; /* Posición desde la parte derecha del modal */
-  font-size: 28px; /* Tamaño del ícono de cerrar */
-  font-weight: bold; /* Hace que el texto sea más grueso */
-  color: #000000; /* Color inicial */
-  cursor: pointer; /* Cambia el cursor a puntero */
-  transition: color 0.3s ease; /* Transición suave para el color */
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .close:hover,
 .close:focus {
-  color: #ff0303; /* Cambia a rojo al hacer hover o al recibir foco */
+  color: #ff0303;
 }
 
 /* Form */
 form {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 label {
@@ -130,7 +161,8 @@ label {
 
 input[type="text"],
 input[type="date"],
-select {
+select,
+input[type="file"] {
   padding: 10px;
   font-size: 16px;
   border: 1px solid #cccccc;
@@ -140,14 +172,32 @@ select {
   box-sizing: border-box;
 }
 
-/* Ensure all input fields are the same size */
-input[type="text"],
-input[type="date"],
-select {
-  min-width: 300px; /* Set a minimum width for uniformity */
+/* Estilo específico para el input de archivo */
+input[type="file"] {
+  padding: 10px;
+  font-size: 16px;
+  color: #555555;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Submit Button */
+input[type="file"]::file-selector-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #0056b3;
+}
+
 button[type="submit"] {
   padding: 10px 20px;
   font-size: 16px;
@@ -156,23 +206,33 @@ button[type="submit"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  text-align: center;
 }
 
 button[type="submit"]:hover {
-  background-color: #17a2b8;
+  background-color: #138f9c;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .data-wall-container {
-    height: calc(100vh - 150px); /* Adjust height for smaller screens */
+  .info-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image-container {
+    margin-top: 20px;
+    flex-basis: auto;
+  }
+
+  .profile-photo {
+    max-width: 120px; /* Tamaño de imagen más pequeño en pantallas medianas */
   }
 
   .modal-content {
     padding: 15px;
     width: 95%;
     max-width: 500px;
+    overflow: auto;
   }
 
   h2 {
@@ -192,15 +252,20 @@ button[type="submit"]:hover {
 }
 
 @media (max-width: 480px) {
-  .data-wall-container {
-    height: calc(100vh - 120px); /* Adjust height for very small screens */
+  .info-container {
+    padding: 10px;
+  }
+
+  .profile-photo {
+    max-width: 100px; /* Tamaño de imagen más pequeño en pantallas pequeñas */
   }
 
   .modal-content {
-    padding: 10px;
     width: 100%;
+    padding: 10px;
     max-width: 100%;
     max-height: 80vh;
+    overflow-y: auto;
   }
 
   h2 {

@@ -11,18 +11,18 @@
 .title {
     text-align: center;
     color: #2c3e50;
-    font-size: 2rem; /* Ajuste del tamaño de fuente para responsividad */
+    font-size: 2rem;
     margin-bottom: 30px;
     font-weight: bold;
 }
 
 /* Barra de búsqueda */
 .search-bar {
-    width: 100%; /* Se asegura que ocupe todo el ancho en móviles */
-    max-width: 90%; /* Ancho máximo para evitar que se estire mucho en pantallas grandes */
+    width: 100%;
+    max-width: 90%;
     margin: 0 auto 20px;
     padding: 12px 40px;
-    font-size: 1rem; /* Uso de unidades relativas para responsividad */
+    font-size: 1rem;
     border: 2px solid #1abc9c;
     border-radius: 6px;
     background-color: #fff;
@@ -38,6 +38,9 @@
 
 /* Estilos para las tarjetas */
 .card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #fff;
     padding: 20px;
     border: 1px solid #e0e0e0;
@@ -48,26 +51,32 @@
     transition: box-shadow 0.3s ease;
 }
 
+.card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .card:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.card h2 {
-    font-size: 1.5rem; /* Ajuste para diferentes tamaños de pantalla */
-    color: #2c3e50;
-    margin-bottom: 10px;
-    font-weight: bold;
+.asociado-info {
+    flex: 1;
 }
 
-.card p {
-    font-size: 1rem; /* Ajuste del tamaño de fuente para responsividad */
-    margin: 5px 0;
-    color: #34495e;
+.asociado-foto {
+    margin-left: 20px;
+    text-align: center;
 }
 
-.card strong {
-    color: #27ae60;
-    font-weight: bold;
+.asociado-foto img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10%;
+    object-fit: cover;
+    border: 2px solid #ddd;
 }
 
 /* Media Queries para pantallas más pequeñas */
@@ -77,43 +86,48 @@
     }
 
     .title {
-        font-size: 1.8rem; /* Ajuste de tamaño de fuente en tablets y móviles */
+        font-size: 1.8rem;
     }
 
     .search-bar {
-        font-size: 1rem; /* Fuente más pequeña en dispositivos móviles */
-        padding: 10px 35px; /* Ajuste del padding en móviles */
+        font-size: 1rem;
+        padding: 10px 35px;
     }
 
     .card {
-        padding: 15px; /* Reducción del padding en móviles */
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .asociado-foto {
+        margin: 10px 0 0;
     }
 
     .card h2 {
-        font-size: 1.4rem; /* Ajuste de tamaño de fuente en móviles */
+        font-size: 1.4rem;
     }
 
     .card p {
-        font-size: 0.9rem; /* Texto más pequeño en pantallas pequeñas */
+        font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
     .search-bar {
-        padding: 8px 32px; /* Reducción adicional del padding en móviles pequeños */
-        font-size: 0.9rem; /* Fuente aún más pequeña en pantallas muy pequeñas */
+        padding: 8px 32px;
+        font-size: 0.9rem;
         width: 80%;
     }
 
     .card h2 {
-        font-size: 1.2rem; /* Tamaño de fuente aún más pequeño para pantallas pequeñas */
+        font-size: 1.2rem;
     }
 
     .card p {
-        font-size: 0.85rem; /* Ajuste para texto más pequeño */
+        font-size: 0.85rem;
     }
 
     .container {
-        padding: 5px; /* Ajuste de padding en móviles más pequeños */
+        padding: 5px;
     }
 }

@@ -39,8 +39,8 @@ export class EditDatosComponent implements OnInit {
     private tipoDeDocumentoService: TipoDocumentoService,
     private sexoService: SexoService,
     private personasService: PersonasService
-    
-  ) {}
+
+  ) { }
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_usuario') || '';
     this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
@@ -177,16 +177,28 @@ export class EditDatosComponent implements OnInit {
 
   submitEditForm(): void {
     this.personasService.updatePersona(this.persona).subscribe(
-      
+
       (response) => {
         Swal.fire('¡Éxito!', 'Persona actualizada correctamente.', 'success');
-        this.router.navigate(['asociado/inicio-asociado']);
+        this.closeEditModal();
+        this.ngOnInit();
       },
       (error) => {
         Swal.fire('Error', 'No se pudo actualizar la persona.', 'error');
         console.error(error);
       }
     );
-}
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.persona.foto = e.target.result.split(',')[1]; 
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
 }
