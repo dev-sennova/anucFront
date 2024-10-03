@@ -4,15 +4,22 @@
     <div class="data-wall-content">
       <h2>Información Personal</h2>
       <div *ngIf="persona">
-        <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
-        <p><strong>Nombres:</strong> {{ persona.nombres }}</p>
-        <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
-        <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
-        <p><strong>Fecha de Nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
-        <p><strong>Tipo de Documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
-        <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
-        <p><strong>Estado Civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
-        <button class="edit-button" (click)="openEditModal(persona)">Editar</button>
+        <div class="info-container">
+          <div class="info-text">
+            <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
+            <p><strong>Nombres:</strong> {{ persona.nombres }}</p>
+            <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
+            <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
+            <p><strong>Fecha de Nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
+            <p><strong>Tipo de Documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
+            <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
+            <p><strong>Estado Civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
+            <button class="edit-button" (click)="openEditModal(persona)">Editar</button>
+          </div>
+          <div class="image-container">
+            <img [src]="persona.foto ? 'data:image/jpeg;base64,' + persona.foto : 'assets/imagenes/no-photo.png'" alt="Foto del Asociado" class="profile-photo">
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -52,6 +59,8 @@
         <select [(ngModel)]="persona.estado_civil" id="estado_civil" name="estado_civil" required>
           <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
         </select>
+        <label for="foto">Seleccionar Foto:</label>
+        <input type="file" id="foto" (change)="onFileSelected($event)">
 
         <button type="submit">Guardar</button>
       </form>

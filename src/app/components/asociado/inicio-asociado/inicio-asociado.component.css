@@ -78,6 +78,63 @@
     border-radius: 8px;
 }
 
+.tab-content.personal-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.info-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.persona-info {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.foto-asociado {
+    flex-basis: 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.foto-asociado img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.foto-asociado p {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    .info-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .persona-info {
+        padding-right: 0;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+}
 
 @media (max-width: 600px) {
     .tabs {

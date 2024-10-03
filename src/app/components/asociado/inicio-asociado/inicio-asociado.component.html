@@ -1,53 +1,65 @@
 <div class="tabs-container">
-  <ul class="tabs">
-      <li [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">Información Personal</li>
-      <li [class.active]="activeTab === 'productos'" (click)="setActiveTab('productos')">Productos y Ubicación</li>
-      <li [class.active]="activeTab === 'familiares'" (click)="setActiveTab('familiares')">Familiares</li>
-  </ul>
+    <ul class="tabs">
+        <li [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">Información Personal</li>
+        <li [class.active]="activeTab === 'productos'" (click)="setActiveTab('productos')">Productos y Ubicación</li>
+        <li [class.active]="activeTab === 'familiares'" (click)="setActiveTab('familiares')">Familiares</li>
+    </ul>
 
-  <!-- Información Personal -->
-  <div *ngIf="activeTab === 'personal'" class="tab-content">
-      <h3>Información Personal</h3>
-      <p><strong>Nombre:</strong> {{ persona.nombres }}</p>
-      <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
-      <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
-      <p><strong>Tipo de documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
-      <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
-      <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
-      <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
-      <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
-  </div>
+    <!-- Información Personal -->
+    <div *ngIf="activeTab === 'personal'" class="tab-content personal-info">
+        <div class="info-details">
+            <div class="persona-info">
+                <p><strong>Nombre:</strong> {{ persona.nombres }}</p>
+                <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
+                <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
+                <p><strong>Tipo de documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
+                <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
+                <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
+                <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
+                <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
+            </div>
+            <div class="foto-asociado">
+                <img *ngIf="persona.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + persona.fotoAsociado"
+                    alt="Foto del Asociado" />
+                <ng-template #noFoto>
+                    <img src="assets/imagenes/no-photo.png" alt="Sin foto" />
+                    <p>Sin foto</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
 
-  <!-- Productos -->
-  <div *ngIf="activeTab === 'productos'" class="tab-content">
-      <h3>Productos y Ubicación</h3>
-      <div class="card-container">
-          <div *ngFor="let prod of produccion" class="product-card">
-              <div class="product-info">
-                  <h4>{{ prod.producto }}</h4>
-              </div>
-          </div>
-      </div>
-      <div class="location-info">
-          <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) }}</p>
-          <p><strong>Finca:</strong> {{ produccion[0]?.nombre }}</p>
-          <p><strong>Extension en hectareas:</strong> {{ produccion[0]?.extension }}</p>
-      </div>
-  </div>
+    <!-- Productos -->
+    <div *ngIf="activeTab === 'productos'" class="tab-content">
+        <h3>Productos y Ubicación</h3>
+        <div class="card-container">
+            <div *ngFor="let prod of produccion" class="product-card">
+                <div class="product-info">
+                    <h4>{{ prod.producto }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="location-info">
+            <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) }}</p>
+            <p><strong>Finca:</strong> {{ produccion[0]?.nombre }}</p>
+            <p><strong>Extensión en hectáreas:</strong> {{ produccion[0]?.extension }}</p>
+        </div>
+    </div>
 
-  <!-- Familiares -->
-  <div *ngIf="activeTab === 'familiares'" class="tab-content">
-      <h3>Familiares</h3>
-      <div class="card-container">
-          <div *ngFor="let fami of familiares" class="family-card">
-              <div class="family-info">
-                  <h4 style="text-transform:uppercase">{{ fami.nombres }} {{ fami.apellidos }}</h4>
-                  <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) }}</p>
-                  <p><strong>Identificación:</strong> {{ fami.identificacion }}</p>
-                  <p><strong>Teléfono:</strong> {{ fami.telefono || 'N/A' }}</p>
-                  <p><strong>Sexo:</strong> {{ getSexo(fami.sexo) }}</p>
-                  <p><strong>Estado Civil:</strong> {{ getEstadoCivil(fami.estado_civil) }}</p>
-              </div>
-          </div>
-      </div>
-  </div>
+    <!-- Familiares -->
+    <div *ngIf="activeTab === 'familiares'" class="tab-content">
+        <h3>Familiares</h3>
+        <div class="card-container">
+            <div *ngFor="let fami of familiares" class="family-card">
+                <div class="family-info">
+                    <h4 style="text-transform:uppercase">{{ fami.nombres }} {{ fami.apellidos }}</h4>
+                    <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) }}</p>
+                    <p><strong>Identificación:</strong> {{ fami.identificacion }}</p>
+                    <p><strong>Teléfono:</strong> {{ fami.telefono || 'N/A' }}</p>
+                    <p><strong>Sexo:</strong> {{ getSexo(fami.sexo) }}</p>
+                    <p><strong>Estado Civil:</strong> {{ getEstadoCivil(fami.estado_civil) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
