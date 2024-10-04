@@ -6,9 +6,22 @@
 
     <!-- Lista de Tarjetas de Asociados -->
     <div *ngFor="let asociado of asociadosFiltrados" class="card">
-        <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
-        <p><strong>Finca:</strong> {{ asociado.nombre }}</p>
-        <p><strong>Vereda:</strong> {{ asociado.vereda }}</p>
-        <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+        <div class="card-content">
+            <!-- Información del asociado -->
+            <div class="asociado-info">
+                <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
+                <p><strong>Finca:</strong> {{ asociado.nombre }}</p>
+                <p><strong>Vereda:</strong> {{ asociado.vereda }}</p>
+                <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+            </div>
+
+            <!-- Imagen del asociado -->
+            <div class="asociado-foto">
+                <img *ngIf="asociado.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + asociado.fotoAsociado" alt="Foto del Asociado" />
+                <ng-template #noFoto>
+                    <img src="assets/imagenes/no-photo.png" alt="Sin foto" />
+                </ng-template>
+            </div>
+        </div>
     </div>
 </div>
