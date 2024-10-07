@@ -1,108 +1,74 @@
-/* Estilos generales */
-.formas-contacto-container {
-  max-width: 800px;
-  margin: 0 auto;
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.formas-contacto-container {
+  max-width: 400px; /* Ancho máximo reducido para el contenedor del formulario */
+  margin: 20px auto; /* Agrega margen superior para espaciarlo del menú */
+  background-color: #ececec; /* Color de fondo del formulario */
+  padding: 20px; /* Espaciado interno reducido */
+  border-radius: 12px; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra del contenedor */
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #333;
-}
-
-/* Estilos del formulario */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  font-size: 1.5rem; /* Tamaño del encabezado reducido */
+  color: #333; /* Color del texto */
+  margin-bottom: 15px; /* Espaciado inferior */
+  text-align: center; /* Centra el texto */
 }
 
 .form-group {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex-direction: column; /* Apila los elementos verticalmente */
+  margin-bottom: 10px; /* Espaciado inferior de los grupos de formulario */
 }
 
-label {
-  font-weight: bold;
-  color: #555;
+.form-group label {
+  font-size: 0.9rem; /* Tamaño de la fuente de las etiquetas reducido */
+  color: #666; /* Color de las etiquetas */
+  margin-bottom: 5px; /* Espaciado inferior de las etiquetas */
 }
 
-input[type="email"],
-input[type="tel"],
-input[type="text"],
-select {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border-color 0.3s ease;
+.form-group input,
+.form-group select {
+  width: 100%; /* Ancho completo */
+  padding: 8px; /* Espaciado interno reducido */
+  border-radius: 6px; /* Bordes redondeados */
+  border: 1px solid #ccc; /* Borde */
+  font-size: 0.9rem; /* Tamaño de la fuente reducido */
+  box-sizing: border-box; /* Asegura que el padding y el borde estén incluidos en el ancho total */
 }
 
-input[type="email"]:focus,
-input[type="tel"]:focus,
-input[type="text"]:focus,
-select:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-select {
-  background-color: #fff;
-}
-
-/* Estilos de los radio buttons para el habeas data */
-.form-group input[type="radio"] {
-  margin-right: 5px;
-}
-
-label {
+.card-actions {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  justify-content: center; /* Centra los botones */
+  align-items: center; /* Alinea verticalmente los botones */
+  margin-top: 10px; /* Espaciado superior reducido */
 }
 
-/* Botón de guardar cambios */
-button[type="submit"] {
-  padding: 12px 20px;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+button {
+  background-color: #007bff; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  padding: 8px 12px; /* Espaciado interno reducido */
+  border: none; /* Sin borde */
+  border-radius: 6px; /* Bordes redondeados */
+  font-weight: 600; /* Peso de la fuente */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: background-color 0.3s ease; /* Transición del color de fondo */
+  font-size: 0.9rem; /* Tamaño de la fuente del botón reducido */
+  margin: 0 5px; /* Espaciado entre los botones */
 }
 
-button[type="submit"]:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: #0056b3; /* Color al pasar el ratón */
 }
 
-/* Responsivo */
-@media (max-width: 600px) {
-  .formas-contacto-container {
-    padding: 15px;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  input[type="email"],
-  input[type="tel"],
-  input[type="text"],
-  select {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-
-  button[type="submit"] {
-    padding: 10px 15px;
-    font-size: 0.9rem;
-  }
+/* Nuevo estilo para alinear las opciones de radio */
+.radio-group {
+  display: flex; /* Apila horizontalmente */
+  justify-content: center; /* Centra horizontalmente */
+  margin-top: 5px; /* Espaciado superior */
 }
