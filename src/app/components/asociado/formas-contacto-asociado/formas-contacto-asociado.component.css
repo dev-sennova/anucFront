@@ -1,109 +1,108 @@
-/* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+/* Estilos generales */
+.formas-contacto-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Estilos del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-weight: bold;
+  color: #555;
+}
+
+input[type="email"],
+input[type="tel"],
+input[type="text"],
+select {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+select {
+  background-color: #fff;
+}
+
+/* Estilos de los radio buttons para el habeas data */
+.form-group input[type="radio"] {
+  margin-right: 5px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botón de guardar cambios */
+button[type="submit"] {
+  padding: 12px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .formas-contacto-container {
+    padding: 15px;
   }
-  
-  /* Container for social media settings */
-  .social-media-settings {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* General form group styling */
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    font-size: 16px;
-    margin-bottom: 5px;
-    color: #333333;
-    display: block;
-  }
-  
-  input[type="text"],
-  input[type="file"],
-  select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  /* Heading */
+
   h2 {
-    font-size: 24px;
-    color: #333333;
-    text-align: center;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
   }
-  
-  /* Button styling */
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
+
+  input[type="email"],
+  input[type="tel"],
+  input[type="text"],
+  select {
+    font-size: 0.9rem;
+    padding: 8px;
   }
-  
-  .btn:hover {
-    background-color: #0056b3;
+
+  button[type="submit"] {
+    padding: 10px 15px;
+    font-size: 0.9rem;
   }
-  
-  /* Checkbox styling */
-  input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  /* Responsive design for smaller screens */
-  @media (max-width: 768px) {
-    .social-media-settings {
-      padding: 15px;
-    }
-  
-    h2 {
-      font-size: 20px;
-    }
-  
-    label,
-    input[type="text"],
-    select,
-    .btn {
-      font-size: 14px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .social-media-settings {
-      padding: 10px;
-    }
-  
-    h2 {
-      font-size: 18px;
-    }
-  
-    label,
-    input[type="text"],
-    select,
-    .btn {
-      font-size: 12px;
-    }
-  }
-  
+}

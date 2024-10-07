@@ -1,50 +1,76 @@
-<div class="social-media-settings">
-    <h2>Configuración de Redes Sociales</h2>
+<div class="formas-contacto-container">
+    <h2>Gestión de Formas de Contacto</h2>
   
-    <!-- Campo de redes sociales -->
+    <form (submit)="onSubmit()">
+      <!-- Correo -->
+      <div class="form-group">
+        <label for="correo">Correo</label>
+        <input type="email" id="correo" [(ngModel)]="formasContacto.correo" name="correo" required />
+        <select [(ngModel)]="formasContacto.permisos.correo" name="permisoCorreo">
+          <option value="publico">Público</option>
+          <option value="privado">Privado</option>
+          <option value="asociados">Asociados</option>
+        </select>
+      </div>
+  
+      <!-- Teléfono -->
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" [(ngModel)]="formasContacto.telefono" name="telefono" required />
+        <select [(ngModel)]="formasContacto.permisos.telefono" name="permisoTelefono">
+          <option value="publico">Público</option>
+          <option value="privado">Privado</option>
+          <option value="asociados">Asociados</option>
+        </select>
+      </div>
+  
+      <!-- WhatsApp -->
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="tel" id="whatsapp" [(ngModel)]="formasContacto.whatsapp" name="whatsapp" />
+        <select [(ngModel)]="formasContacto.permisos.whatsapp" name="permisoWhatsapp">
+          <option value="publico">Público</option>
+          <option value="privado">Privado</option>
+          <option value="asociados">Asociados</option>
+        </select>
+      </div>
+  
+    <!-- Facebook -->
     <div class="form-group">
-      <label for="facebook">Facebook</label>
-      <input type="text" id="facebook" placeholder="URL de Facebook" class="form-control">
-      <label for="facebook-visibility">¿Quién puede ver tu Facebook?</label>
-      <select id="facebook-visibility" class="form-control">
-        <option value="public">Público</option>
-        <option value="friends">Solo amigos</option>
-        <option value="private">Solo yo</option>
-      </select>
+        <label for="facebook">Facebook</label>
+        <input type="text" id="facebook" [(ngModel)]="formasContacto.facebook" name="facebook" />
+        <select [(ngModel)]="formasContacto.permisos.facebook" name="permisoFacebook">
+            <option value="publico">Público</option>
+            <option value="privado">Privado</option>
+            <option value="asociados">Asociados</option>
+        </select>
+    </div>
+  
+    <!-- Instagram -->
+    <div class="form-group">
+        <label for="instagram">Instagram</label>
+        <input type="text" id="instagram" [(ngModel)]="formasContacto.instagram" name="instagram" />
+        <select [(ngModel)]="formasContacto.permisos.instagram" name="permisoInstagram">
+            <option value="publico">Público</option>
+            <option value="privado">Privado</option>
+            <option value="asociados">Asociados</option>
+        </select>
+    </div>
+
+    <!-- Habeas Data -->
+    <div class="form-group">
+        <label>¿Acepta el habeas data?</label>
+        <label>
+            <input type="radio" [(ngModel)]="habeasDataAceptado" name="habeasData" [value]="true" /> Aceptar
+        </label>
+        <label>
+            <input type="radio" [(ngModel)]="habeasDataAceptado" name="habeasData" [value]="false" /> Rechazar
+        </label>
     </div>
   
     <div class="form-group">
-      <label for="twitter">Twitter</label>
-      <input type="text" id="twitter" placeholder="URL de Twitter" class="form-control">
-      <label for="twitter-visibility">¿Quién puede ver tu Twitter?</label>
-      <select id="twitter-visibility" class="form-control">
-        <option value="public">Público</option>
-        <option value="friends">Solo amigos</option>
-        <option value="private">Solo yo</option>
-      </select>
+        <button type="submit">Guardar cambios</button>
     </div>
-  
-    <!-- Foto de perfil -->
-    <div class="form-group">
-      <label for="profile-photo">Foto de perfil</label>
-      <input type="file" id="profile-photo" class="form-control-file">
-      <label for="photo-visibility">¿Quién puede ver tu foto?</label>
-      <select id="photo-visibility" class="form-control">
-        <option value="public">Público</option>
-        <option value="friends">Solo amigos</option>
-        <option value="private">Solo yo</option>
-      </select>
-    </div>
-  
-    <!-- Checkbox para habeas data -->
-    <div class="form-group">
-      <label for="habeas-data">
-        <input type="checkbox" id="habeas-data">
-        Deshabilitar Habeas Data
-      </label>
-    </div>
-  
-    <!-- Botón de Guardar -->
-    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
-  </div>
+    </form>
+</div>
   
