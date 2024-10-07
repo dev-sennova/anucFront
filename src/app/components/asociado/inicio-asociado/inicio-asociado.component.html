@@ -16,7 +16,11 @@
                 <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
                 <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
                 <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
+                <p><strong>Correo:</strong> {{ persona.correo }}</p>
                 <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
+                <p><strong>Whatsapp:</strong> {{ persona.whatsapp }}</p>
+                <p><strong>Facebook:</strong> {{ persona.facebook }}</p>
+                <p><strong>Instagram:</strong> {{ persona.instagram }}</p>
             </div>
             <div class="foto-asociado">
                 <img *ngIf="persona.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + persona.fotoAsociado"

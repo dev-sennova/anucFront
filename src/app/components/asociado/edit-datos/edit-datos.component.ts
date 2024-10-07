@@ -42,6 +42,7 @@ export class EditDatosComponent implements OnInit {
 
   ) { }
   ngOnInit(): void {
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
     const idUsuario = localStorage.getItem('identificador_usuario') || '';
     this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
     this.nombresUsuarioCargado = localStorage.getItem('nombre_usuario');
@@ -91,22 +92,21 @@ export class EditDatosComponent implements OnInit {
         console.error('Error al obtener los estados civiles:', error);
       }
     );
-    if (idUsuario) {
-      this.personasService.getPerson(idUsuario).subscribe(
-        (data) => {
-          if (data && data.personas && data.personas.length > 0) {
-            this.persona = data.personas[0];
-          } else {
-            console.error('No se encontraron personas en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener persona', error);
+
+    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+      (data) => {
+        if (data && data.asociado && data.asociado.length > 0) {
+          this.persona = data.asociado[0];
+        } else {
+          console.error('No se encontró el asociado');
         }
-      );
-    } else {
-      console.error('No se encontró id_usuario en el localStorage');
-    }
+      },
+      (error) => {
+        console.error('Error al obtener persona', error);
+      }
+    );
+    
+
     this.tipoDeDocumentoService.getTiposDocumento().subscribe(
       (data) => {
         if (data) {

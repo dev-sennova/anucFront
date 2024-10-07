@@ -80,23 +80,22 @@ export class InicioAsociadoComponent implements OnInit {
       console.error('No se encontró id_usuario en el localStorage');
     }
 
-    if (idPersona) {
-      this.personasService.getPersona(idPersona).subscribe(
-        (data) => {
-          if (data && data.personas && data.personas.length > 0) {
-            this.persona = data.personas[0];
-            this.loadingService.hideLoading();
-          } else {
-            console.error('No se encontraron personas en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener persona', error);
+    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+      (data) => {
+        if (data && data.asociado && data.asociado.length > 0) {
+          this.persona = data.asociado[0]; 
+        } else {
+          console.error('No se encontró el asociado');
         }
-      );
-    } else {
-      console.error('No se encontró id_usuario en el localStorage');
-    }
+        this.loadingService.hideLoading();
+      },
+      (error) => {
+        console.error('Error al obtener persona', error);
+      }
+    );
+    
+
+
     this.tipoDocumentoService.getTiposDocumento().subscribe(
       (data) => {
         if (data) {
