@@ -13,42 +13,43 @@ export class FormasContactoAsociadoComponent implements OnInit {
   persona: any = {}; 
   permisos: any = {}; 
 
-  constructor(private formasContactoService: FormasContactoAsociadoService,
+  constructor(
+    private formasContactoService: FormasContactoAsociadoService,
     private personasService: PersonasService
   ) {}
 
   ngOnInit(): void {
-
-    const idUsuario = localStorage.getItem('identificador_usuario') || '';
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
-    const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
-    const idPersona = localStorage.getItem('identificador_persona') || '';
-
-    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
-      (data) => {
-        if (data && data.permisos && data.permisos.length > 0) {
-          this.permisos = data.permisos[0]; 
-        } else {
-          console.error('No se encontró el asociado');
+  
+    if (idAsociado) {
+      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+        (data) => {
+          // Log para verificar la respuesta completa del servicio
+          console.log('Respuesta de getInfoOneAsociado:', data);
+  
+          // Verificar si el dato "asociado" existe
+          if (data && data.asociado && data.asociado.length > 0) {
+            this.persona = data.asociado[0];  // Asignamos los datos de la persona
+            console.log('Datos de la persona:', this.persona);  // Verificar los datos asignados
+  
+            // Verificar si los permisos están presentes
+            if (data.permisos && data.permisos.length > 0) {
+              this.permisos = data.permisos[0];  // Asignamos los permisos
+              console.log('Datos de los permisos:', this.permisos);  // Verificar los permisos
+            } else {
+              console.error('No se encontraron permisos para el asociado.');
+            }
+          } else {
+            console.error('No se encontró el asociado.');
+          }
+        },
+        (error) => {
+          console.error('Error al obtener los datos del asociado:', error);
         }
-      },
-      (error) => {
-        console.error('Error al obtener persona', error);
-      }
-    );
-
-    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
-      (data) => {
-        if (data && data.asociado && data.asociado.length > 0) {
-          this.persona = data.asociado[0]; 
-        } else {
-          console.error('No se encontró el asociado');
-        }
-      },
-      (error) => {
-        console.error('Error al obtener persona', error);
-      }
-    );
+      );
+    } else {
+      console.error('El idAsociado no está disponible en el localStorage');
+    }
   }
 
   onSubmit(): void {
@@ -59,7 +60,11 @@ export class FormasContactoAsociadoComponent implements OnInit {
       whatsapp: this.permisos.whatsapp,
       facebook: this.permisos.facebook,
       instagram: this.permisos.instagram,
+      habeasData: this.persona.habeasData  
     };
+  
+    // Imprimir los datos para revisar que se envían correctamente
+    console.log('Datos enviados:', permisosData);
   
     this.formasContactoService.updatePermiso(this.permisos.id, permisosData).subscribe(
       (response) => {
@@ -69,7 +74,7 @@ export class FormasContactoAsociadoComponent implements OnInit {
           text: 'Los permisos se actualizaron correctamente',
           confirmButtonText: 'Aceptar'
         });
-        this.ngOnInit();
+        this.ngOnInit(); // Recargar los datos después de la actualización
       },
       (error) => {
         Swal.fire({
@@ -81,5 +86,5 @@ export class FormasContactoAsociadoComponent implements OnInit {
       }
     );
   }
-
+  
 }
