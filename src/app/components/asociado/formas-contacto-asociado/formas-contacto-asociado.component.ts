@@ -24,18 +24,14 @@ export class FormasContactoAsociadoComponent implements OnInit {
     if (idAsociado) {
       this.personasService.getInfoOneAsociado(idAsociado).subscribe(
         (data) => {
-          // Log para verificar la respuesta completa del servicio
-          console.log('Respuesta de getInfoOneAsociado:', data);
   
-          // Verificar si el dato "asociado" existe
           if (data && data.asociado && data.asociado.length > 0) {
-            this.persona = data.asociado[0];  // Asignamos los datos de la persona
-            console.log('Datos de la persona:', this.persona);  // Verificar los datos asignados
+            this.persona = data.asociado[0];  
+            console.log('Datos de la persona:', this.persona); 
   
-            // Verificar si los permisos están presentes
             if (data.permisos && data.permisos.length > 0) {
-              this.permisos = data.permisos[0];  // Asignamos los permisos
-              console.log('Datos de los permisos:', this.permisos);  // Verificar los permisos
+              this.permisos = data.permisos[0];
+              console.log('Datos de los permisos:', this.permisos);  
             } else {
               console.error('No se encontraron permisos para el asociado.');
             }
@@ -63,8 +59,6 @@ export class FormasContactoAsociadoComponent implements OnInit {
       habeasData: this.persona.habeasData  
     };
   
-    // Imprimir los datos para revisar que se envían correctamente
-    console.log('Datos enviados:', permisosData);
   
     this.formasContactoService.updatePermiso(this.permisos.id, permisosData).subscribe(
       (response) => {
@@ -74,7 +68,7 @@ export class FormasContactoAsociadoComponent implements OnInit {
           text: 'Los permisos se actualizaron correctamente',
           confirmButtonText: 'Aceptar'
         });
-        this.ngOnInit(); // Recargar los datos después de la actualización
+        this.ngOnInit(); 
       },
       (error) => {
         Swal.fire({
