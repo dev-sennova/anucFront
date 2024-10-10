@@ -15,7 +15,7 @@
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    overflow: hidden;
+
 }
 
 .header .left {
@@ -41,6 +41,12 @@
 .profile-icon {
     height: 40px; /* Mantén el tamaño constante del icono de perfil */
     cursor: pointer;
+}
+
+.profile-icon {
+    height: 40px;
+    cursor: pointer;
+    position: relative;
 }
 
 .profile-menu {
