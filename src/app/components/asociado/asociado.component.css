@@ -15,6 +15,7 @@
     width: 100%;
     box-sizing: border-box;
     position: relative;
+    overflow: hidden;
 }
 
 .header .left {
@@ -23,23 +24,23 @@
 }
 
 .header img.logo-header {
-    height: 50px;
+    height: 50px; /* Ajusta el tamaño del logo */
     margin-right: 20px;
 }
 
 #tituloAnuc {
-    font-size: 18px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    color: #000000;
+    font-size: 18px; /* Tamaño de fuente fijo */
+    margin: 0; /* Asegúrate de que el margen sea cero */
+    color: #000000; /* Color del texto */
+    position: absolute; /* Posición absoluta */
+    left: 50%; /* Centra horizontalmente */
+    transform: translateX(-50%); /* Ajusta la posición para centrar */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
 }
 
 .profile-icon {
-    height: 40px;
+    height: 40px; /* Mantén el tamaño constante del icono de perfil */
     cursor: pointer;
-    position: relative;
 }
 
 .profile-menu {
@@ -113,6 +114,26 @@
     overflow-y: auto; /* Permitir desplazamiento solo si es necesario */
 }
 
+.menu {
+    display: flex;                  /* Muestra el menú como un flex */
+    position: absolute;             /* Posiciona el menú en relación al contenedor */
+    right: 0;                       /* Ancla el menú a la derecha */
+    top: 100%;                      /* Mueve el menú hacia abajo del header */
+    background-color: #fff;        /* Color de fondo del menú */
+    border: 1px solid #ccc;        /* Borde del menú */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);  /* Sombra para el menú */
+    visibility: hidden;             /* Oculta el menú por defecto */
+    opacity: 0;                    /* Opacidad inicial para la transición */
+    transition: visibility 0s, opacity 0.5s; /* Transición suave para la aparición */
+}
+
+
+.menu.active {
+    visibility: visible;           /* Hace visible el menú cuando está activo */
+    opacity: 1;                   /* Aumenta la opacidad */
+}
+
+
 .side-menu .menu-header {
     display: flex;
     justify-content: space-between;
@@ -169,14 +190,15 @@
 }
 
 .menu-btn {
-    font-size: 14px; /* Tamaño del texto ajustado */
-    padding: 25px 0px; /* Puedes ajustar el padding */
-    background: none; /* Si quieres que no tenga fondo */
-    border: none; /* Sin borde */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    color: #000000; /* Color del texto */
-    font-weight: bold; /* Texto en negrita */
+    font-size: 14px;              /* Tamaño del texto en el botón */
+    padding: 10px;                /* Espaciado del botón */
+    background: none;             /* Sin fondo para los botones del menú */
+    border: none;                 /* Sin borde */
+    cursor: pointer;              /* Cambia el cursor al pasar el mouse */
+    color: #000000;               /* Color del texto del botón */
+    font-weight: bold;            /* Texto en negrita */
 }
+
 
 /* Media query para pantallas grandes */
 @media (min-width: 768px) {
@@ -227,11 +249,19 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.menu-btn:hover {
+    background-color: #f0f0f0;    
+}
+
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+}
+
+.menu-btn:focus {
+    outline: none;                
 }
 
 .close:hover,
