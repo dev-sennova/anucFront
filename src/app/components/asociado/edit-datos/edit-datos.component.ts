@@ -42,24 +42,8 @@ export class EditDatosComponent implements OnInit {
 
   ) { }
   ngOnInit(): void {
-    const idUsuario = localStorage.getItem('identificador_usuario') || '';
-    this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
-    this.nombresUsuarioCargado = localStorage.getItem('nombre_usuario');
-    this.apellidosUsuarioCargado = localStorage.getItem('apellido_usuario');
-    this.identificacionUsuarioCargado =
-      localStorage.getItem('documento_usuario');
-    this.telefonoUsuarioCargado = localStorage.getItem('telefono');
-    this.roles = localStorage.getItem('roles');
-    //
-    console.log('IdUsuario cargado: ' + this.idUsuarioCargado);
-    console.log('NombresUsuario cargado: ' + this.nombresUsuarioCargado);
-    console.log('ApellidosUsuario cargado: ' + this.apellidosUsuarioCargado);
-    console.log(
-      'IdentificacionUsuario cargado: ' + this.identificacionUsuarioCargado
-    );
-    console.log('TelefonoUsuario cargado: ' + this.telefonoUsuarioCargado);
-    console.log('RolesUsuario cargado: ' + JSON.stringify(this.roles));
-
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {
@@ -91,22 +75,21 @@ export class EditDatosComponent implements OnInit {
         console.error('Error al obtener los estados civiles:', error);
       }
     );
-    if (idUsuario) {
-      this.personasService.getPerson(idUsuario).subscribe(
-        (data) => {
-          if (data && data.personas && data.personas.length > 0) {
-            this.persona = data.personas[0];
-          } else {
-            console.error('No se encontraron personas en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener persona', error);
+
+    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+      (data) => {
+        if (data && data.asociado && data.asociado.length > 0) {
+          this.persona = data.asociado[0];
+        } else {
+          console.error('No se encontró el asociado');
         }
-      );
-    } else {
-      console.error('No se encontró id_usuario en el localStorage');
-    }
+      },
+      (error) => {
+        console.error('Error al obtener persona', error);
+      }
+    );
+    
+
     this.tipoDeDocumentoService.getTiposDocumento().subscribe(
       (data) => {
         if (data) {

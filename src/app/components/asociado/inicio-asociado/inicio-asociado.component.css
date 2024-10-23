@@ -103,7 +103,6 @@
     justify-content: center;
     align-items: center;
     min-height: 200px;
-    background-color: #f0f0f0;
     border-radius: 8px;
     padding: 10px;
 }
@@ -111,7 +110,6 @@
 .foto-asociado img {
     width: 150px;
     height: 150px;
-    border-radius: 10%;
     object-fit: cover;
     margin-bottom: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);

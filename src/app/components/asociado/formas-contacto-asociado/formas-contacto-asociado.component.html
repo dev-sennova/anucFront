@@ -1,0 +1,78 @@
+<div class="formas-contacto-container">
+  <h2>Gestión de Formas de Contacto</h2>
+
+  <form (submit)="onSubmit()">
+    <!-- Correo -->
+    <div class="form-group">
+      <label for="correo">Correo</label>
+      <input type="email" id="correo" [(ngModel)]="persona.correo" name="correo" disabled /> <!-- Campo enlazado con persona.correo -->
+      <select [(ngModel)]="permisos.correo" name="permisoCorreo">
+        <option value="1">Público</option>
+        <option value="2">Privado</option>
+        <option value="3">Asociados</option>
+      </select>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="form-group">
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" [(ngModel)]="persona.telefono" name="telefono" disabled /> <!-- Campo enlazado con persona.telefono -->
+      <select [(ngModel)]="permisos.telefono" name="permisoTelefono">
+        <option value="1">Público</option>
+        <option value="2">Privado</option>
+        <option value="3">Asociados</option>
+      </select>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="form-group">
+      <label for="whatsapp">WhatsApp</label>
+      <input type="tel" id="whatsapp" [(ngModel)]="persona.whatsapp" name="whatsapp" disabled /> <!-- Campo enlazado con persona.whatsapp -->
+      <select [(ngModel)]="permisos.whatsapp" name="permisoWhatsapp">
+        <option value="1">Público</option>
+        <option value="2">Privado</option>
+        <option value="3">Asociados</option>
+      </select>
+    </div>
+
+    <!-- Facebook -->
+    <div class="form-group">
+      <label for="facebook">Facebook</label>
+      <input type="text" id="facebook" [(ngModel)]="persona.facebook" name="facebook" disabled /> <!-- Campo enlazado con persona.facebook -->
+      <select [(ngModel)]="permisos.facebook" name="permisoFacebook">
+        <option value="1">Público</option>
+        <option value="2">Privado</option>
+        <option value="3">Asociados</option>
+      </select>
+    </div>
+
+    <!-- Instagram -->
+    <div class="form-group">
+      <label for="instagram">Instagram</label>
+      <input type="text" id="instagram" [(ngModel)]="persona.instagram" name="instagram" disabled /> <!-- Campo enlazado con persona.instagram -->
+      <select [(ngModel)]="permisos.instagram" name="permisoInstagram">
+        <option value="1">Público</option>
+        <option value="2">Privado</option>
+        <option value="3">Asociados</option>
+      </select>
+    </div>
+
+    <!-- Habeas Data -->
+    <div class="form-group">
+      <label>¿Acepta el habeas data?</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" [(ngModel)]="persona.habeasData" name="habeasData" [value]="1" /> Aceptar
+        </label>
+        <label style="margin-left: 20px;"> 
+          <input type="radio" [(ngModel)]="persona.habeasData" name="habeasData" [value]="0" /> Rechazar
+        </label>
+      </div>
+    </div>
+    
+
+    <div class="form-group card-actions">
+      <button type="submit">Guardar cambios</button>
+    </div>
+  </form>
+</div>
