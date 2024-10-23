@@ -1,73 +1,97 @@
 <body class="body">
-  <!-- Contenedor de Data Wall -->
-  <div class="data-wall-container">
-    <div class="data-wall-content">
+<!-- Contenedor de Data Wall -->
+<div class="data-wall-container">
+  <div class="data-wall-content">
       <h2>Información Personal</h2>
       <div *ngIf="persona">
-        <div class="info-container">
-          <div class="info-text">
-            <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
-            <p><strong>Nombres:</strong> {{ persona.nombres }}</p>
-            <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
-            <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
-            <p><strong>Whatsapp:</strong> {{ persona.whatsapp }}</p>
-            <p><strong>Correo:</strong> {{ persona.correo }}</p>
-            <p><strong>Facebook:</strong> {{ persona.facebook }}</p>
-            <p><strong>Instagram:</strong> {{ persona.instagram }}</p>
-            <p><strong>Fecha de Nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
-            <p><strong>Tipo de Documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
-            <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
-            <p><strong>Estado Civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
-            <button class="edit-button" (click)="openEditModal(persona)">Editar</button>
+          <div class="info-container">
+              <div class="info-text">
+                  <p><strong>Identificación:</strong> {{ persona.identificacion || 'No tienes registrado el número de identificación' }}</p>
+                  <p><strong>Nombres:</strong> {{ persona.nombres || 'No tienes registrado el nombre' }}</p>
+                  <p><strong>Apellidos:</strong> {{ persona.apellidos || 'No tienes registrado los apellidos' }}</p>
+                  <p><strong>Teléfono:</strong> {{ persona.telefono || 'No tienes registrado el teléfono' }}</p>
+                  <p><strong>Whatsapp:</strong> {{ persona.whatsapp || 'No tienes registrado el Whatsapp' }}</p>
+                  <p><strong>Correo:</strong> {{ persona.correo || 'No tienes registrado el correo' }}</p>
+                  <p><strong>Facebook:</strong> {{ persona.facebook || 'No tienes registrado el Facebook' }}</p>
+                  <p><strong>Instagram:</strong> {{ persona.instagram || 'No tienes registrado el Instagram' }}</p>
+                  <p><strong>Fecha de Nacimiento:</strong> {{ persona.fecha_nacimiento || 'No tienes registrada la fecha de nacimiento' }}</p>
+                  <p><strong>Tipo de Documento:</strong> {{ getTipoDocumento(persona.tipo_documento) || 'No tienes registrado el tipo de documento' }}</p>
+                  <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) || 'No tienes registrado el sexo' }}</p>
+                  <p><strong>Estado Civil:</strong> {{ getEstadoCivil(persona.estado_civil) || 'No tienes registrado el estado civil' }}</p>
+                  <button class="edit-button" (click)="openEditModal(persona)">Editar</button>
+              </div>
+              <div class="image-container">
+                  <img *ngIf="persona.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + persona.fotoAsociado" alt="Foto del Asociado" class="profile-photo">
+                  <ng-template #noFoto>
+                      <img src="assets/imagenes/no-photo.png" alt="Sin foto" class="profile-photo">
+                  </ng-template>
+              </div>
           </div>
-          <div class="image-container">
-            <img [src]="persona.fotoAsociado ? 'data:image/jpeg;base64,' + persona.fotoAsociado : 'assets/imagenes/no-photo.png'" alt="Foto del Asociado" class="profile-photo">
-          </div>
-        </div>
       </div>
-    </div>
+      <div *ngIf="!persona">
+          <p style="text-align: center; color: #184a13;">Cargando...</p>
+      </div>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div *ngIf="editModalVisible" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeEditModal()">&times;</span>
-      <h2>Editar Información Personal</h2>
-      <form (ngSubmit)="submitEditForm()">
-        <label for="identificacion">Identificación:</label>
-        <input type="text" id="identificacion" name="identificacion" [(ngModel)]="persona.identificacion" required>
 
-        <label for="nombres">Nombres:</label>
-        <input type="text" id="nombres" name="nombres" [(ngModel)]="persona.nombres" required>
+<!-- Modal -->
+<div *ngIf="editModalVisible" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Editar Información Personal</h2>
+    <form (ngSubmit)="submitEditForm()">
+      <label for="identificacion">Identificación:</label>
+      <input type="text" id="identificacion" name="identificacion" [(ngModel)]="persona.identificacion" required>
 
-        <label for="apellidos">Apellidos:</label>
-        <input type="text" id="apellidos" name="apellidos" [(ngModel)]="persona.apellidos" required>
+      <label for="nombres">Nombres:</label>
+      <input type="text" id="nombres" name="nombres" [(ngModel)]="persona.nombres" required>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" [(ngModel)]="persona.telefono">
+      <label for="apellidos">Apellidos:</label>
+      <input type="text" id="apellidos" name="apellidos" [(ngModel)]="persona.apellidos" required>
 
-        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-        <input type="date" id="fecha_nacimiento" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
+      <label for="telefono">Teléfono:</label>
+      <input type="text" id="telefono" name="telefono" [(ngModel)]="persona.telefono">
 
-        <label for="tipo_documento">Tipo de Documento:</label>
-        <select [(ngModel)]="persona.tipo_documento" id="tipo_documento" name="tipo_documento" required>
-          <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
-        </select>
+      <label for="whatsapp">Whatsapp:</label>
+      <input type="text" id="whatsapp" name="whatsapp" [(ngModel)]="persona.whatsapp">
 
-        <label for="sexo">Sexo:</label>
-        <select [(ngModel)]="persona.sexo" id="sexo" name="sexo" required>
-          <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
-        </select>
+      <label for="correo">Correo:</label>
+      <input type="text" id="correo" name="correo" [(ngModel)]="persona.correo" required>
 
-        <label for="estado_civil">Estado Civil:</label>
-        <select [(ngModel)]="persona.estado_civil" id="estado_civil" name="estado_civil" required>
-          <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
-        </select>
-        <label for="foto">Seleccionar Foto:</label>
-        <input type="file" id="foto" (change)="onFileSelected($event)">
+      <label for="facebook">Facebook:</label>
+      <input type="text" id="facebook" name="facebook" [(ngModel)]="persona.facebook">
 
-        <button type="submit">Guardar</button>
-      </form>
-    </div>
+      <label for="instagram">Instagram:</label>
+      <div class="instagram-input">
+        <span class="input-prefix">&#64;</span>
+        <input type="text" id="instagram" name="instagram" [(ngModel)]="persona.instagram" required placeholder="usuario" (input)="removeSpaces($event)">
+      </div>      
+
+      <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+      <input type="date" id="fecha_nacimiento" [(ngModel)]="persona.fecha_nacimiento" name="fecha_nacimiento" required>
+
+      <label for="tipo_documento">Tipo de Documento:</label>
+      <select [(ngModel)]="persona.tipo_documento" id="tipo_documento" name="tipo_documento" required>
+        <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">{{tipoDocumento.tipo_documento}}</option>
+      </select>
+
+      <label for="sexo">Sexo:</label>
+      <select [(ngModel)]="persona.sexo" id="sexo" name="sexo" required>
+        <option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.sexo}}</option>
+      </select>
+
+      <label for="estado_civil">Estado Civil:</label>
+      <select [(ngModel)]="persona.estado_civil" id="estado_civil" name="estado_civil" required>
+        <option *ngFor="let estadoCivil of estadosCiviles" [value]="estadoCivil.id">{{estadoCivil.estado_civil}}</option>
+      </select>
+      
+      <label for="fotoAsociado">Seleccionar Foto:</label>
+      <input type="file" id="foto" (change)="onFileSelected($event)">
+
+      <button type="submit">Guardar</button>
+    </form>
   </div>
+</div>
+
 </body>

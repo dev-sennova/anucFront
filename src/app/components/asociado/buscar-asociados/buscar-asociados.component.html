@@ -12,7 +12,13 @@
                 <h2>{{ asociado.nombres }} {{ asociado.apellidos }}</h2>
                 <p><strong>Finca:</strong> {{ asociado.nombre }}</p>
                 <p><strong>Vereda:</strong> {{ asociado.vereda }}</p>
-                <p><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+                
+                <!-- Mostrar solo contactos válidos -->
+                <p *ngIf="asociado.telefono"><strong>Teléfono:</strong> {{ asociado.telefono }}</p>
+                <p *ngIf="asociado.correo"><strong>Correo:</strong> {{ asociado.correo }}</p>
+                <p *ngIf="asociado.whatsapp"><strong>Whatsapp:</strong> {{ asociado.whatsapp }}</p>
+                <p *ngIf="asociado.facebook"><strong>Facebook:</strong> {{ asociado.facebook }}</p>
+                <p *ngIf="asociado.instagram"><strong>Instagram:</strong> {{ asociado.instagram }}</p>
             </div>
 
             <!-- Imagen del asociado -->
@@ -25,3 +31,4 @@
         </div>
     </div>
 </div>
+

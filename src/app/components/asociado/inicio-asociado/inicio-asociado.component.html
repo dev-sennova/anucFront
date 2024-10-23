@@ -9,22 +9,21 @@
     <div *ngIf="activeTab === 'personal'" class="tab-content personal-info">
         <div class="info-details">
             <div class="persona-info">
-                <p><strong>Nombre:</strong> {{ persona.nombres }}</p>
-                <p><strong>Apellidos:</strong> {{ persona.apellidos }}</p>
-                <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) }}</p>
-                <p><strong>Tipo de documento:</strong> {{ getTipoDocumento(persona.tipo_documento) }}</p>
-                <p><strong>Identificación:</strong> {{ persona.identificacion }}</p>
-                <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento }}</p>
-                <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) }}</p>
-                <p><strong>Correo:</strong> {{ persona.correo }}</p>
-                <p><strong>Teléfono:</strong> {{ persona.telefono }}</p>
-                <p><strong>Whatsapp:</strong> {{ persona.whatsapp }}</p>
-                <p><strong>Facebook:</strong> {{ persona.facebook }}</p>
-                <p><strong>Instagram:</strong> {{ persona.instagram }}</p>
+                <p><strong>Nombre:</strong> {{ persona.nombres || 'No tienes registrado el nombre' }}</p>
+                <p><strong>Apellidos:</strong> {{ persona.apellidos || 'No tienes registrado los apellidos' }}</p>
+                <p><strong>Sexo:</strong> {{ getSexo(persona.sexo) || 'No tienes registrado el sexo' }}</p>
+                <p><strong>Tipo de documento:</strong> {{ getTipoDocumento(persona.tipo_documento) || 'No tienes registrado el tipo de documento' }}</p>
+                <p><strong>Identificación:</strong> {{ persona.identificacion || 'No tienes registrado el número de identificación' }}</p>
+                <p><strong>Fecha de nacimiento:</strong> {{ persona.fecha_nacimiento || 'No tienes registrada la fecha de nacimiento' }}</p>
+                <p><strong>Estado civil:</strong> {{ getEstadoCivil(persona.estado_civil) || 'No tienes registrado el estado civil' }}</p>
+                <p><strong>Correo:</strong> {{ persona.correo || 'No tienes registrado el correo' }}</p>
+                <p><strong>Teléfono:</strong> {{ persona.telefono || 'No tienes registrado el teléfono' }}</p>
+                <p><strong>Whatsapp:</strong> {{ persona.whatsapp || 'No tienes registrado el Whatsapp' }}</p>
+                <p><strong>Facebook:</strong> {{ persona.facebook || 'No tienes registrado el Facebook' }}</p>
+                <p><strong>Instagram:</strong> {{ persona.instagram || 'No tienes registrado el Instagram' }}</p>
             </div>
             <div class="foto-asociado">
-                <img *ngIf="persona.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + persona.fotoAsociado"
-                    alt="Foto del Asociado" />
+                <img *ngIf="persona.fotoAsociado; else noFoto" [src]="'data:image/jpeg;base64,' + persona.fotoAsociado" alt="Foto del Asociado" />
                 <ng-template #noFoto>
                     <img src="assets/imagenes/no-photo.png" alt="Sin foto" />
                     <p>Sin foto</p>
@@ -39,14 +38,17 @@
         <div class="card-container">
             <div *ngFor="let prod of produccion" class="product-card">
                 <div class="product-info">
-                    <h4>{{ prod.producto }}</h4>
+                    <h4>{{ prod.producto || 'No tienes registrado el producto' }}</h4>
                 </div>
             </div>
         </div>
         <div class="location-info">
-            <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) }}</p>
-            <p><strong>Finca:</strong> {{ produccion[0]?.nombre }}</p>
-            <p><strong>Extensión en hectáreas:</strong> {{ produccion[0]?.extension }}</p>
+            <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) || 'No tienes registrada la vereda' }}</p>
+            <p><strong>Finca:</strong> {{ produccion[0]?.nombre || 'No tienes registrado el nombre de la finca' }}</p>
+            <p><strong>Extensión en hectáreas:</strong> {{ produccion[0]?.extension || 'No tienes registrada la extensión en hectáreas' }}</p>
+        </div>
+        <div *ngIf="produccion.length === 0">
+            <p>No tienes registrados productos.</p>
         </div>
     </div>
 
@@ -56,14 +58,38 @@
         <div class="card-container">
             <div *ngFor="let fami of familiares" class="family-card">
                 <div class="family-info">
-                    <h4 style="text-transform:uppercase">{{ fami.nombres }} {{ fami.apellidos }}</h4>
-                    <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) }}</p>
-                    <p><strong>Identificación:</strong> {{ fami.identificacion }}</p>
-                    <p><strong>Teléfono:</strong> {{ fami.telefono || 'N/A' }}</p>
-                    <p><strong>Sexo:</strong> {{ getSexo(fami.sexo) }}</p>
-                    <p><strong>Estado Civil:</strong> {{ getEstadoCivil(fami.estado_civil) }}</p>
+                    <h4 style="text-transform:uppercase">{{ fami.nombres || 'No tienes registrado el nombre' }} {{ fami.apellidos || 'No tienes registrado el apellido' }}</h4>
+                    <p><strong>Parentesco:</strong> {{ getParentescos(fami.parentesco) || 'No tienes registrado el parentesco' }}</p>
+                    <p><strong>Identificación:</strong> {{ fami.identificacion || 'No tienes registrado el número de identificación' }}</p>
+                    <p><strong>Teléfono:</strong> {{ fami.telefono || 'No tienes registrado el teléfono' }}</p>
+                    <p><strong>Sexo:</strong> {{ getSexo(fami.sexo) || 'No tienes registrado el sexo' }}</p>
+                    <p><strong>Estado Civil:</strong> {{ getEstadoCivil(fami.estado_civil) || 'No tienes registrado el estado civil' }}</p>
                 </div>
             </div>
+        </div>
+        <div *ngIf="familiares.length === 0">
+            <p>No tienes registrados familiares.</p>
+        </div>
+    </div>
+</div>
+<!-- Modal de HABEAS DATA -->
+<div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Términos y Condiciones</h2>
+        <p>Por favor, acepta nuestros términos y condiciones para continuar.</p>
+        <p class="info-text">
+            El Derecho de Habeas Data en Colombia permite que usted conozca, actualice o rectifique información personal
+            o jurídica que cualquier entidad tenga en sus bases de datos.
+        </p>
+        <p class="info-text">
+            En el siguiente enlace usted encuentra el documento e instructivo de Política de Tratamiento de Protección
+            de Datos Personales del SENA:
+            <a href="https://compromiso.sena.edu.co/mapa/descarga.php?id=4836" target="_blank" class="link">Política de
+                Tratamiento para Protección de Datos Personales</a>
+        </p>
+        <div class="modal-actions">
+            <button (click)="acceptTerms()" class="btn btn-primary">Aceptar</button>
+            <button (click)="rejectTerms()" class="btn btn-secondary">Rechazar</button>
         </div>
     </div>
 </div>
