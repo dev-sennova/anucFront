@@ -352,6 +352,20 @@ p {
     color: #333;
 }
 
+.Llamar{
+    display: block;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.Correo{
+    display: block;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
 .contact-item {
     font-size: 1.1rem;
     color: #555;
