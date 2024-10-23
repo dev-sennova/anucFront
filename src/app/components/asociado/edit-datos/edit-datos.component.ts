@@ -43,24 +43,7 @@ export class EditDatosComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
-    const idUsuario = localStorage.getItem('identificador_usuario') || '';
-    this.idUsuarioCargado = localStorage.getItem('identificador_usuario');
-    this.nombresUsuarioCargado = localStorage.getItem('nombre_usuario');
-    this.apellidosUsuarioCargado = localStorage.getItem('apellido_usuario');
-    this.identificacionUsuarioCargado =
-      localStorage.getItem('documento_usuario');
-    this.telefonoUsuarioCargado = localStorage.getItem('telefono');
-    this.roles = localStorage.getItem('roles');
-    //
-    console.log('IdUsuario cargado: ' + this.idUsuarioCargado);
-    console.log('NombresUsuario cargado: ' + this.nombresUsuarioCargado);
-    console.log('ApellidosUsuario cargado: ' + this.apellidosUsuarioCargado);
-    console.log(
-      'IdentificacionUsuario cargado: ' + this.identificacionUsuarioCargado
-    );
-    console.log('TelefonoUsuario cargado: ' + this.telefonoUsuarioCargado);
-    console.log('RolesUsuario cargado: ' + JSON.stringify(this.roles));
-
+    
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {

@@ -1,1 +1,67 @@
-<p>carnet-asociado works!</p>
+<body>
+    <div class="download-section">
+        <h1 class="title">Mi carnet</h1>
+        <p class="description">
+            A continuación verás tu carnet digital, puedes mostrarlo o descargarlo. Gracias por ser asociado ANUC.
+        </p>
+        <div class="download-buttons">
+            <button (click)="downloadAsPDF()">DESCARGAR EN PDF</button>
+        </div>
+    </div>
+
+    <!-- Parte delantera del carnet -->
+    <div id="carnet-frontal" class="container">
+        <div class="header">
+            USUARIOS CAMPESINOS DE FLORIDABLANCA
+        </div>
+        <div class="flag-lines">
+            <div class="flag-line1"></div>
+            <div class="flag-line2"></div>
+            <div class="flag-line3"></div>
+        </div>
+        <div class="content">
+            <div class="text-section">
+                <div class="sub-header">
+                    {{ persona.nombres }} {{ persona.apellidos }}
+                </div>
+                <div class="info">
+                    <span>NOMBRE APELLIDOS</span>
+                    <span class="highlight">{{ persona.identificacion }}</span>
+                    <span>DOCUMENTO DE IDENTIDAD</span>
+                    <span class="highlight">ASOCIADO</span>
+                    <span>CATEGORÍA</span>
+                    <span class="highlight">{{ getVeredas(produccion[0]?.vereda) }}</span>
+                    <span>VEREDA</span>
+                </div>
+            </div>
+            <div class="logo-delantero">
+                <img [src]="'data:image/jpeg;base64,' + fotoBase64" alt="Foto asociado" class="foto-asociado" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Parte trasera del carnet -->
+    <div id="carnet-trasero" class="container">
+        <div class="txt-logo">
+            <div class="txt">
+                <p class="quote">"TODA PERSONA TIENE DERECHO A LA LIBERTAD DE REUNIÓN Y DE ASOCIACIÓN PACÍFICA"</p>
+                <p class="doc-info">ESTE DOCUMENTO ES PERSONAL E INTRANSFERIBLE</p>
+            </div>
+            <div class="logo-trasero">
+                <img alt="ANUC logo" src="assets/imagenes/logo_anuc_edited.jpg" />
+            </div>
+        </div>
+        <p class="validity">VÁLIDO HASTA ABRIL DEL 2025</p>
+        <div class="signature-section">
+            <div class="signature">
+                <span>Gabiela Delgado Cano</span>
+                <p>PRESIDENCIA DE LA ASOCIACIÓN</p>
+            </div>
+            <div class="signature">
+                <span>Gina Paola Ortiz Lozano</span>
+                <p>SECRETARÍA DE LA ASOCIACIÓN</p>
+            </div>
+        </div>
+        <p class="address">CRA. 9 No 6 -16 FLORIDABLANCA</p>
+    </div>
+</body>
