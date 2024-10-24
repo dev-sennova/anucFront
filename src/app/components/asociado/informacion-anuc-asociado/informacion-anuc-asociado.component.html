@@ -15,12 +15,12 @@
             </div>
 
             <div class="mision_anuc">
-                <h2>Nuestra misión</h2>
+                <h2>Misión</h2>
                 <p>{{ empresa.mision }}</p>
             </div>
 
             <div class="vision_anuc">
-                <h2>Nuestra visión</h2>
+                <h2>Visión</h2>
                 <p>{{ empresa.vision }}</p>
             </div>
 
@@ -38,21 +38,63 @@
             <!-- Sección de Estatutos -->
             <div class="estatutos_anuc">
                 <h2>Estatutos</h2>
-                <button class="btn btn-primary" (click)="abrirModal()">
-                    Ver Estatutos ANUC {{ currentYear }}
-                </button>
-                <button class="btn btn-secondary" (click)="descargarEstatutos()">
-                    Descargar Estatutos ANUC {{ currentYear }}
-                </button>
+                <div class="buttons-wrapper">
+                    <button class="btn btn-primary" (click)="abrirModal()">
+                        Ver Estatutos ANUC {{ currentYear }}
+                    </button>
+                    <button class="btn btn-secondary" (click)="descargarEstatutos()">
+                        Descargar Estatutos ANUC {{ currentYear }}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal para ver PDF -->
+            <div class="modal" *ngIf="isModalOpen">
+                <div class="modal-content">
+                    <span class="close" (click)="cerrarModal()">&times;</span>
+                    <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <div class="footer-content">
+                    <span class="footer-item">
+                        <span class="label">Teléfono</span>
+                        <a *ngIf="empresa.telefono" [href]="'tel:' + empresa.telefono">
+                            <img src="assets/iconos/telefono_icon.png" alt="Teléfono Icono" class="icon" />
+                        </a>
+                    </span>
+
+                    <span class="footer-item">
+                        <span class="label">Correo</span>
+                        <a *ngIf="empresa.correo" [href]="'mailto:' + empresa.correo">
+                            <img src="assets/iconos/correo_icon.png" alt="Correo Icono" class="icon" />
+                        </a>
+                    </span>
+
+                    <span class="footer-item">
+                        <span class="label">Whatsapp</span>
+                        <a *ngIf="empresa.whatsapp" [href]="'https://wa.me/' + empresa.whatsapp">
+                            <img src="assets/iconos/whatsapp_icon.png" alt="WhatsApp Icono" class="icon" />
+                        </a>
+                    </span>
+
+                    <span class="footer-item">
+                        <span class="label">Facebook</span>
+                        <a *ngIf="empresa.facebook" [href]="empresa.facebook">
+                            <img src="assets/iconos/facebook_icon.png" alt="Facebook Icono" class="icon" />
+                        </a>
+                    </span>
+
+                    <span class="footer-item">
+                        <span class="label">Instagram</span>
+                        <a *ngIf="empresa.instagram" [href]="empresa.instagram">
+                            <img src="assets/iconos/instagram_icon.png" alt="Instagram Icono" class="icon" />
+                        </a>
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Modal para ver PDF -->
-<div class="modal" *ngIf="isModalOpen">
-    <div class="modal-content">
-        <span class="close" (click)="cerrarModal()">&times;</span>
-        <iframe [src]="pdfSrc" width="100%" height="600px"></iframe>
     </div>
 </div>

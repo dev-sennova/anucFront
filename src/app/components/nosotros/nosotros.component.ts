@@ -10,6 +10,7 @@ export class NosotrosComponent implements OnInit {
 
   empresa: any;
   horariosArray: string[] = [];
+  
 
   constructor(private empresaPublicaService: EmpresaGlobalesService) { }
 
