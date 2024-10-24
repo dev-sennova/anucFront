@@ -175,3 +175,44 @@
         font-size: 14px;
     }
 }
+
+.footer {
+    background-color: #3498db;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+}
+
+.icon {
+    width: 24px;  /* Ajusta el tamaño del ícono */
+    height: 24px;
+    margin-right: 8px;  /* Espacio entre ícono y texto */
+    vertical-align: middle;  /* Alinea verticalmente el ícono con el texto */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.footer-item {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+
+.footer-item i {
+    font-size: 18px; /* Tamaño de los íconos */
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 767px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
