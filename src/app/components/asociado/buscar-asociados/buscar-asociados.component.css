@@ -72,8 +72,8 @@
 }
 
 .asociado-foto img {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 140px;
     border-radius: 10%;
     object-fit: cover;
     border: 2px solid #ddd;

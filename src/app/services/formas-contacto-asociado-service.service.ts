@@ -10,6 +10,7 @@ import { GlobalConstants } from '../commons/global-constants';
 export class FormasContactoAsociadoService {
   
   private apiUrlformasContacto = GlobalConstants.apiURL + '/api/auth/asociado_permisos';
+  private apiUrlHabeasData = GlobalConstants.apiURL + '/api/auth/asociados/update';
 
   constructor(private http: HttpClient) {}
   
@@ -19,11 +20,35 @@ export class FormasContactoAsociadoService {
     );
   }
 
-  updatePermisoHabeasData(habeasDataAceptado: boolean): Observable<any> {
-    return this.http.put(`${this.apiUrlformasContacto}/habeas-data`, { habeasData: habeasDataAceptado }).pipe(
+  updatePermisoHabeasData(idAsociado: string, idPersona: string, habeasDataAceptado: boolean, categoria: string, fotoAsociado?: string): Observable<any> {
+    const body = {
+      id: idAsociado,
+      fotoAsociado: fotoAsociado,
+      persona: idPersona,
+      categoria: categoria,  
+      habeasData: habeasDataAceptado ? 1 : 0
+    };
+  
+    return this.http.put(`${this.apiUrlHabeasData}`, body).pipe(
       catchError(this.handleError)
     );
   }
+
+  
+  updateFotoAsociado(idAsociado: string, idPersona: string, habeasDataAceptado: string, categoria: string, fotoAsociado?: string): Observable<any> {
+    const body = {
+      id: idAsociado,
+      fotoAsociado: fotoAsociado,
+      persona: idPersona,
+      categoria: categoria,  
+      habeasData: habeasDataAceptado
+    };
+  
+    return this.http.put(`${this.apiUrlHabeasData}`, body).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';

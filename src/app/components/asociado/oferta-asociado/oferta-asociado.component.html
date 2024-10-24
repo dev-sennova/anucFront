@@ -14,7 +14,8 @@
                 <div class="card-body grid grid-cols-2 gap-4">
                     <div class="col-span-2">
                         <div *ngIf="oferta.imagenProducto; else noImage">
-                            <img [src]="'data:image/jpeg;base64,' + oferta.imagenProducto" alt="{{ oferta.producto }}" class="producto-img">
+                            <img [src]="'data:image/jpeg;base64,' + oferta.imagenProducto" alt="{{ oferta.producto }}"
+                                class="producto-img">
                         </div>
                         <ng-template #noImage>
                             <p><em>No hay imagen disponible para este producto.</em></p>
@@ -40,26 +41,30 @@
 </div>
 
 
-<!-- Create Modal -->
+<!-- Modal de Creación de Oferta -->
 <div class="modal" id="createModal" *ngIf="createModalVisible">
     <div class="modal-content">
         <span class="close" (click)="closeCreateModal()">&times;</span>
         <h2>Crear Oferta</h2>
-        <form (ngSubmit)="submitCreateForm()">
+        <form (ngSubmit)="submitCreateForm()" #createForm="ngForm">
+
+            <!-- Información de la oferta -->
             <label>
                 Producto:
                 <select [(ngModel)]="newOferta.product_id" name="producto" required>
                     <option value="" disabled>Seleccione un producto</option>
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
+            <!-- Resto del formulario de creación de oferta -->
             <label>
                 Fecha de Inicio:
-                <input type="date" [(ngModel)]="newOferta.start_date" name="start_date" placeholder="Selecciona una fecha" required>
+                <input type="date" [(ngModel)]="newOferta.start_date" name="start_date" required>
             </label>
             <label>
                 Cantidad:
-                <input type="number" [(ngModel)]="newOferta.cantidad" name="cantidad" placeholder="Ingrese la cantidad" min="1" required>
+                <input type="number" [(ngModel)]="newOferta.cantidad" name="cantidad" min="1" required>
             </label>
             <label>
                 Unidad de Medida:
@@ -70,41 +75,37 @@
             </label>
             <label>
                 Precio:
-                <input type="number" [(ngModel)]="newOferta.precio" name="precio" placeholder="Ingrese el precio" min="0.01" step="0.01" required>
+                <input type="number" [(ngModel)]="newOferta.precio" name="precio" min="0.01" step="0.01" required>
             </label>
             <label>
                 Descripción:
-                <input type="text" [(ngModel)]="newOferta.descripcion" name="descripcion" placeholder="Ingrese una descripción" maxlength="255" required>
+                <input type="text" [(ngModel)]="newOferta.descripcion" name="descripcion" maxlength="255" required>
             </label>
-            <label>
-                Teléfono:
-                <input type="tel" [(ngModel)]="newOferta.telefono" name="telefono" placeholder="Ingrese su número de teléfono" pattern="[0-9]{10}" required>
-            </label>
-            <label>
-                Teléfono Visible:
-                <input type="checkbox" [(ngModel)]="newOferta.telefono_visible" name="telefono_visible">
-            </label>
-            <label>
-                WhatsApp:
-                <input type="tel" [(ngModel)]="newOferta.whatsapp" name="whatsapp" placeholder="Ingrese su número de WhatsApp" pattern="[0-9]{10}" maxlength="10" required>
-            </label>
-            <label>
-                WhatsApp Visible:
-                <input type="checkbox" [(ngModel)]="newOferta.whatsapp_visible" name="whatsapp_visible">
-            </label>
-            <label>
-                Correo:
-                <input type="email" [(ngModel)]="newOferta.correo" name="correo" placeholder="Ingrese su correo electrónico" required>
-            </label>
-            <label>
-                Correo Visible:
-                <input type="checkbox" [(ngModel)]="newOferta.correo_visible" name="correo_visible">
-            </label>
+
+            <!-- Imagen -->
             <label>
                 Imagen:
                 <input type="file" (change)="onFileSelected($event, 'create')" accept="image/*">
             </label>
-            <button type="submit" class="action-btn create-btn">Crear</button>
+            <!-- Formas de contacto -->
+            <h3>Formas de contacto:</h3>
+            <ng-container *ngFor="let contact of contactoPublico; let i = index">
+                <div class="contact-container">
+                    <label>{{ contact.label }}: {{ contact.valor }}</label>
+                    <div class="toggle-container">
+                        <label class="toggle-switch">
+                            <!-- Toggle activado y deshabilitado para las formas de contacto públicas -->
+                            <input type="checkbox" [checked]="true" [disabled]="true">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="status public">
+                            Público
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- Botón de Crear Oferta -->
+            <button type="submit" class="action-btn create-btn" [disabled]="!tieneContactoPublico">Crear</button>
         </form>
     </div>
 </div>
@@ -120,7 +121,8 @@
             <label>
                 Producto:
                 <select [(ngModel)]="selectedOferta.product_id" name="product_id">
-                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
+                    <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
+                    </option>
                 </select>
             </label>
             <label>
@@ -159,7 +161,8 @@
             </label>
             <label>
                 WhatsApp:
-                <input type="number" [(ngModel)]="selectedOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}" maxlength="10">
+                <input type="number" [(ngModel)]="selectedOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}"
+                    maxlength="10">
             </label>
             <label>
                 WhatsApp Visible:

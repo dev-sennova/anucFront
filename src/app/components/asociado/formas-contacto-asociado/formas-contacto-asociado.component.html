@@ -1,78 +1,103 @@
-<div class="formas-contacto-container">
-  <h2>Gestión de Formas de Contacto</h2>
+<div class="container">
+  <div class="formas-contacto-container">
+    <h2>Gestión de Formas de Contacto</h2>
 
-  <form (submit)="onSubmit()">
-    <!-- Correo -->
-    <div class="form-group">
-      <label for="correo">Correo</label>
-      <input type="email" id="correo" [(ngModel)]="persona.correo" name="correo" disabled /> <!-- Campo enlazado con persona.correo -->
-      <select [(ngModel)]="permisos.correo" name="permisoCorreo">
-        <option value="1">Público</option>
-        <option value="2">Privado</option>
-        <option value="3">Asociados</option>
-      </select>
-    </div>
-
-    <!-- Teléfono -->
-    <div class="form-group">
-      <label for="telefono">Teléfono</label>
-      <input type="tel" id="telefono" [(ngModel)]="persona.telefono" name="telefono" disabled /> <!-- Campo enlazado con persona.telefono -->
-      <select [(ngModel)]="permisos.telefono" name="permisoTelefono">
-        <option value="1">Público</option>
-        <option value="2">Privado</option>
-        <option value="3">Asociados</option>
-      </select>
-    </div>
-
-    <!-- WhatsApp -->
-    <div class="form-group">
-      <label for="whatsapp">WhatsApp</label>
-      <input type="tel" id="whatsapp" [(ngModel)]="persona.whatsapp" name="whatsapp" disabled /> <!-- Campo enlazado con persona.whatsapp -->
-      <select [(ngModel)]="permisos.whatsapp" name="permisoWhatsapp">
-        <option value="1">Público</option>
-        <option value="2">Privado</option>
-        <option value="3">Asociados</option>
-      </select>
-    </div>
-
-    <!-- Facebook -->
-    <div class="form-group">
-      <label for="facebook">Facebook</label>
-      <input type="text" id="facebook" [(ngModel)]="persona.facebook" name="facebook" disabled /> <!-- Campo enlazado con persona.facebook -->
-      <select [(ngModel)]="permisos.facebook" name="permisoFacebook">
-        <option value="1">Público</option>
-        <option value="2">Privado</option>
-        <option value="3">Asociados</option>
-      </select>
-    </div>
-
-    <!-- Instagram -->
-    <div class="form-group">
-      <label for="instagram">Instagram</label>
-      <input type="text" id="instagram" [(ngModel)]="persona.instagram" name="instagram" disabled /> <!-- Campo enlazado con persona.instagram -->
-      <select [(ngModel)]="permisos.instagram" name="permisoInstagram">
-        <option value="1">Público</option>
-        <option value="2">Privado</option>
-        <option value="3">Asociados</option>
-      </select>
-    </div>
-
-    <!-- Habeas Data -->
-    <div class="form-group">
-      <label>¿Acepta el habeas data?</label>
-      <div class="radio-group">
-        <label>
-          <input type="radio" [(ngModel)]="persona.habeasData" name="habeasData" [value]="1" /> Aceptar
-        </label>
-        <label style="margin-left: 20px;"> 
-          <input type="radio" [(ngModel)]="persona.habeasData" name="habeasData" [value]="0" /> Rechazar
-        </label>
+    <form (submit)="onSubmit()">
+      <!-- Correo -->
+      <div class="form-group" *ngIf="persona.correo">
+        <label for="correo">Correo</label>
+        <input type="email" id="correo" [(ngModel)]="persona.correo" name="correo" disabled />
+        <select [(ngModel)]="permisos.correo" name="permisoCorreo">
+          <option value="1">Público</option>
+          <option value="2">Privado</option>
+          <option value="3">Asociados</option>
+        </select>
       </div>
-    </div>
-    
 
-    <div class="form-group card-actions">
-      <button type="submit">Guardar cambios</button>
-    </div>
-  </form>
+      <!-- Teléfono -->
+      <div class="form-group" *ngIf="persona.telefono">
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" [(ngModel)]="persona.telefono" name="telefono" disabled />
+        <select [(ngModel)]="permisos.telefono" name="permisoTelefono">
+          <option value="1">Público</option>
+          <option value="2">Privado</option>
+          <option value="3">Asociados</option>
+        </select>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="form-group" *ngIf="persona.whatsapp">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="tel" id="whatsapp" [(ngModel)]="persona.whatsapp" name="whatsapp" disabled />
+        <select [(ngModel)]="permisos.whatsapp" name="permisoWhatsapp">
+          <option value="1">Público</option>
+          <option value="2">Privado</option>
+          <option value="3">Asociados</option>
+        </select>
+      </div>
+
+      <!-- Facebook -->
+      <div class="form-group" *ngIf="persona.facebook">
+        <label for="facebook">Facebook</label>
+        <input type="text" id="facebook" [(ngModel)]="persona.facebook" name="facebook" disabled />
+        <select [(ngModel)]="permisos.facebook" name="permisoFacebook">
+          <option value="1">Público</option>
+          <option value="2">Privado</option>
+          <option value="3">Asociados</option>
+        </select>
+      </div>
+
+      <!-- Instagram -->
+      <div class="form-group" *ngIf="persona.instagram">
+        <label for="instagram">Instagram</label>
+        <input type="text" id="instagram" [(ngModel)]="persona.instagram" name="instagram" disabled />
+        <select [(ngModel)]="permisos.instagram" name="permisoInstagram">
+          <option value="1">Público</option>
+          <option value="2">Privado</option>
+          <option value="3">Asociados</option>
+        </select>
+      </div>
+
+
+      <div class="form-group card-actions">
+        <button type="submit">Guardar Cambios</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="habeas-data-container">
+    <h2>Protección de Datos Personales</h2>
+    <form (submit)="aceptarOrechazar()">
+      <div class="form-group">
+        <label>¿Acepta el habeas data?</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" [(ngModel)]="permisos.habeasData" name="habeasData" [value]="1" /> Aceptar
+          </label>
+          <label style="margin-left: 20px;">
+            <input type="radio" [(ngModel)]="permisos.habeasData" name="habeasData" [value]="0" /> Rechazar
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <p class="info-text">
+          El Derecho de Habeas Data en Colombia permite que usted conozca, actualice o rectifique información personal o
+          jurídica que cualquier entidad tenga en sus bases de datos.
+        </p>
+        <p class="info-text">
+          En el siguiente enlace usted encuentra el documento e instructivo de Política de Tratamiento de Protección de
+          Datos Personales del SENA:
+          <a href="https://www.sena.edu.co/es-co/transparencia/Documents/proteccion_datos_personales_sena_2016.pdf" target="_blank" class="link">Política de
+            Tratamiento para Protección de Datos Personales</a>
+        </p>
+      </div>
+
+      <div class="form-group card-actions">
+        <button type="submit">Guardar Preferencia</button>
+      </div>
+    </form>
+  </div>
+
+
 </div>

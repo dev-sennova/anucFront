@@ -6,6 +6,7 @@ import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { InicioComponent } from '../../administrador/inicio/inicio.component';
+import { FormasContactoAsociadoService } from 'src/app/services/formas-contacto-asociado-service.service';
 
 @Component({
   selector: 'app-edit-datos',
@@ -14,6 +15,7 @@ import { InicioComponent } from '../../administrador/inicio/inicio.component';
 })
 export class EditDatosComponent implements OnInit {
   persona: any;
+  permisos: any; 
   filteredPersonas: any[] = [];
   paginatedPersonas: any[] = [];
   estadosCiviles: any[] = [];
@@ -38,11 +40,29 @@ export class EditDatosComponent implements OnInit {
     private estadoCivilService: EstadoCivilService,
     private tipoDeDocumentoService: TipoDocumentoService,
     private sexoService: SexoService,
-    private personasService: PersonasService
+    private personasService: PersonasService,
+    private formasContactoService: FormasContactoAsociadoService
 
   ) { }
   ngOnInit(): void {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
+
+    if (idAsociado) {
+      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+        (data) => {
+          if (data && data.permisos && data.permisos.length > 0) {
+            this.permisos = data.permisos[0];
+          } else {
+            console.error('No se encontraron permisos en la respuesta');
+          }
+        },
+        (error) => {
+          console.error('Error al obtener permisos', error);
+        }
+      );
+    } else {
+      console.error('No se encontró idAsociado en el localStorage');
+    }
     
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
@@ -164,6 +184,7 @@ export class EditDatosComponent implements OnInit {
       (response) => {
         Swal.fire('¡Éxito!', 'Persona actualizada correctamente.', 'success');
         this.closeEditModal();
+        this.enviarFoto();
         this.ngOnInit();
       },
       (error) => {
@@ -178,10 +199,38 @@ export class EditDatosComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.persona.foto = e.target.result.split(',')[1]; 
+        this.persona.fotoAsociado = e.target.result.split(',')[1]; 
       };
       reader.readAsDataURL(file);
     }
   }
+
+  removeSpaces(event: any) {
+    event.target.value = event.target.value.replace(/\s+/g, '');  
+  }
+
+  enviarFoto() {
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    const idPersona = localStorage.getItem('identificador_persona') || '';
+    const categoria = this.permisos.categoria;
+    const habeasData = this.permisos.habeasData;
+    const fotoAsociado = this.persona.fotoAsociado; 
+  
+    if (idAsociado && idPersona) {
+      this.formasContactoService.updatePermisoHabeasData(idAsociado, idPersona, true, categoria, fotoAsociado).subscribe( 
+        (response) => {
+        },
+        (error) => {
+          console.error('Error al actualizar la foto del asociado', error);
+        }
+      );
+    } else {
+      console.error('No se encontraron los IDs de asociado o persona en el localStorage');
+    }
+  }
+    
+  
+  
+  
 
 }

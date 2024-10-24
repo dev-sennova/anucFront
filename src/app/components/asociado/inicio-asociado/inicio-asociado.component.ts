@@ -1,4 +1,4 @@
-import { Component, OnInit , EventEmitter , Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { PersonasService } from 'src/app/services/personas.service';
 import { SexoService } from 'src/app/services/sexo.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
@@ -7,6 +7,9 @@ import { ParentescosService } from 'src/app/services/parentescos.service';
 import { TiposPredioService } from 'src/app/services/tipos-predio.service';
 import { VeredasService } from 'src/app/services/veredas.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { Router } from '@angular/router';
+import { FormasContactoAsociadoService } from 'src/app/services/formas-contacto-asociado-service.service';
+
 @Component({
   selector: 'app-inicio-asociado',
   templateUrl: './inicio-asociado.component.html',
@@ -24,7 +27,9 @@ export class InicioAsociadoComponent implements OnInit {
   tiposdepredios: any[] = [];
   produccion: any;
   familiares: any;
+  permisos: any;
   activeTab: string = 'personal';
+  showModal: boolean = false;
 
   constructor(
     private personasService: PersonasService,
@@ -34,8 +39,10 @@ export class InicioAsociadoComponent implements OnInit {
     private parentescosService: ParentescosService,
     private tiposPredioService: TiposPredioService,
     private veredasService: VeredasService,
-    private loadingService: LoadingService
-  ) {}
+    private loadingService: LoadingService,
+    private router: Router,
+    private permisosService: FormasContactoAsociadoService
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.showLoading();
@@ -83,7 +90,7 @@ export class InicioAsociadoComponent implements OnInit {
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
         if (data && data.asociado && data.asociado.length > 0) {
-          this.persona = data.asociado[0]; 
+          this.persona = data.asociado[0];
         } else {
           console.error('No se encontró el asociado');
         }
@@ -93,7 +100,25 @@ export class InicioAsociadoComponent implements OnInit {
         console.error('Error al obtener persona', error);
       }
     );
-    
+
+    if (idAsociado) {
+      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+        (data) => {
+          if (data && data.permisos && data.permisos.length > 0) {
+            this.permisos = data.permisos[0];
+            this.checkHabeasData();
+          } else {
+            console.error('No se encontraron permisos en la respuesta');
+          }
+          this.loadingService.hideLoading();
+        },
+        (error) => {
+          console.error('Error al obtener permisos', error);
+        }
+      );
+    } else {
+      console.error('No se encontró idAsociado en el localStorage');
+    }
 
 
     this.tipoDocumentoService.getTiposDocumento().subscribe(
@@ -163,10 +188,50 @@ export class InicioAsociadoComponent implements OnInit {
       }
     );
   }
+
+  checkHabeasData() {
+    // Si el habeasData es 0, mostrar el modal
+    if (this.permisos.habeasData === 0) {
+      this.showModal = true;
+    }
+  }
+
+
+  acceptTerms() {
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    const idPersona = localStorage.getItem('identificador_persona') || '';
+    const categoria = this.permisos.categoria;
+    const fotoAsociado = this.persona.fotoAsociado;
+
+
+    if (idAsociado && idPersona) {
+      this.permisosService.updatePermisoHabeasData(idAsociado, idPersona, true, categoria, fotoAsociado).subscribe(
+        (data) => {
+          this.showModal = false;
+          // Aquí puedes agregar alguna acción adicional después de aceptar el habeas data.
+          console.log('Habeas Data aceptado correctamente', data);
+        },
+        (error) => {
+          console.error('Error al aceptar el habeas data', error);
+        }
+      );
+    } else {
+      console.error('No se encontraron los IDs de asociado o persona en el localStorage');
+    }
+  }
+
+
+  rejectTerms() {
+    // Si rechaza los términos, cerrar sesión y redirigir al home
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
+
+
   setActiveTab(tab: string) {
     this.activeTab = tab;
   }
-  
+
   getTipoPredio(id: number): string {
     const tipoPredio = this.tiposdepredios.find((tp) => tp.id === id);
     return tipoPredio ? tipoPredio.tipo_predio : '';
@@ -176,7 +241,7 @@ export class InicioAsociadoComponent implements OnInit {
     const parentesco = this.parentescos.find((s) => s.id === id);
     return parentesco ? parentesco.parentesco : '';
   }
-  
+
   getSexo(id: number): string {
     const sexo = this.sexos.find((s) => s.id === id);
     return sexo ? sexo.sexo : '';
