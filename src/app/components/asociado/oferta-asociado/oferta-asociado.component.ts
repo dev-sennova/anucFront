@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 export class OfertaAsociadoComponent {
 
   ofertas: any[] = [];
+  permisos: any;
+  persona: any;
   productos: any[] = [];
   unidades: any[] = [];
   filteredOfertas: any[] = [];
@@ -29,7 +31,9 @@ export class OfertaAsociadoComponent {
   selectedOferta: any = {};
   newOferta: any = {};
   idUsuario: string = '';
-  imagenBase64: string | ArrayBuffer | null = null; 
+  imagenBase64: string | ArrayBuffer | null = null;
+  contactoPublico: any[] = [];
+  tieneContactoPublico: boolean = true;
 
 
   constructor(
@@ -37,16 +41,44 @@ export class OfertaAsociadoComponent {
     private productosService: ProductosCategoriasService,
     private unidadesService: UnidadesMedidaService,
     private personasService: PersonasService,
-  private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
+
     this.loadOfertas();
     this.loadProductos();
     this.loadUnidades();
+    this.loadPermisos();
+    this.loadFormasDeContacto();
+
   }
+  loadFormasDeContacto(): void {
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+      (data) => {
+        if (data && data.asociado && data.asociado.length > 0) {
+          this.persona = data.asociado[0];
+          this.contactoPublico = [
+            { label: 'Teléfono', valor: this.persona.telefono, esPublico: this.permisos.telefono === 1 },
+            { label: 'Correo', valor: this.persona.correo, esPublico: this.permisos.correo === 1 },
+            { label: 'WhatsApp', valor: this.persona.whatsapp, esPublico: this.permisos.whatsapp === 1 },
+            { label: 'Facebook', valor: this.persona.facebook, esPublico: this.permisos.facebook === 1 },
+            { label: 'Instagram', valor: this.persona.instagram, esPublico: this.permisos.instagram === 1 }
+          ].filter(contacto => contacto.esPublico); 
+        } else {
+          console.error('No se encontró el asociado');
+        }
+      },
+      (error) => {
+        console.error('Error al obtener persona', error);
+      }
+    );
+  }
+  
+
 
   loadOfertas(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
+    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
     this.ofertasAsociadoService.getOfertas(asociadosFincaId).subscribe(
       data => {
         if (data && data.estado === 'Ok' && Array.isArray(data.ofertasActivas)) {
@@ -64,7 +96,7 @@ export class OfertaAsociadoComponent {
   }
 
   loadProductos(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
+    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
     this.personasService.getInfoOneAsociadoProductos(asociadosFincaId).subscribe(
       data => {
         if (data) {
@@ -81,6 +113,28 @@ export class OfertaAsociadoComponent {
         Swal.fire('Error', 'No se pudo obtener los productos.', 'error');
       }
     );
+  }
+
+  loadPermisos(): void {
+    const idAsociado = localStorage.getItem('identificador_asociado') || '';
+    if (idAsociado) {
+      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+        (data) => {
+          if (data && data.permisos && data.permisos.length > 0) {
+            this.permisos = data.permisos[0];
+          } else {
+            console.error('No se encontraron permisos en la respuesta');
+          }
+        },
+        (error) => {
+          console.error('Error al obtener permisos', error);
+        }
+      );
+    } else {
+      console.error('No se encontró idAsociado en el localStorage');
+    }
+
+
   }
 
 
@@ -155,25 +209,35 @@ export class OfertaAsociadoComponent {
     };
     this.createModalVisible = true;
   }
-  
+
 
   closeCreateModal(): void {
     this.createModalVisible = false;
   }
 
-  submitCreateForm(): void {
-    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
+  validateContactoPublico(): void {
+    this.tieneContactoPublico = this.contactoPublico.some(contacto => contacto.esPublico && contacto.activo);
+  }
 
-    this.ofertasAsociadoService.addOferta(this.newOferta, asociadosFincaId).subscribe(
-      response => {
-        Swal.fire('Éxito', 'Oferta creada correctamente.', 'success');
-        this.loadOfertas();
-        this.closeCreateModal();
-      },
-      error => {
-        Swal.fire('Error', 'Ya tienes una oferta creada. No puedes crear más de una oferta activa.', 'error');
-      }
-    );
+
+  submitCreateForm(): void {
+    const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
+    this.validateContactoPublico();
+    if (this.tieneContactoPublico) {
+      this.ofertasAsociadoService.addOferta(this.newOferta, idAsociadoFinca).subscribe(
+        response => {
+          Swal.fire('Éxito', 'Oferta creada correctamente.', 'success');
+          this.loadOfertas();
+          this.closeCreateModal();
+        },
+        error => {
+          Swal.fire('Error', 'Error al crear la oferta.', 'error');
+          this.closeCreateModal();
+        }
+      );
+    } else {
+      Swal.fire('Error', 'Debe tener al menos una forma de contacto pública.', 'error');
+    }
   }
 
   openEditModal(oferta: any): void {
@@ -187,7 +251,7 @@ export class OfertaAsociadoComponent {
 
   submitEditForm(): void {
 
-    const asociadosFincaId  = localStorage.getItem('identificador_asociado') || '';
+    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
 
     this.ofertasAsociadoService.updateOferta(this.selectedOferta, asociadosFincaId).subscribe(
       response => {
@@ -212,7 +276,7 @@ export class OfertaAsociadoComponent {
 
   deactivateOferta(): void {
 
-    const ofertaId = this.selectedOferta.id; 
+    const ofertaId = this.selectedOferta.id;
     this.ofertasAsociadoService.deactivateOferta(ofertaId).subscribe(
       data => {
         this.loadOfertas();
@@ -223,39 +287,39 @@ export class OfertaAsociadoComponent {
         Swal.fire('Error', 'No se pudo desactivar la oferta.', 'error');
       }
     );
-}
-
-onFileSelected(event: any, mode: string): void {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64Image = reader.result?.toString().split(',')[1];
-      if (mode === 'create') {
-        this.newOferta.imagenProducto = base64Image;
-      } else if (mode === 'edit') {
-        this.selectedOferta.imagenProducto = base64Image;
-      }
-    };
-    reader.readAsDataURL(file);
   }
-}
 
-onFileChange(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    
-    // Cuando el archivo se haya leído como base64, lo guardamos
-    reader.onload = () => {
-      this.imagenBase64 = reader.result;
-      console.log('Imagen en Base64: ', this.imagenBase64); // Muestra el valor Base64
-    };
-
-    // Leer el archivo como una URL en base64
-    reader.readAsDataURL(file);
+  onFileSelected(event: any, mode: string): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Image = reader.result?.toString().split(',')[1];
+        if (mode === 'create') {
+          this.newOferta.imagenProducto = base64Image;
+        } else if (mode === 'edit') {
+          this.selectedOferta.imagenProducto = base64Image;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
+
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      // Cuando el archivo se haya leído como base64, lo guardamos
+      reader.onload = () => {
+        this.imagenBase64 = reader.result;
+        console.log('Imagen en Base64: ', this.imagenBase64); // Muestra el valor Base64
+      };
+
+      // Leer el archivo como una URL en base64
+      reader.readAsDataURL(file);
+    }
+  }
 
 
 }

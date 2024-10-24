@@ -14,10 +14,10 @@ body {
 }
 
 .producto-img {
-    width: 200px; 
-    height: 200px; 
-    object-fit: cover; 
-    border-radius: 10px; 
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 h2 {
@@ -85,7 +85,8 @@ h2 {
     margin-top: 20px;
 }
 
-.btn-secondary, .btn-danger {
+.btn-secondary,
+.btn-danger {
     padding: 10px 18px;
     border: none;
     border-radius: 8px;
@@ -137,7 +138,8 @@ h2 {
     max-width: 600px;
     max-height: 80vh;
     overflow-y: auto;
-    position: relative; /* Para el posicionamiento del botón de cerrar */
+    position: relative;
+    /* Para el posicionamiento del botón de cerrar */
 }
 
 .modal-content h2 {
@@ -151,7 +153,8 @@ h2 {
 .modal-content form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio uniforme entre los campos */
+    gap: 15px;
+    /* Espacio uniforme entre los campos */
 }
 
 .modal-content form label {
@@ -162,12 +165,14 @@ h2 {
 
 .modal-content form input,
 .modal-content form select {
-    width: 100%; /* Asegura que todos los campos ocupen el 100% */
+    width: 100%;
+    /* Asegura que todos los campos ocupen el 100% */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-top: 5px;
-    box-sizing: border-box; /* Incluye el padding y el border en el ancho total */
+    box-sizing: border-box;
+    /* Incluye el padding y el border en el ancho total */
 }
 
 .modal-content form input[type="checkbox"] {
@@ -226,17 +231,22 @@ h2 {
 
 /* Estilo para los selects con icono de selección */
 .modal form select {
-    appearance: none; /* Elimina el estilo predeterminado del select */
-    -webkit-appearance: none; /* Safari y Chrome */
-    -moz-appearance: none; /* Firefox */
+    appearance: none;
+    /* Elimina el estilo predeterminado del select */
+    -webkit-appearance: none;
+    /* Safari y Chrome */
+    -moz-appearance: none;
+    /* Firefox */
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
     margin-bottom: 10px;
-    background: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"%3E%3Cpath d="M5 7l5 5 5-5H5z" fill="%23000"/%3E%3C/svg%3E') no-repeat right 10px center; /* Icono de selección */
-    background-size: 10px; /* Tamaño del icono */
+    background: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"%3E%3Cpath d="M5 7l5 5 5-5H5z" fill="%23000"/%3E%3C/svg%3E') no-repeat right 10px center;
+    /* Icono de selección */
+    background-size: 10px;
+    /* Tamaño del icono */
 }
 
 @media (max-width: 768px) {
@@ -260,8 +270,10 @@ h2 {
     /* Ajuste en campos para pantallas pequeñas */
     .modal-content form input,
     .modal-content form select {
-        font-size: 0.9rem; /* Tamaño de fuente más pequeño */
-        padding: 8px; /* Menos padding */
+        font-size: 0.9rem;
+        /* Tamaño de fuente más pequeño */
+        padding: 8px;
+        /* Menos padding */
     }
 }
 
@@ -271,11 +283,91 @@ h2 {
 .modal form input[type="date"],
 .modal form select,
 .modal form input[type="email"] {
-    width: 100%; /* Ocupa todo el ancho disponible */
+    width: 100%;
+    /* Ocupa todo el ancho disponible */
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     box-sizing: border-box;
     margin-bottom: 10px;
+}
+
+/* Estilos para el toggle switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #4caf50;
+}
+
+input:checked+.slider:before {
+    transform: translateX(20px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+.contact-container {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.status.public {
+    color: green;
+}
+
+.status.private {
+    color: red;
 }
