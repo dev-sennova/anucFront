@@ -196,19 +196,26 @@
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
-}
-
-.footer-item {
+  }
+  
+  .footer-item {
     font-size: 16px;
     display: flex;
+    flex-direction: column; /* Palabra arriba, icono abajo */
     align-items: center;
-}
-
-
-.footer-item i {
-    font-size: 18px; /* Tamaño de los íconos */
-}
-
+  }
+  
+  .icon {
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
 /* Ajuste para pantallas pequeñas */
 @media (max-width: 767px) {
     .footer-content {
