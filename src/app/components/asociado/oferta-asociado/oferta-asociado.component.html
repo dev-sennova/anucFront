@@ -87,99 +87,172 @@
                 Imagen:
                 <input type="file" (change)="onFileSelected($event, 'create')" accept="image/*">
             </label>
-            <!-- Formas de contacto -->
-            <h3>Formas de contacto:</h3>
-            <ng-container *ngFor="let contact of contactoPublico; let i = index">
-                <div class="contact-container">
-                    <label>{{ contact.label }}: {{ contact.valor }}</label>
-                    <div class="toggle-container">
-                        <label class="toggle-switch">
-                            <!-- Toggle activado y deshabilitado para las formas de contacto públicas -->
-                            <input type="checkbox" [checked]="true" [disabled]="true">
-                            <span class="slider round"></span>
-                        </label>
-                        <span class="status public">
-                            Público
-                        </span>
-                    </div>
-                </div>
-            </ng-container>
+            <!-- Formas de Contacto -->
+            <div>
+                <label>
+                    Teléfono:
+                    <input type="text" [(ngModel)]="newOferta.telefono" name="telefono">
+                </label>
+                <label>
+                    Teléfono Visible:
+                    <input type="checkbox" [(ngModel)]="newOferta.telefono_visible" name="telefono_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    WhatsApp:
+                    <input type="text" [(ngModel)]="newOferta.whatsapp" name="whatsapp">
+                </label>
+                <label>
+                    WhatsApp Visible:
+                    <input type="checkbox" [(ngModel)]="newOferta.whatsapp_visible" name="whatsapp_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Correo:
+                    <input type="email" [(ngModel)]="newOferta.correo"  name="correo">
+                </label>
+                <label>
+                    Correo Visible:
+                    <input type="checkbox" [(ngModel)]="newOferta.correo_visible" name="correo_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Facebook:
+                    <input type="text" [(ngModel)]="newOferta.facebook"  name="facebook">
+                </label>
+                <label>
+                    Facebook Visible:
+                    <input type="checkbox" [(ngModel)]="newOferta.facebook_visible" name="facebook_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Instagram:
+                    <input type="text" [(ngModel)]="newOferta.instagram" name="instagram">
+                </label>
+                <label>
+                    Instagram Visible:
+                    <input type="checkbox" [(ngModel)]="newOferta.instagram_visible" name="instagram_visible">
+                </label>
+            </div>
+
             <!-- Botón de Crear Oferta -->
-            <button type="submit" class="action-btn create-btn" [disabled]="!tieneContactoPublico">Crear</button>
+            <button type="submit" class="action-btn create-btn">Crear</button>
         </form>
     </div>
 </div>
 
 
-<!-- Edit Modal -->
+<!-- Modal de Edición de Oferta -->
 <div class="modal" id="editModal" *ngIf="editModalVisible">
     <div class="modal-content">
         <span class="close" (click)="closeEditModal()">&times;</span>
         <h2>Editar Oferta</h2>
-        <form (ngSubmit)="submitEditForm()">
-            <!-- Reutilizando los mismos campos para editar la oferta seleccionada -->
+        <form (ngSubmit)="submitEditForm()" #editForm="ngForm">
+
+            <!-- Información de la oferta -->
             <label>
                 Producto:
-                <select [(ngModel)]="selectedOferta.product_id" name="product_id">
+                <select [(ngModel)]="selectedOferta.product_id" name="producto" required>
+                    <option value="" disabled>Seleccione un producto</option>
                     <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
                     </option>
                 </select>
             </label>
             <label>
                 Fecha de Inicio:
-                <input type="date" [(ngModel)]="selectedOferta.start_date" name="start_date">
+                <input type="date" [(ngModel)]="selectedOferta.start_date" name="start_date" required>
             </label>
             <label>
                 Cantidad:
-                <input type="number" [(ngModel)]="selectedOferta.cantidad" name="cantidad">
-            </label>
-            <label>
-                Asociado Finca:
-                <input type="number" [(ngModel)]="selectedOferta.asociados_finca_id" name="asociados_finca_id" required>
+                <input type="number" [(ngModel)]="selectedOferta.cantidad" name="cantidad" min="1" required>
             </label>
             <label>
                 Unidad de Medida:
-                <select [(ngModel)]="selectedOferta.medida_unidades_id" name="medida_unidades_id">
+                <select [(ngModel)]="selectedOferta.medida_unidades_id" name="medida_unidades_id" required>
+                    <option value="" disabled>Seleccione una unidad</option>
                     <option *ngFor="let unidad of unidades" [value]="unidad.id">{{ unidad.unidad }}</option>
                 </select>
             </label>
             <label>
                 Precio:
-                <input type="number" [(ngModel)]="selectedOferta.precio" name="precio">
+                <input type="number" [(ngModel)]="selectedOferta.precio" name="precio" min="0.01" step="0.01" required>
             </label>
             <label>
                 Descripción:
-                <input type="text" [(ngModel)]="selectedOferta.descripcion" name="descripcion">
+                <input type="text" [(ngModel)]="selectedOferta.descripcion" name="descripcion" maxlength="255" required>
             </label>
-            <label>
-                Teléfono:
-                <input type="number" [(ngModel)]="selectedOferta.telefono" name="telefono">
-            </label>
-            <label>
-                Teléfono Visible:
-                <input type="checkbox" [(ngModel)]="selectedOferta.telefono_visible" name="telefono_visible">
-            </label>
-            <label>
-                WhatsApp:
-                <input type="number" [(ngModel)]="selectedOferta.whatsapp" name="whatsapp" pattern="[0-9]{10}"
-                    maxlength="10">
-            </label>
-            <label>
-                WhatsApp Visible:
-                <input type="checkbox" [(ngModel)]="selectedOferta.whatsapp_visible" name="whatsapp_visible">
-            </label>
-            <label>
-                Correo:
-                <input type="email" [(ngModel)]="selectedOferta.correo" name="correo">
-            </label>
-            <label>
-                Correo Visible:
-                <input type="checkbox" [(ngModel)]="selectedOferta.correo_visible" name="correo_visible">
-            </label>
+
+            <!-- Imagen -->
             <label>
                 Imagen:
-                <input type="file" (change)="onFileSelected($event, 'edit')">
+                <input type="file" (change)="onFileSelected($event, 'edit')" accept="image/*">
             </label>
+
+            <!-- Formas de Contacto -->
+            <div>
+                <label>
+                    Teléfono:
+                    <input type="text" [(ngModel)]="selectedOferta.telefono" name="telefono">
+                </label>
+                <label>
+                    Teléfono Visible:
+                    <input type="checkbox" [(ngModel)]="selectedOferta.telefono_visible" name="telefono_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    WhatsApp:
+                    <input type="text" [(ngModel)]="selectedOferta.whatsapp" name="whatsapp">
+                </label>
+                <label>
+                    WhatsApp Visible:
+                    <input type="checkbox" [(ngModel)]="selectedOferta.whatsapp_visible" name="whatsapp_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Correo:
+                    <input type="email" [(ngModel)]="selectedOferta.correo" name="correo">
+                </label>
+                <label>
+                    Correo Visible:
+                    <input type="checkbox" [(ngModel)]="selectedOferta.correo_visible" name="correo_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Facebook:
+                    <input type="text" [(ngModel)]="selectedOferta.facebook" name="facebook">
+                </label>
+                <label>
+                    Facebook Visible:
+                    <input type="checkbox" [(ngModel)]="selectedOferta.facebook_visible" name="facebook_visible">
+                </label>
+            </div>
+
+            <div>
+                <label>
+                    Instagram:
+                    <input type="text" [(ngModel)]="selectedOferta.instagram" name="instagram">
+                </label>
+                <label>
+                    Instagram Visible:
+                    <input type="checkbox" [(ngModel)]="selectedOferta.instagram_visible" name="instagram_visible">
+                </label>
+            </div>
+
+            <!-- Botón de Guardar Cambios -->
             <button type="submit" class="action-btn edit-btn">Guardar Cambios</button>
         </form>
     </div>
