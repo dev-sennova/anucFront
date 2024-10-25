@@ -23,8 +23,9 @@ export interface Oferta {
   product_id: number;
   asociados_finca_id: number;
   medida_unidades_id: number;
+  facebook_visible:number;
+  instagram_visible:number;
 }
-
 
 @Component({
   selector: 'app-home',

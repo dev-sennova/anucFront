@@ -2,10 +2,18 @@
   <div class="container" *ngIf="empresa">
     <div class="about-section">
       <div class="cover-photo-wrapper">
-        <img src="assets/imagenes/fachada_anuc.PNG" alt="Cover Photo" class="cover-photo">
+        <img
+          src="assets/imagenes/fachada_anuc.PNG"
+          alt="Cover Photo"
+          class="cover-photo"
+        />
         <div class="profile-info">
           <div class="profile-photo-wrapper">
-            <img src="assets/imagenes/logo_anuc_edited.jpg" alt="Profile Photo" class="profile-photo">
+            <img
+              src="assets/imagenes/logo_anuc_edited.jpg"
+              alt="Profile Photo"
+              class="profile-photo"
+            />
           </div>
           <div class="company-details">
             <h1>{{ empresa.nombre }}</h1>
@@ -30,23 +38,70 @@
       <div class="footer">
         <div class="footer-content">
           <span class="footer-item">
-            <img src="assets/iconos/telefono_icon.png" alt="Teléfono Icono" class="icon"> {{ empresa.telefono }}
+            <span class="label">Teléfono</span>
+            <a *ngIf="empresa.telefono" [href]="'tel:' + empresa.telefono">
+              <img
+                src="assets/iconos/telefono_icon.png"
+                alt="Teléfono Icono"
+                class="icon"
+              />
+            </a>
           </span>
+
           <span class="footer-item">
-            <img src="assets/iconos/correo_icon.png" alt="Correo Icono" class="icon"> {{ empresa.correo }}
+            <span class="label">Correo</span>
+            <a *ngIf="empresa.correo" [href]="'mailto:' + empresa.correo">
+              <img
+                src="assets/iconos/correo_icon.png"
+                alt="Correo Icono"
+                class="icon"
+              />
+            </a>
           </span>
+
           <span class="footer-item">
-            <img src="assets/iconos/whatsapp_icon.png" alt="WhatsApp Icono" class="icon"> {{ empresa.whatsapp }}
+            <span class="label">Whatsapp</span>
+            <a
+              *ngIf="empresa.whatsapp"
+              [href]="'https://wa.me/' + empresa.whatsapp"
+            >
+              <img
+                src="assets/iconos/whatsapp_icon.png"
+                alt="WhatsApp Icono"
+                class="icon"
+              />
+            </a>
           </span>
+
           <span class="footer-item">
-            <img src="assets/iconos/facebook_icon.png" alt="Facebook Icono" class="icon"> {{ empresa.facebook }}
+            <span class="label">Facebook</span>
+            <a
+              *ngIf="empresa.facebook"
+              [href]="empresa.facebook"
+            >
+              <img
+                src="assets/iconos/facebook_icon.png"
+                alt="Facebook Icono"
+                class="icon"
+              />
+            </a>
           </span>
+
           <span class="footer-item">
-            <img src="assets/iconos/instagram_icon.png" alt="Instagram Icono" class="icon"> {{ empresa.instagram }}
+            <span class="label">Instagram</span>
+            <a
+              *ngIf="empresa.instagram"
+              [href]="empresa.instagram"
+            >
+              <img
+                src="assets/iconos/instagram_icon.png"
+                alt="Instagram Icono"
+                class="icon"
+              />
+            </a>
           </span>
         </div>
       </div>
-
     </div>
   </div>
 </div>

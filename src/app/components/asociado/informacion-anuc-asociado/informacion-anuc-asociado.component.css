@@ -182,7 +182,41 @@
     cursor: pointer;
 }
 
+.footer {
+    padding: 20px;
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+}
 
+.footer-content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.footer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-item .label {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.footer-item a {
+    color: white;
+}
+
+.footer-item .icon {
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+}
+  
 
 /* Media Queries para móviles */
 @media (max-width: 767px) {
