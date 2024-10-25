@@ -54,6 +54,7 @@ export class OfertaAsociadoComponent {
   }
   loadFormasDeContacto(): void {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
+
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
         if (data && data.asociado && data.asociado.length > 0) {
@@ -191,38 +192,46 @@ export class OfertaAsociadoComponent {
     }
   }
   openCreateModal(): void {
+    const persona = this.persona || {};  // Verifica si el objeto persona existe.
     this.newOferta = {
-      product_id: '',  // Mantén vacío para que seleccione la opción deshabilitada
-      unidadId: '',  // Igual aquí
+      product_id: '',
+      unidadId: '',
       start_date: '',
       cantidad: '',
       medida_unidades_id: '',
       precio: '',
       descripcion: '',
-      telefono: '',
+      telefono: persona.telefono || '',
       telefono_visible: false,
-      whatsapp: '',
+      whatsapp: persona.whatsapp || '',
       whatsapp_visible: false,
-      correo: '',
+      correo: persona.correo || '',
       correo_visible: false,
+      facebook: persona.facebook || '',
+      facebook_visible: false,
+      instagram: persona.instagram || '',
+      instagram_visible: false,
       imagenProducto: ''
     };
     this.createModalVisible = true;
   }
-
+  
 
   closeCreateModal(): void {
     this.createModalVisible = false;
   }
 
-  validateContactoPublico(): void {
-    this.tieneContactoPublico = this.contactoPublico.some(contacto => contacto.esPublico && contacto.activo);
-  }
-
-
   submitCreateForm(): void {
     const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
-    this.validateContactoPublico();
+  
+    // Verificar si al menos una forma de contacto es pública
+    this.tieneContactoPublico = 
+      (this.newOferta.telefono && this.newOferta.telefono_visible) ||
+      (this.newOferta.whatsapp && this.newOferta.whatsapp_visible) ||
+      (this.newOferta.correo && this.newOferta.correo_visible) ||
+      (this.newOferta.facebook && this.newOferta.facebook_visible) ||
+      (this.newOferta.instagram && this.newOferta.instagram_visible);
+  
     if (this.tieneContactoPublico) {
       this.ofertasAsociadoService.addOferta(this.newOferta, idAsociadoFinca).subscribe(
         response => {
@@ -239,6 +248,7 @@ export class OfertaAsociadoComponent {
       Swal.fire('Error', 'Debe tener al menos una forma de contacto pública.', 'error');
     }
   }
+  
 
   openEditModal(oferta: any): void {
     this.selectedOferta = { ...oferta };
@@ -250,20 +260,39 @@ export class OfertaAsociadoComponent {
   }
 
   submitEditForm(): void {
+    const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
 
-    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
+    // Asegurarse de que todos los campos de visibilidad estén definidos
+    this.selectedOferta.telefono_visible = !!this.selectedOferta.telefono_visible;
+    this.selectedOferta.whatsapp_visible = !!this.selectedOferta.whatsapp_visible;
+    this.selectedOferta.correo_visible = !!this.selectedOferta.correo_visible;
+    this.selectedOferta.facebook_visible = !!this.selectedOferta.facebook_visible;
+    this.selectedOferta.instagram_visible = !!this.selectedOferta.instagram_visible;
 
-    this.ofertasAsociadoService.updateOferta(this.selectedOferta, asociadosFincaId).subscribe(
-      response => {
-        Swal.fire('Éxito', 'Oferta actualizada correctamente.', 'success');
-        this.loadOfertas();
-        this.closeEditModal();
-      },
-      error => {
-        Swal.fire('Error', 'No se pudo actualizar la oferta.', 'error');
-      }
-    );
-  }
+    // Verificar si al menos una forma de contacto es pública
+    this.tieneContactoPublico = 
+        (this.selectedOferta.telefono && this.selectedOferta.telefono_visible) ||
+        (this.selectedOferta.whatsapp && this.selectedOferta.whatsapp_visible) ||
+        (this.selectedOferta.correo && this.selectedOferta.correo_visible) ||
+        (this.selectedOferta.facebook && this.selectedOferta.facebook_visible) ||
+        (this.selectedOferta.instagram && this.selectedOferta.instagram_visible);
+
+    if (this.tieneContactoPublico) {
+        this.ofertasAsociadoService.updateOferta(this.selectedOferta, idAsociadoFinca).subscribe(
+            response => {
+                Swal.fire('Éxito', 'Oferta actualizada correctamente.', 'success');
+                this.loadOfertas();
+                this.closeEditModal();
+            },
+            error => {
+                Swal.fire('Error', 'No se pudo actualizar la oferta.', 'error');
+            }
+        );
+    } else {
+        Swal.fire('Error', 'Debe tener al menos una forma de contacto pública.', 'error');
+    }
+}
+
 
   openDeactivateModal(oferta: any): void {
     this.selectedOferta = { ...oferta };
