@@ -1,0 +1,60 @@
+.categorias-container {
+    text-align: center;
+    background-color: #e0e0e0;
+    padding: 80px;
+    border-radius: 15px;
+    max-width: 900px;
+    margin: 30px auto;
+  }
+  
+  .categorias-container h2 {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .divider-line {
+    width: 80%;
+    height: 2px;
+    background-color: #000;
+    margin: 10px auto 20px;
+  }
+  
+  .cards-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card {
+    background-color: #b0b0b0;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card:hover {
+    transform: translateY(-10px); /* Levanta la tarjeta */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3); /* Aumenta la sombra para simular profundidad */
+  }
+  
+  .card .icon {
+    width: 160px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .card h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .card p {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+  

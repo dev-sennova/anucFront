@@ -77,6 +77,9 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { InformacionAnucAsociadoComponent } from './components/asociado/informacion-anuc-asociado/informacion-anuc-asociado.component';
 import { BuscarAsociadosComponent } from './components/asociado/buscar-asociados/buscar-asociados.component';
 import { FormasContactoAsociadoComponent } from './components/asociado/formas-contacto-asociado/formas-contacto-asociado.component';
+import { CategoriaComponent } from './components/asociado/categoria/categoria.component';
+import { ListadodecostosComponent } from './components/asociado/listadodecostos/listadodecostos.component';
+import { ProducidoComponent } from './components/asociado/producido/producido.component';
 
 
 
@@ -145,6 +148,9 @@ const materialModules = [
     InformacionAnucAsociadoComponent,
     BuscarAsociadosComponent,
     FormasContactoAsociadoComponent,
+    CategoriaComponent,
+    ListadodecostosComponent,
+    ProducidoComponent,
     
   ],
   imports: [

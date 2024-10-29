@@ -33,6 +33,9 @@ import { AdministrarofertasComponent } from './components/administrador/administ
 import { InformacionAnucAsociadoComponent } from './components/asociado/informacion-anuc-asociado/informacion-anuc-asociado.component';
 import { BuscarAsociadosComponent } from './components/asociado/buscar-asociados/buscar-asociados.component';
 import { FormasContactoAsociadoComponent } from './components/asociado/formas-contacto-asociado/formas-contacto-asociado.component';
+import { CategoriaComponent } from './components/asociado/categoria/categoria.component';
+import { ListadodecostosComponent } from './components/asociado/listadodecostos/listadodecostos.component';
+import { ProducidoComponent } from './components/asociado/producido/producido.component';
 
 
 const routes: Routes = [
@@ -61,6 +64,10 @@ const routes: Routes = [
       { path: 'oferta-asociado', component:OfertaAsociadoComponent},
       { path: 'formas-contacto', component:FormasContactoAsociadoComponent},
       { path: 'novedades-asociado', component:NovedadesAsociadoComponent},
+      { path: 'categoria', component:CategoriaComponent},
+      { path: 'listadodecostos', component:ListadodecostosComponent},
+      {path:'producido', component:ProducidoComponent},
+
     ]
   },
   { path: 'administrador', component: AdministradorComponent,
