@@ -1,30 +1,12 @@
 
 <div class="categorias-container">
-    <h2>CATEGORÍAS</h2>
-    <div class="cards-container">
-      <div *ngFor="let grupo of grupos"  class="card">
-        <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
-        <h3>{{ grupo.grupo}}</h3>
-        <p>{{ grupo.descripcion }}</p>
-      </div>
-  
-      <div *ngFor="let grupo of grupos" class="card">
-        <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
-        <h3>{{ grupo.grupo}}</h3>
-        <p>{{ grupo.descripcion }}</p>
-      </div>
-  
-      <div *ngFor="let grupo of grupos"  class="card">
-        <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
-        <h3>{{ grupo.grupo}}</h3>
-        <p>{{ grupo.descripcion }}</p>
-      </div>
-
-      <div *ngFor="let grupo of grupos" class="card">
-        <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
-        <h3>{{ grupo.grupo}}</h3>
-        <p>{{ grupo.descripcion }}</p>
-      </div>
+  <h2>CATEGORÍAS</h2>
+  <div class="cards-container">
+    <div *ngFor="let grupo of grupos" class="card">
+      <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
+      <h3>{{ grupo.grupo }}</h3>
+      <p>{{ grupo.descripcion }}</p>
     </div>
   </div>
+</div>
   
