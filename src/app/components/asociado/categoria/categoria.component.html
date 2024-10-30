@@ -1,12 +1,40 @@
-
 <div class="categorias-container">
   <h2>CATEGORÍAS</h2>
   <div class="cards-container">
-    <div *ngFor="let grupo of grupos" class="card">
+    <div *ngFor="let grupo of grupos" class="card" (click)="seleccionarCategoria(grupo)">
       <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de ' + grupo.grupo" class="icon">
       <h3>{{ grupo.grupo }}</h3>
       <p>{{ grupo.descripcion }}</p>
     </div>
   </div>
 </div>
-  
+
+<!-- Formulario condicional -->
+<div *ngIf="isModalOpen" class="modal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closeModal()">&times;</span>
+<div *ngIf="categoriaSeleccionada" class="formulario-container">
+  <h2>Formulario para {{ categoriaSeleccionada.grupo }}</h2>
+  <form (ngSubmit)="guardarFormulario()">
+    <div>
+      <label for="producto">Producto</label>
+      <select id="producto" [(ngModel)]="formulario.producto" name="producto" required>
+        <option *ngFor="let producto of productos" [value]="producto.idProducto">
+          {{ producto.producto }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <label for="medida">Medida</label>
+      <select id="medida" [(ngModel)]="formulario.medida" name="medida" required>
+        <option *ngFor="let medida of medidas" [value]="medida.id">
+          {{ medida.unidad }}
+        </option>
+      </select>
+    </div>
+    
+    <button type="submit">Guardar</button>
+  </form>
+</div>
+
+
