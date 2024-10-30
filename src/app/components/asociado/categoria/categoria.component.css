@@ -60,89 +60,92 @@
   line-height: 1.4;
 }
 
-/* Estilos para el modal */
+/* Estilos para el contenedor modal */
 .modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  top: 0;
+  z-index: 1;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
 }
 
+/* Estilo para el contenido del modal */
 .modal-content {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 20px;
-  border-radius: 15px;
+  border: 1px solid #888;
+  width: 50%;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 600px;
-  position: relative;
+  max-height: 80vh; /* Altura máxima del modal */
+  overflow-y: auto; /* Activar el scroll vertical */
+}
+.modal-content select {
+  width: 100%; /* Hacer que el select ocupe todo el ancho */
+  box-sizing: border-box;
 }
 
-/* Botón de cierre del modal */
-.modal-content .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.5em;
-  color: #888;
+
+/* Botón de cierre */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-.modal-content .close:hover {
-  color: #000;
+.close:hover {
+  color: rgb(255, 3, 3);
 }
 
-/* Contenedor del formulario */
-.formulario-container {
+/* Estilo del título */
+h2 {
+  margin-top: 0;
   text-align: center;
-  background-color: #e0e0e0;
-  padding: 40px;
-  border-radius: 15px;
-  max-width: 600px;
-  margin: 0 auto;
+  font-size: 24px;
 }
 
-.formulario-container h2 {
-  font-size: 2em;
+/* Contenedor de formulario */
+.formulario-container {
+  margin-top: 20px;
+}
+
+/* Estilos para el formulario */
+.formulario-container form label {
   font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.formulario-container form select {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   margin-bottom: 20px;
 }
 
-.formulario-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.formulario-container label {
-  font-size: 1.1em;
-  font-weight: bold;
-}
-
-.formulario-container select {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #888;
-  font-size: 1em;
-}
-
-.formulario-container button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
+/* Botón de guardar */
+.formulario-container form button {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  font-size: 1.1em;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.formulario-container button:hover {
-  background-color: #45a049;
+.formulario-container form button:hover {
+  background-color: #0056b3;
 }
