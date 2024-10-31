@@ -36,6 +36,7 @@ import { FormasContactoAsociadoComponent } from './components/asociado/formas-co
 import { CategoriaComponent } from './components/asociado/categoria/categoria.component';
 import { ListadodecostosComponent } from './components/asociado/listadodecostos/listadodecostos.component';
 import { ProducidoComponent } from './components/asociado/producido/producido.component';
+import { FasesCostosComponent } from './components/asociado/fases-costos/fases-costos.component';
 
 
 const routes: Routes = [
@@ -65,6 +66,7 @@ const routes: Routes = [
       { path: 'formas-contacto', component:FormasContactoAsociadoComponent},
       { path: 'novedades-asociado', component:NovedadesAsociadoComponent},
       { path: 'categoria', component:CategoriaComponent},
+      { path: 'fases-costos', component:FasesCostosComponent},
       { path: 'listadodecostos', component:ListadodecostosComponent},
       {path:'producido', component:ProducidoComponent},
 

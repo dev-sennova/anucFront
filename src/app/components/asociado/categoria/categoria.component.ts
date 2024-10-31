@@ -163,4 +163,8 @@ export class CategoriaComponent implements OnInit {
       descripcion: ''
     }; 
   }
+  guardarYRedirigir(): void {
+    this.router.navigate(['/asociado/fases-costos']);
+  }
+
 }

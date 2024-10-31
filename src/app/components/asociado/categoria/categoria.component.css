@@ -86,11 +86,24 @@
   max-height: 80vh; /* Altura máxima del modal */
   overflow-y: auto; /* Activar el scroll vertical */
 }
-.modal-content select {
+
+.modal-content select,
+.formulario-container form input[type="number"] {
   width: 100%; /* Hacer que el select ocupe todo el ancho */
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
   box-sizing: border-box;
 }
 
+.modal-content select:focus,
+.formulario-container form input[type="number"]:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
 
 /* Botón de cierre */
 .close {
@@ -112,26 +125,28 @@ h2 {
   font-size: 24px;
 }
 
-/* Contenedor de formulario */
-.formulario-container {
+/* Estilo general del formulario */
+.formulario-container form {
+  text-align: left;
   margin-top: 20px;
 }
 
-/* Estilos para el formulario */
 .formulario-container form label {
   font-weight: bold;
-  display: block;
-  margin-bottom: 10px;
   font-size: 16px;
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
 }
 
-.formulario-container form select {
-  width: 100%;
+/* Estilos adicionales para contenedores de cada categoría */
+.formulario-container .categoria-seccion {
   padding: 15px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 10px;
   margin-bottom: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Botón de guardar */
@@ -144,8 +159,31 @@ h2 {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .formulario-container form button:hover {
+  background-color: #0056b3;
+}
+
+/* Espaciado adicional entre secciones de categoría */
+.formulario-container form .categoria-seccion label {
+  margin-top: 10px;
+}
+
+/* Estilo para el botón en el modal */
+.modal-content .action-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content .action-btn:hover {
   background-color: #0056b3;
 }

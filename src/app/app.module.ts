@@ -80,6 +80,7 @@ import { FormasContactoAsociadoComponent } from './components/asociado/formas-co
 import { CategoriaComponent } from './components/asociado/categoria/categoria.component';
 import { ListadodecostosComponent } from './components/asociado/listadodecostos/listadodecostos.component';
 import { ProducidoComponent } from './components/asociado/producido/producido.component';
+import { FasesCostosComponent } from './components/asociado/fases-costos/fases-costos.component';
 
 
 
@@ -151,6 +152,7 @@ const materialModules = [
     CategoriaComponent,
     ListadodecostosComponent,
     ProducidoComponent,
+    FasesCostosComponent,
     
   ],
   imports: [
