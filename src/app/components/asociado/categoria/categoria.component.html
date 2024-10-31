@@ -14,7 +14,7 @@
     <span class="close" (click)="closeModal()">&times;</span>
     <div *ngIf="categoriaSeleccionada" class="formulario-container">
       <h2>Formulario para {{ categoriaSeleccionada.grupo }}</h2>
-      <form (ngSubmit)="guardarFormulario()">
+      <form (ngSubmit)="guardarYRedirigir()" #formularioForm="ngForm">
         <div>
           <label for="producto">Producto</label>
           <select id="producto" [(ngModel)]="formulario.producto" name="producto" required>
@@ -33,46 +33,39 @@
         </div>
 
         <!-- Campos adicionales según la categoría -->
-        <div *ngIf="categoriaSeleccionada.grupo  === 'Huevos'">
+        <div *ngIf="categoriaSeleccionada.grupo === 'Huevos'">
           <label for="cantidadGallinas">Cantidad de Gallinas</label>
-          <input type="number" id="cantidadGallinas" [(ngModel)]="formulario.cantidadGallinas" name="cantidadGallinas"
-            required>
+          <input type="number" id="cantidadGallinas" [(ngModel)]="formulario.cantidadGallinas" name="cantidadGallinas" required>
 
           <label for="cantidadHuevosProducir">Cantidad de Huevos a Producir</label>
-          <input type="number" id="cantidadHuevosProducir" [(ngModel)]="formulario.cantidadHuevosProducir"
-            name="cantidadHuevosProducir" required>
+          <input type="number" id="cantidadHuevosProducir" [(ngModel)]="formulario.cantidadHuevosProducir" name="cantidadHuevosProducir" required>
         </div>
 
-        <div *ngIf="categoriaSeleccionada.grupo  === 'Cultivos'">
+        <div *ngIf="categoriaSeleccionada.grupo === 'Cultivos'">
           <label for="cantidadHectarias">Cantidad de Hectáreas</label>
-          <input type="number" id="cantidadHectarias" [(ngModel)]="formulario.cantidadHectarias"
-            name="cantidadHectarias" required>
+          <input type="number" id="cantidadHectarias" [(ngModel)]="formulario.cantidadHectarias" name="cantidadHectarias" required>
 
           <label for="cantidadProducir">Cantidad a Producir</label>
-          <input type="number" id="cantidadProducir" [(ngModel)]="formulario.cantidadProducir" name="cantidadProducir"
-            required>
+          <input type="number" id="cantidadProducir" [(ngModel)]="formulario.cantidadProducir" name="cantidadProducir" required>
         </div>
 
-        <div *ngIf="categoriaSeleccionada.grupo  === 'Carnes'">
+        <div *ngIf="categoriaSeleccionada.grupo === 'Carnes'">
           <label for="cantidadCrias">Cantidad de Crías</label>
           <input type="number" id="cantidadCrias" [(ngModel)]="formulario.cantidadCrias" name="cantidadCrias" required>
 
           <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir</label>
-          <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir"
-            name="cantidadEsperadaProducir" required>
+          <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
         </div>
 
-        <div *ngIf="categoriaSeleccionada.grupo  === 'Transformados'">
+        <div *ngIf="categoriaSeleccionada.grupo === 'Transformados'">
           <label for="cantidadTransformados">Cantidad de Transformados</label>
-          <input type="number" id="cantidadTransformados" [(ngModel)]="formulario.cantidadTransformados"
-            name="cantidadTransformados" required>
+          <input type="number" id="cantidadTransformados" [(ngModel)]="formulario.cantidadTransformados" name="cantidadTransformados" required>
 
           <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir</label>
-          <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir"
-            name="cantidadEsperadaProducir" required>
+          <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
         </div>
 
-        <button type="submit" class="action-btn edit-btn" (click)="guardarYRedirigir()">Guardar</button>
+        <button type="submit" class="action-btn edit-btn">Guardar</button>
       </form>
     </div>
   </div>

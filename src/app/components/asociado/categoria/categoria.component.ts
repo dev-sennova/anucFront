@@ -5,7 +5,6 @@ import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service'
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-categoria',
   templateUrl: './categoria.component.html',
@@ -17,16 +16,16 @@ export class CategoriaComponent implements OnInit {
   formulario = {
     producto: '',
     medida: '',
-    cantidadGallinas: null as number | null,
-    cantidadHuevosProducir: null as number | null,
-    cantidadHectarias: null as number | null,
-    cantidadProducir: null as number | null,
-    cantidadCrias: null as number | null,
-    cantidadEsperadaProducir: null as number | null,
-    cantidadTransformados: null as number | null,
+    cantidadGallinas: 0,
+    cantidadHuevosProducir: 0,
+    cantidadHectarias: 0,
+    cantidadProducir: 0,
+    cantidadCrias: 0,
+    cantidadEsperadaProducir: 0,
+    cantidadTransformados: 0,
     descripcion: '',
   };
-  
+
   productos: any[] = [];
   medidas: any[] = [];
   isModalOpen: boolean = false;
@@ -42,17 +41,11 @@ export class CategoriaComponent implements OnInit {
     this.obtenerGrupos();
   }
 
-
   obtenerGrupos(): void {
     this.GruposService.getGrupos().subscribe(
       (response) => {
         if (response.estado === 'Ok' && response.grupo && Array.isArray(response.grupo)) {
-          console.log("Datos recibidos:", response.grupo);
-          
-          // Filtrar el grupo cuyo nombre sea "transformados"
-          this.grupos = response.grupo.filter((grupo: grupos) => grupo.grupo !== 'transformados'); 
-        } else {
-          console.warn("Se esperaban grupos, pero se recibió:", response.grupo);
+          this.grupos = response.grupo.filter((grupo: any) => grupo.grupo !== 'Transformados'); 
         }
       },
       (error) => {
@@ -60,9 +53,6 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
-  
-  
-  
 
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
@@ -73,22 +63,24 @@ export class CategoriaComponent implements OnInit {
   }
 
   inicializarFormulario(): void {
-    this.formulario.cantidadGallinas = null;
-    this.formulario.cantidadHuevosProducir = null;
-    this.formulario.cantidadHectarias = null;
-    this.formulario.cantidadProducir = null;
-    this.formulario.cantidadCrias = null;
-    this.formulario.cantidadEsperadaProducir = null;
-    this.formulario.cantidadTransformados = null;
-    this.formulario.descripcion = '';
+    this.formulario = {
+      producto: '',
+      medida: '',
+      cantidadGallinas: 0, // Inicializado a 0
+      cantidadHuevosProducir: 0, // Inicializado a 0
+      cantidadHectarias: 0,
+      cantidadProducir: 0,
+      cantidadCrias: 0,
+      cantidadEsperadaProducir: 0,
+      cantidadTransformados: 0,
+      descripcion: '',
+    };
 
-    // Verifica el nombre de la categoría
     if (!this.categoriaSeleccionada || !this.categoriaSeleccionada.grupo) {
       console.error('Categoría no seleccionada o no válida');
       return;
     }
 
-    // Agregar campos según la categoría seleccionada
     switch (this.categoriaSeleccionada.grupo) {
       case 'Huevos':
         this.formulario.cantidadGallinas = 0; 
@@ -105,9 +97,6 @@ export class CategoriaComponent implements OnInit {
       case 'Transformados':
         this.formulario.cantidadTransformados = 0;
         this.formulario.cantidadEsperadaProducir = 0;
-        break;
-      default:
-        console.warn('Categoría no reconocida:', this.categoriaSeleccionada.grupo);
         break;
     }
   }
@@ -155,26 +144,71 @@ export class CategoriaComponent implements OnInit {
   }
 
   guardarFormulario(): void {
-    console.log('Formulario guardado:', this.formulario);
     this.categoriaSeleccionada = null;
     this.formulario = {
       producto: '',
       medida: '',
-      cantidadGallinas: null,
-      cantidadHuevosProducir: null,
-      cantidadHectarias: null,
-      cantidadProducir: null,
-      cantidadCrias: null,
-      cantidadEsperadaProducir: null,
-      cantidadTransformados: null,
+      cantidadGallinas: 0,
+      cantidadHuevosProducir: 0,
+      cantidadHectarias: 0,
+      cantidadProducir: 0,
+      cantidadCrias: 0,
+      cantidadEsperadaProducir: 0,
+      cantidadTransformados: 0,
       descripcion: ''
     }; 
   }
+
+  // Validar que todos los campos requeridos están llenos
+  camposCompletos(): boolean {
+    return Object.values(this.formulario).every(campo => {
+        return campo !== null && campo !== '' && !(typeof campo === 'number' && campo <= 0);
+    });
+}
+
   guardarYRedirigir(): void {
-     // 2.Crear una función para que salga una alerta que me diga que debo de llenar todos los campos y a la hora de habersen llenado preguntarle que si está seguro que son los campos si no es asi crear un botón de cancelar y me regrese a el formulario 
-    // 3.que se guarde el id de la categoria en el localstorage cuando le de ok 
-    this.router.navigate(['/asociado/fases-costos']);
+    if (!this.camposCompletos()) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Debes llenar todos los campos antes de continuar',
+        confirmButtonText: 'Aceptar'
+      }).then(() => {
+        this.isModalOpen = true; // Mantiene el modal abierto
+      });
+      return;
+    }
+
+    // Si todos los campos están completos, guarda los datos
+    this.saveFormData(this.formulario).then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Datos guardados',
+        text: 'Los datos se han guardado correctamente.',
+        confirmButtonText: 'Aceptar'
+      }).then(() => {
+        this.closeModal(); // Cierra el modal después de guardar
+        this.router.navigate(['/asociado/fases-costos']); // Redirige si es necesario
+      });
+    }).catch((error) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al guardar los datos.',
+        confirmButtonText: 'Aceptar'
+      });
+    });
   }
 
-
+  // Simulación de la función para guardar datos
+  private saveFormData(formData: any): Promise<void> {
+    // Implementa aquí la lógica para guardar los datos
+    return new Promise((resolve, reject) => {
+      // Simulación de un retraso de red
+      setTimeout(() => {
+        resolve();
+      }, 1000);
+    });
+  }
 }
+
