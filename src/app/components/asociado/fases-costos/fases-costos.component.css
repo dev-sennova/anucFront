@@ -1,0 +1,38 @@
+.fases-container {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+  }
+  
+  .fases-container h2 {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .fases-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .fase-item {
+    text-align: center;
+    max-width: 120px;
+  }
+  
+  .fase-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .fase-item p {
+    font-size: 14px;
+    margin: 0;
+  }
+  

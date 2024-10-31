@@ -3,6 +3,8 @@ import { GruposService } from 'src/app/services/grupos.service';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-categoria',
@@ -40,12 +42,15 @@ export class CategoriaComponent implements OnInit {
     this.obtenerGrupos();
   }
 
+
   obtenerGrupos(): void {
     this.GruposService.getGrupos().subscribe(
       (response) => {
         if (response.estado === 'Ok' && response.grupo && Array.isArray(response.grupo)) {
           console.log("Datos recibidos:", response.grupo);
-          this.grupos = response.grupo; // Almacena los grupos
+          
+          // Filtrar el grupo cuyo nombre sea "transformados"
+          this.grupos = response.grupo.filter((grupo: grupos) => grupo.grupo !== 'transformados'); 
         } else {
           console.warn("Se esperaban grupos, pero se recibió:", response.grupo);
         }
@@ -55,17 +60,19 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
+  
+  
+  
 
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
     this.cargarProductos();
     this.cargarMedidas();
     this.isModalOpen = true;
-    this.inicializarFormulario(); // Inicializa el formulario con los campos correctos
+    this.inicializarFormulario(); 
   }
 
   inicializarFormulario(): void {
-    // Reiniciar los campos
     this.formulario.cantidadGallinas = null;
     this.formulario.cantidadHuevosProducir = null;
     this.formulario.cantidadHectarias = null;
@@ -164,7 +171,10 @@ export class CategoriaComponent implements OnInit {
     }; 
   }
   guardarYRedirigir(): void {
+     // 2.Crear una función para que salga una alerta que me diga que debo de llenar todos los campos y a la hora de habersen llenado preguntarle que si está seguro que son los campos si no es asi crear un botón de cancelar y me regrese a el formulario 
+    // 3.que se guarde el id de la categoria en el localstorage cuando le de ok 
     this.router.navigate(['/asociado/fases-costos']);
   }
+
 
 }

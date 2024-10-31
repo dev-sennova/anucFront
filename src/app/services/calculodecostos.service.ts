@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class CalculodecostosService {
   private apiUrl = GlobalConstants.apiURL + `/api/auth/grupo_categorias/selectgrupo_categorias/`;
   private api = GlobalConstants.apiURL + '/api/auth/categoria/selectcategoria/';
-
+  private apU= GlobalConstants.apiURL +'fases_produccion/selectfases_produccion/';
   
   constructor(private http: HttpClient) { }
   obtenerProductosPorCategoria(id: number): Observable<any> {
@@ -29,4 +29,34 @@ export class CalculodecostosService {
     return this.http.get<any>(`${this.api}/selectcategoria/${id}`);
   }
 
+  obtenerFases(): Observable<any> {
+    return this.http.get(`${this.apU}index`);
   }
+
+  // Obtener fases de producción por idGrupo
+  obtenerFasesPorGrupo(id: number): Observable<any> {
+    return this.http.get(`${this.apU}indexOne`, {
+      params: { id: id.toString() }
+    });
+  }
+
+  // Crear una nueva fase de producción
+  crearFase(fase: any): Observable<any> {
+    return this.http.post(`${this.apU}store`, fase);
+  }
+
+  // Actualizar una fase de producción
+  actualizarFase(id: number, fase: any): Observable<any> {
+    return this.http.put(`${this.apU}update`, { id, ...fase });
+  }
+
+  // Desactivar una fase de producción
+  desactivarFase(id: number): Observable<any> {
+    return this.http.put(`${this.apU}deactivate`, { id });
+  }
+
+  // Activar una fase de producción
+  activarFase(id: number): Observable<any> {
+    return this.http.put(`${this.apU}activate`, { id });
+  }
+}
