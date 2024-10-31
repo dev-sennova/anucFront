@@ -15,15 +15,16 @@ export class CategoriaComponent implements OnInit {
   formulario = {
     producto: '',
     medida: '',
-    cantidadGallinas: null,
-    cantidadHuevosProducir: null,
-    cantidadHectarias: null,
-    cantidadProducir: null,
-    cantidadCrias: null,
-    cantidadEsperadaProducir: null,
-    cantidadTransformados: null,
+    cantidadGallinas: null as number | null,
+    cantidadHuevosProducir: null as number | null,
+    cantidadHectarias: null as number | null,
+    cantidadProducir: null as number | null,
+    cantidadCrias: null as number | null,
+    cantidadEsperadaProducir: null as number | null,
+    cantidadTransformados: null as number | null,
     descripcion: '',
   };
+  
   productos: any[] = [];
   medidas: any[] = [];
   isModalOpen: boolean = false;
@@ -75,13 +76,13 @@ export class CategoriaComponent implements OnInit {
     this.formulario.descripcion = '';
 
     // Verifica el nombre de la categoría
-    if (!this.categoriaSeleccionada || !this.categoriaSeleccionada.nombre) {
+    if (!this.categoriaSeleccionada || !this.categoriaSeleccionada.grupo) {
       console.error('Categoría no seleccionada o no válida');
       return;
     }
 
     // Agregar campos según la categoría seleccionada
-    switch (this.categoriaSeleccionada.nombre) {
+    switch (this.categoriaSeleccionada.grupo) {
       case 'Huevos':
         this.formulario.cantidadGallinas = 0; 
         this.formulario.cantidadHuevosProducir = 0;
@@ -99,7 +100,7 @@ export class CategoriaComponent implements OnInit {
         this.formulario.cantidadEsperadaProducir = 0;
         break;
       default:
-        console.warn('Categoría no reconocida:', this.categoriaSeleccionada.nombre);
+        console.warn('Categoría no reconocida:', this.categoriaSeleccionada.grupo);
         break;
     }
   }
