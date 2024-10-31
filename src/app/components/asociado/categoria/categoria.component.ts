@@ -165,7 +165,6 @@ export class CategoriaComponent implements OnInit {
         return campo !== null && campo !== '' && !(typeof campo === 'number' && campo <= 0);
     });
 }
-
   guardarYRedirigir(): void {
     if (!this.camposCompletos()) {
       Swal.fire({
