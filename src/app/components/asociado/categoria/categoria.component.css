@@ -87,9 +87,11 @@
   overflow-y: auto; /* Activar el scroll vertical */
 }
 
+/* Estilos para los campos de formulario */
 .modal-content select,
-.formulario-container form input[type="number"] {
-  width: 100%; /* Hacer que el select ocupe todo el ancho */
+.formulario-container form input[type="number"],
+.formulario-container form textarea {
+  width: 100%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -99,7 +101,8 @@
 }
 
 .modal-content select:focus,
-.formulario-container form input[type="number"]:focus {
+.formulario-container form input[type="number"]:focus,
+.formulario-container form textarea:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
@@ -186,4 +189,17 @@ h2 {
 
 .modal-content .action-btn:hover {
   background-color: #0056b3;
+}
+
+/* Estilo específico para el campo de descripción */
+.formulario-container form textarea {
+  height: 150px; /* Altura fija del área de texto */
+  resize: vertical; /* Permite redimensionar verticalmente */
+  max-height: 200px; /* Máximo de altura */
+  overflow-y: auto; /* Activa el scroll vertical si es necesario */
+}
+
+.formulario-container form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(103, 119, 170, 0.2);
 }

@@ -65,6 +65,11 @@
           <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
         </div>
 
+        <div>
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" [(ngModel)]="formulario.descripcion" name="descripcion"></textarea>
+        </div>
+
         <button type="submit" class="action-btn edit-btn">Guardar</button>
       </form>
     </div>
