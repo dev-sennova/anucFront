@@ -7,7 +7,9 @@
 .title {
   text-align: center;
   font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 20px;
+  color: #333;
 }
 
 .grupo-container {
@@ -16,35 +18,44 @@
 
 .grupo-title {
   font-size: 1.5rem;
+  font-weight: bold;
   margin: 10px 0;
-  border-bottom: 2px solid #ccc;
   padding-bottom: 5px;
+  color: #444;
+  border-bottom: 2px solid #ddd;
 }
 
 .fase-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 20px;
+  justify-content: center; /* Centra los elementos */
 }
 
 .fase-card {
   background: #f9f9f9;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  width: calc(25% - 15px); /* Ajusta el tamaño del card */
+  border-radius: 10px;
+  padding: 20px;
+  width: calc(25% - 20px); /* Ajusta el tamaño de los cards */
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .fase-card:hover {
   transform: scale(1.05);
-  border-color: #007bff; /* Color de borde al pasar el mouse */
+  border-color: #007bff;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
 }
 
 .fase-card img {
-  width: 50px; /* Ajusta según sea necesario */
-  height: 50px; /* Ajusta según sea necesario */
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
 }
 
 .fase-content {
@@ -53,10 +64,14 @@
 
 .fase-name {
   font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
   margin: 10px 0;
 }
 
 .fase-description {
   font-size: 0.9rem;
   color: #555;
+  line-height: 1.4;
+  margin-top: 5px;
 }

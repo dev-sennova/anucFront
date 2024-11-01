@@ -56,7 +56,7 @@ export class FasesCostosComponent implements OnInit {
   obtenerFasesPorGrupo(): void {
     this.calculoCostosService.obtenerFasesPorGrupo(this.categoriaId).subscribe({
       next: (data) => {
-        console.log('Data fetched:', data);
+        data.fases_produccion.forEach((fase: any) => console.log('Fase:', fase));
         this.grupos = this.groupFasesByProceso(data.fases_produccion);
       },
       error: (err) => {
@@ -67,34 +67,35 @@ export class FasesCostosComponent implements OnInit {
 
   groupFasesByProceso(fases: any[]): any[] {
     const grupos: any[] = []; 
-    fases.forEach(fase => {
-      const procesoIndex = grupos.findIndex(grupo => grupo.proceso === fase.proceso);
-      const iconos = this.asignarIconos(fase.proceso);
+    fases.forEach((fase, index) => {
+      const procesoIndex = grupos.findIndex(grupo => grupo.idGrupo === fase.idGrupo);
+      const iconos = this.asignarIconos(fase.idGrupo);
+      const icono = iconos[index % iconos.length]; 
+
       if (procesoIndex === -1) {
-        grupos.push({ proceso: fase.proceso, fases: [{ ...fase, iconos }] });
+        grupos.push({ idGrupo: fase.idGrupo, fases: [{ ...fase, icono }] });
       } else {
-        grupos[procesoIndex].fases.push({ ...fase, iconos });
+        grupos[procesoIndex].fases.push({ ...fase, icono });
       }
     });
-    console.log('Grupos with icons:', grupos); // Verifica que los iconos se agreguen correctamente
     return grupos;
-  }
+}
 
-  asignarIconos(proceso: string): string[] {
-    switch (proceso) {
-      case 'Fase 1':
+asignarIconos(idGrupo: number): string[] {
+    switch (idGrupo) {
+      case 2:
         return this.iconosFase1;
-      case 'Fase 2':
+      case 3:
         return this.iconosFase2;
-      case 'Fase 3':
+      case 4:
         return this.iconosFase3;
       default:
         return [];
     }
-  }
+}
+
 
   verDetalleFase(id: number): void {
-    console.log(`Ver detalle de fase con ID: ${id}`);
     this.router.navigate(['/asociado/fases-costos', id]); 
   }
 }
