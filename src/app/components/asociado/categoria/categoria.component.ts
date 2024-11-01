@@ -162,8 +162,22 @@ export class CategoriaComponent implements OnInit {
 
   guardarYRedirigir(): void {
     console.log('Formulario:', this.formulario);
+
+    // Verificar si el campo 'descripcion' está vacío
+    if (!this.formulario.descripcion || this.formulario.descripcion.trim() === '') {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campo descripción requerido',
+        text: 'Debes llenar el campo de descripción antes de continuar',
+        confirmButtonText: 'Aceptar'
+      }).then(() => {
+        this.isModalOpen = true;
+      });
+      return;
+    }
+
+    // Verificar otros campos según la categoría seleccionada
     if (!this.camposCompletos()) {
-      console.log('Campos incompletos');
       Swal.fire({
         icon: 'warning',
         title: 'Campos incompletos',
@@ -206,3 +220,4 @@ export class CategoriaComponent implements OnInit {
     });
   }
 }
+
