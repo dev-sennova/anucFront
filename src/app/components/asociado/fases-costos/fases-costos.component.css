@@ -35,4 +35,33 @@
     font-size: 14px;
     margin: 0;
   }
+
+  
+  .fases-container {
+    padding: 20px;
+  }
+  
+  .grupo {
+    margin-bottom: 20px;
+  }
+  
+  .fase {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .fase-iconos {
+    display: flex; /* Mostrar íconos en fila */
+  }
+  
+  .fase-icono {
+    width: 30px; /* Ajusta según sea necesario */
+    height: 30px; /* Ajusta según sea necesario */
+    margin-right: 5px; /* Espaciado entre íconos */
+  }
+  
+  .fase-nombre {
+    flex-grow: 1;
+  }
   
