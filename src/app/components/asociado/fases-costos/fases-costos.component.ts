@@ -12,34 +12,34 @@ export class FasesCostosComponent implements OnInit {
   categoriaId: number; 
 
   iconosFase1 = [
-    'assets/icons/fase1-1_icon.png',
-    'assets/icons/fase1-2_icon.png',
-    'assets/icons/fase1-3_icon.png',
-    'assets/icons/fase1-4_icon.png',
-    'assets/icons/fase1-5_icon.png',
-    'assets/icons/fase1-6_icon.png',
-    'assets/icons/fase1-7_icon.png' 
+    'assets/iconos/fase1-1_icon.png',
+    'assets/iconos/fase1-2_icon.png',
+    'assets/iconos/fase1-3_icon.png',
+    'assets/iconos/fase1-4_icon.png',
+    'assets/iconos/fase1-5_icon.png',
+    'assets/iconos/fase1-6_icon.png',
+    'assets/iconos/fase1-7_icon.png' 
   ];
   
   iconosFase2 = [
-    'assets/icons/fase2-1_icon.png',
-    'assets/icons/fase2-2_icon.png',
-    'assets/icons/fase2-3_icon.png',
-    'assets/icons/fase2-4_icon.png',
-    'assets/icons/fase2-5_icon.png',
-    'assets/icons/fase2-6_icon.png',
-    'assets/icons/fase2-7_icon.png',
-    'assets/icons/fase2-8_icon.png'
+    'assets/iconos/fase2-1_icon.png',
+    'assets/iconos/fase2-2_icon.png',
+    'assets/iconos/fase2-3_icon.png',
+    'assets/iconos/fase2-4_icon.png',
+    'assets/iconos/fase2-5_icon.png',
+    'assets/iconos/fase2-6_icon.png',
+    'assets/iconos/fase2-7_icon.png',
+    'assets/iconos/fase2-8_icon.png'
   ];
   
   iconosFase3 = [
-    'assets/icons/fase3-1_icon.png',
-    'assets/icons/fase3-2_icon.png',
-    'assets/icons/fase3-3_icon.png',
-    'assets/icons/fase3-4_icon.png',
-    'assets/icons/fase3-5_icon.png',
-    'assets/icons/fase3-6_icon.png',
-    'assets/icons/fase3-7_icon.png'
+    'assets/iconos/fase3-1_icon.png',
+    'assets/iconos/fase3-2_icon.png',
+    'assets/iconos/fase3-3_icon.png',
+    'assets/iconos/fase3-4_icon.png',
+    'assets/iconos/fase3-5_icon.png',
+    'assets/iconos/fase3-6_icon.png',
+    'assets/iconos/fase3-7_icon.png'
   ];
 
   constructor(
@@ -69,12 +69,14 @@ export class FasesCostosComponent implements OnInit {
     const grupos: any[] = []; 
     fases.forEach(fase => {
       const procesoIndex = grupos.findIndex(grupo => grupo.proceso === fase.proceso);
+      const iconos = this.asignarIconos(fase.proceso);
       if (procesoIndex === -1) {
-        grupos.push({ proceso: fase.proceso, fases: [{ ...fase, iconos: this.asignarIconos(fase.proceso) }] });
+        grupos.push({ proceso: fase.proceso, fases: [{ ...fase, iconos }] });
       } else {
-        grupos[procesoIndex].fases.push({ ...fase, iconos: this.asignarIconos(fase.proceso) });
+        grupos[procesoIndex].fases.push({ ...fase, iconos });
       }
     });
+    console.log('Grupos with icons:', grupos); // Verifica que los iconos se agreguen correctamente
     return grupos;
   }
 

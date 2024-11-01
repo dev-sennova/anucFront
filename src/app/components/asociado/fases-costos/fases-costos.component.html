@@ -1,15 +1,16 @@
 <div class="container">
-  <h2 class="title">Fases de Costos</h2>
-  <div *ngFor="let grupo of grupos" class="grupo-container">
-    <h3 class="grupo-title">{{ grupo.proceso }}</h3>
-    <div class="fase-container">
-      <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase.id)">
-        <img [src]="fase.iconos[0]" alt="Icono de la fase" class="fase-icon" />
-        <div class="fase-content">
-          <h4 class="fase-name">{{ fase.nombre }}</h4>
-          <p class="fase-description">{{ fase.descripcion }}</p>
+    <h2 class="title">Fases de Costos</h2>
+    <div *ngFor="let grupo of grupos" class="grupo-container">
+      <h3 class="grupo-title">{{ grupo.proceso }}</h3> <!-- Mostramos el nombre del proceso -->
+      <div class="fase-container">
+        <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase.id)">
+          <img *ngIf="fase.iconos && fase.iconos.length > 0" [src]="fase.iconos[0]" alt="Icono de la fase" class="fase-icon" />
+          <div class="fase-content">
+            <h4 class="fase-name">{{ fase.nombre_fase }}</h4>
+            <p class="fase-description">{{ fase.descripcion }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  

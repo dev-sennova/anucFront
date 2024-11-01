@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class CalculodecostosService {
   private apiUrl = GlobalConstants.apiURL + `/api/auth/grupo_categorias/selectgrupo_categorias/`;
   private api = GlobalConstants.apiURL + '/api/auth/categoria/selectcategoria/';
-  private apU= GlobalConstants.apiURL +'fases_produccion/selectfases_produccion/';
+  private apU= GlobalConstants.apiURL +'/api/auth/fases_produccion/selectfases_produccion/';
   
   constructor(private http: HttpClient) { }
   obtenerProductosPorCategoria(id: number): Observable<any> {
