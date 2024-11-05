@@ -83,11 +83,11 @@ export class FasesCostosComponent implements OnInit {
 
 asignarIconos(idGrupo: number): string[] {
     switch (idGrupo) {
-      case 2:
+      case 1:
         return this.iconosFase1;
-      case 3:
+      case 2:
         return this.iconosFase2;
-      case 4:
+      case 3:
         return this.iconosFase3;
       default:
         return [];
