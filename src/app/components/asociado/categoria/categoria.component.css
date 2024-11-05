@@ -83,8 +83,8 @@
   width: 50%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-height: 80vh;
-  overflow-y: auto;
+  max-height: 80vh; /* Altura máxima del modal */
+  overflow-y: auto; /* Activar el scroll vertical */
 }
 
 /* Estilos para los campos de formulario */
@@ -193,10 +193,10 @@ h2 {
 
 /* Estilo específico para el campo de descripción */
 .formulario-container form textarea {
-  height: 150px;
-  resize: vertical;
-  max-height: 200px;
-  overflow-y: auto;
+  height: 150px; /* Altura fija del área de texto */
+  resize: vertical; /* Permite redimensionar verticalmente */
+  max-height: 200px; /* Máximo de altura */
+  overflow-y: auto; /* Activa el scroll vertical si es necesario */
 }
 
 .formulario-container form textarea:focus {
@@ -204,7 +204,6 @@ h2 {
   box-shadow: 0 0 0 2px rgba(103, 119, 170, 0.2);
 }
 
-/* Estilos para el contenedor de fases */
 .container {
   display: flex;
   flex-direction: column;
@@ -223,7 +222,7 @@ h2 {
   padding: 20px;
   margin-bottom: 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Título principal de cada grupo */
