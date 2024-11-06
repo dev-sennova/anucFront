@@ -31,7 +31,7 @@ export class CategoriaComponent implements OnInit {
   isModalOpen: boolean = false;
   mostrarContenido: boolean = false;
   gruposF: any[] = []; 
-  categoriaId: number; 
+  categoriaId: number = 0; 
 
   iconosFase1 = [
     'assets/iconos/fase1-1_icon.png',
@@ -63,16 +63,22 @@ export class CategoriaComponent implements OnInit {
     'assets/iconos/fase3-6_icon.png',
     'assets/iconos/fase3-7_icon.png'
   ];
+
   constructor(
     private GruposService: GruposService,
     private unidadesService: UnidadesMedidaService,
     private calculoDeCostosService: CalculodecostosService,
     private router: Router
-  ) {this.categoriaId = parseInt(localStorage.getItem('categoriaId') || '0', 10);}
+  ) {
+    // Recupera la categoría seleccionada de localStorage
+    this.categoriaId = parseInt(localStorage.getItem('categoriaId') || '0', 10);
+  }
 
   ngOnInit(): void {
     this.obtenerGrupos();
-    this.obtenerFasesPorGrupo();
+    if (this.categoriaId) {
+      this.obtenerFasesPorGrupo();
+    }
   }
 
   obtenerGrupos(): void {
@@ -87,6 +93,7 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
+
   obtenerFasesPorGrupo(): void {
     this.calculoDeCostosService.obtenerFasesPorGrupo(this.categoriaId).subscribe({
       next: (data) => {
@@ -94,17 +101,20 @@ export class CategoriaComponent implements OnInit {
         this.gruposF = this.groupFasesByProceso(data.fases_produccion);
       },
       error: (err) => {
-        console.error('Error fetching phases', err);
+        console.error('Error al obtener fases', err);
       }
     });
   }
 
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
+    this.categoriaId = grupo.id;
+    localStorage.setItem('categoriaId', String(this.categoriaId));
+    this.obtenerFasesPorGrupo(); // Recarga las fases según la nueva categoría seleccionada
     this.cargarProductos();
     this.cargarMedidas();
     this.isModalOpen = true;
-    this.inicializarFormulario(); 
+    this.inicializarFormulario();
   }
 
   inicializarFormulario(): void {
@@ -205,10 +215,9 @@ export class CategoriaComponent implements OnInit {
     }
   }
 
-  guardarYRedirigir(): void {
+guardarYRedirigir(): void {
     console.log('Formulario:', this.formulario);
 
-    // Verificar si el campo 'descripcion' está vacío
     if (!this.formulario.descripcion || this.formulario.descripcion.trim() === '') {
       Swal.fire({
         icon: 'warning',
@@ -221,7 +230,6 @@ export class CategoriaComponent implements OnInit {
       return;
     }
 
-    // Verificar otros campos según la categoría seleccionada
     if (!this.camposCompletos()) {
       Swal.fire({
         icon: 'warning',
@@ -249,48 +257,46 @@ export class CategoriaComponent implements OnInit {
       console.error('ID de categoría inválido');
       Swal.fire({
         icon: 'error',
-        title: 'Error',
-        text: 'Ocurrió un error al obtener el ID de la categoría.',
+        title: 'Error de categoría',
+        text: 'Hubo un problema al guardar la categoría seleccionada.',
         confirmButtonText: 'Aceptar'
+      }).then(() => {
+        this.isModalOpen = true;
       });
     }
   }
-
-  private saveFormData(formData: any): Promise<void> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log('Datos guardados:', formData);
-        resolve();
-      }, 1000); 
-    });
-  }
-  verFasesCostos(): void {
-    this.mostrarContenido = true;
-    this.isModalOpen = false;
-  }
-
-
-  ocultarFasesCostos(): void {
-    this.mostrarContenido = false;
-    this.isModalOpen = true; 
+  
+  verDetalleFase(faseId: number): void {
+    this.router.navigate(['/detalle-fase', faseId]);
   }
 
   groupFasesByProceso(fases: any[]): any[] {
     const gruposF: any[] = []; 
+    
     fases.forEach((fase, index) => {
+      // Encuentra si ya existe un grupo para el idGrupo actual
       const procesoIndex = gruposF.findIndex(grupo => grupo.idGrupo === fase.idGrupo);
+      
+      // Obtén la lista de iconos correspondiente a este idGrupo
       const iconos = this.asignarIconos(fase.idGrupo);
-      const icono = iconos[index % iconos.length]; 
-
+      
+      // Selecciona un icono de la lista usando el índice de la fase y el total de iconos disponibles
+      const icono = iconos[index % iconos.length];
+      
       if (procesoIndex === -1) {
-        gruposF.push({ idGrupo: fase.idGrupo, fases: [{ ...fase, icono }] });
+        // Si el grupo no existe, créalo y agrega la fase con su icono
+        gruposF.push({ idGrupo: fase.idGrupo, proceso: fase.proceso, fases: [{ ...fase, icono }] });
       } else {
+        // Si el grupo ya existe, añade la fase al grupo con el icono asignado
         gruposF[procesoIndex].fases.push({ ...fase, icono });
       }
     });
+    
     return gruposF;
-}
-asignarIconos(idGrupo: number): string[] {
+  }
+  
+  asignarIconos(idGrupo: number): string[] {
+    // Retorna el conjunto de iconos según el idGrupo de la fase
     switch (idGrupo) {
       case 1:
         return this.iconosFase1;
@@ -299,12 +305,8 @@ asignarIconos(idGrupo: number): string[] {
       case 3:
         return this.iconosFase3;
       default:
-        return [];
+        return ['assets/iconos/icono-por-defecto.png']; // Icono por defecto si no coincide
     }
+  }
+  
 }
-verDetalleFase(id: number): void {
-  this.router.navigate(['/asociado/fases-costos', id]); 
-}
-
-}
-
