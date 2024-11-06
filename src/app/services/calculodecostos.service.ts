@@ -12,6 +12,7 @@ export class CalculodecostosService {
   private apiUrl = GlobalConstants.apiURL + `/api/auth/grupo_categorias/selectgrupo_categorias/`;
   private api = GlobalConstants.apiURL + '/api/auth/categoria/selectcategoria/';
   private apU= GlobalConstants.apiURL +'/api/auth/fases_produccion/selectfases_produccion/';
+  private conceptosApi = GlobalConstants.apiURL + '/api/auth/conceptos/'
   
   constructor(private http: HttpClient) { }
   obtenerProductosPorCategoria(id: number): Observable<any> {
@@ -59,4 +60,33 @@ export class CalculodecostosService {
   activarFase(id: number): Observable<any> {
     return this.http.put(`${this.apU}activate`, { id });
   }
+
+  // Concepto
+  crearConcepto(fase: any): Observable<any> {
+    return this.http.post(`${this.conceptosApi}store`, fase);
+  }
+
+  actualizarConcepto(id: number, concepto: any): Observable<any> {
+    return this.http.put(`${this.conceptosApi}update`, { id, ...concepto });
+  }
+
+  desactivarConcepto(id: number): Observable<any> {
+    return this.http.put(`${this.conceptosApi}deactivate`, { id });
+  }
+
+  activarConcepto(id: number): Observable<any> {
+    return this.http.put(`${this.conceptosApi}activate`, { id });
+  }
+
+  obtenerConceptoPorGrupo(id: number): Observable<any> {
+    return this.http.get(`${this.conceptosApi}indexOneGrupo`, {
+      params: { id: id.toString() }
+    });
+  }
+
+  obtenerConceptosPorFase(idFase: number): Observable<any> {
+    return this.http.get(`${this.conceptosApi}indexByFase`, {
+      params: { idFase: idFase.toString() }
+    });
+}  
 }

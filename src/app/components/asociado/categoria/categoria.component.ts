@@ -26,12 +26,24 @@ export class CategoriaComponent implements OnInit {
     descripcion: '',
   };
 
+ //Fases Coceptos
+  fases: any[] = [];
+  faseSeleccionada: any = null;
+  mostrarFormularioConcepto: boolean = false;
+  formularioConcepto = {
+    concepto: '',
+    cantidad: 0,
+    valorUnitario: 0
+  };
+
+ //Variables
   productos: any[] = [];
   medidas: any[] = [];
   isModalOpen: boolean = false;
   mostrarContenido: boolean = false;
   gruposF: any[] = []; 
   categoriaId: number = 0; 
+  faseId: number = 0; 
 
   iconosFase1 = [
     'assets/iconos/fase1-1_icon.png',
@@ -79,6 +91,7 @@ export class CategoriaComponent implements OnInit {
     if (this.categoriaId) {
       this.obtenerFasesPorGrupo();
     }
+    this.obtenerFases();
   }
 
   obtenerGrupos(): void {
@@ -106,6 +119,15 @@ export class CategoriaComponent implements OnInit {
     });
   }
 
+  obtenerFases(): void {
+    // Método que llama al servicio para obtener las fases
+    this.calculoDeCostosService.obtenerFases().subscribe((data: any) => {
+      this.fases = data.fases_produccion;
+    }, (error) => {
+      console.error('Error al obtener las fases:', error);
+    });
+  }
+
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
     this.categoriaId = grupo.id;
@@ -115,6 +137,13 @@ export class CategoriaComponent implements OnInit {
     this.cargarMedidas();
     this.isModalOpen = true;
     this.inicializarFormulario();
+    this.inicializarFormularioFase();
+  }
+
+  seleccionarFase(fase: any): void {
+    this.faseSeleccionada = fase;
+    this.mostrarFormularioConcepto = true;  // Activa el formulario de concepto
+    this.inicializarFormularioFase(); // Inicializa el formulario para un nuevo concepto
   }
 
   inicializarFormulario(): void {
@@ -265,11 +294,6 @@ guardarYRedirigir(): void {
       });
     }
   }
-  
-  verDetalleFase(faseId: number): void {
-    this.router.navigate(['/detalle-fase', faseId]);
-  }
-
   groupFasesByProceso(fases: any[]): any[] {
     const gruposF: any[] = []; 
     
@@ -308,5 +332,91 @@ guardarYRedirigir(): void {
         return ['assets/iconos/icono-por-defecto.png']; // Icono por defecto si no coincide
     }
   }
+
+  verDetalleFase(id: number): void {
+    this.calculoDeCostosService.obtenerConceptoPorGrupo(id).subscribe({
+      next: (data) => {
+        this.faseSeleccionada = data[0];
+        this.inicializarFormularioFase();
+        this.isModalOpen = true;
+      },
+      error: (err) => {
+        console.error('Error al obtener fase:', err);
+        
+        // Log the full error object for debugging
+        console.error('Full error object:', err);
+        
+        // Show a success message even if the call fails
+        Swal.fire({
+          icon: 'info',
+          title: 'No se encontró información para esta fase',
+          text: 'Se está mostrando el formulario por defecto.',
+          confirmButtonText: 'Aceptar'
+        });
+        
+        // Fallback to default form data
+        this.faseSeleccionada = { id: id, nombre_fase: 'Fase sin datos', descripcion: 'No se encontró información para esta fase' };
+        this.inicializarFormularioFase();
+        this.isModalOpen = true;
+      }
+    });
+  }
   
+
+  inicializarFormularioFase(): void {
+    this.formularioConcepto = {
+      concepto: '',
+      cantidad: 0,
+      valorUnitario: 0
+    };
+  }
+  guardarConcepto(): void {
+    if (!this.formularioConcepto.concepto || this.formularioConcepto.cantidad <= 0 || this.formularioConcepto.valorUnitario <= 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Debes llenar todos los campos requeridos para el concepto antes de continuar',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+  
+    const nuevoConcepto = {
+      concepto: this.formularioConcepto.concepto,
+      cantidad: this.formularioConcepto.cantidad,
+      valorUnitario: this.formularioConcepto.valorUnitario,
+      faseId: this.faseSeleccionada.id
+    };
+  
+    this.calculoDeCostosService.crearConcepto(nuevoConcepto).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Concepto guardado',
+          text: 'El concepto se ha guardado exitosamente',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          this.formularioConcepto = { concepto: '', cantidad: 0, valorUnitario: 0 };
+          this.mostrarFormularioConcepto = false;
+          this.obtenerFasesPorGrupo();
+        });
+      },
+      error: (err) => {
+        console.error('Error al guardar el concepto:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al guardar',
+          text: 'Hubo un problema al intentar guardar el concepto',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
+  }
+  
+camposCompletosConcepto(): boolean {
+  const { concepto, cantidad, valorUnitario } = this.formularioConcepto;
+  return Boolean(concepto) && cantidad > 0 && valorUnitario > 0;
 }
+
+}
+

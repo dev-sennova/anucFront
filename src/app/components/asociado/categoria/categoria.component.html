@@ -77,20 +77,44 @@
   </div>
 </div>
 </div>
+
 <div class="fases-container"> 
-<div *ngIf="mostrarContenido" class="fases-container">
-  
-  <div *ngFor="let grupo of gruposF" class="grupo-container">
-    <h2 class="title">Fases de Costos</h2>
-    <h3 class="grupo-title">{{ grupo.proceso }}</h3> 
-    <div class="fase-container">
-      <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase.id)">
-        <img *ngIf="fase.icono" [src]="fase.icono" alt="Icono de la fase" class="fase-icon" />
-        <div class="fase-content">
-          <h4 class="fase-name">{{ fase.nombre_fase }}</h4>
-          <p class="fase-description">{{ fase.descripcion }}</p>
+  <div *ngIf="mostrarContenido" class="fases-container">
+    <div *ngFor="let grupo of gruposF" class="grupo-container">
+      <h2 class="title">Fases de Costos</h2>
+      <h3 class="grupo-title">{{ grupo.proceso }}</h3> 
+      <div class="fase-container">
+        <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase.id)">
+          <img *ngIf="fase.icono" [src]="fase.icono" alt="Icono de la fase" class="fase-icon" />
+          <div class="fase-content">
+            <h4 class="fase-name">{{ fase.nombre_fase }}</h4>
+            <p class="fase-description">{{ fase.descripcion }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div *ngIf="mostrarFormularioConcepto" class="formulario-concepto">
+  <h2>Formulario de Conceptos</h2>
+  <form (ngSubmit)="guardarConcepto()">
+    <div class="form-group">
+      <label for="concepto">Concepto</label>
+      <input type="text" id="concepto" [(ngModel)]="formularioConcepto.concepto" name="concepto" required />
+    </div>
+
+    <div class="form-group">
+      <label for="cantidad">Cantidad</label>
+      <input type="number" id="cantidad" [(ngModel)]="formularioConcepto.cantidad" name="cantidad" min="1" required />
+    </div>
+
+    <div class="form-group">
+      <label for="valorUnitario">Valor Unitario</label>
+      <input type="number" id="valorUnitario" [(ngModel)]="formularioConcepto.valorUnitario" name="valorUnitario" min="0" required />
+    </div>
+
+    <button type="submit" class="btn-guardar">Guardar</button>
+  </form>
+</div>
+
