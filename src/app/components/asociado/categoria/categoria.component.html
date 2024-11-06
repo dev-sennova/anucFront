@@ -79,8 +79,9 @@
 </div>
 <div class="fases-container"> 
 <div *ngIf="mostrarContenido" class="fases-container">
-  <h2 class="title">Fases de Costos</h2>
+  
   <div *ngFor="let grupo of gruposF" class="grupo-container">
+    <h2 class="title">Fases de Costos</h2>
     <h3 class="grupo-title">{{ grupo.proceso }}</h3> 
     <div class="fase-container">
       <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase.id)">
