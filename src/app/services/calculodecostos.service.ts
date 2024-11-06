@@ -12,6 +12,7 @@ export class CalculodecostosService {
   private apiUrl = GlobalConstants.apiURL + `/api/auth/grupo_categorias/selectgrupo_categorias/`;
   private api = GlobalConstants.apiURL + '/api/auth/categoria/selectcategoria/';
   private apU= GlobalConstants.apiURL +'/api/auth/fases_produccion/selectfases_produccion/';
+  private GrupoconceptosApi = GlobalConstants.apiURL + '/api/auth/grupos_conceptos/selectgrupos_conceptos/{id}';
   private conceptosApi = GlobalConstants.apiURL + '/api/auth/conceptos/'
   
   constructor(private http: HttpClient) { }
@@ -59,6 +60,19 @@ export class CalculodecostosService {
   // Activar una fase de producción
   activarFase(id: number): Observable<any> {
     return this.http.put(`${this.apU}activate`, { id });
+  }
+
+  // Grupo de conceptos
+  obtenerGruposConceptosPorFase(idFase: number): Observable<any> {
+    return this.http.get<any>(`${this.GrupoconceptosApi}`, {
+      params: { id: idFase }
+    }).pipe(
+      map(response => response.grupos_conceptos),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al obtener grupo de conceptos por fase', error);
+        return throwError(error);
+      })
+    );
   }
 
   // Concepto

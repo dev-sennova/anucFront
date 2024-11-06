@@ -44,6 +44,10 @@ export class CategoriaComponent implements OnInit {
   gruposF: any[] = []; 
   categoriaId: number = 0; 
   faseId: number = 0; 
+  isModalOpenG: boolean = false;
+  gruposConceptos: any[] = [];
+  conceptos: any[] = [];
+
 
   iconosFase1 = [
     'assets/iconos/fase1-1_icon.png',
@@ -110,7 +114,7 @@ export class CategoriaComponent implements OnInit {
   obtenerFasesPorGrupo(): void {
     this.calculoDeCostosService.obtenerFasesPorGrupo(this.categoriaId).subscribe({
       next: (data) => {
-        data.fases_produccion.forEach((fase: any) => console.log('Fase:', fase));
+        console.log('Fases recuperadas:', data);
         this.gruposF = this.groupFasesByProceso(data.fases_produccion);
       },
       error: (err) => {
@@ -118,16 +122,25 @@ export class CategoriaComponent implements OnInit {
       }
     });
   }
+  
 
   obtenerFases(): void {
     // Método que llama al servicio para obtener las fases
-    this.calculoDeCostosService.obtenerFases().subscribe((data: any) => {
-      this.fases = data.fases_produccion;
-    }, (error) => {
-      console.error('Error al obtener las fases:', error);
-    });
+    this.calculoDeCostosService.obtenerFases().subscribe(
+      fases => {
+        this.fases = fases;
+      },
+      error => console.error('Error al obtener fases:', error)
+    );
   }
 
+
+// Obtener la fase para que me muestre el grupo
+
+
+
+
+  //Categoria
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
     this.categoriaId = grupo.id;
@@ -140,12 +153,16 @@ export class CategoriaComponent implements OnInit {
     this.inicializarFormularioFase();
   }
 
+  //Fases
   seleccionarFase(fase: any): void {
+    console.log('Fase seleccionada:', fase);
     this.faseSeleccionada = fase;
     this.mostrarFormularioConcepto = true;  // Activa el formulario de concepto
+    console.log('mostrarFormularioConcepto:', this.mostrarFormularioConcepto);  // Verifica si se activa el formulario
     this.inicializarFormularioFase(); // Inicializa el formulario para un nuevo concepto
   }
-
+  
+  //Catgoria Formulario
   inicializarFormulario(): void {
     this.formulario = {
       producto: '',
@@ -207,7 +224,7 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
-
+ //Iconos de fases
   getIconUrl(grupo: string): string {
     switch (grupo) {
       case 'Cultivos':
@@ -223,10 +240,16 @@ export class CategoriaComponent implements OnInit {
     }
   }
 
+  //Cerrar los formularios y modales
   closeModal(): void {
     this.isModalOpen = false;
+    this.mostrarContenido = false;
+    this.faseSeleccionada = null;
+    this.gruposConceptos = [];
+    this.conceptos = [];
   }
 
+  //Campos de categorias
   camposCompletos(): boolean {
     const { cantidadCrias, cantidadEsperadaProducir, cantidadGallinas, cantidadHuevosProducir, cantidadHectarias, cantidadProducir, cantidadTransformados } = this.formulario;
     
@@ -244,6 +267,7 @@ export class CategoriaComponent implements OnInit {
     }
   }
 
+  //Guardar el formulario de categorias
 guardarYRedirigir(): void {
     console.log('Formulario:', this.formulario);
 
@@ -294,6 +318,8 @@ guardarYRedirigir(): void {
       });
     }
   }
+
+  // Mostrar iconos de las fases
   groupFasesByProceso(fases: any[]): any[] {
     const gruposF: any[] = []; 
     
@@ -333,36 +359,54 @@ guardarYRedirigir(): void {
     }
   }
 
+  seleccionarGrupoConcepto(grupo: any) {
+    this.mostrarContenido = false;
+    this.obtenerConceptosPorFase(this.faseSeleccionada.id);
+  }
+
+  obtenerConceptosPorFase(idFase: number) {
+    this.calculoDeCostosService.obtenerConceptosPorFase(idFase).subscribe(
+      conceptos => {
+        this.conceptos = conceptos;
+        this.mostrarContenido = true;
+      },
+      error => console.error('Error al obtener conceptos por fase:', error)
+    );
+  }
+
   verDetalleFase(id: number): void {
     this.calculoDeCostosService.obtenerConceptoPorGrupo(id).subscribe({
       next: (data) => {
-        this.faseSeleccionada = data[0];
-        this.inicializarFormularioFase();
-        this.isModalOpen = true;
+        console.log('Datos obtenidos:', data);
+        if (Array.isArray(data) && data.length > 0) {
+          this.faseSeleccionada = data[0];
+          this.inicializarFormularioFase();
+          this.isModalOpen = true;
+        } else {
+          console.warn('No se encontraron datos para esta fase');
+          this.mostrarMensajeError();
+        }
       },
       error: (err) => {
-        console.error('Error al obtener fase:', err);
-        
-        // Log the full error object for debugging
-        console.error('Full error object:', err);
-        
-        // Show a success message even if the call fails
-        Swal.fire({
-          icon: 'info',
-          title: 'No se encontró información para esta fase',
-          text: 'Se está mostrando el formulario por defecto.',
-          confirmButtonText: 'Aceptar'
-        });
-        
-        // Fallback to default form data
-        this.faseSeleccionada = { id: id, nombre_fase: 'Fase sin datos', descripcion: 'No se encontró información para esta fase' };
-        this.inicializarFormularioFase();
-        this.isModalOpen = true;
+        console.error('Error al obtener concepto por grupo:', err);
+        this.mostrarMensajeError();
       }
     });
   }
   
-
+  mostrarMensajeError(): void {
+    Swal.fire({
+      icon: 'info',
+      title: 'No se encontró información para esta fase',
+      text: 'Se está mostrando el formulario por defecto.',
+      confirmButtonText: 'Aceptar'
+    }).then(() => {
+      this.faseSeleccionada = { id: null, nombre_fase: 'Fase sin datos', descripcion: 'No se encontró información para esta fase' };
+      this.inicializarFormularioFase();
+      this.isModalOpen = true;
+    });
+  }
+  
   inicializarFormularioFase(): void {
     this.formularioConcepto = {
       concepto: '',
@@ -370,6 +414,7 @@ guardarYRedirigir(): void {
       valorUnitario: 0
     };
   }
+
   guardarConcepto(): void {
     if (!this.formularioConcepto.concepto || this.formularioConcepto.cantidad <= 0 || this.formularioConcepto.valorUnitario <= 0) {
       Swal.fire({
