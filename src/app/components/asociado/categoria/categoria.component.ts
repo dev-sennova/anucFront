@@ -96,6 +96,7 @@ export class CategoriaComponent implements OnInit {
       this.obtenerFasesPorGrupo();
     }
     this.obtenerFases();
+    this.obtenerConceptosPorFase();
   }
 
   obtenerGrupos(): void {
@@ -247,7 +248,9 @@ export class CategoriaComponent implements OnInit {
     this.faseSeleccionada = null;
     this.gruposConceptos = [];
     this.conceptos = [];
+    this.mostrarFormularioConcepto = false; // Cerrar el formulario de conceptos
   }
+  
 
   //Campos de categorias
   camposCompletos(): boolean {
@@ -361,38 +364,30 @@ guardarYRedirigir(): void {
 
   seleccionarGrupoConcepto(grupo: any) {
     this.mostrarContenido = false;
-    this.obtenerConceptosPorFase(this.faseSeleccionada.id);
   }
 
-  obtenerConceptosPorFase(idFase: number) {
-    this.calculoDeCostosService.obtenerConceptosPorFase(idFase).subscribe(
-      conceptos => {
-        this.conceptos = conceptos;
+  obtenerConceptosPorFase() {
+    this.calculoDeCostosService.getGruposConceptos().subscribe(
+      data => {
+        this.conceptos = data.grupos_conceptos;
         this.mostrarContenido = true;
       },
       error => console.error('Error al obtener conceptos por fase:', error)
     );
   }
 
-  verDetalleFase(id: number): void {
-    this.calculoDeCostosService.obtenerConceptoPorGrupo(id).subscribe({
-      next: (data) => {
-        console.log('Datos obtenidos:', data);
-        if (Array.isArray(data) && data.length > 0) {
-          this.faseSeleccionada = data[0];
-          this.inicializarFormularioFase();
-          this.isModalOpen = true;
-        } else {
-          console.warn('No se encontraron datos para esta fase');
-          this.mostrarMensajeError();
-        }
-      },
-      error: (err) => {
-        console.error('Error al obtener concepto por grupo:', err);
-        this.mostrarMensajeError();
-      }
-    });
+  verDetalleFase(fase: any): void {
+    this.mostrarFormularioConcepto = true;
+    this.faseSeleccionada = fase;
+  
+    // Reseteo el formulario
+    this.formularioConcepto = {
+      concepto: '',
+      cantidad: 0,
+      valorUnitario: 0
+    };
   }
+  
   
   mostrarMensajeError(): void {
     Swal.fire({
@@ -464,4 +459,3 @@ camposCompletosConcepto(): boolean {
 }
 
 }
-
