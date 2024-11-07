@@ -1,128 +1,13 @@
-<div class="categorias">
-  <div *ngIf="!mostrarContenido" class="categorias-container">
-    <h2>Categoría</h2>
-    <div *ngIf="!mostrarContenido" class="cards-container">
-      <div *ngFor="let grupo of grupos" class="card" (click)="seleccionarCategoria(grupo)">
-        <img [src]="getIconUrl(grupo.grupo)" [alt]="'Icono de '+ grupo.grupo" class="icon">
-        <h3>{{ grupo.grupo }}</h3>
-        <p>{{ grupo.descripcion }}</p>
-      </div>
-    </div>
-    
-    <div *ngIf="isModalOpen" class="modal" (click)="closeModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <span class="close" (click)="closeModal()">&times;</span>
-        <div *ngIf="categoriaSeleccionada" class="formulario-container">
-          <h2>Formulario para {{ categoriaSeleccionada.grupo }}</h2>
-          <form (ngSubmit)="guardarYRedirigir()" #formularioForm="ngForm">
-            <div>
-              <label for="producto">Producto</label>
-              <select id="producto" [(ngModel)]="formulario.producto" name="producto" required>
-                <option *ngFor="let producto of productos" [value]="producto.idProducto">
-                  {{ producto.producto }}
-                </option>
-              </select>
-            </div>
-            <div>
-              <label for="medida">Medida</label>
-              <select id="medida" [(ngModel)]="formulario.medida" name="medida" required>
-                <option *ngFor="let medida of medidas" [value]="medida.id">
-                  {{ medida.unidad }}
-                </option>
-              </select>
-            </div>
-  
-            <!-- Campos adicionales según la categoría -->
-            <div *ngIf="categoriaSeleccionada.grupo === 'Huevos'">
-              <label for="cantidadGallinas">Cantidad de Gallinas</label>
-              <input type="number" id="cantidadGallinas" [(ngModel)]="formulario.cantidadGallinas" name="cantidadGallinas" required>
-  
-              <label for="cantidadHuevosProducir">Cantidad de Huevos a Producir</label>
-              <input type="number" id="cantidadHuevosProducir" [(ngModel)]="formulario.cantidadHuevosProducir" name="cantidadHuevosProducir" required>
-            </div>
-  
-            <div *ngIf="categoriaSeleccionada.grupo === 'Cultivos'">
-              <label for="cantidadHectarias">Cantidad de Hectáreas</label>
-              <input type="number" id="cantidadHectarias" [(ngModel)]="formulario.cantidadHectarias" name="cantidadHectarias" required>
-  
-              <label for="cantidadProducir">Cantidad a Producir</label>
-              <input type="number" id="cantidadProducir" [(ngModel)]="formulario.cantidadProducir" name="cantidadProducir" required>
-            </div>
-  
-            <div *ngIf="categoriaSeleccionada.grupo === 'Carnes'">
-              <label for="cantidadCrias">Cantidad de Crías</label>
-              <input type="number" id="cantidadCrias" [(ngModel)]="formulario.cantidadCrias" name="cantidadCrias" required>
-  
-              <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir</label>
-              <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
-            </div>
-  
-            <div *ngIf="categoriaSeleccionada.grupo === 'Transformados'">
-              <label for="cantidadTransformados">Cantidad de Transformados</label>
-              <input type="number" id="cantidadTransformados" [(ngModel)]="formulario.cantidadTransformados" name="cantidadTransformados" required>
-  
-              <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir</label>
-              <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
-            </div>
-  
-            <div>
-              <label for="descripcion">Descripción</label>
-              <textarea id="descripcion" [(ngModel)]="formulario.descripcion" name="descripcion" required></textarea>
-            </div>
-  
-            <button type="submit" class="action-btn edit-btn">Guardar</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+<div *ngIf="productos.length > 0">
+  <h3>Productos del Asociado (ID: {{asociadoId }})</h3>
+  <ul>
+  <li *ngFor="let producto of productos">
+  {{ producto.producto }} <!-- Ajusta según la estructura de tu respuesta -->
+  </li>
+  </ul>
   </div>
   
-  <div class="fases-container"> 
-    <div *ngIf="mostrarContenido" class="fases-container">
-      <div *ngFor="let grupo of gruposF" class="grupo-container">
-        <h2 class="title">Fases de Costos</h2>
-        <h3 class="grupo-title">{{ grupo.proceso }}</h3> 
-        <div class="fase-container">
-          <div *ngFor="let fase of grupo.fases" class="fase-card" (click)="verDetalleFase(fase)">
-            <img *ngIf="fase.icono" [src]="fase.icono" alt="Icono de la fase" class="fase-icon" />
-            <div class="fase-content">
-              <h4 class="fase-name">{{ fase.nombre_fase }}</h4>
-              <p class="fase-description">{{ fase.descripcion }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   
-  <div *ngIf="mostrarFormularioConcepto"  class="formulario-concepto-m">
-    <h2>Formulario de Conceptos</h2>
-    <form (ngSubmit)="guardarConcepto()">
-      <div class="form-group">
-        <label for="grupoConcepto">Tipo de Costo</label>
-        <select id="grupoConcepto" name="grupoConcepto" required>
-          <option *ngFor="let gruposConcepto of gruposConceptos" [value]="gruposConcepto.id">
-            {{ gruposConcepto.grupo }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">      
-        <label for="concepto">Concepto</label>
-        <select id="concepto" name="concepto" required [(ngModel)]="formularioConcepto.concepto">
-          <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="cantidad">Cantidad</label>
-        <input type="number" id="cantidad" [(ngModel)]="formularioConcepto.cantidad" name="cantidad" min="1" required />
-      </div>
-  
-      <div class="form-group">
-        <label for="valorUnitario">Valor Unitario</label>
-        <input type="number" id="valorUnitario" [(ngModel)]="formularioConcepto.valorUnitario" name="valorUnitario" min="0" required />
-      </div>
-  
-      <button type="submit" class="btn-guardar">Guardar</button>
-    </form>
-  </div>
+  <ng-template #noData>
+  <p>No se encontraron datos.</p>
+  </ng-template>
