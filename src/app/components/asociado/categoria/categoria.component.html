@@ -96,23 +96,23 @@
     </div>
   </div>
   
-  <div *ngIf="mostrarFormularioConcepto"  class="formulario-concepto">
+  <div *ngIf="mostrarFormularioConcepto"  class="formulario-concepto-m">
     <h2>Formulario de Conceptos</h2>
     <form (ngSubmit)="guardarConcepto()">
       <div class="form-group">
         <label for="grupoConcepto">Tipo de Costo</label>
         <select id="grupoConcepto" name="grupoConcepto" required>
-          <option *ngFor="let concepto of conceptos" [value]="concepto.id">
-            {{ concepto.grupo }}
+          <option *ngFor="let gruposConcepto of gruposConceptos" [value]="gruposConcepto.id">
+            {{ gruposConcepto.grupo }}
           </option>
         </select>
       </div>
-  
-      <div class="form-group">
+      <div class="form-group">      
         <label for="concepto">Concepto</label>
-        <input type="text" id="concepto" [(ngModel)]="formularioConcepto.concepto" name="concepto" required />
+        <select id="concepto" name="concepto" required [(ngModel)]="formularioConcepto.concepto">
+          <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
+        </select>
       </div>
-  
       <div class="form-group">
         <label for="cantidad">Cantidad</label>
         <input type="number" id="cantidad" [(ngModel)]="formularioConcepto.cantidad" name="cantidad" min="1" required />

@@ -111,6 +111,13 @@ export class CalculodecostosService {
     });
 }  
 
+obtenerConceptos(): Observable<any> {
+    return this.http.get<any>(this.conceptosApi).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error inesperado';

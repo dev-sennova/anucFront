@@ -48,7 +48,6 @@ export class CategoriaComponent implements OnInit {
   gruposConceptos: any[] = [];
   conceptos: any[] = [];
 
-
   iconosFase1 = [
     'assets/iconos/fase1-1_icon.png',
     'assets/iconos/fase1-2_icon.png',
@@ -58,7 +57,7 @@ export class CategoriaComponent implements OnInit {
     'assets/iconos/fase1-6_icon.png',
     'assets/iconos/fase1-7_icon.png' 
   ];
-  
+
   iconosFase2 = [
     'assets/iconos/fase2-1_icon.png',
     'assets/iconos/fase2-2_icon.png',
@@ -69,7 +68,7 @@ export class CategoriaComponent implements OnInit {
     'assets/iconos/fase2-7_icon.png',
     'assets/iconos/fase2-8_icon.png'
   ];
-  
+
   iconosFase3 = [
     'assets/iconos/fase3-1_icon.png',
     'assets/iconos/fase3-2_icon.png',
@@ -97,6 +96,7 @@ export class CategoriaComponent implements OnInit {
     }
     this.obtenerFases();
     this.obtenerConceptosPorFase();
+    this.obtenerConceptos();
   }
 
   obtenerGrupos(): void {
@@ -123,7 +123,6 @@ export class CategoriaComponent implements OnInit {
       }
     });
   }
-  
 
   obtenerFases(): void {
     // Método que llama al servicio para obtener las fases
@@ -134,13 +133,28 @@ export class CategoriaComponent implements OnInit {
       error => console.error('Error al obtener fases:', error)
     );
   }
+  obtenerConceptosPorFase() {
+    this.calculoDeCostosService.getGruposConceptos().subscribe(
+      data => {
+        this.gruposConceptos = data.grupos_conceptos;
+        this.mostrarContenido = true;
+      },
+      error => console.error('Error al obtener conceptos por fase:', error)
+    );
+  }
 
-
-// Obtener la fase para que me muestre el grupo
-
-
-
-
+  obtenerConceptos(): void {
+    this.calculoDeCostosService.obtenerConceptos().subscribe(
+      (response: any) => {
+        if (response.estado === 'Ok') {
+          this.conceptos = response.conceptos;
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los conceptos', error);
+      }
+    );
+  }
   //Categoria
   seleccionarCategoria(grupo: any): void {
     this.categoriaSeleccionada = grupo;
@@ -250,12 +264,11 @@ export class CategoriaComponent implements OnInit {
     this.conceptos = [];
     this.mostrarFormularioConcepto = false; // Cerrar el formulario de conceptos
   }
-  
 
   //Campos de categorias
   camposCompletos(): boolean {
     const { cantidadCrias, cantidadEsperadaProducir, cantidadGallinas, cantidadHuevosProducir, cantidadHectarias, cantidadProducir, cantidadTransformados } = this.formulario;
-    
+
     switch (this.categoriaSeleccionada.grupo) {
       case 'Huevos':
         return cantidadGallinas > 0 && cantidadHuevosProducir > 0;
@@ -321,7 +334,6 @@ guardarYRedirigir(): void {
       });
     }
   }
-
   // Mostrar iconos de las fases
   groupFasesByProceso(fases: any[]): any[] {
     const gruposF: any[] = []; 
@@ -344,10 +356,10 @@ guardarYRedirigir(): void {
         gruposF[procesoIndex].fases.push({ ...fase, icono });
       }
     });
-    
+
     return gruposF;
   }
-  
+
   asignarIconos(idGrupo: number): string[] {
     // Retorna el conjunto de iconos según el idGrupo de la fase
     switch (idGrupo) {
@@ -362,21 +374,15 @@ guardarYRedirigir(): void {
     }
   }
 
+
+
   seleccionarGrupoConcepto(grupo: any) {
     this.mostrarContenido = false;
   }
 
-  obtenerConceptosPorFase() {
-    this.calculoDeCostosService.getGruposConceptos().subscribe(
-      data => {
-        this.conceptos = data.grupos_conceptos;
-        this.mostrarContenido = true;
-      },
-      error => console.error('Error al obtener conceptos por fase:', error)
-    );
-  }
 
-  verDetalleFase(fase: any): void {
+
+    verDetalleFase(fase: any): void {
     this.mostrarFormularioConcepto = true;
     this.faseSeleccionada = fase;
   
@@ -387,8 +393,7 @@ guardarYRedirigir(): void {
       valorUnitario: 0
     };
   }
-  
-  
+
   mostrarMensajeError(): void {
     Swal.fire({
       icon: 'info',
@@ -420,14 +425,14 @@ guardarYRedirigir(): void {
       });
       return;
     }
-  
+
     const nuevoConcepto = {
       concepto: this.formularioConcepto.concepto,
       cantidad: this.formularioConcepto.cantidad,
       valorUnitario: this.formularioConcepto.valorUnitario,
       faseId: this.faseSeleccionada.id
     };
-  
+
     this.calculoDeCostosService.crearConcepto(nuevoConcepto).subscribe({
       next: () => {
         Swal.fire({
@@ -452,7 +457,7 @@ guardarYRedirigir(): void {
       }
     });
   }
-  
+
 camposCompletosConcepto(): boolean {
   const { concepto, cantidad, valorUnitario } = this.formularioConcepto;
   return Boolean(concepto) && cantidad > 0 && valorUnitario > 0;
