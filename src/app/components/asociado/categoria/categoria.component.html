@@ -1,13 +1,13 @@
 <div *ngIf="productos.length > 0">
-  <h3>Productos del Asociado (ID: {{asociadoId }})</h3>
+  <h3>Productos del Asociado </h3>
   <ul>
   <li *ngFor="let producto of productos">
   {{ producto.producto }} <!-- Ajusta según la estructura de tu respuesta -->
   </li>
   </ul>
   </div>
-  
-  
+
+
   <ng-template #noData>
   <p>No se encontraron datos.</p>
   </ng-template>

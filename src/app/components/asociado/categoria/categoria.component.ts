@@ -13,7 +13,8 @@ styleUrls: ['./categoria.component.css']
 export class CategoriaComponent implements OnInit {
 // Variables
 productos: any[] = [];
-asociadoId: string = '1'; // Suponiendo que estás buscando el asociado con ID 1
+idAsociado: string="";
+//asociadoId: string = '1'; // Suponiendo que estás buscando el asociado con ID 1
 constructor(
 private GruposService: GruposService,
 private unidadesService: UnidadesMedidaService,
@@ -22,11 +23,17 @@ private router: Router
 ) { }
 
 ngOnInit(): void {
-this.cargarProductos();
+  const idAsociado = localStorage.getItem('identificador_asociado') || '';
+
+  if (idAsociado) {
+    this.cargarProductos(idAsociado);
+  } else {
+    console.error('No se encontró idAsociado en el localStorage');
+  }
 }
 
-cargarProductos(): void {
-this.calculoDeCostosService.getInfoOneAsociadoProductos(this.asociadoId).subscribe(
+cargarProductos(idAsociado: string): void {
+this.calculoDeCostosService.getInfoOneAsociadoProductos(idAsociado).subscribe(
 (data) => {
 console.log('Respuesta de la API (productos):', data); // Verifica la estructura de los datos
 if (data && Array.isArray(data)) {
