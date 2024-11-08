@@ -16,7 +16,7 @@ export class CategoriaComponent implements OnInit {
   bloqcat: any[] = []; // Para que me guarde las categorias
   fechaSeleccionada: string = '';  // Para el selector de fecha
   productoSeleccionado: string | number = ''; // Para el selector de productos
-
+muestrasProd: any[] = []; // Declarar el arreglo donde se almacenarán los productos filtrados
   selectedCategory: any = null;
 
   constructor(
@@ -124,6 +124,18 @@ export class CategoriaComponent implements OnInit {
 
   openModal(categoria: any) {
     this.selectedCategory = categoria;
+    this.muestrasProd = []; // Asegúrate de inicializar el arreglo antes de llenarlo
+  
+    for (let cont = 0; cont < this.productos.length; cont++) {
+      // Variable temporal para almacenar el grupo del producto actual
+      let lecturaGr = this.productos[cont].grupo;
+      
+      // Verificar si el grupo coincide con la categoría seleccionada
+      if (lecturaGr === this.selectedCategory.grupo) {
+        // Si coincide, agregar el producto al arreglo muestrasProd
+        this.muestrasProd.push(this.productos[cont].producto);
+      }
+    }
   }
 
   closeModal(event?: MouseEvent) {

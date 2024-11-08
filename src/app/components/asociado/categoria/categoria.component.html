@@ -43,28 +43,43 @@
   </div>
   
   <!-- Modal -->
-<div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeModal()">×</span>
-    <h3>{{ selectedCategory.grupo }}</h3>
-    <p>{{ selectedCategory.descripcionGrupo }}</p>
-
-    <!-- Formulario dentro del modal -->
-    <form (submit)="guardarDatos()">
-      <!-- Selector de Fecha -->
-      <label for="fecha">Fecha:</label>
-      <input id="fecha" type="date" [(ngModel)]="fechaSeleccionada" name="fecha" required />
-
-      <!-- Selector de Productos (filtrado por categoría) -->
-    <label for="producto">Producto:</label>
-    <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
-      <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}</option>
-    </select>
-
-      <!-- Botón de Guardar -->
-      <button type="submit">Guardar</button>
-    </form>
+  <div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeModal()">×</span>
+      <h3>{{ selectedCategory.grupo }}</h3>
+      <p>{{ selectedCategory.descripcionGrupo }}</p>
+  
+      <!-- Formulario dentro del modal -->
+      <form (submit)="guardarDatos()">
+        <!-- Selector de Fecha -->
+        <label for="fecha">Fecha:</label>
+        <input id="fecha" type="date" [(ngModel)]="fechaSeleccionada" name="fecha" required />
+  
+        <!-- Selector de Productos (filtrado por categoría) -->
+        <select>
+          <option *ngFor="let muestra of muestrasProd; let i = index" [value]="muestra">
+            {{ muestra }}
+          </option>
+        </select>
+  
+        <!-- Botón de Guardar -->
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
   </div>
+  
+  
+
+<!-- Mostrar todas las variables -->
+<div class="variables-container">
+  <h3>Variables en TypeScript:</h3>
+  <ul>
+    <li><strong>productos:</strong> {{ productos | json }}</li>
+    <li><strong>idAsociado:</strong> {{ idAsociado }}</li>
+    <li><strong>bloqcat:</strong> {{ bloqcat | json }}</li>
+    <li><strong>fechaSeleccionada:</strong> {{ fechaSeleccionada }}</li>
+    <li><strong>productoSeleccionado:</strong> {{ productoSeleccionado }}</li>
+    <li><strong>selectedCategory:</strong> {{ selectedCategory | json }}</li>
+    <li><strong>muestrasProd:</strong> {{ muestrasProd | json }}</li>
+  </ul>
 </div>
- 
-    
