@@ -11,7 +11,7 @@ providedIn: 'root'
 export class CalculodecostosService {
 private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
 private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categorias_usuario/';
-private categoriaProducto = GlobalConstants.apiURL + '/api/auth//costeo/productos_usuario/';
+private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
 
 constructor(private http: HttpClient) { }
 
@@ -75,7 +75,7 @@ getProductosPorUsuario(id: string): Observable<any> {
 
 // CalculodecostosService
 getProductosPorCategoria(idAsociado: string, idCategoria: string): Observable<any> {
-    const url = `${this.apiUrlInfoAsociados}/costeo/productos_usuario/${idAsociado}?categoria=${idCategoria}`;
+    const url = `${this.categoriaProducto}/costeo/productos_usuario/${idAsociado}?categoria=${idCategoria}`;
     return this.http.get<any>(url).pipe(
     catchError(this.handleError)
     );

@@ -43,15 +43,6 @@
   </div>
   
   <!-- Modal -->
-  <div *ngIf="selectedCategory" class="modal" (click)="closeModal($event)">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-  <span class="close" (click)="closeModal()">×</span>
-  <h3>{{ selectedCategory.grupo }}</h3>
-  <p>{{ selectedCategory.descripcionGrupo }}</p>
-  </div>
-  </div>
-
-  <!-- Modal -->
 <div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeModal()">×</span>
