@@ -81,8 +81,36 @@ getProductosPorCategoria(idAsociado: string, idCategoria: string): Observable<an
     );
 }
 
+  // Método para obtener todos los productos por asociado
+getProductosPorAsociado(idAsociado: string): Observable<any> {
+    const url = `${this.categoriaProducto}${idAsociado}`; // Solo pasa el idAsociado
+    return this.http.get<any>(url);
+}
 
+  // Método para obtener los productos por asociado y categoría (si se aplica)
+getProductosPorAsociadoYCategoria(idAsociado: string, idCategoria: string): Observable<any> {
+    const url = `${this.categoriaProducto}${idAsociado}/${idCategoria}`; // Añadir idCategoria en la URL
+    return this.http.get<any>(url);
+}
 
+  // Método para obtener información de un producto específico (si es necesario)
+getProductoPorId(idAsociado: string, idProducto: string): Observable<any> {
+    const url = `${this.categoriaProducto}${idAsociado}/${idProducto}`;
+    return this.http.get<any>(url);
+}
+
+// Método para obtener las categorías de productos de un asociado
+getCategoriasPorProducto(idAsociado: string): Observable<any> {
+    const url = `${this.categoriaProducto}${idAsociado}`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.map((item: any) => ({
+        id: item.idGrupo,
+        nombre: item.grupo,
+        descripcion: item.descripcionGrupo
+      }))), // Mapea la respuesta a un formato más conveniente
+      catchError(this.handleError)
+    );
+}
 
 
 
