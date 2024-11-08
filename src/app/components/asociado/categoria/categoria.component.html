@@ -44,29 +44,45 @@
 
   
   <!-- Modal -->
-<div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeModal()">×</span>
-    <h3>{{ selectedCategory.grupo }}</h3>
-    <p>{{ selectedCategory.descripcionGrupo }}</p>
-
-    <!-- Formulario dentro del modal -->
-    <form (submit)="guardarDatos()">
-      <!-- Selector de Fecha -->
-      <label for="fecha">Fecha:</label>
-      <input id="fecha" type="date" [(ngModel)]="fechaSeleccionada" name="fecha" required />
-
-      <!-- Selector de Productos (filtrado por categoría) -->
-      <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
-        <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
-      </select>
-      
-
-      <!-- Botón de Guardar -->
-      <button type="submit">Guardar</button>
-    </form>
-  </div>
-</div>
- 
+  <div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeModal()">×</span>
+      <h3>{{ selectedCategory.grupo }}</h3>
   
-
+      <!-- Formulario dentro del modal -->
+      <form (submit)="guardarDatos()" class="formulario-container">
+        <!-- Selector de Fecha -->
+        <div class="form-group">
+          <label for="fecha">Fecha:</label>
+          <input id="fecha" type="date" [(ngModel)]="fechaSeleccionada" name="fecha" required />
+        </div>
+  
+        <!-- Selector de Producto -->
+        <div class="form-group">
+          <label for="producto">Producto:</label>
+          <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
+            <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+          </select>
+        </div>
+  
+        <!-- Selector de Medida -->
+        <div class="form-group">
+          <label for="medida">Medida:</label>
+          <select id="medida" [(ngModel)]="medidaSeleccionada" name="medida" required>
+            <option *ngFor="let medida of medidas" [value]="medida.id">{{ medida.unidad }}</option>
+          </select>
+        </div>
+  
+        <!-- Campo de descripción bloqueado -->
+        <div class="form-group">
+          <label for="descripcion">Descripción:</label>
+          <p class="descripcion-grupo">{{ selectedCategory.descripcionGrupo }}</p>
+        </div>
+  
+        <!-- Botón de Guardar -->
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
+  </div>
+  
+  

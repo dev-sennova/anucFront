@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./categoria.component.css']
 })
 export class CategoriaComponent implements OnInit {
+
   productos: any[] = [];
   filteredProductos: any[] = [];
   idAsociado: string = "";
@@ -18,6 +19,8 @@ export class CategoriaComponent implements OnInit {
   fechaSeleccionada: string = '';
   productoSeleccionado: string | number = '';
   selectedCategory: any = null;
+  medidas: any[] = []; 
+  medidaSeleccionada: string | number = '';
 
   constructor(
     private GruposService: GruposService,
@@ -39,6 +42,8 @@ export class CategoriaComponent implements OnInit {
     } else {
       console.error('No se encontró idAsociado en el localStorage');
     }
+
+    this.cargarUnidades();
   }
 
   // Método para cargar productos según la categoría seleccionada
@@ -85,6 +90,20 @@ export class CategoriaComponent implements OnInit {
     );
   }
 
+  // Cargar las medidas 
+  cargarUnidades(): void {
+    this.unidadesService.getUnidades().subscribe(
+      (data) => {
+        console.log('Unidades de medida cargadas:', data);
+        this.medidas = data;
+      },
+      (error) => {
+        console.error('Error al cargar unidades de medida:', error);
+        Swal.fire('Error', 'No se pudieron cargar las unidades de medida.', 'error');
+      }
+    );
+  }
+
   // Método para obtener el icono de cada categoría
   getIconUrl(grupo: string): string {
     switch (grupo) {
@@ -112,6 +131,7 @@ export class CategoriaComponent implements OnInit {
     this.selectedCategory = null;
   }
 
+  // Método para filtrar productos según la categoría seleccionada
   filterByCategory(category: any): void {
     this.selectedCategory = category;
     
@@ -127,7 +147,8 @@ export class CategoriaComponent implements OnInit {
   guardarDatos() {
     const datosFormulario = {
       fecha: this.fechaSeleccionada,
-      producto: this.productoSeleccionado
+      producto: this.productoSeleccionado,
+      medida: this.medidaSeleccionada
     };
     console.log('Datos del formulario:', datosFormulario);
     // Aquí puedes llamar al servicio para enviar los datos al backend
