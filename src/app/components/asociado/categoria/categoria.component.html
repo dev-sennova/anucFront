@@ -1,13 +1,79 @@
-<div *ngIf="productos.length > 0">
-  <h3>Productos del Asociado </h3>
+<!-- <div *ngIf="productos.length > 0; else noProductos">
+  <h3>Productos del Asociado</h3>
   <ul>
-  <li *ngFor="let producto of productos">
-  {{ producto.producto }} <!-- Ajusta según la estructura de tu respuesta -->
-  </li>
+    <li *ngFor="let producto of productos">
+      {{ producto.producto }} Ajusta según la estructura de tu producto 
+    </li>
   </ul>
+</div>
+
+<ng-template #noProductos>
+  <p>No se encontraron productos.</p>
+</ng-template>
+
+
+<div *ngIf="bloqcat.length > 0; else noData">
+  <h3>Categorías del Asociado</h3>
+  <ul>
+    <li *ngFor="let categoria of bloqcat">
+      {{ categoria.grupo }} - {{ categoria.descripcionGrupo }}
+    </li>
+  </ul>
+</div>
+
+<ng-template #noData>
+  <p>No se encontraron categorías.</p>
+</ng-template>-->
+
+
+<div class="categorias-container">
+  <h2>Categorías del Asociado</h2>
+  
+  <div *ngIf="bloqcat.length > 0; else noData" class="cards-container">
+  <div class="card" *ngFor="let categoria of bloqcat" (click)="openModal(categoria)">
+  <img [src]="getIconUrl(categoria.grupo)" alt="{{ categoria.grupo }}" class="icon">
+  <h3>{{ categoria.grupo }}</h3>
+  <p>{{ categoria.descripcionGrupo }}</p>
+  </div>
+  </div>
+  
+  <ng-template #noData>
+  <p>No se encontraron categorías.</p>
+  </ng-template>
+  </div>
+  
+  <!-- Modal -->
+  <div *ngIf="selectedCategory" class="modal" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+  <span class="close" (click)="closeModal()">×</span>
+  <h3>{{ selectedCategory.grupo }}</h3>
+  <p>{{ selectedCategory.descripcionGrupo }}</p>
+  </div>
   </div>
 
+  <!-- Modal -->
+<div class="modal" *ngIf="selectedCategory" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closeModal()">×</span>
+    <h3>{{ selectedCategory.grupo }}</h3>
+    <p>{{ selectedCategory.descripcionGrupo }}</p>
 
-  <ng-template #noData>
-  <p>No se encontraron datos.</p>
-  </ng-template>
+    <!-- Formulario dentro del modal -->
+    <form (submit)="guardarDatos()">
+      <!-- Selector de Fecha -->
+      <label for="fecha">Fecha:</label>
+      <input id="fecha" type="date" [(ngModel)]="fechaSeleccionada" name="fecha" required />
+
+      <!-- Selector de Productos (filtrado por categoría) -->
+      <label for="producto">Producto:</label>
+      <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
+        <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.producto }}</option>
+      </select>
+
+      <!-- Botón de Guardar -->
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+</div>
+ 
+    

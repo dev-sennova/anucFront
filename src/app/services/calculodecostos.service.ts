@@ -10,6 +10,8 @@ providedIn: 'root'
 })
 export class CalculodecostosService {
 private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
+private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categorias_usuario/';
+private categoriaProducto = GlobalConstants.apiURL + '/api/auth//costeo/productos_usuario/';
 
 constructor(private http: HttpClient) { }
 
@@ -54,6 +56,42 @@ map(response => response),
 catchError(this.handleError)
 );
 }
+
+// Función para obtener las categorías de un usuario específico
+getCategoriasPorUsuario(id: string): Observable<any> {
+    const url = `${this.categoriaUsuario}${id}`;
+    return this.http.get<any>(url).pipe(
+    catchError(this.handleError)
+    );
+}
+
+// CalculodecostosService
+getProductosPorUsuario(id: string): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/costeo/productos_usuario/${id}`;
+    return this.http.get<any>(url).pipe(
+    catchError(this.handleError)
+    );
+}
+
+// CalculodecostosService
+getProductosPorCategoria(idAsociado: string, idCategoria: string): Observable<any> {
+    const url = `${this.apiUrlInfoAsociados}/costeo/productos_usuario/${idAsociado}?categoria=${idCategoria}`;
+    return this.http.get<any>(url).pipe(
+    catchError(this.handleError)
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
