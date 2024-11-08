@@ -11,12 +11,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./categoria.component.css']
 })
 export class CategoriaComponent implements OnInit {
-  productos: any[] = []; // Para que me filtre los productos
+  productos: any[] = [];
+  filteredProductos: any[] = [];
   idAsociado: string = "";
-  bloqcat: any[] = []; // Para que me guarde las categorias
-  fechaSeleccionada: string = '';  // Para el selector de fecha
-  productoSeleccionado: string | number = ''; // Para el selector de productos
-muestrasProd: any[] = []; // Declarar el arreglo donde se almacenarán los productos filtrados
+  bloqcat: any[] = [];
+  fechaSeleccionada: string = '';
+  productoSeleccionado: string | number = '';
   selectedCategory: any = null;
 
   constructor(
@@ -43,47 +43,26 @@ muestrasProd: any[] = []; // Declarar el arreglo donde se almacenarán los produ
 
   // Método para cargar productos según la categoría seleccionada
   cargarProductos(idAsociado: string): void {
-    const idCategoria = this.selectedCategory;  // ID de la categoría seleccionada
-
-    console.log('Categoría seleccionada ID:', idCategoria); // Verificar la categoría seleccionada
-
-    if (idCategoria) {
-      // Si hay una categoría seleccionada, hacer la consulta de productos filtrados por categoría
-      this.calculoDeCostosService.getProductosPorAsociadoYCategoria(idAsociado, idCategoria).subscribe(
-        (data) => {
-          console.log('Respuesta de la API (productos filtrados por categoría):', data);
-          if (data && Array.isArray(data.productos)) {
-            this.productos = data.productos; // Almacenar productos filtrados
-          } else {
-            console.error('No se encontraron productos filtrados por categoría');
-            this.productos = []; // Vaciar lista si no hay productos
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los productos filtrados', error);
-          Swal.fire('Error', 'No se pudieron cargar los productos del asociado en la categoría seleccionada.', 'error');
+    this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
+      (data) => {
+        console.log('Respuesta de la API (todos los productos):', data);
+        if (data && Array.isArray(data.productos)) {
+          this.productos = data.productos;
+          this.filteredProductos = [...this.productos]; // Inicializa filteredProductos con todos los productos
+          console.log('Productos cargados:', this.productos);
+        } else {
+          console.error('No se encontraron productos');
+          this.productos = [];
+          this.filteredProductos = [];
         }
-      );
-    } else {
-      // Si no se ha seleccionado una categoría, obtener todos los productos
-      this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
-        (data) => {
-          console.log('Respuesta de la API (todos los productos):', data);
-          if (data && Array.isArray(data.productos)) {
-            this.productos = data.productos; // Almacenar todos los productos
-          } else {
-            console.error('No se encontraron productos');
-            this.productos = []; // Vaciar lista si no hay productos
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los productos', error);
-          Swal.fire('Error', 'No se pudieron cargar los productos del asociado.', 'error');
-        }
-      );
-    }
+      },
+      (error) => {
+        console.error('Error al obtener los productos', error);
+        Swal.fire('Error', 'No se pudieron cargar los productos del asociado.', 'error');
+      }
+    );
   }
-
+  
   // Método para cargar las categorías del usuario
   cargarCategorias(idAsociado: string): void {
     this.calculoDeCostosService.getCategoriasPorUsuario(idAsociado).subscribe(
@@ -124,18 +103,6 @@ muestrasProd: any[] = []; // Declarar el arreglo donde se almacenarán los produ
 
   openModal(categoria: any) {
     this.selectedCategory = categoria;
-    this.muestrasProd = []; // Asegúrate de inicializar el arreglo antes de llenarlo
-  
-    for (let cont = 0; cont < this.productos.length; cont++) {
-      // Variable temporal para almacenar el grupo del producto actual
-      let lecturaGr = this.productos[cont].grupo;
-      
-      // Verificar si el grupo coincide con la categoría seleccionada
-      if (lecturaGr === this.selectedCategory.grupo) {
-        // Si coincide, agregar el producto al arreglo muestrasProd
-        this.muestrasProd.push(this.productos[cont].producto);
-      }
-    }
   }
 
   closeModal(event?: MouseEvent) {
@@ -145,6 +112,18 @@ muestrasProd: any[] = []; // Declarar el arreglo donde se almacenarán los produ
     this.selectedCategory = null;
   }
 
+  filterByCategory(category: any): void {
+    this.selectedCategory = category;
+    
+    // Asegúrate de que los productos estén cargados antes de aplicar el filtro
+    if (this.productos.length > 0) {
+      this.filteredProductos = this.productos.filter(product => product.idGrupo === category.idGrupo);
+      console.log('Productos filtrados:', this.filteredProductos);
+    } else {
+      console.error('No hay productos cargados');
+    }
+  }
+  
   guardarDatos() {
     const datosFormulario = {
       fecha: this.fechaSeleccionada,
