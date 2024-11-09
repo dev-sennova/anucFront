@@ -94,7 +94,6 @@
 }
 
 /* Estilo para el modal */
-/* Estilo para el modal */
 .modal {
   display: flex;
   justify-content: center;
@@ -144,34 +143,59 @@ h1 {
   gap: 20px;
 }
 
+/* Título del formulario */
 .formulario-container h2 {
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
+/* Contenedor de cada grupo de formulario */
 .formulario-container .form-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   text-align: left;
+  width: 100%;
 }
 
+/* Estilo de las etiquetas */
 .formulario-container label {
   font-size: 1.1em;
   font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
 }
 
+/* Campos de entrada y selección */
 .formulario-container select,
 .formulario-container input {
+  width: 100%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #888;
   font-size: 1em;
+  box-sizing: border-box;
 }
 
+/* Campo de descripción alineado */
+.descripcion-grupo {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  color: #555;
+  white-space: pre-wrap;
+  width: 100%;
+  box-sizing: border-box; /* Mantiene el padding dentro del ancho total */
+  border: 1px solid #888; /* Alinea el borde con el de los demás campos */
+}
+
+/* Botón */
 .formulario-container button {
-  background-color: #4CAF50;
+  background-color: #17a2b8;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -182,25 +206,12 @@ h1 {
 }
 
 .formulario-container button:hover {
-  background-color: #45a049;
+  background-color: #17a2b8;
 }
 
-/* Estilo para el campo de descripción */
-.descripcion-grupo {
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 5px;
-  font-size: 1.1em;
-  font-weight: normal;
-  margin-bottom: 20px;
-  color: #555;
-  white-space: pre-wrap; /* Permite saltos de línea si es necesario */
-}
-
+/* Campos de solo lectura */
 .formulario-container input[readonly],
 .formulario-container select[readonly] {
-  background-color: #f5f5f5; /* Color para los campos no editables */
-  cursor: not-allowed; /* Cambia el cursor para indicar que no se puede editar */
+  background-color: #f5f5f5;
+  cursor: not-allowed;
 }
-
-

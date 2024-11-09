@@ -21,6 +21,15 @@ export class CategoriaComponent implements OnInit {
   selectedCategory: any = null;
   medidas: any[] = []; 
   medidaSeleccionada: string | number = '';
+  formulario = {
+    cantidadGallinas: 0,
+    cantidadHuevosProducir: 0,
+    cantidadHectarias: 0,
+    cantidadProducir: 0,
+    cantidadCrias: 0,
+    cantidadEsperadaProducir: 0,
+    cantidadTransformados: 0
+  };
 
   constructor(
     private GruposService: GruposService,
@@ -145,7 +154,14 @@ export class CategoriaComponent implements OnInit {
     const datosFormulario = {
       fecha: this.fechaSeleccionada,
       producto: this.productoSeleccionado,
-      medida: this.medidaSeleccionada
+      medida: this.medidaSeleccionada,
+      cantidadGallinas: this.formulario.cantidadGallinas,
+      cantidadHuevosProducir: this.formulario.cantidadHuevosProducir,
+      cantidadHectarias: this.formulario.cantidadHectarias,
+      cantidadProducir: this.formulario.cantidadProducir,
+      cantidadCrias: this.formulario.cantidadCrias,
+      cantidadEsperadaProducir: this.formulario.cantidadEsperadaProducir,
+      cantidadTransformados: this.formulario.cantidadTransformados
     };
     console.log('Datos del formulario:', datosFormulario);
     // Aquí puedes llamar al servicio para enviar los datos al backend
