@@ -73,36 +73,36 @@
         </select>
       </div>
   <!-- Campos según el grupo -->
-  <div *ngIf="selectedCategory.grupo === 'Huevos'">
+  <div *ngIf="selectedCategory?.grupo === 'Huevos'">
     <label for="cantidadGallinas">Cantidad de Gallinas:</label>
     <input type="number" id="cantidadGallinas" [(ngModel)]="formulario.cantidadGallinas" name="cantidadGallinas" required>
-
-    <label for="cantidadHuevosProducir">Cantidad de Huevos a Producir</label>
+  
+    <label for="cantidadHuevosProducir">Cantidad de Huevos a Producir:</label>
     <input type="number" id="cantidadHuevosProducir" [(ngModel)]="formulario.cantidadHuevosProducir" name="cantidadHuevosProducir" required>
   </div>
-
-  <div *ngIf="selectedCategory.grupo === 'Cultivos'">
+  
+  <div *ngIf="selectedCategory?.grupo === 'Cultivos'">
     <label for="cantidadHectarias">Cantidad de Hectáreas:</label>
     <input type="number" id="cantidadHectarias" [(ngModel)]="formulario.cantidadHectarias" name="cantidadHectarias" required>
-
+  
     <label for="cantidadProducir">Cantidad a Producir:</label>
     <input type="number" id="cantidadProducir" [(ngModel)]="formulario.cantidadProducir" name="cantidadProducir" required>
   </div>
-
-  <div *ngIf="selectedCategory.grupo === 'Carnes'">
+  
+  <div *ngIf="selectedCategory?.grupo === 'Carnes'">
     <label for="cantidadCrias">Cantidad de Crías:</label>
     <input type="number" id="cantidadCrias" [(ngModel)]="formulario.cantidadCrias" name="cantidadCrias" required>
-
+  
     <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir:</label>
     <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
   </div>
-
-  <div *ngIf="selectedCategory.grupo === 'Transformados'">
+  
+  <div *ngIf="selectedCategory?.grupo === 'Transformados'">
     <label for="cantidadTransformados">Cantidad de Transformados:</label>
     <input type="number" id="cantidadTransformados" [(ngModel)]="formulario.cantidadTransformados" name="cantidadTransformados" required>
-
-    <label for="cantidadEsperadaProducir">Cantidad Esperada a Producir:</label>
-    <input type="number" id="cantidadEsperadaProducir" [(ngModel)]="formulario.cantidadEsperadaProducir" name="cantidadEsperadaProducir" required>
+  
+    <label for="cantidadTransformadosProducir">Cantidad Esperada a Producir:</label>
+    <input type="number" id="cantidadTransformadosProducir" [(ngModel)]="formulario.cantidadTransformadosProducir" name="cantidadTransformadosProducir" required>
   </div>
       <!-- Campo de descripción bloqueado -->
       <div class="form-group">

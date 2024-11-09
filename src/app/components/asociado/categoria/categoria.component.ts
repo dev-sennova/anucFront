@@ -22,13 +22,19 @@ export class CategoriaComponent implements OnInit {
   medidas: any[] = []; 
   medidaSeleccionada: string | number = '';
   formulario = {
+    //Huevos
     cantidadGallinas: 0,
     cantidadHuevosProducir: 0,
+    //Cultivo
     cantidadHectarias: 0,
     cantidadProducir: 0,
+    //Criadero
     cantidadCrias: 0,
     cantidadEsperadaProducir: 0,
-    cantidadTransformados: 0
+    //Transformados
+    cantidadTransformados: 0,
+    cantidadTransformadosProducir: 0,
+  
   };
 
   constructor(
@@ -151,57 +157,71 @@ export class CategoriaComponent implements OnInit {
   }
   
 
-
   guardarDatos() {
-    const errores = [];
+    let errores = [];
   
     // Convertir a string y eliminar espacios en blanco solo si el valor es de tipo string
     const productoSeleccionado = typeof this.productoSeleccionado === 'string' ? this.productoSeleccionado.trim() : this.productoSeleccionado;
     const medidaSeleccionada = typeof this.medidaSeleccionada === 'string' ? this.medidaSeleccionada.trim() : this.medidaSeleccionada;
   
     // Validaciones específicas para cada categoría
-    switch (this.selectedCategory) {
-      case 'cultivos':
+    switch (this.selectedCategory.grupo) {
+      case 'Huevos':
         if (!this.fechaSeleccionada) errores.push('Fecha');
         if (!productoSeleccionado) errores.push('Producto');
-        if (this.formulario.cantidadHectarias === 0 || this.formulario.cantidadHectarias === null) errores.push('Cantidad de Hectáreas (no puede ser 0 o vacío)');
-        if (this.formulario.cantidadProducir === 0 || this.formulario.cantidadProducir === null) errores.push('Cantidad a Producir (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadGallinas <= 0 || this.formulario.cantidadGallinas === null) 
+          errores.push('Cantidad de Gallinas (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadHuevosProducir <= 0 || this.formulario.cantidadHuevosProducir === null) 
+          errores.push('Cantidad de Huevos a Producir (no puede ser 0 o vacío)');
         break;
   
-      case 'carnes':
+      case 'Cultivos':
         if (!this.fechaSeleccionada) errores.push('Fecha');
         if (!productoSeleccionado) errores.push('Producto');
-        if (this.formulario.cantidadGallinas === 0 || this.formulario.cantidadGallinas === null) errores.push('Cantidad de Gallinas (no puede ser 0 o vacío)');
-        if (this.formulario.cantidadGallinas <= 0 || this.formulario.cantidadGallinas === null) errores.push('Cantidad de Gallinas debe ser mayor que 0');
-        if (this.formulario.cantidadHuevosProducir === 0 || this.formulario.cantidadHuevosProducir === null) errores.push('Cantidad de Huevos a Producir (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadHectarias <= 0 || this.formulario.cantidadHectarias === null) 
+          errores.push('Cantidad de Hectáreas (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadProducir <= 0 || this.formulario.cantidadProducir === null) 
+          errores.push('Cantidad a Producir (no puede ser 0 o vacío)');
         break;
   
-      case 'transformados':
+      case 'Carnes':
         if (!this.fechaSeleccionada) errores.push('Fecha');
         if (!productoSeleccionado) errores.push('Producto');
-        if (this.formulario.cantidadTransformados === 0 || this.formulario.cantidadTransformados === null) errores.push('Cantidad de Productos Transformados (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadCrias <= 0 || this.formulario.cantidadCrias === null) 
+          errores.push('Cantidad de Crías (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadEsperadaProducir <= 0 || this.formulario.cantidadEsperadaProducir === null) 
+          errores.push('Cantidad Esperada a Producir (no puede ser 0 o vacío)');
         break;
   
-      // Validaciones generales en caso de categoría no definida
+      case 'Transformados':
+        if (!this.fechaSeleccionada) errores.push('Fecha');
+        if (!productoSeleccionado) errores.push('Producto');
+        if (this.formulario.cantidadTransformados <= 0 || this.formulario.cantidadTransformados === null) 
+          errores.push('Cantidad de Transformados (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadTransformadosProducir <= 0 || this.formulario.cantidadTransformadosProducir === null) 
+          errores.push('Cantidad Esperada a Producir (no puede ser 0 o vacío)');
+        break;
+  
+      // Validaciones generales en caso de grupo no definido
       default:
         if (!this.fechaSeleccionada) errores.push('Fecha');
         if (!productoSeleccionado) errores.push('Producto');
         if (!medidaSeleccionada) errores.push('Medida');
     }
   
-    // Mostrar mensaje de error si faltan campos o tienen valor 0 o vacío
+    // Si hay errores, mostramos una alerta
     if (errores.length > 0) {
       Swal.fire({
-        icon: 'warning',
-        title: 'Campos incompletos o inválidos',
-        html: `Por favor, complete los siguientes campos correctamente:<br><ul style="text-align: left;">${errores.map(campo => `<li>${campo}</li>`).join('')}</ul>`,
+        icon: 'error',
+        title: 'Campos incompletos',
+        text: 'Por favor, complete todos los campos con valores mayores a cero.',
         confirmButtonText: 'Entendido'
       });
       return;
     }
   
-    // Guardado de datos si todos los campos requeridos están completos y válidos
-    const datosFormulario = {
+    // Si no hay errores, preparar los datos para guardar
+    let datosFormulario = {
       fecha: this.fechaSeleccionada,
       producto: productoSeleccionado,
       medida: medidaSeleccionada,
@@ -211,12 +231,21 @@ export class CategoriaComponent implements OnInit {
       cantidadProducir: this.formulario.cantidadProducir,
       cantidadCrias: this.formulario.cantidadCrias,
       cantidadEsperadaProducir: this.formulario.cantidadEsperadaProducir,
-      cantidadTransformados: this.formulario.cantidadTransformados
+      cantidadTransformados: this.formulario.cantidadTransformados,
+      cantidadTransformadosProducir: this.formulario.cantidadTransformadosProducir
     };
   
+    // Mostrar los datos del formulario en la consola (opcional)
     console.log('Datos del formulario:', datosFormulario);
   
     // Aquí puedes llamar al servicio para enviar los datos al backend
+    // Ejemplo:
+    // this.datosService.enviarDatosFormulario(datosFormulario).subscribe(response => {
+    //   console.log('Datos enviados con éxito');
+    // });
   }
+  
+
+
   
 }
