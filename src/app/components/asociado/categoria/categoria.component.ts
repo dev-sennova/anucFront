@@ -150,11 +150,61 @@ export class CategoriaComponent implements OnInit {
     }
   }
   
+
+
   guardarDatos() {
+    const errores = [];
+  
+    // Convertir a string y eliminar espacios en blanco solo si el valor es de tipo string
+    const productoSeleccionado = typeof this.productoSeleccionado === 'string' ? this.productoSeleccionado.trim() : this.productoSeleccionado;
+    const medidaSeleccionada = typeof this.medidaSeleccionada === 'string' ? this.medidaSeleccionada.trim() : this.medidaSeleccionada;
+  
+    // Validaciones específicas para cada categoría
+    switch (this.selectedCategory) {
+      case 'cultivos':
+        if (!this.fechaSeleccionada) errores.push('Fecha');
+        if (!productoSeleccionado) errores.push('Producto');
+        if (this.formulario.cantidadHectarias === 0 || this.formulario.cantidadHectarias === null) errores.push('Cantidad de Hectáreas (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadProducir === 0 || this.formulario.cantidadProducir === null) errores.push('Cantidad a Producir (no puede ser 0 o vacío)');
+        break;
+  
+      case 'carnes':
+        if (!this.fechaSeleccionada) errores.push('Fecha');
+        if (!productoSeleccionado) errores.push('Producto');
+        if (this.formulario.cantidadGallinas === 0 || this.formulario.cantidadGallinas === null) errores.push('Cantidad de Gallinas (no puede ser 0 o vacío)');
+        if (this.formulario.cantidadGallinas <= 0 || this.formulario.cantidadGallinas === null) errores.push('Cantidad de Gallinas debe ser mayor que 0');
+        if (this.formulario.cantidadHuevosProducir === 0 || this.formulario.cantidadHuevosProducir === null) errores.push('Cantidad de Huevos a Producir (no puede ser 0 o vacío)');
+        break;
+  
+      case 'transformados':
+        if (!this.fechaSeleccionada) errores.push('Fecha');
+        if (!productoSeleccionado) errores.push('Producto');
+        if (this.formulario.cantidadTransformados === 0 || this.formulario.cantidadTransformados === null) errores.push('Cantidad de Productos Transformados (no puede ser 0 o vacío)');
+        break;
+  
+      // Validaciones generales en caso de categoría no definida
+      default:
+        if (!this.fechaSeleccionada) errores.push('Fecha');
+        if (!productoSeleccionado) errores.push('Producto');
+        if (!medidaSeleccionada) errores.push('Medida');
+    }
+  
+    // Mostrar mensaje de error si faltan campos o tienen valor 0 o vacío
+    if (errores.length > 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos o inválidos',
+        html: `Por favor, complete los siguientes campos correctamente:<br><ul style="text-align: left;">${errores.map(campo => `<li>${campo}</li>`).join('')}</ul>`,
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
+  
+    // Guardado de datos si todos los campos requeridos están completos y válidos
     const datosFormulario = {
       fecha: this.fechaSeleccionada,
-      producto: this.productoSeleccionado,
-      medida: this.medidaSeleccionada,
+      producto: productoSeleccionado,
+      medida: medidaSeleccionada,
       cantidadGallinas: this.formulario.cantidadGallinas,
       cantidadHuevosProducir: this.formulario.cantidadHuevosProducir,
       cantidadHectarias: this.formulario.cantidadHectarias,
@@ -163,7 +213,10 @@ export class CategoriaComponent implements OnInit {
       cantidadEsperadaProducir: this.formulario.cantidadEsperadaProducir,
       cantidadTransformados: this.formulario.cantidadTransformados
     };
+  
     console.log('Datos del formulario:', datosFormulario);
+  
     // Aquí puedes llamar al servicio para enviar los datos al backend
   }
+  
 }
