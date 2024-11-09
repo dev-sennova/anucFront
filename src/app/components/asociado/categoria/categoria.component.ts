@@ -164,57 +164,52 @@ export class CategoriaComponent implements OnInit {
     const productoSeleccionado = typeof this.productoSeleccionado === 'string' ? this.productoSeleccionado.trim() : this.productoSeleccionado;
     const medidaSeleccionada = typeof this.medidaSeleccionada === 'string' ? this.medidaSeleccionada.trim() : this.medidaSeleccionada;
   
-    // Validaciones específicas para cada categoría
+    // Validaciones generales (todos los campos son obligatorios)
+    if (!this.fechaSeleccionada) errores.push('Fecha');
+    if (!productoSeleccionado) errores.push('Producto');
+    if (!medidaSeleccionada) errores.push('Medida');
+  
+    // Validaciones específicas para cada categoría (todos los campos son obligatorios)
     switch (this.selectedCategory.grupo) {
       case 'Huevos':
-        if (!this.fechaSeleccionada) errores.push('Fecha');
-        if (!productoSeleccionado) errores.push('Producto');
         if (this.formulario.cantidadGallinas <= 0 || this.formulario.cantidadGallinas === null) 
-          errores.push('Cantidad de Gallinas (no puede ser 0 o vacío)');
+          errores.push('Cantidad de Gallinas');
         if (this.formulario.cantidadHuevosProducir <= 0 || this.formulario.cantidadHuevosProducir === null) 
-          errores.push('Cantidad de Huevos a Producir (no puede ser 0 o vacío)');
+          errores.push('Cantidad de Huevos a Producir');
         break;
   
       case 'Cultivos':
-        if (!this.fechaSeleccionada) errores.push('Fecha');
-        if (!productoSeleccionado) errores.push('Producto');
         if (this.formulario.cantidadHectarias <= 0 || this.formulario.cantidadHectarias === null) 
-          errores.push('Cantidad de Hectáreas (no puede ser 0 o vacío)');
+          errores.push('Cantidad de Hectáreas');
         if (this.formulario.cantidadProducir <= 0 || this.formulario.cantidadProducir === null) 
-          errores.push('Cantidad a Producir (no puede ser 0 o vacío)');
+          errores.push('Cantidad a Producir');
         break;
   
       case 'Carnes':
-        if (!this.fechaSeleccionada) errores.push('Fecha');
-        if (!productoSeleccionado) errores.push('Producto');
         if (this.formulario.cantidadCrias <= 0 || this.formulario.cantidadCrias === null) 
-          errores.push('Cantidad de Crías (no puede ser 0 o vacío)');
+          errores.push('Cantidad de Crías');
         if (this.formulario.cantidadEsperadaProducir <= 0 || this.formulario.cantidadEsperadaProducir === null) 
-          errores.push('Cantidad Esperada a Producir (no puede ser 0 o vacío)');
+          errores.push('Cantidad Esperada a Producir');
         break;
   
       case 'Transformados':
-        if (!this.fechaSeleccionada) errores.push('Fecha');
-        if (!productoSeleccionado) errores.push('Producto');
         if (this.formulario.cantidadTransformados <= 0 || this.formulario.cantidadTransformados === null) 
-          errores.push('Cantidad de Transformados (no puede ser 0 o vacío)');
+          errores.push('Cantidad de Transformados');
         if (this.formulario.cantidadTransformadosProducir <= 0 || this.formulario.cantidadTransformadosProducir === null) 
-          errores.push('Cantidad Esperada a Producir (no puede ser 0 o vacío)');
+          errores.push('Cantidad Esperada a Producir');
         break;
   
-      // Validaciones generales en caso de grupo no definido
+      // Si no es ninguna categoría específica, mostrar error
       default:
-        if (!this.fechaSeleccionada) errores.push('Fecha');
-        if (!productoSeleccionado) errores.push('Producto');
-        if (!medidaSeleccionada) errores.push('Medida');
+        break;
     }
   
-    // Si hay errores, mostramos una alerta
+    // Si hay errores, mostramos un mensaje con los campos faltantes
     if (errores.length > 0) {
       Swal.fire({
         icon: 'error',
         title: 'Campos incompletos',
-        text: 'Por favor, complete todos los campos con valores mayores a cero.',
+        text: 'Por favor, complete los siguientes campos: ' + errores.join(', '),
         confirmButtonText: 'Entendido'
       });
       return;
@@ -244,6 +239,7 @@ export class CategoriaComponent implements OnInit {
     //   console.log('Datos enviados con éxito');
     // });
   }
+  
   
 
 
