@@ -124,13 +124,10 @@ export class CategoriaComponent implements OnInit {
     this.selectedCategory = categoria;
   }
 
-  closeModal(event?: MouseEvent) {
-    if (event) {
-      event.stopPropagation(); // Evita el cierre cuando se hace clic en el contenido del modal
-    }
-    this.selectedCategory = null;
+ 
+  closeModal(): void {
+    this.selectedCategory = false;
   }
-
   // Método para filtrar productos según la categoría seleccionada
   filterByCategory(category: any): void {
     this.selectedCategory = category;

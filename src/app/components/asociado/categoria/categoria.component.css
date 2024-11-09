@@ -94,6 +94,7 @@
 }
 
 /* Estilo para el modal */
+/* Estilo para el modal */
 .modal {
   display: flex;
   justify-content: center;
@@ -113,8 +114,10 @@
   max-width: 600px;
   width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Asegura que el botón de cierre esté dentro de este contenedor */
 }
 
+/* Estilo del botón de cierre */
 .close {
   position: absolute;
   top: 10px;
@@ -123,7 +126,7 @@
   cursor: pointer;
 }
 
-h3 {
+h1 {
   text-align: center;
   margin-bottom: 20px;
 }
