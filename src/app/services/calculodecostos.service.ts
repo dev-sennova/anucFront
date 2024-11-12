@@ -13,6 +13,10 @@ private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/deta
 private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categorias_usuario/';
 private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
 private generalidad = GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
+private generalidadStore = GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
+
+
+
 
 constructor(private http: HttpClient) { }
 
@@ -121,7 +125,7 @@ getGeneralidadesProduccion(): Observable<any> {
 
 
 submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
-  const url = `${this.generalidad}`;
+  const url = `${this.generalidadStore}`;
   const data = {
     idGrupo: idGrupo,
     respuestas: respuestas // Aquí agregas las respuestas del formulario
@@ -130,6 +134,7 @@ submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
     catchError(this.handleError)
   );
 }
+
 
 
 // Manejo de errores

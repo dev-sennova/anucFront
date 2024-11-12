@@ -141,17 +141,42 @@ export class CategoriaComponent implements OnInit {
   }
 
   submitFormulario() {
-    console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
-    
+    // Obtenemos los datos del formulario
     const respuestas = this.respuestasFormulario;
-    const idGrupo = this.selectedCategory.idGrupo;
-
-    // Enviar los datos del formulario al servicio
+    
+    // Aseguramos que el campo producto esté correctamente actualizado
+    respuestas.producto = this.productoSeleccionado;
+  
+    // Imprimimos los valores actuales para verificar que no haya datos inesperados
+    console.log("Valores actuales en el formulario:", respuestas);
+  
+    // Validamos que todos los campos estén completos
+    const camposCompletos = Object.keys(respuestas).every(campo => {
+      const valor = respuestas[campo];
+      return valor !== null && valor !== undefined && valor.toString().trim() !== '';
+    });
+  
+    // Si falta algún campo, mostramos un mensaje y detenemos el envío
+    if (!camposCompletos) {
+      Swal.fire('Advertencia', 'Todos los campos deben estar llenos antes de guardar.', 'warning');
+      return; // Detenemos el envío
+    }
+  
+    console.log("Formulario enviado con los siguientes datos:", respuestas);
+  
+    // Verificamos que 'idGrupo' esté definido
+    const idGrupo = this.selectedCategory ? this.selectedCategory.idGrupo : null;
+    if (!idGrupo) {
+      Swal.fire('Advertencia', 'Seleccione una categoría válida.', 'warning');
+      return;
+    }
+  
+    // Enviamos los datos del formulario al servicio
     this.calculoDeCostosService.submitFormularioProduccion(idGrupo, respuestas).subscribe(
       (response) => {
         console.log('Formulario enviado con éxito', response);
         Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
-        this.closeFormularioProduccion(); // Cierra el formulario después de enviar
+        this.closeFormularioProduccion(); // Cerramos el formulario después de enviar
       },
       (error) => {
         console.error('Error al enviar el formulario', error);
@@ -159,6 +184,8 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
+  
+  
 
   closeModal(): void {
     this.selectedCategory = false;
