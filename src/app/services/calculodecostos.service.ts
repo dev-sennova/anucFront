@@ -113,6 +113,13 @@ getCategoriasPorProducto(idAsociado: string): Observable<any> {
     );
 }
 
+getGeneralidadesProduccion(): Observable<any> {
+  return this.http.get<any>(`${this.generalidad}`).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
 submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
   const url = `${this.generalidad}`;
   const data = {
@@ -123,6 +130,7 @@ submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
     catchError(this.handleError)
   );
 }
+
 
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {

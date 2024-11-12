@@ -14,15 +14,60 @@
   </ng-template>
 </div>
 
-  
+<!-- Modal de la categoría seleccionada -->
 <div class="modal" *ngIf="selectedCategory" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeModal()">&times;</span>
     <h2 class="modal-title">{{ selectedCategory?.grupo }}</h2>
     <div class="button-container">
-    <button class="btn-primary" (click)="addSpreadsheet()">Agregar Hoja de Cálculo</button>
+      <button class="btn-primary" (click)="openFormularioProduccion(selectedCategory.idGrupo)">Agregar Hoja de Cálculo</button>
     </div>
-
-    
   </div>
 </div>
+
+<!-- Modal para el formulario de producción -->
+<div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="closeFormularioProduccion()">&times;</span>
+    <h2>Formulario de Producción</h2>
+    
+    <div class="formulario-container">
+      <form (ngSubmit)="submitFormulario()">
+        <div class="form-group">
+          <label for="producto">Producto:</label>
+          <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
+            <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="fechaInicio">Fecha Inicio Producción</label>
+          <input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fechaFin">Fecha Fin Producción</label>
+          <input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
+        </div>
+
+        <div class="form-group">
+          <label for="hectareas">¿Cuántas hectáreas va a cultivar?</label>
+          <input type="number" id="hectareas" [(ngModel)]="respuestasFormulario.hectareas" name="hectareas" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="produccionEsperada">Producción Esperada</label>
+          <input type="number" id="produccionEsperada" [(ngModel)]="respuestasFormulario.produccionEsperada" name="produccionEsperada" required />
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" required />
+        </div>
+        
+        <button type="submit" class="btn-primary">Guardar</button>
+      </form>
+    </div>
+  </div>
+</div>
+

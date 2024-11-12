@@ -29,6 +29,7 @@ export class CategoriaComponent implements OnInit {
     fechaFin: '',
     produccionEsperada: ''
   };
+  showFormularioProduccion: boolean = false;
 
   constructor(
     private GruposService: GruposService,
@@ -127,12 +128,38 @@ export class CategoriaComponent implements OnInit {
         return 'assets/iconos/transformados_icon.png';
     }
   }
-
+  openFormularioProduccion(idGrupo: number) {
+    this.showFormularioProduccion = true; // Muestra el formulario
+    console.log("Formulario de producción abierto para el grupo ID:", idGrupo);
+  }
   openModal(categoria: any) {
     this.selectedCategory = categoria;
   }
 
- 
+  closeFormularioProduccion(): void {
+    this.showFormularioProduccion = false; // Cierra el formulario
+  }
+
+  submitFormulario() {
+    console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
+    
+    const respuestas = this.respuestasFormulario;
+    const idGrupo = this.selectedCategory.idGrupo;
+
+    // Enviar los datos del formulario al servicio
+    this.calculoDeCostosService.submitFormularioProduccion(idGrupo, respuestas).subscribe(
+      (response) => {
+        console.log('Formulario enviado con éxito', response);
+        Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
+        this.closeFormularioProduccion(); // Cierra el formulario después de enviar
+      },
+      (error) => {
+        console.error('Error al enviar el formulario', error);
+        Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
+      }
+    );
+  }
+
   closeModal(): void {
     this.selectedCategory = false;
   }
@@ -149,12 +176,11 @@ export class CategoriaComponent implements OnInit {
     }
   }
   
-
   addSpreadsheet() {
     console.log("Agregar Hoja de Cálculo ha sido presionado");
     // Aquí puedes agregar lógica adicional, como mostrar un formulario
   }
-  
+
   
 }
 
