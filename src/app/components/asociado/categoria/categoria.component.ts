@@ -16,7 +16,6 @@ export class CategoriaComponent implements OnInit {
   filteredProductos: any[] = [];
   idAsociado: string = "";
   bloqcat: any[] = [];
-  fechaSeleccionada: string = '';
   productoSeleccionado: string | number = '';
   selectedCategory: any = null;
   medidas: any[] = []; 
@@ -45,7 +44,6 @@ export class CategoriaComponent implements OnInit {
     idAsociado = idAsociadoNum.toString();
 
     if (idAsociado) {
-      // Cargar productos y categorías al inicializar
       this.cargarProductos(idAsociado);
       this.cargarCategorias(idAsociado);
     } else {
@@ -55,15 +53,12 @@ export class CategoriaComponent implements OnInit {
     this.cargarUnidades();
   }
 
-  // Método para cargar productos según la categoría seleccionada
   cargarProductos(idAsociado: string): void {
     this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
       (data) => {
-        console.log('Respuesta de la API (todos los productos):', data);
         if (data && Array.isArray(data.productos)) {
           this.productos = data.productos;
-          this.filteredProductos = [...this.productos]; // Inicializa filteredProductos con todos los productos
-          console.log('Productos cargados:', this.productos);
+          this.filteredProductos = [...this.productos];
         } else {
           console.error('No se encontraron productos');
           this.productos = [];
@@ -71,49 +66,37 @@ export class CategoriaComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error al obtener los productos', error);
         Swal.fire('Error', 'No se pudieron cargar los productos del asociado.', 'error');
       }
     );
   }
-  
-  // Método para cargar las categorías del usuario
+
   cargarCategorias(idAsociado: string): void {
     this.calculoDeCostosService.getCategoriasPorUsuario(idAsociado).subscribe(
       (data) => {
-        console.log('Respuesta de la API (categorías):', data);
-        
-        // Verificamos que la respuesta tenga la propiedad 'categorias' y que sea un arreglo
         if (data && data.categorias && Array.isArray(data.categorias)) {
           this.bloqcat = data.categorias;
-          console.log('Categorías cargadas en bloqcat:', this.bloqcat);
         } else {
-          console.error('No se encontraron categorías en la respuesta');
           Swal.fire('Error', 'No se pudieron cargar las categorías del usuario.', 'error');
         }
       },
       (error) => {
-        console.error('Error al obtener las categorías', error);
         Swal.fire('Error', 'No se pudieron cargar las categorías del asociado.', 'error');
       }
     );
   }
 
-  // Cargar las medidas 
   cargarUnidades(): void {
     this.unidadesService.getUnidades().subscribe(
       (data) => {
-        console.log('Unidades de medida cargadas:', data);
         this.medidas = data;
       },
       (error) => {
-        console.error('Error al cargar unidades de medida:', error);
         Swal.fire('Error', 'No se pudieron cargar las unidades de medida.', 'error');
       }
     );
   }
 
-  // Método para obtener el icono de cada categoría
   getIconUrl(grupo: string): string {
     switch (grupo) {
       case 'Cultivos':
@@ -128,16 +111,15 @@ export class CategoriaComponent implements OnInit {
         return 'assets/iconos/transformados_icon.png';
     }
   }
-  openFormularioProduccion(idGrupo: number) {
-    this.showFormularioProduccion = true; // Muestra el formulario
-    console.log("Formulario de producción abierto para el grupo ID:", idGrupo);
-  }
+
   openModal(categoria: any) {
     this.selectedCategory = categoria;
+    this.showFormularioProduccion = true;
+    this.filterByCategory(categoria);
   }
 
   closeFormularioProduccion(): void {
-    this.showFormularioProduccion = false; // Cierra el formulario
+    this.showFormularioProduccion = false;
   }
 
   submitFormulario() {
@@ -184,30 +166,11 @@ export class CategoriaComponent implements OnInit {
       }
     );
   }
-  
-  
 
-  closeModal(): void {
-    this.selectedCategory = false;
-  }
-  // Método para filtrar productos según la categoría seleccionada
   filterByCategory(category: any): void {
     this.selectedCategory = category;
-    
-    // Asegúrate de que los productos estén cargados antes de aplicar el filtro
     if (this.productos.length > 0) {
       this.filteredProductos = this.productos.filter(product => product.idGrupo === category.idGrupo);
-      console.log('Productos filtrados:', this.filteredProductos);
-    } else {
-      console.error('No hay productos cargados');
     }
   }
-  
-  addSpreadsheet() {
-    console.log("Agregar Hoja de Cálculo ha sido presionado");
-    // Aquí puedes agregar lógica adicional, como mostrar un formulario
-  }
-
-  
 }
-

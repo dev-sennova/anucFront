@@ -123,32 +123,40 @@ getGeneralidadesProduccion(): Observable<any> {
   );
 }
 
-
 submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
-  const url = `${this.generalidadStore}`;
+  const url = this.generalidadStore; // URL ya está correctamente definida en 'generalidadStore'
   const data = {
     idGrupo: idGrupo,
-    respuestas: respuestas // Aquí agregas las respuestas del formulario
+    respuestas: respuestas
   };
+  
   return this.http.post<any>(url, data).pipe(
-    catchError(this.handleError)
+    catchError((error: HttpErrorResponse) => {
+      console.log('Objeto en el servicio:',data);
+      console.error('Error al enviar el formulario:', error);
+      
+      // Mostrar un mensaje más detallado al usuario
+      Swal.fire('Error', `Ocurrió un problema al enviar el formulario. Detalles del error: ${error.message}`, 'error');
+      
+      return throwError(() => error);
+    })
   );
 }
 
 
-
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
-let errorMessage = 'Ocurrió un error inesperado';
-if (error.error instanceof ErrorEvent) {
-// Error del lado del cliente
-errorMessage = `Error: ${error.error.message}`;
-} else {
-// Error del lado del servidor
-errorMessage = `Código de error: ${error.status}\nMensaje: ${error.message}`;
+  let errorMessage = 'Ocurrió un error inesperado';
+  if (error.error instanceof ErrorEvent) {
+    // Error del lado del cliente
+    errorMessage = `Error: ${error.error.message}`;
+  } else {
+    // Error del lado del servidor
+    errorMessage = `Código de error: ${error.status}\nMensaje: ${error.message || JSON.stringify(error.error)}`;
+  }
+  console.error(errorMessage);
+  return throwError(() => new Error(errorMessage));
 }
-Swal.fire('Error', errorMessage, 'error');
-return throwError(() => new Error(errorMessage));
-}
+
 }
 

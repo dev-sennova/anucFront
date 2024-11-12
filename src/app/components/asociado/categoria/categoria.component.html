@@ -2,7 +2,7 @@
   <h2>Categorías del Asociado</h2>
   
   <div *ngIf="bloqcat.length > 0; else noData" class="cards-container">
-    <div class="card" *ngFor="let categoria of bloqcat" (click)="filterByCategory(categoria)">
+    <div class="card" *ngFor="let categoria of bloqcat" (click)="openModal(categoria)">
       <img [src]="getIconUrl(categoria.grupo)" alt="{{ categoria.grupo }}" class="icon">
       <h3>{{ categoria.grupo }}</h3>
       <p>{{ categoria.descripcionGrupo }}</p>
@@ -12,17 +12,6 @@
   <ng-template #noData>
     <p>No se encontraron categorías.</p>
   </ng-template>
-</div>
-
-<!-- Modal de la categoría seleccionada -->
-<div class="modal" *ngIf="selectedCategory" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeModal()">&times;</span>
-    <h2 class="modal-title">{{ selectedCategory?.grupo }}</h2>
-    <div class="button-container">
-      <button class="btn-primary" (click)="openFormularioProduccion(selectedCategory.idGrupo)">Agregar Hoja de Cálculo</button>
-    </div>
-  </div>
 </div>
 
 <!-- Modal para el formulario de producción -->
@@ -70,4 +59,3 @@
     </div>
   </div>
 </div>
-
