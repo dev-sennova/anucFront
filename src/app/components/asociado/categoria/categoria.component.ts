@@ -232,16 +232,26 @@ export class CategoriaComponent implements OnInit {
   
     // Mostrar los datos del formulario en la consola (opcional)
     console.log('Datos del formulario:', datosFormulario);
-  
-    // Aquí puedes llamar al servicio para enviar los datos al backend
-    // Ejemplo:
-    // this.datosService.enviarDatosFormulario(datosFormulario).subscribe(response => {
-    //   console.log('Datos enviados con éxito');
-    // });
+    const idCategoria = this.selectedCategory?.id;
+    let idAsociado = localStorage.getItem('identificador_asociado') || '';
+    let idAsociadoNum: number = Number(idAsociado);
+    idAsociado = idAsociadoNum.toString();
+    console.log('Datos a enviar:', { datosFormulario, idCategoria, idAsociado });
+    this.calculoDeCostosService.guardarHojaGrupo(datosFormulario, idCategoria, idAsociado).subscribe(
+      (respuesta) => {
+        console.log('Datos guardados correctamente:', respuesta);
+        Swal.fire('Éxito', 'Datos guardados correctamente.', 'success');
+        this.closeModal(); // Cerrar modal tras guardado exitoso
+      },
+      (error) => {
+        console.error('Error al guardar datos:', error);
+        Swal.fire('Error', 'No se pudo guardar la información. Intente nuevamente.', 'error');
+      }
+    );
+
+    
   }
   
   
-
-
-  
 }
+
