@@ -215,3 +215,37 @@ h1 {
   background-color: #f5f5f5;
   cursor: not-allowed;
 }
+
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Contenedor del botón centrado */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Estilo del botón */
+.btn-primary {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo del botón al pasar el ratón (hover) */
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para el icono de cierre */

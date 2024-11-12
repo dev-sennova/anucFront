@@ -21,7 +21,14 @@ export class CategoriaComponent implements OnInit {
   selectedCategory: any = null;
   medidas: any[] = []; 
   medidaSeleccionada: string | number = '';
-  
+  respuestasFormulario: any = {
+    producto: '',
+    descripcion: '',
+    hectareas: '',
+    fechaInicio: '',
+    fechaFin: '',
+    produccionEsperada: ''
+  };
 
   constructor(
     private GruposService: GruposService,
@@ -143,7 +150,10 @@ export class CategoriaComponent implements OnInit {
   }
   
 
-
+  addSpreadsheet() {
+    console.log("Agregar Hoja de Cálculo ha sido presionado");
+    // Aquí puedes agregar lógica adicional, como mostrar un formulario
+  }
   
   
 }

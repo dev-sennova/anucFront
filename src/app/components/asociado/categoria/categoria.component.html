@@ -18,4 +18,11 @@
 <div class="modal" *ngIf="selectedCategory" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeModal()">&times;</span>
+    <h2 class="modal-title">{{ selectedCategory?.grupo }}</h2>
+    <div class="button-container">
+    <button class="btn-primary" (click)="addSpreadsheet()">Agregar Hoja de Cálculo</button>
+    </div>
+
     
+  </div>
+</div>

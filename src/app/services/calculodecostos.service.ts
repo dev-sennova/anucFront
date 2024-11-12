@@ -12,7 +12,7 @@ export class CalculodecostosService {
 private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
 private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categorias_usuario/';
 private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
-
+private generalidad = GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
 
 constructor(private http: HttpClient) { }
 
@@ -113,7 +113,16 @@ getCategoriasPorProducto(idAsociado: string): Observable<any> {
     );
 }
 
-
+submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
+  const url = `${this.generalidad}`;
+  const data = {
+    idGrupo: idGrupo,
+    respuestas: respuestas // Aquí agregas las respuestas del formulario
+  };
+  return this.http.post<any>(url, data).pipe(
+    catchError(this.handleError)
+  );
+}
 
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
