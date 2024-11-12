@@ -12,7 +12,7 @@ export class CalculodecostosService {
 private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
 private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categorias_usuario/';
 private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
-private hojagrupos = GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
+
 
 constructor(private http: HttpClient) { }
 
@@ -111,17 +111,6 @@ getCategoriasPorProducto(idAsociado: string): Observable<any> {
       }))), // Mapea la respuesta a un formato más conveniente
       catchError(this.handleError)
     );
-}
-
-guardarHojaGrupo(datosFormulario: any, idCategoria: string, idAsociado: string): Observable<any> {
-  const url = `${this.hojagrupos}`;
-  return this.http.post(url, {
-    datosFormulario,
-    idAsociado
-  }).pipe(
-    map(response => response),
-    catchError(this.handleError)
-  );
 }
 
 

@@ -21,21 +21,7 @@ export class CategoriaComponent implements OnInit {
   selectedCategory: any = null;
   medidas: any[] = []; 
   medidaSeleccionada: string | number = '';
-  formulario = {
-    //Huevos
-    cantidadGallinas: 0,
-    cantidadHuevosProducir: 0,
-    //Cultivo
-    cantidadHectarias: 0,
-    cantidadProducir: 0,
-    //Criadero
-    cantidadCrias: 0,
-    cantidadEsperadaProducir: 0,
-    //Transformados
-    cantidadTransformados: 0,
-    cantidadTransformadosProducir: 0,
   
-  };
 
   constructor(
     private GruposService: GruposService,
@@ -157,100 +143,7 @@ export class CategoriaComponent implements OnInit {
   }
   
 
-  guardarDatos() {
-    let errores = [];
-  
-    // Convertir a string y eliminar espacios en blanco solo si el valor es de tipo string
-    const productoSeleccionado = typeof this.productoSeleccionado === 'string' ? this.productoSeleccionado.trim() : this.productoSeleccionado;
-    const medidaSeleccionada = typeof this.medidaSeleccionada === 'string' ? this.medidaSeleccionada.trim() : this.medidaSeleccionada;
-  
-    // Validaciones generales (todos los campos son obligatorios)
-    if (!this.fechaSeleccionada) errores.push('Fecha');
-    if (!productoSeleccionado) errores.push('Producto');
-    if (!medidaSeleccionada) errores.push('Medida');
-  
-    // Validaciones específicas para cada categoría (todos los campos son obligatorios)
-    switch (this.selectedCategory.grupo) {
-      case 'Huevos':
-        if (this.formulario.cantidadGallinas <= 0 || this.formulario.cantidadGallinas === null) 
-          errores.push('Cantidad de Gallinas');
-        if (this.formulario.cantidadHuevosProducir <= 0 || this.formulario.cantidadHuevosProducir === null) 
-          errores.push('Cantidad de Huevos a Producir');
-        break;
-  
-      case 'Cultivos':
-        if (this.formulario.cantidadHectarias <= 0 || this.formulario.cantidadHectarias === null) 
-          errores.push('Cantidad de Hectáreas');
-        if (this.formulario.cantidadProducir <= 0 || this.formulario.cantidadProducir === null) 
-          errores.push('Cantidad a Producir');
-        break;
-  
-      case 'Carnes':
-        if (this.formulario.cantidadCrias <= 0 || this.formulario.cantidadCrias === null) 
-          errores.push('Cantidad de Crías');
-        if (this.formulario.cantidadEsperadaProducir <= 0 || this.formulario.cantidadEsperadaProducir === null) 
-          errores.push('Cantidad Esperada a Producir');
-        break;
-  
-      case 'Transformados':
-        if (this.formulario.cantidadTransformados <= 0 || this.formulario.cantidadTransformados === null) 
-          errores.push('Cantidad de Transformados');
-        if (this.formulario.cantidadTransformadosProducir <= 0 || this.formulario.cantidadTransformadosProducir === null) 
-          errores.push('Cantidad Esperada a Producir');
-        break;
-  
-      // Si no es ninguna categoría específica, mostrar error
-      default:
-        break;
-    }
-  
-    // Si hay errores, mostramos un mensaje con los campos faltantes
-    if (errores.length > 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Campos incompletos',
-        text: 'Por favor, complete los siguientes campos: ' + errores.join(', '),
-        confirmButtonText: 'Entendido'
-      });
-      return;
-    }
-  
-    // Si no hay errores, preparar los datos para guardar
-    let datosFormulario = {
-      fecha: this.fechaSeleccionada,
-      producto: productoSeleccionado,
-      medida: medidaSeleccionada,
-      cantidadGallinas: this.formulario.cantidadGallinas,
-      cantidadHuevosProducir: this.formulario.cantidadHuevosProducir,
-      cantidadHectarias: this.formulario.cantidadHectarias,
-      cantidadProducir: this.formulario.cantidadProducir,
-      cantidadCrias: this.formulario.cantidadCrias,
-      cantidadEsperadaProducir: this.formulario.cantidadEsperadaProducir,
-      cantidadTransformados: this.formulario.cantidadTransformados,
-      cantidadTransformadosProducir: this.formulario.cantidadTransformadosProducir
-    };
-  
-    // Mostrar los datos del formulario en la consola (opcional)
-    console.log('Datos del formulario:', datosFormulario);
-    const idCategoria = this.selectedCategory?.id;
-    let idAsociado = localStorage.getItem('identificador_asociado') || '';
-    let idAsociadoNum: number = Number(idAsociado);
-    idAsociado = idAsociadoNum.toString();
-    console.log('Datos a enviar:', { datosFormulario, idCategoria, idAsociado });
-    this.calculoDeCostosService.guardarHojaGrupo(datosFormulario, idCategoria, idAsociado).subscribe(
-      (respuesta) => {
-        console.log('Datos guardados correctamente:', respuesta);
-        Swal.fire('Éxito', 'Datos guardados correctamente.', 'success');
-        this.closeModal(); // Cerrar modal tras guardado exitoso
-      },
-      (error) => {
-        console.error('Error al guardar datos:', error);
-        Swal.fire('Error', 'No se pudo guardar la información. Intente nuevamente.', 'error');
-      }
-    );
 
-    
-  }
   
   
 }
