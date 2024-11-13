@@ -35,6 +35,9 @@ export class ListadodecostosComponent implements OnInit {
   pregunta_5: string = '';
   pregunta_6: string = '';
 
+  modalVisible: boolean = false;
+  selectedCosto: any = null;
+
   constructor(
     private route: ActivatedRoute,
     private calculoDeCostosService: CalculodecostosService,
@@ -207,4 +210,15 @@ export class ListadodecostosComponent implements OnInit {
       }
     );
   }
+
+  verCosto(costo: any): void {
+  this.selectedCosto = costo;  
+  this.modalVisible = true;  
+}
+
+
+    closeModal(): void {
+      this.modalVisible = false;
+    }
+  
 }

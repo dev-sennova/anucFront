@@ -63,6 +63,7 @@
         <th>Fecha Inicio</th>
         <th>Fecha Fin</th>
         <th>Esperado</th>
+        <th>Ver</th>
       </tr>
     </thead>
     <tbody>
@@ -74,11 +75,25 @@
         <td>{{ costo.fechaInicio }}</td>
         <td>{{ costo.fechaFin }}</td>
         <td>{{ costo.esperado }}</td>
+        <td><button (click)="verCosto(costo)">Ver</button></td>
       </tr>
     </tbody>
   </table>
 </div>
-
+<!-- Modal -->
+<div *ngIf="modalVisible" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Detalles del Costo</h2>
+    <p><strong>Producto:</strong> {{ selectedCosto.producto }}</p>
+    <p><strong>Descripción:</strong> {{ selectedCosto.descripcion }}</p>
+    <p><strong>Unidad:</strong> {{ selectedCosto.unidad }}</p>
+    <p><strong>Cantidad:</strong> {{ selectedCosto.cantidad }}</p>
+    <p><strong>Fecha Inicio:</strong> {{ selectedCosto.fechaInicio }}</p>
+    <p><strong>Fecha Fin:</strong> {{ selectedCosto.fechaFin }}</p>
+    <p><strong>Esperado:</strong> {{ selectedCosto.esperado }}</p>
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>
 <ng-template #noCostos>
   <p>No se encontraron datos de costos para este grupo.</p>
 </ng-template>
