@@ -28,12 +28,12 @@ export class ListadodecostosComponent implements OnInit {
     fechaFin: '',
     esperado: ''
   };
-  pregunta_1: string='';
-  pregunta_2: string='';
-  pregunta_3: string='';
-  pregunta_4: string='';
-  pregunta_5: string='';
-  pregunta_6: string='';
+  pregunta_1: string = '';
+  pregunta_2: string = '';
+  pregunta_3: string = '';
+  pregunta_4: string = '';
+  pregunta_5: string = '';
+  pregunta_6: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -65,7 +65,7 @@ export class ListadodecostosComponent implements OnInit {
     });
 
     const idAsociado = localStorage.getItem('identificador_asociado');
-    console.log("ID del Asociado recibido ",idAsociado);
+    console.log("ID del Asociado recibido ", idAsociado);
     if (idAsociado) {
       this.cargarProductos(idAsociado);
     } else {
@@ -85,7 +85,7 @@ export class ListadodecostosComponent implements OnInit {
     this.calculoDeCostosService.getCostosDatos(Number(this.idGrupo)).subscribe(
       (data) => {
         console.log('Datos de costos:', data);
-        if (data && data.hojas_por_grupo && Array.isArray(data.hojas_por_grupo)) {
+        if (data && Array.isArray(data.hojas_por_grupo)) {
           this.costos = data.hojas_por_grupo;
         } else {
           console.error('No se encontraron datos de costos');
@@ -99,16 +99,14 @@ export class ListadodecostosComponent implements OnInit {
     );
   }
   
-  
-
   cargarProductos(idAsociado: string): void {
     this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
       (data) => {
-        console.log('Datos de productos:', data);  // Verifica que los datos lleguen correctamente
+        console.log('Datos de productos:', data);
         if (data && Array.isArray(data.productos)) {
           this.productos = data.productos;
-          this.filteredProductos = [...this.productos]; // Asignar los productos a filteredProductos
-          this.filterByCategory(); // Llamar a filterByCategory después de cargar los productos
+          this.filteredProductos = [...this.productos];
+          this.filterByCategory();
         } else {
           console.error('No se encontraron productos');
           this.productos = [];
@@ -121,34 +119,31 @@ export class ListadodecostosComponent implements OnInit {
     );
   }
 
-  cargarLabels(idGrupo:string): void {
+  cargarLabels(idGrupo: string): void {
     this.calculoDeCostosService.getLabelsModal(idGrupo).subscribe(
       (data) => {
-        console.log('Labels: ',data);
-        if (data && Array.isArray(data.generalidades_produccion)){
+        console.log('Labels:', data);
+        if (data && Array.isArray(data.generalidades_produccion)) {
           this.pregunta_1 = data.generalidades_produccion[0].pregunta_1;
           this.pregunta_2 = data.generalidades_produccion[0].pregunta_2;
           this.pregunta_3 = data.generalidades_produccion[0].pregunta_3;
           this.pregunta_4 = data.generalidades_produccion[0].pregunta_4;
           this.pregunta_5 = data.generalidades_produccion[0].pregunta_5;
           this.pregunta_6 = data.generalidades_produccion[0].pregunta_6;
-        }else{
+        } else {
           console.error('No se encontraron labels');
         }
       }
     );
   }
 
-  // Método para filtrar productos por categoría
   filterByCategory(): void {
-    console.log('Filtrando por categoría:', this.idGrupo); // Verifica el valor de idGrupo
+    console.log('Filtrando por categoría:', this.idGrupo);
     if (this.idGrupo) {
-      // Asegúrate de que idGrupo sea el tipo correcto
       this.filteredProductos = this.productos.filter(product => product.idGrupo == this.idGrupo);
-      console.log('Productos filtrados:', this.filteredProductos); // Log para verificar el filtrado
+      console.log('Productos filtrados:', this.filteredProductos);
     }
   }
-
 
   cargarUnidades(): void {
     this.unidadesService.getUnidades().subscribe(
@@ -161,31 +156,24 @@ export class ListadodecostosComponent implements OnInit {
     );
   }
 
-  // Método para abrir el formulario
-  openFormulario() {
+  openFormulario(): void {
     console.log("Abriendo formulario de producción...");
-    this.showFormularioProduccion = true; // Hacemos que el formulario se muestre
+    this.showFormularioProduccion = true;
   }
 
-  // Método para cerrar el formulario
   closeFormularioProduccion(): void {
-    this.showFormularioProduccion = false; // Hacemos que el formulario se oculte
+    this.showFormularioProduccion = false;
   }
 
-  // Método para manejar el envío del formulario
-  submitFormulario() {
-    // Aseguramos que el campo producto esté correctamente actualizado
+  submitFormulario(): void {
     this.respuestasFormulario.idProducto = this.productoSeleccionado;
     this.respuestasFormulario.idAsociado = localStorage.getItem('identificador_asociado');
 
-    // Validamos que todos los campos estén completos
-    const camposCompletos = Object.keys(this.respuestasFormulario).every(campo => {
-      const valor = this.respuestasFormulario[campo];
-      return valor !== null && valor !== undefined && valor.toString().trim() !== '';
-    });
-
-    // Si falta algún campo, mostramos un mensaje y detenemos el envío
-    if (!camposCompletos) {
+    if (!Object.keys(this.respuestasFormulario).every(campo => 
+      this.respuestasFormulario[campo] !== null && 
+      this.respuestasFormulario[campo] !== undefined && 
+      this.respuestasFormulario[campo].toString().trim() !== ''
+    )) {
       Swal.fire('Advertencia', 'Todos los campos deben estar llenos antes de guardar.', 'warning');
       return;
     }
@@ -206,12 +194,12 @@ export class ListadodecostosComponent implements OnInit {
         Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
       }
     );
-    // Enviamos los datos del formulario al servicio
+
     this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario).subscribe(
       (response) => {
         console.log('Formulario enviado con éxito', response);
         Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
-        this.closeFormularioProduccion(); // Cerramos el formulario después de enviar
+        this.closeFormularioProduccion();
       },
       (error) => {
         console.error('Error al enviar el formulario', error);

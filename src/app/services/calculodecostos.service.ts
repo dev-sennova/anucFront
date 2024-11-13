@@ -169,10 +169,6 @@ getCostosDatos(idGrupo: number): Observable<any> {
   );
 }
 
-
-
-
-
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
   let errorMessage = 'Ocurrió un error inesperado';
