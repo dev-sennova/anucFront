@@ -1,11 +1,11 @@
 <!-- Botón para crear formulario, solo se muestra si no hay registros -->
-<button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Formulario</button>
+<button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
 
 <!-- Modal para el formulario de producción -->
 <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeFormularioProduccion()">&times;</span>
-    <h2>Formulario de Producción</h2>
+    <h2>Formulario Hoja de Costo</h2>
 
     <div class="formulario-container">
       <form (ngSubmit)="submitFormulario()">
