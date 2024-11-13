@@ -56,12 +56,12 @@ export class ListadodecostosComponent implements OnInit {
       }
     });
 
-  const idAsociado = localStorage.getItem('identificador_asociado');
-  if (idAsociado) {
-    this.cargarProductos(idAsociado);
-  } else {
-    console.error('No se encontró el idAsociado en el localStorage');
-  }
+    const idAsociado = localStorage.getItem('identificador_asociado');
+    if (idAsociado) {
+      this.cargarProductos(idAsociado);
+    } else {
+      console.error('No se encontró el idAsociado en el localStorage');
+    }
 
     this.cargarUnidades();
   }
@@ -84,10 +84,11 @@ export class ListadodecostosComponent implements OnInit {
   cargarProductos(idAsociado: string): void {
     this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
       (data) => {
-        console.log('Datos de productos:', data); // Verifica que los datos lleguen correctamente
+        console.log('Datos de productos:', data);  // Verifica que los datos lleguen correctamente
         if (data && Array.isArray(data.productos)) {
           this.productos = data.productos;
           this.filteredProductos = [...this.productos]; // Asignar los productos a filteredProductos
+          this.filterByCategory(); // Llamar a filterByCategory después de cargar los productos
         } else {
           console.error('No se encontraron productos');
           this.productos = [];
@@ -100,6 +101,17 @@ export class ListadodecostosComponent implements OnInit {
     );
   }
   
+  
+
+  // Método para filtrar productos por categoría
+  filterByCategory(): void {
+    console.log('Filtrando por categoría:', this.idGrupo); // Verifica el valor de idGrupo
+    if (this.idGrupo) {
+      // Asegúrate de que idGrupo sea el tipo correcto
+      this.filteredProductos = this.productos.filter(product => product.idGrupo == this.idGrupo);
+      console.log('Productos filtrados:', this.filteredProductos); // Log para verificar el filtrado
+    }
+  }
   
   
   cargarUnidades(): void {
