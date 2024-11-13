@@ -58,25 +58,25 @@
     <table>
       <thead>
         <tr>
+          <th>Esperado</th>
+          <th>Unidad</th>
           <th>Producto</th>
           <th>Descripción</th>
-          <th>Unidad</th>
-          <th>Cantidad</th>
           <th>Fecha Inicio</th>
           <th>Fecha Fin</th>
-          <th>Esperado</th>
+          <th>Cantidad</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let costo of costos">
+          <td>{{ costo.esperado}}</td>
+          <td>{{ costo.unidad }}</td>
           <td>{{ costo.producto }}</td>
           <td>{{ costo.descripcion }}</td>
-          <td>{{ costo.unidad }}</td>
-          <td>{{ costo.cantidad }}</td>
           <td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
           <td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
-          <td>{{ costo.esperado | currency }}</td>
+          <td>{{ costo.cantidad }}</td>
           <td><button (click)="verCosto(costo)">Ver</button></td>
         </tr>
       </tbody>
