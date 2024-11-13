@@ -101,10 +101,21 @@ export class CategoriaComponent implements OnInit {
   }
 
   onClickCategoria(categoria: any) {
-    console.log('Categoria seleccionada:', categoria);
-    localStorage.setItem('idGrupo', categoria.idGrupo);
-    console.log('ID guardado en localStorage:', localStorage.getItem('idGrupo'));
-     // Redirecciona al componente ListadodecostosComponent
-    this.router.navigate(['/asociado/listadodecostos/' + categoria.idGrupo]);
+    // Recupera el 'idAsociado' desde el localStorage
+    let idSentAsociado = localStorage.getItem('identificador_asociado') || '';
+    console.log('idAsociado obtenido:', idSentAsociado);
+    
+    // Verifica si el 'idAsociado' existe antes de continuar
+    if (idSentAsociado) {
+      // Si se obtiene un 'idAsociado' válido, guarda el 'idGrupo' en el localStorage
+      localStorage.setItem('idGrupo', categoria.idGrupo);
+      console.log('ID guardado en localStorage:', localStorage.getItem('idGrupo'));
+      
+      // Redirecciona al componente ListadodecostosComponent pasando el 'idGrupo' como parte de la URL
+      this.router.navigate(['/asociado/listadodecostos/' + categoria.idGrupo + '/' + idSentAsociado]);
+    } else {
+      console.error('No se encontró idAsociado en el localStorage');
+    }
   }
+  
 }
