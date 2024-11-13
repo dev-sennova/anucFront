@@ -1,6 +1,6 @@
 <div class="categorias-container">
   <h2>Categorías del Asociado</h2>
-  
+
   <div *ngIf="bloqcat.length > 0; else noData" class="cards-container">
     <div class="card" *ngFor="let categoria of bloqcat" (click)="openModal(categoria)">
       <img [src]="getIconUrl(categoria.grupo)" alt="{{ categoria.grupo }}" class="icon">
@@ -8,7 +8,7 @@
       <p>{{ categoria.descripcionGrupo }}</p>
     </div>
   </div>
-  
+
   <ng-template #noData>
     <p>No se encontraron categorías.</p>
   </ng-template>
@@ -19,16 +19,16 @@
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close" (click)="closeFormularioProduccion()">&times;</span>
     <h2>Formulario de Producción</h2>
-    
+
     <div class="formulario-container">
       <form (ngSubmit)="submitFormulario()">
         <div class="form-group">
-          <label for="producto">Producto:</label>
-          <select id="producto" [(ngModel)]="productoSeleccionado" name="producto" required>
+          <label for="idProducto">Producto:</label>
+          <select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
             <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
           </select>
         </div>
-        
+
         <div class="form-group">
           <label for="fechaInicio">Fecha Inicio Producción</label>
           <input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
@@ -40,20 +40,25 @@
         </div>
 
         <div class="form-group">
-          <label for="hectareas">¿Cuántas hectáreas va a cultivar?</label>
-          <input type="number" id="hectareas" [(ngModel)]="respuestasFormulario.hectareas" name="hectareas" required />
+          <label for="cantidad">¿Cuántas hectáreas va a cultivar?</label>
+          <input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
         </div>
-        
+
         <div class="form-group">
-          <label for="produccionEsperada">Producción Esperada</label>
-          <input type="number" id="produccionEsperada" [(ngModel)]="respuestasFormulario.produccionEsperada" name="produccionEsperada" required />
+          <label for="esperado">Producción Esperada</label>
+          <input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="unidad">Unidad de medida</label>
+          <input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
         </div>
 
         <div class="form-group">
           <label for="descripcion">Descripción</label>
-          <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" required />
+          <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
         </div>
-        
+
         <button type="submit" class="btn-primary">Guardar</button>
       </form>
     </div>

@@ -14,19 +14,21 @@ export class CategoriaComponent implements OnInit {
 
   productos: any[] = [];
   filteredProductos: any[] = [];
-  idAsociado: string = "";
+  idSentAsociado: string = "";
   bloqcat: any[] = [];
   productoSeleccionado: string | number = '';
   selectedCategory: any = null;
-  medidas: any[] = []; 
+  medidas: any[] = [];
   medidaSeleccionada: string | number = '';
   respuestasFormulario: any = {
-    producto: '',
+    idProducto: '',
+    idAsociado: '',
     descripcion: '',
-    hectareas: '',
+    unidad: '',
+    cantidad: '',
     fechaInicio: '',
     fechaFin: '',
-    produccionEsperada: ''
+    esperado: ''
   };
   showFormularioProduccion: boolean = false;
 
@@ -38,14 +40,14 @@ export class CategoriaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let idAsociado = localStorage.getItem('identificador_asociado') || '';
-    console.log('idAsociado obtenido:', idAsociado);
-    let idAsociadoNum: number = Number(idAsociado);
-    idAsociado = idAsociadoNum.toString();
+    let idSentAsociado = localStorage.getItem('identificador_asociado') || '';
+    console.log('idAsociado obtenido:', idSentAsociado);
+    let idAsociadoNum: number = Number(idSentAsociado);
+    idSentAsociado = idAsociadoNum.toString();
 
-    if (idAsociado) {
-      this.cargarProductos(idAsociado);
-      this.cargarCategorias(idAsociado);
+    if (idSentAsociado) {
+      this.cargarProductos(idSentAsociado);
+      this.cargarCategorias(idSentAsociado);
     } else {
       console.error('No se encontró idAsociado en el localStorage');
     }
@@ -124,37 +126,37 @@ export class CategoriaComponent implements OnInit {
 
   submitFormulario() {
     // Obtenemos los datos del formulario
-    const respuestas = this.respuestasFormulario;
-    
+
     // Aseguramos que el campo producto esté correctamente actualizado
-    respuestas.producto = this.productoSeleccionado;
-  
+    this.respuestasFormulario.idProducto = this.productoSeleccionado;
+    this.respuestasFormulario.idAsociado = localStorage.getItem('identificador_asociado');
+
     // Imprimimos los valores actuales para verificar que no haya datos inesperados
-    console.log("Valores actuales en el formulario:", respuestas);
-  
+    console.log("Valores actuales en el formulario:", this.respuestasFormulario);
+
     // Validamos que todos los campos estén completos
-    const camposCompletos = Object.keys(respuestas).every(campo => {
-      const valor = respuestas[campo];
+    const camposCompletos = Object.keys(this.respuestasFormulario).every(campo => {
+      const valor = this.respuestasFormulario[campo];
       return valor !== null && valor !== undefined && valor.toString().trim() !== '';
     });
-  
+
     // Si falta algún campo, mostramos un mensaje y detenemos el envío
     if (!camposCompletos) {
       Swal.fire('Advertencia', 'Todos los campos deben estar llenos antes de guardar.', 'warning');
       return; // Detenemos el envío
     }
-  
-    console.log("Formulario enviado con los siguientes datos:", respuestas);
-  
+
+    console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
+
     // Verificamos que 'idGrupo' esté definido
     const idGrupo = this.selectedCategory ? this.selectedCategory.idGrupo : null;
     if (!idGrupo) {
       Swal.fire('Advertencia', 'Seleccione una categoría válida.', 'warning');
       return;
     }
-  
+
     // Enviamos los datos del formulario al servicio
-    this.calculoDeCostosService.submitFormularioProduccion(idGrupo, respuestas).subscribe(
+    this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario).subscribe(
       (response) => {
         console.log('Formulario enviado con éxito', response);
         Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');

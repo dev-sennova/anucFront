@@ -123,21 +123,17 @@ getGeneralidadesProduccion(): Observable<any> {
   );
 }
 
-submitFormularioProduccion(idGrupo: number, respuestas: any): Observable<any> {
+submitFormularioProduccion(respuestas: any): Observable<any> {
   const url = this.generalidadStore; // URL ya está correctamente definida en 'generalidadStore'
-  const data = {
-    idGrupo: idGrupo,
-    respuestas: respuestas
-  };
-  
-  return this.http.post<any>(url, data).pipe(
+
+  return this.http.post<any>(url, respuestas).pipe(
     catchError((error: HttpErrorResponse) => {
-      console.log('Objeto en el servicio:',data);
+      console.log('Objeto en el servicio:',respuestas);
       console.error('Error al enviar el formulario:', error);
-      
+
       // Mostrar un mensaje más detallado al usuario
       Swal.fire('Error', `Ocurrió un problema al enviar el formulario. Detalles del error: ${error.message}`, 'error');
-      
+
       return throwError(() => error);
     })
   );
