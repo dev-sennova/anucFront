@@ -1,6 +1,8 @@
 <!-- Botón para crear formulario, solo se muestra si no hay registros -->
 <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
-
+<ng-template #noCostos>
+  <p>No se encontraron datos de costos para este grupo.</p>
+  </ng-template>
 <!-- Modal para el formulario de producción -->
 <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
 <div class="modal-content" (click)="$event.stopPropagation()">
@@ -51,34 +53,39 @@
 </div>
 </div>
 
-<div *ngIf="costos.length > 0; else noCostos">
-<table>
-<thead>
-<tr>
-<th>Producto</th>
-<th>Descripción</th>
-<th>Unidad</th>
-<th>Cantidad</th>
-<th>Fecha Inicio</th>
-<th>Fecha Fin</th>
-<th>Esperado</th>
-<th>Ver</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let costo of costos">
-<td>{{ costo.producto }}</td>
-<td>{{ costo.descripcion }}</td>
-<td>{{ costo.unidad }}</td>
-<td>{{ costo.cantidad }}</td>
-<td>{{ costo.fechaInicio }}</td>
-<td>{{ costo.fechaFin }}</td>
-<td>{{ costo.esperado }}</td>
-<td><button (click)="verCosto(costo)">Ver</button></td>
-</tr>
-</tbody>
-</table>
+<div class="container">
+  <div *ngIf="costos.length > 0; else noCostos">
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Descripción</th>
+          <th>Unidad</th>
+          <th>Cantidad</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Esperado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let costo of costos">
+          <td>{{ costo.producto }}</td>
+          <td>{{ costo.descripcion }}</td>
+          <td>{{ costo.unidad }}</td>
+          <td>{{ costo.cantidad }}</td>
+          <td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
+          <td>{{ costo.esperado | currency }}</td>
+          <td><button (click)="verCosto(costo)">Ver</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+
+
 <!-- Modal -->
 <div *ngIf="modalVisibleV" class="modal-overlay" (click)="closeModal()">
 <div class="modal-content-V" (click)="$event.stopPropagation()">
@@ -93,6 +100,3 @@
 <p><strong>Esperado:</strong> {{ selectedCosto.esperado }}</p>
 </div>
 </div>
-<ng-template #noCostos>
-<p>No se encontraron datos de costos para este grupo.</p>
-</ng-template>

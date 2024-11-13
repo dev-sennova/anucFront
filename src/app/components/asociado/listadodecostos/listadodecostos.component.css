@@ -1,85 +1,10 @@
-/* Contenedor principal */
-.categorias-container {
-  text-align: center;
-  background-color: #e0e0e0;
-  padding: 3.75em; /* 60px */
-  border-radius: 1em; /* 15px */
-  max-width: 900px;
-  margin: 2em auto; /* 30px */
-  }
-  .categorias-container h2 {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 1.25em; /* 20px */
-  }
-  .divider-line {
-  width: 80%;
-  height: 2px;
-  background-color: #000;
-  margin: 0.625em auto 1.25em; /* 10px 20px */
-  }
-  /* Contenedor de tarjetas */
-  .cards-container {
-  display: flex;
-  justify-content: center;
-  gap: 1.25em; /* 20px */
-  flex-wrap: wrap; 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  /* Tarjeta individual */
-  .card {
-  background-color: #b0b0b0;
-  border-radius: 0.625em; /* 10px */
-  padding: 1.25em; /* 20px */
-  width: 25%; 
-  max-width: 250px;
-  text-align: center;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
-  }
-  /* Icono de la tarjeta */
-  .card .icon {
-  width: 60%;
-  height: auto;
-  margin-bottom: 1em; /* 10px */
-  }
-  .card h3 {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 0.625em; /* 10px */
-  }
-  .card p {
-  font-size: 0.9em;
-  line-height: 1.4;
-  }
-  /* Responsividad para pantallas medianas */
-  @media (max-width: 768px) {
-  .card {
-  width: 45%; 
-  max-width: none;
-  }
-  }
-  /* Responsividad para pantallas pequeñas */
-  @media (max-width: 480px) {
-  .categorias-container {
-  padding: 2.5em 1.25em; /* 40px 20px */
-  }
-  .card {
-  width: 100%; 
-  max-width: none;
-  }
-  .categorias-container h2 {
-  font-size: 1.8em;
-  }
-  .divider-line {
-  width: 90%;
-  }
-  }
   /* Estilo para el modal */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
   .modal {
   display: flex;
   justify-content: center;
@@ -236,24 +161,9 @@
   button:hover {
   background-color: #65c7e6; /* Color verde más oscuro al hacer hover */
   }
+
   button:focus {
   outline: none;
-  }
-  table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  }
-  
-  th,
-  td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  }
-  
-  th {
-  background-color: #f4f4f4;
   }
   
   button {
@@ -267,104 +177,129 @@
   button:hover {
   background-color: #0056b3;
   }
-  
-  /* Estilo del modal con la clase 'modal-content-V' */
-  .modal-overlay {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
+
+
+  /* General styles for the table */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+table td {
+  background-color: #fff;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.no-costos {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+}
+
+/* Modal Styles */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
-  transition: opacity 0.3s ease;
-  }
-  
-  .modal-content-V {
-  background-color: white;
-  padding: 1.5em; /* Reducir el padding */
-  border-radius: 1em; /* 15px */
-  max-width: 800px;
-  width: 90%;
-  box-sizing: border-box;
-  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-direction: column;
-  gap: 0.75em; /* Reducir el espacio entre los elementos */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content-V {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
-  }
-  
-  .modal-content-V h2 {
-  text-align: center;
-  margin-bottom: 0.75em; /* Reducir el margen inferior */
-  font-size: 1.8em;
-  font-weight: bold;
+  overflow-y: auto;
+}
+
+.modal-content-V h2 {
+  font-size: 1.5em;
   color: #333;
-  }
-  
-  .modal-content-V p {
+  margin-bottom: 20px;
+}
+
+.modal-content-V p {
   font-size: 1.1em;
-  line-height: 1.2; /* Reducir el interlineado */
-  color: #555;
-  margin: 0; /* Eliminar el margen predeterminado */
-  }
-  
-  .modal-content-V p strong {
-  font-weight: bold;
-  margin-right: 0.5em; /* Reducir espacio entre el <strong> y el texto */
-  }
-  
-  .modal-content-V button {
-  background-color: #007bff;
-  color: white;
-  padding: 0.75em 2em; /* 12px 30px */
-  border: none;
-  border-radius: 0.5em; /* 8px */
-  font-size: 1.2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1em; /* Reducir el margen superior */
-  }
-  
-  .modal-content-V button:hover {
-  background-color: #0056b3;
-  }
-  
-  /* Estilo para cerrar el modal */
-  .modal-content-V .close {
+  margin-bottom: 10px;
+}
+
+.modal-content-V strong {
+  color: #333;
+}
+
+.close {
   position: absolute;
-  top: 0.625em; /* 10px */
-  right: 1.25em; /* 20px */
-  font-size: 1.75em; /* 28px */
-  font-weight: bold;
-  color: #000000;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  color: #333;
   cursor: pointer;
-  z-index: 10;
-  transition: color 0.3s ease;
-  }
-  
-  .modal-content-V .close:hover,
-  .modal-content-V .close:focus {
-  color: #ff0303;
-  }
-  
-  /* Adaptación para pantallas pequeñas */
-  @media (max-width: 768px) {
+}
+
+.close:hover {
+  color: #ff0000;
+}
+
+/* Ensuring proper spacing when modal content overflows */
+.modal-content-V p {
+  margin-bottom: 10px;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
   .modal-content-V {
-  padding: 1.25em; /* 20px */
-  max-width: 95%;
+    width: 90%;
+    padding: 20px;
   }
   
-  .modal-content-V h2 {
-  font-size: 1.75em;
+  table th, table td {
+    font-size: 0.9em;
   }
-  
-  .modal-content-V button {
-  padding: 0.75em 1.5em; /* 12px 25px */
+
+  button {
+    font-size: 0.9em;
   }
-  }
-  
+}
+
   
