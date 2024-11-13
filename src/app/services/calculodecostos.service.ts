@@ -123,6 +123,12 @@ getGeneralidadesProduccion(): Observable<any> {
   );
 }
 
+getLabelsModal(idGrupo:string): Observable<any> {
+  return this.http.get<any>(`${this.generalidad}${idGrupo}`).pipe(
+    catchError(this.handleError)
+  );
+}
+
 submitFormularioProduccion(respuestas: any): Observable<any> {
   const url = this.generalidadStore; // URL ya está correctamente definida en 'generalidadStore'
 

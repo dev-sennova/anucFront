@@ -28,6 +28,12 @@ export class ListadodecostosComponent implements OnInit {
     fechaFin: '',
     esperado: ''
   };
+  pregunta_1: string='';
+  pregunta_2: string='';
+  pregunta_3: string='';
+  pregunta_4: string='';
+  pregunta_5: string='';
+  pregunta_6: string='';
 
   constructor(
     private route: ActivatedRoute,
@@ -37,17 +43,18 @@ export class ListadodecostosComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('Ruta actual:', this.route.snapshot.url);
-    
+
     this.route.paramMap.subscribe(params => {
       if (params.has('idGrupo')) {
         this.idGrupo = params.get('idGrupo');
         console.log('ID del grupo recibido:', this.idGrupo);
-        
+
         if (!this.idGrupo) {
           console.error('No se encontró el ID del grupo en la ruta');
           Swal.fire('Error', 'No se encontró el ID del grupo en la ruta.', 'error');
         } else {
           // Cargar datos cuando tenemos el ID del grupo
+          this.cargarLabels(this.idGrupo);
           this.loadData();
         }
       } else {
@@ -73,7 +80,7 @@ export class ListadodecostosComponent implements OnInit {
     }
 
     console.log('Cargando datos para el ID:', this.idGrupo);
-    
+
     // Simulación de llamado al servicio
     setTimeout(() => {
       console.log('Datos cargados con éxito');
@@ -100,8 +107,24 @@ export class ListadodecostosComponent implements OnInit {
       }
     );
   }
-  
-  
+
+  cargarLabels(idGrupo:string): void {
+    this.calculoDeCostosService.getLabelsModal(idGrupo).subscribe(
+      (data) => {
+        console.log('Labels: ',data);
+        if (data && Array.isArray(data.generalidades_produccion)){
+          this.pregunta_1 = data.generalidades_produccion[0].pregunta_1;
+          this.pregunta_2 = data.generalidades_produccion[0].pregunta_2;
+          this.pregunta_3 = data.generalidades_produccion[0].pregunta_3;
+          this.pregunta_4 = data.generalidades_produccion[0].pregunta_4;
+          this.pregunta_5 = data.generalidades_produccion[0].pregunta_5;
+          this.pregunta_6 = data.generalidades_produccion[0].pregunta_6;
+        }else{
+          console.error('No se encontraron labels');
+        }
+      }
+    );
+  }
 
   // Método para filtrar productos por categoría
   filterByCategory(): void {
@@ -112,8 +135,8 @@ export class ListadodecostosComponent implements OnInit {
       console.log('Productos filtrados:', this.filteredProductos); // Log para verificar el filtrado
     }
   }
-  
-  
+
+
   cargarUnidades(): void {
     this.unidadesService.getUnidades().subscribe(
       (data) => {
@@ -155,7 +178,7 @@ export class ListadodecostosComponent implements OnInit {
     }
 
     console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
-    
+
     this.calculoDeCostosService.getCostos(Number(this.idGrupo)).subscribe(
       (data) => {
         console.log('Datos de costos:', data);

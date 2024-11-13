@@ -10,38 +10,38 @@
     <div class="formulario-container">
       <form (ngSubmit)="submitFormulario()">
         <div class="form-group">
-            <label for="idProducto">Producto:</label>
+            <label for="idProducto">{{this.pregunta_1}} :</label>
             <select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
               <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
             </select>
           </div>
         <div class="form-group">
-          <label for="fechaInicio">Fecha Inicio Producción</label>
+          <label for="fechaInicio">{{this.pregunta_4}} :</label>
           <input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
         </div>
 
         <div class="form-group">
-          <label for="fechaFin">Fecha Fin Producción</label>
+          <label for="fechaFin">{{this.pregunta_5}} :</label>
           <input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
         </div>
 
         <div class="form-group">
-          <label for="cantidad">¿Cuántas hectáreas va a cultivar?</label>
+          <label for="cantidad">{{this.pregunta_3}} :</label>
           <input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
         </div>
 
         <div class="form-group">
-          <label for="esperado">Producción Esperada</label>
+          <label for="esperado">{{this.pregunta_6}} :</label>
           <input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
         </div>
-        
+
         <div class="form-group">
             <label for="unidad">Unidad de medida</label>
             <input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
           </div>
 
         <div class="form-group">
-          <label for="descripcion">Descripción</label>
+          <label for="descripcion">{{this.pregunta_2}} :</label>
           <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
         </div>
 
