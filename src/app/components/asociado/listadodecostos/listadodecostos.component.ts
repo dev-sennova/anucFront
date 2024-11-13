@@ -42,6 +42,7 @@ export class ListadodecostosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     console.log('Ruta actual:', this.route.snapshot.url);
 
     this.route.paramMap.subscribe(params => {
@@ -64,12 +65,14 @@ export class ListadodecostosComponent implements OnInit {
     });
 
     const idAsociado = localStorage.getItem('identificador_asociado');
+    console.log("ID del Asociado recibido ",idAsociado);
     if (idAsociado) {
       this.cargarProductos(idAsociado);
     } else {
       console.error('No se encontró el idAsociado en el localStorage');
     }
 
+    
     this.cargarUnidades();
   }
 
@@ -78,15 +81,25 @@ export class ListadodecostosComponent implements OnInit {
       console.error('No se puede cargar datos sin ID del grupo');
       return;
     }
-
-    console.log('Cargando datos para el ID:', this.idGrupo);
-
-    // Simulación de llamado al servicio
-    setTimeout(() => {
-      console.log('Datos cargados con éxito');
-      this.costos = []; // Simulando que no hay costos al principio
-    }, 1000);
+  
+    this.calculoDeCostosService.getCostosDatos(Number(this.idGrupo)).subscribe(
+      (data) => {
+        console.log('Datos de costos:', data);
+        if (data && data.hojas_por_grupo && Array.isArray(data.hojas_por_grupo)) {
+          this.costos = data.hojas_por_grupo;
+        } else {
+          console.error('No se encontraron datos de costos');
+          this.costos = [];
+        }
+      },
+      (error) => {
+        console.error('Error al cargar costos:', error);
+        Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
+      }
+    );
   }
+  
+  
 
   cargarProductos(idAsociado: string): void {
     this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
@@ -179,11 +192,11 @@ export class ListadodecostosComponent implements OnInit {
 
     console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
 
-    this.calculoDeCostosService.getCostos(Number(this.idGrupo)).subscribe(
+    this.calculoDeCostosService.getCostosDatos(Number(this.idGrupo)).subscribe(
       (data) => {
         console.log('Datos de costos:', data);
         if (data && Array.isArray(data)) {
-          this.costos = data; // Asignar los datos obtenidos a la propiedad costos
+          this.costos = data;
         } else {
           console.error('No se encontraron datos de costos');
           this.costos = [];

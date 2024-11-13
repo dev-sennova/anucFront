@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, tap,throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { GlobalConstants } from '../commons/global-constants';
@@ -151,6 +151,27 @@ getCostos(idGrupo: number): Observable<any> {
     catchError(this.handleError)
   );
 }
+
+// Obtener Datos
+getCostosDatos(idGrupo: number): Observable<any> {
+  const url = `${this.hojasdecostos}?idGrupo=${idGrupo}&idAsociado=${localStorage.getItem('identificador_asociado')}`;
+  console.log('Request URL:', url);
+  
+  return this.http.get(url).pipe(
+    tap(response => {
+      console.log('Request successful');
+      console.log('Response:', response);
+    }),
+    catchError(error => {
+      console.error('Error fetching costos data:', error);
+      throw new Error(`Failed to fetch costos data. Status: ${error.status}, Message: ${error.statusText}`);
+    })
+  );
+}
+
+
+
+
 
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
