@@ -3,97 +3,96 @@
 
 <!-- Modal para el formulario de producción -->
 <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <span class="close" (click)="closeFormularioProduccion()">&times;</span>
-    <h2>Formulario Hoja de Costo</h2>
+<div class="modal-content" (click)="$event.stopPropagation()">
+<span class="close" (click)="closeFormularioProduccion()">&times;</span>
+<h2>Formulario Hoja de Costo</h2>
 
-    <div class="formulario-container">
-      <form (ngSubmit)="submitFormulario()">
-        <div class="form-group">
-            <label for="idProducto">{{this.pregunta_1}} :</label>
-            <select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
-              <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
-            </select>
-          </div>
-        <div class="form-group">
-          <label for="fechaInicio">{{this.pregunta_4}} :</label>
-          <input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
-        </div>
-
-        <div class="form-group">
-          <label for="fechaFin">{{this.pregunta_5}} :</label>
-          <input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
-        </div>
-
-        <div class="form-group">
-          <label for="cantidad">{{this.pregunta_3}} :</label>
-          <input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
-        </div>
-
-        <div class="form-group">
-          <label for="esperado">{{this.pregunta_6}} :</label>
-          <input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
-        </div>
-
-        <div class="form-group">
-            <label for="unidad">Unidad de medida</label>
-            <input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
-          </div>
-
-        <div class="form-group">
-          <label for="descripcion">{{this.pregunta_2}} :</label>
-          <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
-        </div>
-
-        <button type="submit" class="btn-primary">Guardar</button>
-      </form>
-    </div>
-  </div>
+<div class="formulario-container">
+<form (ngSubmit)="submitFormulario()">
+<div class="form-group">
+<label for="idProducto">{{this.pregunta_1}} :</label>
+<select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
+<option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+</select>
+</div>
+<div class="form-group">
+<label for="fechaInicio">{{this.pregunta_4}} :</label>
+<input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
 </div>
 
+<div class="form-group">
+<label for="fechaFin">{{this.pregunta_5}} :</label>
+<input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
+</div>
+
+<div class="form-group">
+<label for="cantidad">{{this.pregunta_3}} :</label>
+<input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
+</div>
+
+<div class="form-group">
+<label for="esperado">{{this.pregunta_6}} :</label>
+<input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
+</div>
+
+<div class="form-group">
+<label for="unidad">Unidad de medida</label>
+<input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
+</div>
+
+<div class="form-group">
+<label for="descripcion">{{this.pregunta_2}} :</label>
+<input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
+</div>
+
+<button type="submit" class="btn-primary">Guardar</button>
+</form>
+</div>
+</div>
+</div>
 
 <div *ngIf="costos.length > 0; else noCostos">
-  <table>
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Descripción</th>
-        <th>Unidad</th>
-        <th>Cantidad</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
-        <th>Esperado</th>
-        <th>Ver</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let costo of costos">
-        <td>{{ costo.producto }}</td>
-        <td>{{ costo.descripcion }}</td>
-        <td>{{ costo.unidad }}</td>
-        <td>{{ costo.cantidad }}</td>
-        <td>{{ costo.fechaInicio }}</td>
-        <td>{{ costo.fechaFin }}</td>
-        <td>{{ costo.esperado }}</td>
-        <td><button (click)="verCosto(costo)">Ver</button></td>
-      </tr>
-    </tbody>
-  </table>
+<table>
+<thead>
+<tr>
+<th>Producto</th>
+<th>Descripción</th>
+<th>Unidad</th>
+<th>Cantidad</th>
+<th>Fecha Inicio</th>
+<th>Fecha Fin</th>
+<th>Esperado</th>
+<th>Ver</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let costo of costos">
+<td>{{ costo.producto }}</td>
+<td>{{ costo.descripcion }}</td>
+<td>{{ costo.unidad }}</td>
+<td>{{ costo.cantidad }}</td>
+<td>{{ costo.fechaInicio }}</td>
+<td>{{ costo.fechaFin }}</td>
+<td>{{ costo.esperado }}</td>
+<td><button (click)="verCosto(costo)">Ver</button></td>
+</tr>
+</tbody>
+</table>
 </div>
 <!-- Modal -->
-<div *ngIf="modalVisible" class="modal-overlay" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h2>Detalles del Costo</h2>
-    <p><strong>Producto:</strong> {{ selectedCosto.producto }}</p>
-    <p><strong>Descripción:</strong> {{ selectedCosto.descripcion }}</p>
-    <p><strong>Unidad:</strong> {{ selectedCosto.unidad }}</p>
-    <p><strong>Cantidad:</strong> {{ selectedCosto.cantidad }}</p>
-    <p><strong>Fecha Inicio:</strong> {{ selectedCosto.fechaInicio }}</p>
-    <p><strong>Fecha Fin:</strong> {{ selectedCosto.fechaFin }}</p>
-    <p><strong>Esperado:</strong> {{ selectedCosto.esperado }}</p>
-    <button (click)="closeModal()">Cerrar</button>
-  </div>
+<div *ngIf="modalVisibleV" class="modal-overlay" (click)="closeModal()">
+<div class="modal-content-V" (click)="$event.stopPropagation()">
+<span class="close" (click)="closeModal()">&times;</span>
+<h2>Detalles del Costo</h2>
+<p><strong>Producto:</strong> {{ selectedCosto.producto }}</p>
+<p><strong>Descripción:</strong> {{ selectedCosto.descripcion }}</p>
+<p><strong>Unidad:</strong> {{ selectedCosto.unidad }}</p>
+<p><strong>Cantidad:</strong> {{ selectedCosto.cantidad }}</p>
+<p><strong>Fecha Inicio:</strong> {{ selectedCosto.fechaInicio }}</p>
+<p><strong>Fecha Fin:</strong> {{ selectedCosto.fechaFin }}</p>
+<p><strong>Esperado:</strong> {{ selectedCosto.esperado }}</p>
+</div>
 </div>
 <ng-template #noCostos>
-  <p>No se encontraron datos de costos para este grupo.</p>
+<p>No se encontraron datos de costos para este grupo.</p>
 </ng-template>
