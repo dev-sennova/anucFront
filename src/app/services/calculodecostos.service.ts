@@ -14,7 +14,7 @@ private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categoria
 private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
 private generalidad = GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
 private generalidadStore = GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
-
+private hojasdecostos = GlobalConstants.apiURL + '/api/costeo/hojas_grupo/';
 
 
 
@@ -139,6 +139,12 @@ submitFormularioProduccion(respuestas: any): Observable<any> {
   );
 }
 
+getCostos(idGrupo: number): Observable<any> {
+  const url = `${this.hojasdecostos}${idGrupo}`;
+  return this.http.get<any>(url).pipe(
+    catchError(this.handleError)
+  );
+}
 
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {

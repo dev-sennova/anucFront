@@ -18,23 +18,8 @@ export class CategoriaComponent implements OnInit {
   bloqcat: any[] = [];
   productoSeleccionado: string | number = '';
   selectedCategory: any = null;
-  medidas: any[] = [];
-  medidaSeleccionada: string | number = '';
-  respuestasFormulario: any = {
-    idProducto: '',
-    idAsociado: '',
-    descripcion: '',
-    unidad: '',
-    cantidad: '',
-    fechaInicio: '',
-    fechaFin: '',
-    esperado: ''
-  };
-  showFormularioProduccion: boolean = false;
 
   constructor(
-    private GruposService: GruposService,
-    private unidadesService: UnidadesMedidaService,
     private calculoDeCostosService: CalculodecostosService,
     private router: Router
   ) {}
@@ -51,8 +36,6 @@ export class CategoriaComponent implements OnInit {
     } else {
       console.error('No se encontró idAsociado en el localStorage');
     }
-
-    this.cargarUnidades();
   }
 
   cargarProductos(idAsociado: string): void {
@@ -78,6 +61,7 @@ export class CategoriaComponent implements OnInit {
       (data) => {
         if (data && data.categorias && Array.isArray(data.categorias)) {
           this.bloqcat = data.categorias;
+          console.log('Categorías cargadas:', this.bloqcat);
         } else {
           Swal.fire('Error', 'No se pudieron cargar las categorías del usuario.', 'error');
         }
@@ -88,16 +72,6 @@ export class CategoriaComponent implements OnInit {
     );
   }
 
-  cargarUnidades(): void {
-    this.unidadesService.getUnidades().subscribe(
-      (data) => {
-        this.medidas = data;
-      },
-      (error) => {
-        Swal.fire('Error', 'No se pudieron cargar las unidades de medida.', 'error');
-      }
-    );
-  }
 
   getIconUrl(grupo: string): string {
     switch (grupo) {
@@ -116,57 +90,7 @@ export class CategoriaComponent implements OnInit {
 
   openModal(categoria: any) {
     this.selectedCategory = categoria;
-    this.showFormularioProduccion = true;
     this.filterByCategory(categoria);
-  }
-
-  closeFormularioProduccion(): void {
-    this.showFormularioProduccion = false;
-  }
-
-  submitFormulario() {
-    // Obtenemos los datos del formulario
-
-    // Aseguramos que el campo producto esté correctamente actualizado
-    this.respuestasFormulario.idProducto = this.productoSeleccionado;
-    this.respuestasFormulario.idAsociado = localStorage.getItem('identificador_asociado');
-
-    // Imprimimos los valores actuales para verificar que no haya datos inesperados
-    console.log("Valores actuales en el formulario:", this.respuestasFormulario);
-
-    // Validamos que todos los campos estén completos
-    const camposCompletos = Object.keys(this.respuestasFormulario).every(campo => {
-      const valor = this.respuestasFormulario[campo];
-      return valor !== null && valor !== undefined && valor.toString().trim() !== '';
-    });
-
-    // Si falta algún campo, mostramos un mensaje y detenemos el envío
-    if (!camposCompletos) {
-      Swal.fire('Advertencia', 'Todos los campos deben estar llenos antes de guardar.', 'warning');
-      return; // Detenemos el envío
-    }
-
-    console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
-
-    // Verificamos que 'idGrupo' esté definido
-    const idGrupo = this.selectedCategory ? this.selectedCategory.idGrupo : null;
-    if (!idGrupo) {
-      Swal.fire('Advertencia', 'Seleccione una categoría válida.', 'warning');
-      return;
-    }
-
-    // Enviamos los datos del formulario al servicio
-    this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario).subscribe(
-      (response) => {
-        console.log('Formulario enviado con éxito', response);
-        Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
-        this.closeFormularioProduccion(); // Cerramos el formulario después de enviar
-      },
-      (error) => {
-        console.error('Error al enviar el formulario', error);
-        Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
-      }
-    );
   }
 
   filterByCategory(category: any): void {
@@ -174,5 +98,13 @@ export class CategoriaComponent implements OnInit {
     if (this.productos.length > 0) {
       this.filteredProductos = this.productos.filter(product => product.idGrupo === category.idGrupo);
     }
+  }
+
+  onClickCategoria(categoria: any) {
+    console.log('Categoria seleccionada:', categoria);
+    localStorage.setItem('idGrupo', categoria.idGrupo);
+    console.log('ID guardado en localStorage:', localStorage.getItem('idGrupo'));
+     // Redirecciona al componente ListadodecostosComponent
+    this.router.navigate(['/asociado/listadodecostos/' + categoria.idGrupo]);
   }
 }
