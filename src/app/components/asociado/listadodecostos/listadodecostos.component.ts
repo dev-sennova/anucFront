@@ -155,7 +155,21 @@ export class ListadodecostosComponent implements OnInit {
     }
 
     console.log("Formulario enviado con los siguientes datos:", this.respuestasFormulario);
-
+    
+    this.calculoDeCostosService.getCostos(Number(this.idGrupo)).subscribe(
+      (data) => {
+        console.log('Datos de costos:', data);
+        if (data && Array.isArray(data)) {
+          this.costos = data; // Asignar los datos obtenidos a la propiedad costos
+        } else {
+          console.error('No se encontraron datos de costos');
+          this.costos = [];
+        }
+      },
+      (error) => {
+        Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
+      }
+    );
     // Enviamos los datos del formulario al servicio
     this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario).subscribe(
       (response) => {

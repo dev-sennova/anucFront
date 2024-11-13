@@ -50,3 +50,18 @@
     </div>
   </div>
 </div>
+
+
+<div *ngIf="costos.length > 0; else noCostos">
+  <div *ngFor="let costo of costos">
+    <!-- Muestra la información de cada costo -->
+    <p>{{ costo.idProducto }} - {{ costo.descripcion }}</p>
+    <p>Unidad: {{ costo.unidad }} | Cantidad: {{ costo.cantidad }}</p>
+    <p>Fecha Inicio: {{ costo.fechaInicio }} | Fecha Fin: {{ costo.fechaFin }}</p>
+    <p>Esperado: {{ costo.esperado }}</p>
+  </div>
+</div>
+
+<ng-template #noCostos>
+  <p>No se encontraron datos de costos para este grupo.</p>
+</ng-template>
