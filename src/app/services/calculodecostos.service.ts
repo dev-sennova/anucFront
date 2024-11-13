@@ -14,7 +14,7 @@ private categoriaUsuario =  GlobalConstants.apiURL + '/api/auth/costeo/categoria
 private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
 private generalidad = GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
 private generalidadStore = GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
-private hojasdecostos = GlobalConstants.apiURL + '/api/costeo/hojas_grupo/';
+private hojasdecostos = GlobalConstants.apiURL + '/api/auth/costeo/hojas_grupo/';
 
 
 
@@ -156,7 +156,7 @@ getCostos(idGrupo: number): Observable<any> {
 getCostosDatos(idGrupo: number): Observable<any> {
   const url = `${this.hojasdecostos}?idGrupo=${idGrupo}&idAsociado=${localStorage.getItem('identificador_asociado')}`;
   console.log('Request URL:', url);
-  
+
   return this.http.get(url).pipe(
     tap(response => {
       console.log('Request successful');
