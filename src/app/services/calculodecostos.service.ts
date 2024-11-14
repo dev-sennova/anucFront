@@ -173,8 +173,9 @@ getCostosDatos(idGrupo: number): Observable<any> {
 // Fases
 
 getFasesProduccion(idGrupo: string): Observable<any> {
-  return this.http.get(`${this.fasesSeleccion}/fases_produccion/selectfases_produccion/${idGrupo}`);
+  return this.http.get<any>(`${this.fasesSeleccion}${idGrupo}`);
 }
+
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
   let errorMessage = 'Ocurrió un error inesperado';

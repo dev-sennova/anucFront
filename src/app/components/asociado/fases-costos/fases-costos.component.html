@@ -1,0 +1,26 @@
+<div class="center-wrapper">
+    <div id="container">
+      <h1>Fases de Producción</h1>
+      <div class="tabs">
+        <label
+          *ngFor="let fase of fasesProducion; let i = index"
+          (click)="selectTab(i)"
+          [class.active]="i === activeTab"
+          class="tab-label"
+        >
+          {{ fase.nombre_fase }}
+        </label>
+      </div>
+      <div id="content">
+        <div
+          *ngFor="let fase of fasesProducion; let i = index"
+          [class.visible]="i === activeTab"
+          class="fase-content"
+        >
+          <h5>{{ fase.nombre_fase }}</h5>
+          <p>{{ fase.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
