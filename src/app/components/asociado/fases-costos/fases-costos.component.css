@@ -8,16 +8,16 @@
   body, html {
     height: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;  /* Alineación hacia la parte superior */
     justify-content: center;
     background-color: #f3f4f6;
   }
   
   .center-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;  /* Alineación hacia la parte superior */
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     width: 100%;
   }
   
@@ -25,10 +25,10 @@
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 1.5em;
-    width: 100%;
-    max-width: 1000px;  /* Contenedor más grande */
-    height: 700px;      /* Aumentar la altura */
+    padding: 2em;  /* Aumento del padding para dar más espacio dentro */
+    width: 95%;     /* Aumento el ancho del contenedor */
+    max-width: 1600px;  /* Aumento el ancho máximo a 1600px */
+    height: 900px;  /* Aumento la altura a 900px */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -79,7 +79,7 @@
     background: #f9f9f9;
     border-radius: 0 0 8px 8px;
     padding: 1em;
-    height: 100%;
+    height: 60%;
     overflow-y: auto;
     flex-grow: 1; /* Asegura que el contenido ocupe el espacio restante */
   }
