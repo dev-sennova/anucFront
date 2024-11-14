@@ -31,6 +31,9 @@ export class CalculodecostosService {
     '/api/auth/fases_produccion/selectfases_produccion/';
   private grupoConcepto =
     GlobalConstants.apiURL + '/api/auth/grupos_conceptos';
+  private conceptosSeleccion =
+   GlobalConstants.apiURL + '/api/auth/conceptos/selectconceptosgrupo/';
+
 
   constructor(private http: HttpClient) {}
 
@@ -200,6 +203,13 @@ export class CalculodecostosService {
     return this.http.get<any>(this.grupoConcepto);
   }
 
+
+  // Seleccion concepto despliega sus caracteristicas
+
+  getConceptosPorGrupo(grupoId: number): Observable<any> {
+    return this.http.get(`${this.conceptosSeleccion}${grupoId}`);
+  }
+  
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error inesperado';

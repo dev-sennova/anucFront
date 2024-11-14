@@ -11,11 +11,12 @@ export class FasesCostosComponent implements OnInit {
   idGrupo: string | null = null;
   fasesProducion: any[] = [];
   gruposConceptos: any[] = [];
+  conceptos: any[] = [];
   activeTab: number = 0;
-  selectedGrupo: number | null = null;
-
-  // Controla la visibilidad del modal
+  selectedGrupo: number | null = null;  // Valor de la selección del grupo
+  selectedConcepto: number | null = null; // Valor de la selección del concepto
   showForm: boolean = false;
+  conceptoVisible: boolean = false; // Controla la visibilidad del select de conceptos
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,7 +55,7 @@ export class FasesCostosComponent implements OnInit {
       (data: any) => {
         if (data && data.grupos_conceptos) {
           this.gruposConceptos = data.grupos_conceptos;
-          console.log('Grupos de Conceptos cargados:', this.gruposConceptos); // Verifica la carga de datos
+          console.log('Grupos de Conceptos cargados:', this.gruposConceptos);
         } else {
           console.error('No se encontraron grupos de conceptos');
         }
@@ -65,24 +66,41 @@ export class FasesCostosComponent implements OnInit {
     );
   }
   
-  // Método para manejar el cambio de selección
-  onSelectGrupo(grupoId: number): void {
+  onSelectGrupo(grupoId: number | null): void {
+    if (grupoId === null) return; // Ignorar si el valor es null
     this.selectedGrupo = grupoId;
+    this.conceptoVisible = true;
+    this.selectedConcepto = null;
+    this.cargarConceptosPorGrupo(grupoId);
+  }
+  
+  
+
+  cargarConceptosPorGrupo(grupoId: number): void {
+    this.calculoCostosService.getConceptosPorGrupo(grupoId).subscribe(
+      (data: any) => {
+        if (data && data.conceptos) {
+          this.conceptos = data.conceptos;
+        } else {
+          console.error('No se encontraron conceptos para el grupo seleccionado');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar los conceptos del grupo:', error);
+      }
+    );
   }
 
-  // Método para alternar la visibilidad del modal
   toggleForm(): void {
     this.showForm = !this.showForm;
   }
 
-  // Método para enviar el formulario
   onSubmit(): void {
     console.log('Grupo seleccionado:', this.selectedGrupo);
-    // Aquí puedes realizar lo que necesites con el grupo seleccionado
-    this.toggleForm(); // Cerrar el modal después de enviar el formulario
+    console.log('Concepto seleccionado:', this.selectedConcepto);
+    this.toggleForm();
   }
 
-  // Método para cambiar la pestaña activa
   selectTab(index: number): void {
     this.activeTab = index;
   }
