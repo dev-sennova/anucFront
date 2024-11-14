@@ -13,10 +13,9 @@ export class FasesCostosComponent implements OnInit {
   gruposConceptos: any[] = [];
   conceptos: any[] = [];
   activeTab: number = 0;
-  selectedGrupo: number | null = null;  // Valor de la selección del grupo
-  selectedConcepto: number | null = null; // Valor de la selección del concepto
+  selectedGrupo: number = 0;  // Valor de la selección del grupo
+  selectedConcepto: number = 0; // Valor de la selección del concepto
   showForm: boolean = false;
-  conceptoVisible: boolean = false; // Controla la visibilidad del select de conceptos
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,16 +64,15 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
-  
-  onSelectGrupo(grupoId: number | null): void {
-    if (grupoId === null) return; // Ignorar si el valor es null
+
+  onSelectGrupo(grupoId: number): void {
+    console.log("Valor select cargado: ",grupoId);
     this.selectedGrupo = grupoId;
-    this.conceptoVisible = true;
-    this.selectedConcepto = null;
+    this.selectedConcepto = 0;
     this.cargarConceptosPorGrupo(grupoId);
   }
-  
-  
+
+
 
   cargarConceptosPorGrupo(grupoId: number): void {
     this.calculoCostosService.getConceptosPorGrupo(grupoId).subscribe(
@@ -92,6 +90,8 @@ export class FasesCostosComponent implements OnInit {
   }
 
   toggleForm(): void {
+    this.selectedGrupo = 0;
+    this.selectedConcepto = 0;
     this.showForm = !this.showForm;
   }
 

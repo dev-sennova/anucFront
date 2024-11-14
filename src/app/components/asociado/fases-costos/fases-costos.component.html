@@ -20,19 +20,21 @@
 <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <span class="close" (click)="toggleForm()">&times;</span>
-    <h2>Selecciona un Grupo de Concepto</h2>
+    <h2>Añadir Conceptos</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="concepto">Selecciona un Grupo de Concepto:</label>
+        <label for="concepto">Sección:</label>
         <select id="concepto" [(ngModel)]="selectedGrupo" name="concepto" class="form-control" (change)="onSelectGrupo(selectedGrupo)">
+          <option [value]="0" disabled>Elija un grupo para cargar sus conceptos asociados</option>
           <option *ngFor="let grupo of gruposConceptos" [value]="grupo.id">{{ grupo.grupo }}</option>
         </select>
       </div>
 
       <!-- Mostrar el select de concepto solo si se ha seleccionado un grupo -->
-      <div *ngIf="conceptoVisible" class="form-group">
-        <label for="concepto">Selecciona un Concepto:</label>
+      <div class="form-group">
+        <label for="concepto">Concepto:</label>
         <select id="concepto" [(ngModel)]="selectedConcepto" name="concepto" class="form-control">
+          <option [value]="0" disabled>Elija un concepto</option>
           <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
         </select>
       </div>
@@ -42,12 +44,12 @@
   </div>
 </div>
 
-      
-      
-      
 
-      
-      
+
+
+
+
+
     </div>
   </div>
 </div>
