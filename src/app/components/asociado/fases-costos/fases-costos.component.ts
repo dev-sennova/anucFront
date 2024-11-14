@@ -16,7 +16,9 @@ export class FasesCostosComponent implements OnInit {
   selectedGrupo: number = 0;  // Valor de la selección del grupo
   selectedConcepto: number = 0; // Valor de la selección del concepto
   showForm: boolean = false;
-
+  cantidad: number | null = null;
+  valorUnitario: number | null = null;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private calculoCostosService: CalculodecostosService
@@ -98,8 +100,11 @@ export class FasesCostosComponent implements OnInit {
   onSubmit(): void {
     console.log('Grupo seleccionado:', this.selectedGrupo);
     console.log('Concepto seleccionado:', this.selectedConcepto);
+    console.log('Cantidad:', this.cantidad);
+    console.log('Valor Unitario:', this.valorUnitario);
     this.toggleForm();
-  }
+    }
+    
 
   selectTab(index: number): void {
     this.activeTab = index;

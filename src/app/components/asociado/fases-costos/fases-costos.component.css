@@ -280,3 +280,38 @@ select.form-control {
 .close:focus {
   color: #ff0303;
 }
+
+
+/* Estilo para los campos de cantidad y valor unitario */
+.form-group {
+  margin-bottom: 15px; /* Espaciado entre los grupos de campos */
+}
+
+label {
+  font-weight: bold; /* Etiquetas en negrita */
+  display: block; /* Asegura que las etiquetas estén por encima de los campos */
+  margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+}
+
+.form-control {
+  width: 100%; /* Asegura que los campos ocupen todo el ancho disponible */
+  padding: 10px; /* Espaciado interno para los campos */
+  border: 1px solid #bdbaba; /* Borde suave */
+  border-radius: 5px; /* Bordes redondeados */
+  box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+.form-control:focus {
+  border-color: #5c5c5c; /* Color del borde cuando el campo está enfocado */
+  outline: none; /* Elimina el borde predeterminado del navegador */
+  box-shadow: 0 0 5px rgba(223, 223, 223, 0.5); /* Agrega un pequeño sombreado al enfocarse */
+}
+
+/* Estilo para la validación (campo requerido) */
+input:invalid {
+  border-color: #eeeaea; /* Borde rojo si el campo es inválido */
+}
+
+input:valid {
+  border-color: #ffffff; /* Borde verde si el campo es válido */
+}
