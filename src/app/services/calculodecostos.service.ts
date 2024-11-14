@@ -15,7 +15,7 @@ private categoriaProducto = GlobalConstants.apiURL + '/api/auth/costeo/productos
 private generalidad = GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
 private generalidadStore = GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
 private hojasdecostos = GlobalConstants.apiURL + '/api/auth/costeo/hojas_grupo/';
-
+private fasesSeleccion = GlobalConstants.apiURL + '/api/auth/fases_produccion/selectfases_produccion/';
 
 
 constructor(private http: HttpClient) { }
@@ -169,6 +169,12 @@ getCostosDatos(idGrupo: number): Observable<any> {
   );
 }
 
+
+// Fases
+
+getFasesProduccion(idGrupo: string): Observable<any> {
+  return this.http.get(`${this.fasesSeleccion}/fases_produccion/selectfases_produccion/${idGrupo}`);
+}
 // Manejo de errores
 private handleError(error: HttpErrorResponse) {
   let errorMessage = 'Ocurrió un error inesperado';

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import { UnidadesMedidaService } from 'src/app/services/unidades-medida.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -35,13 +36,13 @@ pregunta_4: string = '';
 pregunta_5: string = '';
 pregunta_6: string = '';
 
-modalVisibleV: boolean = false;
 selectedCosto: any = null;
 
 constructor(
 private route: ActivatedRoute,
 private calculoDeCostosService: CalculodecostosService,
 private unidadesService: UnidadesMedidaService,
+private router: Router
 ) {}
 
 ngOnInit(): void {
@@ -208,11 +209,7 @@ Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
 }
 
 verCosto(costo: any): void {
-this.selectedCosto = costo; 
-this.modalVisibleV = true; 
+this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo]);
 }
 
-closeModal(): void {
-this.modalVisibleV = false;
-}
 }
