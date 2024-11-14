@@ -1,26 +1,54 @@
 <div class="center-wrapper">
-    <div id="container">
-      <h1>Fases de Producción</h1>
-      <div class="tabs">
-        <label
-          *ngFor="let fase of fasesProducion; let i = index"
-          (click)="selectTab(i)"
-          [class.active]="i === activeTab"
-          class="tab-label"
-        >
-          {{ fase.nombre_fase }}
-        </label>
+  <div id="container">
+    <h1>Fases de Producción</h1>
+    <div class="tabs">
+      <label
+        *ngFor="let fase of fasesProducion; let i = index"
+        (click)="selectTab(i)"
+        [class.active]="i === activeTab"
+        class="tab-label">
+        {{ fase.nombre_fase }}
+      </label>
+    </div>
+
+    <div id="content">
+      <div
+        *ngFor="let fase of fasesProducion; let i = index"
+        [class.visible]="i === activeTab"
+        class="fase-content">
+        <h5>{{ fase.nombre_fase }}</h5>
+        <p>{{ fase.descripcion }}</p>
       </div>
-      <div id="content">
-        <div
-          *ngFor="let fase of fasesProducion; let i = index"
-          [class.visible]="i === activeTab"
-          class="fase-content"
-        >
-          <h5>{{ fase.nombre_fase }}</h5>
-          <p>{{ fase.descripcion }}</p>
+
+      <!-- Botón para alternar la visibilidad del formulario -->
+      <button (click)="toggleForm()" class="toggle-form-btn">
+        Mostrar Formulario de Conceptos
+      </button>
+
+      <!-- Modal que contiene el formulario -->
+      <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
+        <div class="modal-container" (click)="$event.stopPropagation()">
+          <span class="close" (click)="toggleForm()">&times;</span>
+          <h2>Selecciona un Grupo de Concepto</h2>
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="concepto">Selecciona un Grupo de Concepto:</label>
+              <select
+                id="concepto"
+                [(ngModel)]="selectedGrupo"
+                name="concepto"
+                class="form-control">
+                <option
+                  *ngFor="let grupo of gruposConceptos"
+                    [value]="grupo.id">
+                    {{ grupo.grupo }}
+                </option>
+            </select>
+            </div>
+            <button type="submit" class="submit-btn">Enviar</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

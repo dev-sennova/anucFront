@@ -10,7 +10,12 @@ import { CalculodecostosService } from 'src/app/services/calculodecostos.service
 export class FasesCostosComponent implements OnInit {
   idGrupo: string | null = null;
   fasesProducion: any[] = [];
-  activeTab: number = 0; // Mantiene el índice de la pestaña activa
+  gruposConceptos: any[] = [];
+  activeTab: number = 0;
+  selectedGrupo: number | null = null;
+
+  // Controla la visibilidad del modal
+  showForm: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,11 +29,12 @@ export class FasesCostosComponent implements OnInit {
         this.cargarFases();
       }
     });
+    this.cargarGruposConceptos();
   }
 
   cargarFases(): void {
     if (!this.idGrupo) return;
-  
+
     this.calculoCostosService.getFasesProduccion(this.idGrupo).subscribe(
       (data: any) => {
         if (data && Array.isArray(data.fases_produccion)) {
@@ -42,6 +48,41 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
+
+  cargarGruposConceptos(): void {
+    this.calculoCostosService.getGruposConceptos().subscribe(
+      (data: any) => {
+        if (data && data.grupos_conceptos) {
+          this.gruposConceptos = data.grupos_conceptos;
+          console.log('Grupos de Conceptos cargados:', this.gruposConceptos); // Verifica la carga de datos
+        } else {
+          console.error('No se encontraron grupos de conceptos');
+        }
+      },
+      (error) => {
+        console.error('Error al cargar los grupos de conceptos', error);
+      }
+    );
+  }
+  
+  // Método para manejar el cambio de selección
+  onSelectGrupo(grupoId: number): void {
+    this.selectedGrupo = grupoId;
+  }
+
+  // Método para alternar la visibilidad del modal
+  toggleForm(): void {
+    this.showForm = !this.showForm;
+  }
+
+  // Método para enviar el formulario
+  onSubmit(): void {
+    console.log('Grupo seleccionado:', this.selectedGrupo);
+    // Aquí puedes realizar lo que necesites con el grupo seleccionado
+    this.toggleForm(); // Cerrar el modal después de enviar el formulario
+  }
+
+  // Método para cambiar la pestaña activa
   selectTab(index: number): void {
     this.activeTab = index;
   }

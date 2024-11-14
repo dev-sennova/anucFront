@@ -30,7 +30,7 @@ export class CalculodecostosService {
     GlobalConstants.apiURL +
     '/api/auth/fases_produccion/selectfases_produccion/';
   private grupoConcepto =
-    GlobalConstants.apiURL + '/api/auth//grupos_conceptos/';
+    GlobalConstants.apiURL + '/api/auth/grupos_conceptos';
 
   constructor(private http: HttpClient) {}
 
@@ -199,7 +199,7 @@ export class CalculodecostosService {
   getGruposConceptos(): Observable<any> {
     return this.http.get<any>(this.grupoConcepto);
   }
-  
+
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error inesperado';
