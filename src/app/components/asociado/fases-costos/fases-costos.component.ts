@@ -13,12 +13,13 @@ export class FasesCostosComponent implements OnInit {
   gruposConceptos: any[] = [];
   conceptos: any[] = [];
   activeTab: number = 0;
-  selectedGrupo: number = 0;  // Valor de la selección del grupo
-  selectedConcepto: number = 0; // Valor de la selección del concepto
+  selectedGrupo: number = 0;
+  selectedConcepto: number = 0;
   showForm: boolean = false;
-  cantidad: number | null = null;
-  valorUnitario: number | null = null;
-  
+  cantidad: number = 0;
+  valorUnitario: number = 0;
+  selectedPhaseId: number | null = null;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private calculoCostosService: CalculodecostosService
@@ -68,13 +69,11 @@ export class FasesCostosComponent implements OnInit {
   }
 
   onSelectGrupo(grupoId: number): void {
-    console.log("Valor select cargado: ",grupoId);
+    console.log("Valor select cargado: ", grupoId);
     this.selectedGrupo = grupoId;
     this.selectedConcepto = 0;
     this.cargarConceptosPorGrupo(grupoId);
   }
-
-
 
   cargarConceptosPorGrupo(grupoId: number): void {
     this.calculoCostosService.getConceptosPorGrupo(grupoId).subscribe(
@@ -97,16 +96,48 @@ export class FasesCostosComponent implements OnInit {
     this.showForm = !this.showForm;
   }
 
-  onSubmit(): void {
-    console.log('Grupo seleccionado:', this.selectedGrupo);
-    console.log('Concepto seleccionado:', this.selectedConcepto);
-    console.log('Cantidad:', this.cantidad);
-    console.log('Valor Unitario:', this.valorUnitario);
-    this.toggleForm();
-    }
+  onSelectConcepto(conceptoId: number): void {
+    this.selectedConcepto = conceptoId;
     
+    const selectedConcepto = this.conceptos.find(c => c.id === conceptoId);
+    if (selectedConcepto) {
+      this.cantidad = selectedConcepto.cantidad;
+      this.valorUnitario = selectedConcepto.valorUnitario;
+    }
+  }
 
   selectTab(index: number): void {
     this.activeTab = index;
+    this.selectedPhaseId = this.fasesProducion[index].id; // Asigna el ID de la fase seleccionada
+    console.log("Fase seleccionada con ID:", this.selectedPhaseId); // Mostrar el ID de la fase seleccionada
   }
+  
+
+  onSubmit(): void {
+    const formData = {
+      idGrupo: this.selectedGrupo,
+      idFase: this.selectedPhaseId,
+      idHojaDeCostos: this.idGrupo,
+      detallesProduccion: { cantidad: this.cantidad, valorUnitario: this.valorUnitario }
+    };
+  
+    console.log('Datos del formulario:', formData);
+    console.log('ID de la Fase:', formData.idFase); // Mostrar el ID de la fase en la consola
+  
+    if (!formData.idFase || !formData.idHojaDeCostos) {
+      console.error('Error: idFase o idHojaDeCostos no están definidos');
+      return;
+    }
+  
+    this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
+      (response: any) => {
+        console.log('Respuesta del servidor:', response);
+      },
+      (error: any) => {
+        console.error('Error al guardar:', error);
+      }
+    );
+  }
+  
 }
+
