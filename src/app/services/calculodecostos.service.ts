@@ -33,7 +33,8 @@ export class CalculodecostosService {
     GlobalConstants.apiURL + '/api/auth/grupos_conceptos';
   private conceptosSeleccion =
    GlobalConstants.apiURL + '/api/auth/conceptos/selectconceptosgrupo/';
-
+  private guardarDetallado = 
+  GlobalConstants.apiURL + '/api/auth/detallado_produccion/store';
 
   constructor(private http: HttpClient) {}
 
@@ -208,6 +209,11 @@ export class CalculodecostosService {
 
   getConceptosPorGrupo(grupoId: number): Observable<any> {
     return this.http.get(`${this.conceptosSeleccion}${grupoId}`);
+  }
+  
+  storeDetalladoProduccion(data: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(this.guardarDetallado, data, { headers });
   }
   
   // Manejo de errores
