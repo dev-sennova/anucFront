@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-fases-costos',
@@ -114,25 +115,61 @@ export class FasesCostosComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Entering on Submit');
+    // Validación de campos
+    if (
+      !this.selectedGrupo ||
+      !this.selectedConcepto ||
+      !this.selectedPhaseId ||
+      !this.cantidad ||
+      this.cantidad <= 0 ||
+      !this.valorUnitario ||
+      this.valorUnitario <= 0
+    ) {
+      // Mostrar alerta con SweetAlert
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos obligatorios',
+        text: 'Todos los campos son obligatorios. La cantidad y el valor unitario deben ser mayores a cero.',
+        confirmButtonText: 'Aceptar',
+      });
+      return;
+    }
+  
+    // Preparar datos para envío
     const formData = {
-        idGrupo: this.selectedGrupo,
-        idConcepto:this.selectedConcepto,
-        idFase: this.selectedPhaseId,
-        idHojaCostos: this.idGrupo,
-        cantidad: this.cantidad,
-        valorUnitario: this.valorUnitario
+      idGrupo: this.selectedGrupo,
+      idConcepto: this.selectedConcepto,
+      idFase: this.selectedPhaseId,
+      idHojaCostos: this.idGrupo,
+      cantidad: this.cantidad,
+      valorUnitario: this.valorUnitario,
     };
-
+  
     console.log('Datos del formulario:', formData);
-    console.log('ID de la Fase:', formData.idFase); // Mostrar el ID de la fase en la consola
-
+  
+    // Enviar datos al servicio
     this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
+  
+        // Mostrar confirmación
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Los datos se han guardado correctamente.',
+          confirmButtonText: 'Aceptar',
+        });
       },
       (error: any) => {
         console.error('Error al guardar:', error);
+  
+        // Mostrar error
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al guardar los datos. Por favor, intenta nuevamente.',
+          confirmButtonText: 'Aceptar',
+        });
       }
     );
   }

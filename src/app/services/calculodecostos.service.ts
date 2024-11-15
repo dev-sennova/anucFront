@@ -35,6 +35,8 @@ export class CalculodecostosService {
    GlobalConstants.apiURL + '/api/auth/conceptos/selectconceptosgrupo/';
   private guardarDetallado = 
   GlobalConstants.apiURL + '/api/auth/detallado_produccion/store';
+  private tabladerallado =
+  GlobalConstants.apiURL + '/api/auth/costeo/hojas_calculo/';
 
   constructor(private http: HttpClient) {}
 
@@ -216,6 +218,12 @@ export class CalculodecostosService {
     return this.http.post<any>(this.guardarDetallado, data, { headers });
   }
   
+
+  // Tabla detallado en la vista de fases
+  obtenerCosteo(id: number): Observable<any> {
+    return this.http.get<any>(`${this.tabladerallado}${id}`);
+  }
+
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error inesperado';
