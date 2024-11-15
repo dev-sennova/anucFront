@@ -220,9 +220,8 @@ export class CalculodecostosService {
   
 
   // Tabla detallado en la vista de fases
-  obtenerCosteo(idHojaCostos: number): Observable<any> {
-    return this.http.get<any>(`${this.tabladerallado}${
-      idHojaCostos}`);
+  obtenerCosteo(id: number): Observable<any> {
+    return this.http.get<any>(`${this.tabladerallado}${id}`);
   }
 
   // Manejo de errores

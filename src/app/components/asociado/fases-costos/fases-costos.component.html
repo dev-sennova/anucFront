@@ -16,33 +16,6 @@
       <!-- Botón para alternar la visibilidad del formulario -->
       <button (click)="toggleForm()" class="toggle-form-btn">Mostrar Formulario de Conceptos</button>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Esperado</th>
-            <th>Unidad</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Cantidad</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let costo of costos">
-            <td>{{ costo.producto }}</td>
-            <td>{{ costo.descripcion }}</td>
-            <td>{{ costo.esperado}}</td>
-            <td>{{ costo.unidad }}</td>
-            <td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
-            <td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
-            <td>{{ costo.cantidad }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-
 <!-- Modal que contiene el formulario -->
 <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
   <div class="modal-container" (click)="$event.stopPropagation()">
