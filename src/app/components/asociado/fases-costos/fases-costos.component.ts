@@ -20,6 +20,7 @@ export class FasesCostosComponent implements OnInit {
   cantidad: number = 0;
   valorUnitario: number = 0;
   selectedPhaseId: number | null = null;
+  costos: any[] = []; // Almacena los costos obtenidos
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -34,6 +35,7 @@ export class FasesCostosComponent implements OnInit {
       }
     });
     this.cargarGruposConceptos();
+    this.cargarCostos();
   }
 
   cargarFases(): void {
@@ -174,5 +176,30 @@ export class FasesCostosComponent implements OnInit {
     );
   }
 
+  cargarCostos(): void {
+    if (this.idGrupo) {
+      const idGrupoNumerico = Number(this.idGrupo); // Conversión a número
+      this.calculoCostosService.obtenerCosteo(idGrupoNumerico).subscribe(
+        (data: any) => {
+          if (data && Array.isArray(data)) {
+            this.costos = data; // Asigna los datos obtenidos
+          } else {
+            this.costos = [];
+            console.warn('No se encontraron datos en el costeo.');
+          }
+        },
+        (error: any) => {
+          console.error('Error al cargar los costos:', error);
+        }
+      );
+    } else {
+      console.error('El idGrupo no está definido.');
+    }
+  }
+  editar(item: any): void {
+    // Lógica para editar el elemento.
+    console.log('Elemento para editar:', item);
+    // Puedes agregar aquí más lógica para manejar la edición, como abrir un modal.
+  }
 }
 
