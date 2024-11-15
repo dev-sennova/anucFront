@@ -42,6 +42,7 @@ export class FasesCostosComponent implements OnInit {
       (data: any) => {
         if (data && Array.isArray(data.fases_produccion)) {
           this.fasesProducion = data.fases_produccion;
+          this.selectedPhaseId=this.fasesProducion[0].id;
         } else {
           console.error('No se encontraron fases de producción');
         }
@@ -98,7 +99,7 @@ export class FasesCostosComponent implements OnInit {
 
   onSelectConcepto(conceptoId: number): void {
     this.selectedConcepto = conceptoId;
-    
+
     const selectedConcepto = this.conceptos.find(c => c.id === conceptoId);
     if (selectedConcepto) {
       this.cantidad = selectedConcepto.cantidad;
@@ -111,24 +112,21 @@ export class FasesCostosComponent implements OnInit {
     this.selectedPhaseId = this.fasesProducion[index].id; // Asigna el ID de la fase seleccionada
     console.log("Fase seleccionada con ID:", this.selectedPhaseId); // Mostrar el ID de la fase seleccionada
   }
-  
 
   onSubmit(): void {
+    console.log('Entering on Submit');
     const formData = {
-      idGrupo: this.selectedGrupo,
-      idFase: this.selectedPhaseId,
-      idHojaDeCostos: this.idGrupo,
-      detallesProduccion: { cantidad: this.cantidad, valorUnitario: this.valorUnitario }
+        idGrupo: this.selectedGrupo,
+        idConcepto:this.selectedConcepto,
+        idFase: this.selectedPhaseId,
+        idHojaCostos: this.idGrupo,
+        cantidad: this.cantidad,
+        valorUnitario: this.valorUnitario
     };
-  
+
     console.log('Datos del formulario:', formData);
     console.log('ID de la Fase:', formData.idFase); // Mostrar el ID de la fase en la consola
-  
-    if (!formData.idFase || !formData.idHojaDeCostos) {
-      console.error('Error: idFase o idHojaDeCostos no están definidos');
-      return;
-    }
-  
+
     this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
@@ -138,6 +136,6 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
-  
+
 }
 
