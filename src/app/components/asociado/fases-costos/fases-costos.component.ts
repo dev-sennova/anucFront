@@ -20,6 +20,8 @@ export class FasesCostosComponent implements OnInit {
   cantidad: number = 0;
   valorUnitario: number = 0;
   selectedPhaseId: number | null = null;
+  idHojaCostos: string | null = null;
+  datosTabla: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,6 +32,7 @@ export class FasesCostosComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       if (params.has('idGrupo')) {
         this.idGrupo = params.get('idGrupo');
+        this.idHojaCostos = params.get('idHojaCostos');
         this.cargarFases();
       }
     });
@@ -43,9 +46,19 @@ export class FasesCostosComponent implements OnInit {
       (data: any) => {
         if (data && Array.isArray(data.fases_produccion)) {
           this.fasesProducion = data.fases_produccion;
-          this.selectedPhaseId=this.fasesProducion[0].id;
+          this.selectedPhaseId = this.fasesProducion[0].id;
         } else {
           console.error('No se encontraron fases de producción');
+        }
+
+        if (this.idHojaCostos) {
+          // Convertir idHojaCostos de string a número
+          const hojaCostosId = Number(this.idHojaCostos);
+          if (!isNaN(hojaCostosId)) {
+            this.obtenerDatosHojaCostos(hojaCostosId); // Llamar con id convertido a número
+          } else {
+            console.error('ID de Hoja de Costos inválido');
+          }
         }
       },
       (error: any) => {
@@ -173,5 +186,19 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
-
+  obtenerDatosHojaCostos(idHojaCostos: number): void {
+    this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
+      (response: any) => {
+        if (response.estado === 'Ok') {
+          this.datosTabla = response.data; // Asigna los datos a la tabla
+          console.log('Datos obtenidos:', this.datosTabla);
+        } else {
+          console.error('Error en la respuesta:', response.message);
+        }
+      },
+      (error) => {
+        console.error('Error en la solicitud:', error);
+      }
+    );
+  }
 }

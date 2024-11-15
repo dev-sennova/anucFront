@@ -209,7 +209,8 @@ Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
 }
 
 verCosto(costo: any): void {
-this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo]);
+const idHojaCostos = costo.idHojaCostos;
+this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo, idHojaCostos]);
 }
 
 }
