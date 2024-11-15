@@ -37,6 +37,7 @@ pregunta_5: string = '';
 pregunta_6: string = '';
 
 selectedCosto: any = null;
+idHojaCostos: any;
 
 constructor(
 private route: ActivatedRoute,
@@ -169,9 +170,9 @@ submitFormulario(): void {
 this.respuestasFormulario.idProducto = this.productoSeleccionado;
 this.respuestasFormulario.idAsociado = localStorage.getItem('identificador_asociado');
 
-if (!Object.keys(this.respuestasFormulario).every(campo => 
-this.respuestasFormulario[campo] !== null && 
-this.respuestasFormulario[campo] !== undefined && 
+if (!Object.keys(this.respuestasFormulario).every(campo =>
+this.respuestasFormulario[campo] !== null &&
+this.respuestasFormulario[campo] !== undefined &&
 this.respuestasFormulario[campo].toString().trim() !== ''
 )) {
 Swal.fire('Advertencia', 'Todos los campos deben estar llenos antes de guardar.', 'warning');
@@ -208,9 +209,9 @@ Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
 );
 }
 
-verCosto(costo: any): void {
-const idHojaCostos = costo.idHojaCostos;
-this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo, idHojaCostos]);
+verCosto(idHoja: any): void {
+this.idHojaCostos = idHoja;
+this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo + '/' + this.idHojaCostos]);
 }
 
 }

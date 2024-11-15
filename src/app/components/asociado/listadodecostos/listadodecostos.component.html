@@ -59,6 +59,7 @@
     <table>
       <thead>
         <tr>
+          <th>Id</th>
           <th>Producto</th>
           <th>Descripción</th>
           <th>Esperado</th>
@@ -71,6 +72,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let costo of costos">
+          <td>{{ costo.idHoja }}</td>
           <td>{{ costo.producto }}</td>
           <td>{{ costo.descripcion }}</td>
           <td>{{ costo.esperado}}</td>
@@ -78,7 +80,7 @@
           <td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
           <td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
           <td>{{ costo.cantidad }}</td>
-          <td><button (click)="verCosto(costo)">Ver</button></td>
+          <td><button (click)="verCosto(costo.idHoja)">Ver</button></td>
         </tr>
       </tbody>
     </table>

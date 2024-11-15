@@ -15,28 +15,31 @@
 
       <!-- Botón para alternar la visibilidad del formulario -->
       <button (click)="toggleForm()" class="toggle-form-btn">Mostrar Formulario de Conceptos</button>
-      <div *ngIf="datosTabla && datosTabla.length > 0; else noDatos">
+      <div *ngIf="seccionesCarga1 && seccionesCarga1.length > 0; else noDatos">
         <table border="1" style="width: 100%; border-collapse: collapse;">
           <thead>
             <tr>
+              <th>Concepto</th>
               <th>Cantidad</th>
               <th>Valor Unitario</th>
-            </tr>
+              <th>Subtotal</th>
           </thead>
           <tbody>
-            <tr *ngFor="let item of datosTabla">
+            <tr *ngFor="let item of seccionesCarga1">
+              <td>{{ item.concepto }}</td>
               <td>{{ item.cantidad }}</td>
               <td>{{ item.valorUnitario | currency }}</td>
+              <td>{{ item.subtotal | currency }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      
+
       <!-- Mensaje si no hay datos -->
       <ng-template #noDatos>
         <p>No hay datos disponibles para mostrar.</p>
       </ng-template>
-      
+
 <!-- Modal que contiene el formulario -->
 <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
   <div class="modal-container" (click)="$event.stopPropagation()">

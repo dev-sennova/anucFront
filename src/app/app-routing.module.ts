@@ -66,9 +66,9 @@ const routes: Routes = [
       { path: 'formas-contacto', component:FormasContactoAsociadoComponent},
       { path: 'novedades-asociado', component:NovedadesAsociadoComponent},
       { path: 'categoria', component:CategoriaComponent},
-      { path: 'fases-costos/:idGrupo', component:FasesCostosComponent},
+      { path: 'fases-costos/:idGrupo/:idHojaCostos', component:FasesCostosComponent},
       { path: 'listadodecostos/:idGrupo/:idSentAsociado', component:ListadodecostosComponent},
-      {path:'producido', component:ProducidoComponent},
+      { path:'producido', component:ProducidoComponent},
 
     ]
   },

@@ -33,7 +33,7 @@ export class CalculodecostosService {
     GlobalConstants.apiURL + '/api/auth/grupos_conceptos';
   private conceptosSeleccion =
    GlobalConstants.apiURL + '/api/auth/conceptos/selectconceptosgrupo/';
-  private guardarDetallado = 
+  private guardarDetallado =
   GlobalConstants.apiURL + '/api/auth/detallado_produccion/store';
   private tabladerallado =
   GlobalConstants.apiURL + '/api/auth/costeo/hojas_calculo/';
@@ -212,18 +212,20 @@ export class CalculodecostosService {
   getConceptosPorGrupo(grupoId: number): Observable<any> {
     return this.http.get(`${this.conceptosSeleccion}${grupoId}`);
   }
-  
+
   storeDetalladoProduccion(data: any): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(this.guardarDetallado, data, { headers });
   }
-  
+
 
   // Tabla detallado en la vista de fases
   obtenerCosteo(idHojaCostos: number): Observable<any> {
-    return this.http.get<any>(`${this.tabladerallado}${idHojaCostos}`);
+    const url=`${this.tabladerallado}${idHojaCostos}`;
+    console.log("Llamado a costeo: ", url);
+    return this.http.get<any>(url);
   }
-  
+
 
   // Manejo de errores
   private handleError(error: HttpErrorResponse) {

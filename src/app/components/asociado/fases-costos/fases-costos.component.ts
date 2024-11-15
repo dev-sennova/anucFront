@@ -22,6 +22,17 @@ export class FasesCostosComponent implements OnInit {
   selectedPhaseId: number | null = null;
   idHojaCostos: string | null = null;
   datosTabla: any[] = [];
+  datosTablas: any[] = [];
+  datosSecciones1: any[] = [];
+  datosSecciones2: any[] = [];
+  datosSecciones3: any[] = [];
+  seccionesCarga1: any[] = [];
+  seccionesCarga2: any[] = [];
+  seccionesCarga3: any[] = [];
+  datosFiltrados: any;
+  seccionesFiltradas1: any;
+  seccionesFiltradas2: any;
+  seccionesFiltradas3: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,8 +43,13 @@ export class FasesCostosComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       if (params.has('idGrupo')) {
         this.idGrupo = params.get('idGrupo');
-        this.idHojaCostos = params.get('idHojaCostos');
         this.cargarFases();
+      }
+
+      if (params.has('idHojaCostos')) {
+        this.idHojaCostos = params.get('idHojaCostos');
+        console.log("Id Hoja de costos:",this.idHojaCostos);
+        this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
       }
     });
     this.cargarGruposConceptos();
@@ -49,16 +65,6 @@ export class FasesCostosComponent implements OnInit {
           this.selectedPhaseId = this.fasesProducion[0].id;
         } else {
           console.error('No se encontraron fases de producción');
-        }
-
-        if (this.idHojaCostos) {
-          // Convertir idHojaCostos de string a número
-          const hojaCostosId = Number(this.idHojaCostos);
-          if (!isNaN(hojaCostosId)) {
-            this.obtenerDatosHojaCostos(hojaCostosId); // Llamar con id convertido a número
-          } else {
-            console.error('ID de Hoja de Costos inválido');
-          }
         }
       },
       (error: any) => {
@@ -123,8 +129,18 @@ export class FasesCostosComponent implements OnInit {
 
   selectTab(index: number): void {
     this.activeTab = index;
-    this.selectedPhaseId = this.fasesProducion[index].id; // Asigna el ID de la fase seleccionada
-    console.log("Fase seleccionada con ID:", this.selectedPhaseId); // Mostrar el ID de la fase seleccionada
+    this.selectedPhaseId = this.fasesProducion[index]?.id || null;
+    console.log("Fase seleccionada con ID:", this.selectedPhaseId);
+
+    // Llama a vectorTabla solo si hay un ID de fase seleccionado
+    if (this.selectedPhaseId !== null) {
+      this.vectorTabla(this.selectedPhaseId, this.datosTablas);
+    } else {
+      this.datosTabla = [];
+      this.datosSecciones1 = [];
+      this.datosSecciones2 = [];
+      this.datosSecciones3 = [];
+    }
   }
 
   onSubmit(): void {
@@ -147,24 +163,24 @@ export class FasesCostosComponent implements OnInit {
       });
       return;
     }
-  
+
     // Preparar datos para envío
     const formData = {
       idGrupo: this.selectedGrupo,
       idConcepto: this.selectedConcepto,
       idFase: this.selectedPhaseId,
-      idHojaCostos: this.idGrupo,
+      idHojaCostos: this.idHojaCostos,
       cantidad: this.cantidad,
       valorUnitario: this.valorUnitario,
     };
-  
+
     console.log('Datos del formulario:', formData);
-  
+
     // Enviar datos al servicio
     this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
-  
+
         // Mostrar confirmación
         Swal.fire({
           icon: 'success',
@@ -175,7 +191,7 @@ export class FasesCostosComponent implements OnInit {
       },
       (error: any) => {
         console.error('Error al guardar:', error);
-  
+
         // Mostrar error
         Swal.fire({
           icon: 'error',
@@ -186,12 +202,15 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
+
   obtenerDatosHojaCostos(idHojaCostos: number): void {
     this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
       (response: any) => {
         if (response.estado === 'Ok') {
-          this.datosTabla = response.data; // Asigna los datos a la tabla
-          console.log('Datos obtenidos:', this.datosTabla);
+          this.datosTablas = response.detallado_hoja; // Asigna los datos a la tabla
+          console.log('Fase actual:', this.selectedPhaseId);
+          console.log('Datos obtenidos:', this.datosTablas);
+          this.vectorTabla(this.selectedPhaseId, this.datosTablas);
         } else {
           console.error('Error en la respuesta:', response.message);
         }
@@ -201,4 +220,74 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
+
+  vectorTabla(fase: any, objeto: any) {
+    // Inicializa la tabla en blanco para evitar que se muestren datos anteriores
+    this.datosTabla = [];
+    this.datosSecciones1 = [];
+    this.datosSecciones2 = [];
+    this.datosSecciones3 = [];
+    this.seccionesCarga1 = [];
+    this.seccionesCarga2 = [];
+    this.seccionesCarga3 = [];
+
+    // Filtrar el objeto para obtener solo los datos que coincidan con el idFase
+    this.datosFiltrados = objeto.filter((item: any) => item.idFase === fase);
+
+    if (this.datosFiltrados.length > 0) {
+      this.datosTabla = this.datosFiltrados[0]; // Asigna el primer elemento encontrado
+      console.log('Datos filtrados:', this.datosTabla);
+      this.vectorSecciones(this.datosTabla);
+    } else {
+      // Si no se encuentran datos para la fase, asegurarse de limpiar las secciones también
+      console.warn('No se encontraron datos para la fase:', fase);
+      this.datosTabla = [];
+      this.datosSecciones1 = [];
+      this.datosSecciones2 = [];
+      this.datosSecciones3 = [];
+      this.seccionesCarga1 = [];
+      this.seccionesCarga2 = [];
+      this.seccionesCarga3 = [];
+    }
+  }
+
+  vectorSecciones(datosFiltrados: any) {
+    this.datosSecciones1 = [];
+    this.datosSecciones2 = [];
+    this.datosSecciones3 = [];
+
+    // Asegurarse de que `gruposConceptos` existe antes de filtrar
+    if (!datosFiltrados.gruposConceptos) {
+      console.warn('No hay gruposConceptos para la fase seleccionada.');
+      this.datosSecciones1 = [];
+      this.datosSecciones2 = [];
+      this.datosSecciones3 = [];
+      return;
+    }
+
+    // Filtrar el array `gruposConceptos` para obtener las diferentes secciones
+    this.seccionesFiltradas1 = datosFiltrados.gruposConceptos.filter((item: any) => item.idGrupoConcepto === 1);
+    this.seccionesFiltradas2 = datosFiltrados.gruposConceptos.filter((item: any) => item.idGrupoConcepto === 2);
+    this.seccionesFiltradas3 = datosFiltrados.gruposConceptos.filter((item: any) => item.idGrupoConcepto === 3);
+
+    // Asignar los datos filtrados a los arrays correspondientes
+    this.datosSecciones1 = this.seccionesFiltradas1.length > 0 ? this.seccionesFiltradas1[0] : [];
+    this.datosSecciones2 = this.seccionesFiltradas2.length > 0 ? this.seccionesFiltradas2[0] : [];
+    this.datosSecciones3 = this.seccionesFiltradas3.length > 0 ? this.seccionesFiltradas3[0] : [];
+
+    this.seccionesCarga1 = this.seccionesFiltradas1.length > 0 ? this.seccionesFiltradas1[0].agrupado_hoja : [];
+    this.seccionesCarga2 = this.seccionesFiltradas2.length > 0 ? this.seccionesFiltradas2[0].agrupado_hoja : [];
+    this.seccionesCarga3 = this.seccionesFiltradas3.length > 0 ? this.seccionesFiltradas3[0].agrupado_hoja : [];
+
+    // Mostrar en consola para verificar
+    console.log('Secciones filtradas 1:', this.datosSecciones1);
+    console.log('Secciones filtradas 2:', this.datosSecciones2);
+    console.log('Secciones filtradas 3:', this.datosSecciones3);
+
+    // Mostrar en consola para verificar
+    console.log('Secciones carga 1:', this.seccionesCarga1);
+    console.log('Secciones carga 2:', this.seccionesCarga2);
+    console.log('Secciones carga 3:', this.seccionesCarga3);
+  }
+
 }
