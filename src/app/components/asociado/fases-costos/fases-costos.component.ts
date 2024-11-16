@@ -289,5 +289,7 @@ export class FasesCostosComponent implements OnInit {
     console.log('Secciones carga 2:', this.seccionesCarga2);
     console.log('Secciones carga 3:', this.seccionesCarga3);
   }
-
+  getTotalAcumulado(seccion: any[]): number {
+    return seccion.reduce((total, item) => total + item.subtotal, 0);
+    }
 }
