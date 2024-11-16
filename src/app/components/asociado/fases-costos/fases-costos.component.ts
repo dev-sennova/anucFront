@@ -292,4 +292,18 @@ export class FasesCostosComponent implements OnInit {
   getTotalAcumulado(seccion: any[]): number {
     return seccion.reduce((total, item) => total + item.subtotal, 0);
     }
+
+
+  getNombreSeccion(index: number): string {
+      // Verifica si existen los datos de gruposConceptos para el índice
+      const grupo = this.gruposConceptos[index];
+      
+      if (grupo) {
+        return grupo.grupo || `Sección ${index + 1}`; // Retorna el nombre del grupo, o "Sección X" como predeterminado
+      } else {
+        return `Sección ${index + 1}`;  // Predeterminado si no existe el grupo
+      }
+    }
+    
+    
 }

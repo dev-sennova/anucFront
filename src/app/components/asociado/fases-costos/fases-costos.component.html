@@ -18,7 +18,7 @@
       <div *ngFor="let seccion of [seccionesCarga1, seccionesCarga2, seccionesCarga3]; let i = index">
         <!-- Verificamos si la sección tiene datos -->
         <div *ngIf="seccion && seccion.length > 0">
-          <h3>{{ 'Grupo ' + (i + 1) }}</h3> <!-- Título para cada grupo -->
+          <h3>{{ getNombreSeccion(i) }}</h3>  <!-- Título para cada grupo -->
           <table border="1" style="width: 100%; border-collapse: collapse;">
             <thead>
               <tr>
