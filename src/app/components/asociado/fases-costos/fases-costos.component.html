@@ -36,9 +36,16 @@
                 <td>{{ item.valorUnitario | currency }}</td>
                 <td>{{ item.subtotal | currency }}</td>
               </tr>
+              <!-- Fila para mostrar el acumulado -->
+              <tr>
+                <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>
+                <td>{{ getTotalAcumulado(seccion) | currency }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
+      </div>
+      
       
 
 <!-- Modal que contiene el formulario -->
