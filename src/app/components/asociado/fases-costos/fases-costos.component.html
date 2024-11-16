@@ -3,7 +3,11 @@
     <h1>Fases de Producción</h1>
     <div class="tabs">
       <label
-        *ngFor="let fase of fasesProducion; let i = index" (click)="selectTab(i)" [class.active]="i === activeTab" class="tab-label"> {{ fase.nombre_fase }}
+        *ngFor="let fase of fasesProducion; let i = index" 
+        (click)="selectTab(i)" 
+        [class.active]="i === activeTab" 
+        class="tab-label"> 
+        {{ fase.nombre_fase }}
       </label>
     </div>
 
@@ -11,82 +15,84 @@
       <div *ngFor="let fase of fasesProducion; let i = index" [class.visible]="i === activeTab" class="fase-content">
         <h5>{{ fase.nombre_fase }}</h5>
         <p>{{ fase.descripcion }}</p>
-      </div>
 
-      <!-- Botón para alternar la visibilidad del formulario -->
-      <button (click)="toggleForm()" class="toggle-form-btn">Mostrar Formulario de Conceptos</button>
-      <div *ngFor="let seccion of [seccionesCarga1, seccionesCarga2, seccionesCarga3]; let i = index">
-        <!-- Verificamos si la sección tiene datos -->
-        <div *ngIf="seccion && seccion.length > 0">
-          <h3>{{ getNombreSeccion(i) }}</h3>  <!-- Título para cada grupo -->
-          <table border="1" style="width: 100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th>Concepto</th>
-                <th>Cantidad</th>
-                <th>Valor Unitario</th>
-                <th>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Mostrar los elementos dentro de la sección actual -->
-              <tr *ngFor="let item of seccion">
-                <td>{{ item.concepto }}</td>
-                <td>{{ item.cantidad }}</td>
-                <td>{{ item.valorUnitario | currency }}</td>
-                <td>{{ item.subtotal | currency }}</td>
-              </tr>
-              <!-- Fila para mostrar el acumulado -->
-              <tr>
-                <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>
-                <td>{{ getTotalAcumulado(seccion) | currency }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Move the *ngIf check inside the *ngFor loop -->
+        <div *ngIf="i < fasesProducion.length - 1">
+          <!-- Botón para alternar la visibilidad del formulario -->
+          <button (click)="toggleForm()" class="toggle-form-btn">Mostrar Formulario de Conceptos</button>
+
+          <div *ngFor="let seccion of [seccionesCarga1, seccionesCarga2, seccionesCarga3]; let i = index">
+            <!-- Verificamos si la sección tiene datos -->
+            <div *ngIf="seccion && seccion.length > 0">
+              <h3>{{ getNombreSeccion(i) }}</h3>  <!-- Título para cada grupo -->
+              <table border="1" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr>
+                    <th>Concepto</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Mostrar los elementos dentro de la sección actual -->
+                  <tr *ngFor="let item of seccion">
+                    <td>{{ item.concepto }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.valorUnitario | currency }}</td>
+                    <td>{{ item.subtotal | currency }}</td>
+                  </tr>
+                  <!-- Fila para mostrar el acumulado -->
+                  <tr>
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>
+                    <td>{{ getTotalAcumulado(seccion) | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal que contiene el formulario -->
+        <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
+          <div class="modal-container" (click)="$event.stopPropagation()">
+            <span class="close" (click)="toggleForm()">&times;</span>
+            <h2>Añadir Conceptos</h2>
+            <form (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="concepto">Sección:</label>
+                <select id="concepto" [(ngModel)]="selectedGrupo" name="concepto" class="form-control" (change)="onSelectGrupo(selectedGrupo)">
+                  <option [value]="0" disabled>Elija un grupo para cargar sus conceptos asociados</option>
+                  <option *ngFor="let grupo of gruposConceptos" [value]="grupo.id">{{ grupo.grupo }}</option>
+                </select>
+              </div>
+
+              <!-- Mostrar el select de concepto solo si se ha seleccionado un grupo -->
+              <div class="form-group">
+                <label for="concepto">Concepto:</label>
+                <select id="concepto" [(ngModel)]="selectedConcepto" name="concepto" class="form-control">
+                  <option [value]="0" disabled>Elija un concepto</option>
+                  <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
+                </select>
+              </div>
+
+              <!-- Campo para ingresar la cantidad -->
+              <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" [(ngModel)]="cantidad" name="cantidad" class="form-control" required>
+              </div>
+
+              <!-- Campo para ingresar el valor unitario -->
+              <div class="form-group">
+                <label for="valorUnitario">Valor Unitario:</label>
+                <input type="number" id="valorUnitario" [(ngModel)]="valorUnitario" name="valorUnitario" class="form-control" required>
+              </div>
+
+              <button type="submit" class="submit-btn">Enviar</button>
+            </form>
+          </div>
         </div>
       </div>
-      
-      
-
-<!-- Modal que contiene el formulario -->
-<div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
-  <div class="modal-container" (click)="$event.stopPropagation()">
-    <span class="close" (click)="toggleForm()">&times;</span>
-    <h2>Añadir Conceptos</h2>
-    <form (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="concepto">Sección:</label>
-        <select id="concepto" [(ngModel)]="selectedGrupo" name="concepto" class="form-control" (change)="onSelectGrupo(selectedGrupo)">
-          <option [value]="0" disabled>Elija un grupo para cargar sus conceptos asociados</option>
-          <option *ngFor="let grupo of gruposConceptos" [value]="grupo.id">{{ grupo.grupo }}</option>
-        </select>
-      </div>
-
-      <!-- Mostrar el select de concepto solo si se ha seleccionado un grupo -->
-      <div class="form-group">
-        <label for="concepto">Concepto:</label>
-        <select id="concepto" [(ngModel)]="selectedConcepto" name="concepto" class="form-control">
-          <option [value]="0" disabled>Elija un concepto</option>
-          <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
-        </select>
-      </div>
-
-      <!-- Campo para ingresar la cantidad -->
-      <div class="form-group">
-        <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" [(ngModel)]="cantidad" name="cantidad" class="form-control" required>
-      </div>
-
-      <!-- Campo para ingresar el valor unitario -->
-      <div class="form-group">
-        <label for="valorUnitario">Valor Unitario:</label>
-        <input type="number" id="valorUnitario" [(ngModel)]="valorUnitario" name="valorUnitario" class="form-control" required>
-      </div>
-
-      <button type="submit" class="submit-btn">Enviar</button>
-    </form>
+    </div>
   </div>
-</div>
-</div>
-</div>
 </div>
