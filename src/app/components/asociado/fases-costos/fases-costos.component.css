@@ -315,3 +315,95 @@ input:invalid {
 input:valid {
   border-color: #ffffff; /* Borde verde si el campo es válido */
 }
+
+/* Estilo general de la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para la tabla */
+  transition: all 0.3s ease; /* Suaviza las transiciones */
+}
+
+/* Estilos de las celdas */
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+  color: #333; /* Color de texto más oscuro para mejor contraste */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Suaviza el cambio de color */
+}
+
+/* Estilo de los encabezados de la tabla */
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-transform: uppercase; /* Hace que el texto del encabezado sea más legible */
+}
+
+/* Efecto hover para las filas de la tabla */
+tr:hover {
+  background-color: #f1f1f1; /* Color claro de fondo al pasar el mouse */
+  transform: scale(1.02); /* Ligero aumento del tamaño al pasar el ratón */
+}
+
+/* Resaltar la fila seleccionada */
+tr.selected {
+  background-color: #d0e9f7; /* Color suave de fondo para la fila seleccionada */
+  font-weight: bold; /* Resaltar el texto de la fila seleccionada */
+}
+
+/* Bordes de las celdas */
+td, th {
+  border: 1px solid #ddd;
+}
+
+/* Efecto de sombra en celdas al pasar el mouse */
+td:hover {
+  background-color: #f9f9f9; /* Color de fondo al pasar el ratón */
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1); /* Sombra suave dentro de la celda */
+}
+
+/* Estilo de la tabla cuando no hay datos */
+table.empty {
+  background-color: #f9f9f9; /* Color de fondo suave si la tabla está vacía */
+}
+
+/* Opcional: Estilo para los bordes de la tabla */
+table, th, td {
+  border-collapse: collapse;
+}
+
+h3 {
+  font-size: 24px; /* Tamaño del texto */
+  font-weight: bold; /* Texto en negrita */
+  color: #333; /* Color principal */
+  text-align: center; /* Centra el texto */
+  position: relative; /* Necesario para el subrayado animado */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  margin: 20px 0; /* Espaciado superior e inferior */
+  transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+/* Efecto hover para cambiar el color */
+h3:hover {
+  color: #007BFF; /* Cambia el color al pasar el mouse */
+}
+
+/* Subrayado animado */
+h3::after {
+  content: ''; /* Pseudo-elemento vacío */
+  display: block;
+  width: 0;
+  height: 3px;
+  background: #007BFF; /* Color del subrayado */
+  margin: 0 auto; /* Centra el subrayado */
+  transition: width 0.4s ease; /* Anima el ancho del subrayado */
+}
+
+/* Cuando se pasa el mouse, el subrayado se expande */
+h3:hover::after {
+  width: 50%; /* Ancho del subrayado al hacer hover */
+}
