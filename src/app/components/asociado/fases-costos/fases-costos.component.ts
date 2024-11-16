@@ -294,9 +294,12 @@ export class FasesCostosComponent implements OnInit {
     }
 
 
-  getNombreSeccion(index: number): string {
+    getNombreSeccion(index: number): string {
+      // Asegúrate de ordenar los grupos de conceptos por 'id' (o cualquier otro criterio) cada vez que se llame
+      const gruposOrdenados = this.gruposConceptos.sort((a: any, b: any) => a.id - b.id);  // Ordena por id, ajusta si necesitas otro campo
+    
       // Verifica si existen los datos de gruposConceptos para el índice
-      const grupo = this.gruposConceptos[index];
+      const grupo = gruposOrdenados[index];
       
       if (grupo) {
         return grupo.grupo || `Sección ${index + 1}`; // Retorna el nombre del grupo, o "Sección X" como predeterminado
