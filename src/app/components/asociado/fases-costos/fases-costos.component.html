@@ -15,30 +15,37 @@
 
       <!-- Botón para alternar la visibilidad del formulario -->
       <button (click)="toggleForm()" class="toggle-form-btn">Mostrar Formulario de Conceptos</button>
-      <div *ngIf="seccionesCarga1 && seccionesCarga1.length > 0; else noDatos">
-        <table border="1" style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th>Cantidad</th>
-              <th>Valor Unitario</th>
-              <th>Subtotal</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of seccionesCarga1">
-              <td>{{ item.concepto }}</td>
-              <td>{{ item.cantidad }}</td>
-              <td>{{ item.valorUnitario | currency }}</td>
-              <td>{{ item.subtotal | currency }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div *ngFor="let seccion of [seccionesCarga1, seccionesCarga2, seccionesCarga3]; let i = index">
+        <!-- Verificamos si la sección tiene datos -->
+        <div *ngIf="seccion && seccion.length > 0; else noDatos">
+          <h3>{{ 'Grupo ' + (i + 1) }}</h3> <!-- Título para cada grupo -->
+          <table border="1" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Mostrar los elementos dentro de la sección actual -->
+              <tr *ngFor="let item of seccion">
+                <td>{{ item.concepto }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.valorUnitario | currency }}</td>
+                <td>{{ item.subtotal | currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+        <!-- Mensaje si no hay datos -->
+        <ng-template #noDatos>
+          <p>No hay datos disponibles para mostrar en este grupo.</p>
+        </ng-template>
       </div>
-
-      <!-- Mensaje si no hay datos -->
-      <ng-template #noDatos>
-        <p>No hay datos disponibles para mostrar.</p>
-      </ng-template>
+      
 
 <!-- Modal que contiene el formulario -->
 <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
