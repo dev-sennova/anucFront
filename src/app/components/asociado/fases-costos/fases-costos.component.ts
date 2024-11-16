@@ -63,6 +63,21 @@ export class FasesCostosComponent implements OnInit {
         if (data && Array.isArray(data.fases_produccion)) {
           this.fasesProducion = data.fases_produccion;
           this.selectedPhaseId = this.fasesProducion[0].id;
+
+          const nuevaColumna = {
+            id: this.fasesProducion.length + 1, // Generar un ID único
+            nombre_fase: 'Total Costos', // Nombre de la nueva columna
+            valor: 6, // Valor inicial, ajusta según tu lógica
+            descripcion: 'Se presenta la información del total obtenido de todas las fases ' // Campos adicionales si aplica
+          };
+      
+          // Agrega la nueva columna al final del arreglo
+          this.fasesProducion.push(nuevaColumna);
+      
+          // Verifica en consola
+          console.log('Nueva columna agregada:', nuevaColumna);
+          console.log('Tabla actualizada:', this.fasesProducion);
+
         } else {
           console.error('No se encontraron fases de producción');
         }
@@ -307,6 +322,5 @@ export class FasesCostosComponent implements OnInit {
         return `Sección ${index + 1}`;  // Predeterminado si no existe el grupo
       }
     }
-    
     
 }
