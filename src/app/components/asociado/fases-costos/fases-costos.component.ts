@@ -34,6 +34,8 @@ export class FasesCostosComponent implements OnInit {
   seccionesFiltradas2: any;
   seccionesFiltradas3: any;
 
+  TotalCostos: any[] = [];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private calculoCostosService: CalculodecostosService
@@ -303,7 +305,21 @@ export class FasesCostosComponent implements OnInit {
     console.log('Secciones carga 1:', this.seccionesCarga1);
     console.log('Secciones carga 2:', this.seccionesCarga2);
     console.log('Secciones carga 3:', this.seccionesCarga3);
+    this.TotalCostos.push({
+      faseId: datosFiltrados.idFase,  // ID de la fase
+      seccion1: this.datosSecciones1,
+      seccion2: this.datosSecciones2,
+      seccion3: this.datosSecciones3,
+      subtotal1: this.getTotalAcumulado(this.seccionesCarga1),
+      subtotal2: this.getTotalAcumulado(this.seccionesCarga2),
+      subtotal3: this.getTotalAcumulado(this.seccionesCarga3),
+    });
+  
+    // Mostrar el contenido acumulado en TotalCostos
+    console.log('Total de costos acumulado hasta el momento:', this.TotalCostos);
   }
+  
+  
   getTotalAcumulado(seccion: any[]): number {
     return seccion.reduce((total, item) => total + item.subtotal, 0);
     }
