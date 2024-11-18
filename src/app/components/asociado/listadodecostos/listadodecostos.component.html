@@ -1,4 +1,5 @@
 <!-- Botón para crear formulario, solo se muestra si no hay registros -->
+<h1 class="form-title">Listado De Costos</h1>
 <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
 
 <!-- Modal para el formulario de producción -->
@@ -59,17 +60,18 @@
 </button>
 <!-- Formulario de filtro -->
 <div *ngIf="showFiltro">
-<label>
-Producto:
+<label> Producto:
 <select [(ngModel)]="filtroProducto">
 <option value="">Todos</option>
 <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
 </select>
 </label>
+
 <label>
 Fecha Inicio:
 <input type="date" [(ngModel)]="filtroFechaInicio">
 </label>
+
 <label>
 Fecha Fin:
 <input type="date" [(ngModel)]="filtroFechaFin">
@@ -80,7 +82,6 @@ Fecha Fin:
 <table>
 <thead>
 <tr>
-<th>Id</th>
 <th>Producto</th>
 <th>Descripción</th>
 <th>Esperado</th>
@@ -93,7 +94,6 @@ Fecha Fin:
 </thead>
 <tbody>
 <tr *ngFor="let costo of costos">
-<td>{{ costo.idHoja }}</td>
 <td>{{ costo.producto }}</td>
 <td>{{ costo.descripcion }}</td>
 <td>{{ costo.esperado }}</td>

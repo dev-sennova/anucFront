@@ -5,6 +5,17 @@
     padding: 0;
     background-color: #f4f4f4;
 }
+.form-title {
+  font-size: 28px; /* Tamaño de fuente grande */
+  font-weight: bold; /* Negrita para mayor énfasis */
+  color: #333; /* Color oscuro para el texto, fácil de leer */
+  text-align: center; /* Centra el título horizontalmente */
+  margin-top: 20px; /* Espacio en la parte superior */
+  margin-bottom: 20px; /* Espacio en la parte inferior */
+  font-family: Arial, sans-serif; /* Fuente moderna y legible */
+}
+
+
   .modal {
   display: flex;
   justify-content: center;
