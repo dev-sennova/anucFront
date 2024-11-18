@@ -1,8 +1,6 @@
 <!-- Botón para crear formulario, solo se muestra si no hay registros -->
 <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
-<ng-template #noCostos>
-  <p>No se encontraron datos de costos para este grupo.</p>
-  </ng-template>
+
 <!-- Modal para el formulario de producción -->
 <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
 <div class="modal-content" (click)="$event.stopPropagation()">
@@ -53,38 +51,63 @@
 </div>
 </div>
 
-
 <div class="container">
-  <div *ngIf="costos.length > 0; else noCostos">
-    <table>
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Producto</th>
-          <th>Descripción</th>
-          <th>Esperado</th>
-          <th>Unidad</th>
-          <th>Fecha Inicio</th>
-          <th>Fecha Fin</th>
-          <th>Cantidad</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let costo of costos">
-          <td>{{ costo.idHoja }}</td>
-          <td>{{ costo.producto }}</td>
-          <td>{{ costo.descripcion }}</td>
-          <td>{{ costo.esperado}}</td>
-          <td>{{ costo.unidad }}</td>
-          <td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
-          <td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
-          <td>{{ costo.cantidad }}</td>
-          <td><button (click)="verCosto(costo.idHoja)">Ver</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div *ngIf="costos.length > 0; else noCostos">
+<!-- Botón para abrir el formulario de filtro -->
+<button class="filter-btn" (click)="toggleFiltro()">
+  <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
+</button>
+<!-- Formulario de filtro -->
+<div *ngIf="showFiltro">
+<label>
+Producto:
+<select [(ngModel)]="filtroProducto">
+<option value="">Todos</option>
+<option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+</select>
+</label>
+<label>
+Fecha Inicio:
+<input type="date" [(ngModel)]="filtroFechaInicio">
+</label>
+<label>
+Fecha Fin:
+<input type="date" [(ngModel)]="filtroFechaFin">
+</label>
+<button (click)="filtrarCostos()">Aplicar Filtro</button>
 </div>
 
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Producto</th>
+<th>Descripción</th>
+<th>Esperado</th>
+<th>Unidad</th>
+<th>Fecha Inicio</th>
+<th>Fecha Fin</th>
+<th>Cantidad</th>
+<th>Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr *ngFor="let costo of costos">
+<td>{{ costo.idHoja }}</td>
+<td>{{ costo.producto }}</td>
+<td>{{ costo.descripcion }}</td>
+<td>{{ costo.esperado }}</td>
+<td>{{ costo.unidad }}</td>
+<td>{{ costo.fechaInicio | date:'dd/MM/yyyy' }}</td>
+<td>{{ costo.fechaFin | date:'dd/MM/yyyy' }}</td>
+<td>{{ costo.cantidad }}</td>
+<td><button (click)="verCosto(costo.idHoja)">Ver</button></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
+<ng-template #noCostos>
+<p>No se encontraron datos de costos para este grupo.</p>
+</ng-template>

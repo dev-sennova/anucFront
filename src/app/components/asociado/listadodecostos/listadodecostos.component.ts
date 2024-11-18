@@ -39,6 +39,11 @@ pregunta_6: string = '';
 selectedCosto: any = null;
 idHojaCostos: any;
 
+showFiltro: boolean = false;
+filtroProducto: string | null = null;
+filtroFechaInicio: string | null = null;
+filtroFechaFin: string | null = null;
+
 constructor(
 private route: ActivatedRoute,
 private calculoDeCostosService: CalculodecostosService,
@@ -214,4 +219,28 @@ this.idHojaCostos = idHoja;
 this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo + '/' + this.idHojaCostos]);
 }
 
+toggleFiltro(): void {
+this.showFiltro = !this.showFiltro;
 }
+filtrarCostos(): void {
+let costosFiltrados = [...this.costos];
+// Filtrar por producto si se seleccionó
+if (this.filtroProducto) {
+costosFiltrados = costosFiltrados.filter(costo => costo.idProducto === this.filtroProducto);
+}
+// Filtrar por rango de fechas si se proporcionaron
+if (this.filtroFechaInicio) {
+const fechaInicio = new Date(this.filtroFechaInicio);
+costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaInicio) >= fechaInicio);
+}
+if (this.filtroFechaFin) {
+const fechaFin = new Date(this.filtroFechaFin);
+costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaFin) <= fechaFin);
+}
+console.log('Costos Filtrados:', costosFiltrados);
+this.costos = costosFiltrados;
+this.showFiltro = false; // Cierra el formulario después de filtrar
+}
+
+}
+
