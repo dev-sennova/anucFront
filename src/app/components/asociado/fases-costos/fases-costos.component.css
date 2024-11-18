@@ -408,7 +408,16 @@ h3:hover::after {
   width: 50%; /* Ancho del subrayado al hacer hover */
 }
 
+.Asociado {
+  font-size: 22px;        /* Tamaño de la letra 12px */
+  font-weight: bold;      /* Negrita */
+  text-align: center;     /* Centrado */
+}
+
+
 .logo {
-  max-width: 50px;
-  max-height: 50px;
+  display: block;         /* Hace que el logo se comporte como un bloque */
+  margin: 0 auto;         /* Centra el logo horizontalmente */
+  width: 90px;           /* Ajusta el tamaño del logo, puedes cambiar 200px por el valor que necesites */
+  height: auto;           /* Mantiene la proporción del logo */
 }
