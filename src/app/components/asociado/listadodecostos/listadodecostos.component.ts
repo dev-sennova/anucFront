@@ -222,25 +222,32 @@ this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo + '/' + this.idHoj
 toggleFiltro(): void {
 this.showFiltro = !this.showFiltro;
 }
+
+
 filtrarCostos(): void {
-let costosFiltrados = [...this.costos];
-// Filtrar por producto si se seleccionó
-if (this.filtroProducto) {
-costosFiltrados = costosFiltrados.filter(costo => costo.idProducto === this.productos);
-}
-// Filtrar por rango de fechas si se proporcionaron
-if (this.filtroFechaInicio) {
-const fechaInicio = new Date(this.filtroFechaInicio);
-costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaInicio) >= fechaInicio);
-}
-if (this.filtroFechaFin) {
-const fechaFin = new Date(this.filtroFechaFin);
-costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaFin) <= fechaFin);
-}
-console.log('Costos Filtrados:', costosFiltrados);
-this.costos = costosFiltrados;
-this.showFiltro = false; // Cierra el formulario después de filtrar
-}
+    let costosFiltrados = [...this.costos];
+  
+    // Filtrar por producto si se seleccionó
+    if (this.filtroProducto) {
+      costosFiltrados = costosFiltrados.filter(costo => costo.producto === this.filtroProducto);
+      console.log("Producto filtrado: ", this.filtroProducto);
+      console.log("Costos después del filtro de producto: ", costosFiltrados);
+    }
+  
+    // Filtrar por rango de fechas si se proporcionaron
+    if (this.filtroFechaInicio) {
+      const fechaInicio = new Date(this.filtroFechaInicio);
+      costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaInicio) >= fechaInicio);
+    }
+    if (this.filtroFechaFin) {
+      const fechaFin = new Date(this.filtroFechaFin);
+      costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaFin) <= fechaFin);
+    }
+  
+    console.log('Costos Filtrados:', costosFiltrados);
+    this.costos = costosFiltrados;
+  }
+  
 
 }
 
