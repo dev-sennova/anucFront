@@ -21,6 +21,7 @@ export class FasesCostosComponent implements OnInit {
   valorUnitario: number = 0;
   selectedPhaseId: number | null = null;
   idHojaCostos: string | null = null;
+  datosHoja: any[] = [];
   datosTabla: any[] = [];
   datosTablas: any[] = [];
   datosSecciones1: any[] = [];
@@ -65,21 +66,6 @@ export class FasesCostosComponent implements OnInit {
         if (data && Array.isArray(data.fases_produccion)) {
           this.fasesProducion = data.fases_produccion;
           this.selectedPhaseId = this.fasesProducion[0].id;
-
-          const nuevaColumna = {
-            id: this.fasesProducion.length + 1, // Generar un ID único
-            nombre_fase: 'Total Costos', // Nombre de la nueva columna
-            valor: 6, // Valor inicial, ajusta según tu lógica
-            descripcion: 'Se presenta la información del total obtenido de todas las fases ' // Campos adicionales si aplica
-          };
-      
-          // Agrega la nueva columna al final del arreglo
-          this.fasesProducion.push(nuevaColumna);
-      
-          // Verifica en consola
-          console.log('Nueva columna agregada:', nuevaColumna);
-          console.log('Tabla actualizada:', this.fasesProducion);
-
         } else {
           console.error('No se encontraron fases de producción');
         }
@@ -224,6 +210,21 @@ export class FasesCostosComponent implements OnInit {
     this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
       (response: any) => {
         if (response.estado === 'Ok') {
+          console.log('Detallado inicial Hoja:', JSON.stringify(response));
+
+          const fechaInicio = response.fechaInicio;
+          const fechaFin = response.fechaFin;
+          const descripcion = response.descripcion;
+          const unidad = response.unidad;
+          const cantidad = response.cantidad;
+          const esperado = response.esperado;
+          const producto = response.producto;
+          const totalcosto = response.totalcosto;
+          const costounidad = response.costounidad;
+
+          this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad });
+          console.log('Vector Hoja fase 0:', JSON.stringify(this.datosHoja));
+
           this.datosTablas = response.detallado_hoja; // Asigna los datos a la tabla
           console.log('Fase actual:', this.selectedPhaseId);
           console.log('Datos obtenidos:', this.datosTablas);
@@ -314,12 +315,12 @@ export class FasesCostosComponent implements OnInit {
       subtotal2: this.getTotalAcumulado(this.seccionesCarga2),
       subtotal3: this.getTotalAcumulado(this.seccionesCarga3),
     });
-  
+
     // Mostrar el contenido acumulado en TotalCostos
     console.log('Total de costos acumulado hasta el momento:', this.TotalCostos);
   }
-  
-  
+
+
   getTotalAcumulado(seccion: any[]): number {
     return seccion.reduce((total, item) => total + item.subtotal, 0);
     }
@@ -328,15 +329,15 @@ export class FasesCostosComponent implements OnInit {
     getNombreSeccion(index: number): string {
       // Asegúrate de ordenar los grupos de conceptos por 'id' (o cualquier otro criterio) cada vez que se llame
       const gruposOrdenados = this.gruposConceptos.sort((a: any, b: any) => a.id - b.id);  // Ordena por id, ajusta si necesitas otro campo
-    
+
       // Verifica si existen los datos de gruposConceptos para el índice
       const grupo = gruposOrdenados[index];
-      
+
       if (grupo) {
         return grupo.grupo || `Sección ${index + 1}`; // Retorna el nombre del grupo, o "Sección X" como predeterminado
       } else {
         return `Sección ${index + 1}`;  // Predeterminado si no existe el grupo
       }
     }
-    
+
 }
