@@ -226,7 +226,7 @@ filtrarCostos(): void {
 let costosFiltrados = [...this.costos];
 // Filtrar por producto si se seleccionó
 if (this.filtroProducto) {
-costosFiltrados = costosFiltrados.filter(costo => costo.idProducto === this.filtroProducto);
+costosFiltrados = costosFiltrados.filter(costo => costo.idProducto === this.productos);
 }
 // Filtrar por rango de fechas si se proporcionaron
 if (this.filtroFechaInicio) {

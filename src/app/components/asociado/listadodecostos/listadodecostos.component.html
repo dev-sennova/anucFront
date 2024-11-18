@@ -59,25 +59,29 @@
   <img src="assets/iconos/filtrar_icon.png" alt="Filtrar" class="icon"> Filtrar
 </button>
 <!-- Formulario de filtro -->
-<div *ngIf="showFiltro">
-<label> Producto:
-<select [(ngModel)]="filtroProducto">
-<option value="">Todos</option>
-<option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
-</select>
-</label>
+  <div *ngIf="showFiltro" class="Filtro-f">
+    <label class="producto-filter">
+      Producto:
+      <select [(ngModel)]="filtroProducto">
+        <option value="">Todos</option>
+        <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+      </select>
+    </label>
 
-<label>
-Fecha Inicio:
-<input type="date" [(ngModel)]="filtroFechaInicio">
-</label>
+    <label class="fecha-filter">
+      Fecha Inicio:
+      <input type="date" [(ngModel)]="filtroFechaInicio">
+    </label>
 
-<label>
-Fecha Fin:
-<input type="date" [(ngModel)]="filtroFechaFin">
-</label>
-<button (click)="filtrarCostos()">Aplicar Filtro</button>
-</div>
+    <label class="fecha-filter">
+      Fecha Fin:
+      <input type="date" [(ngModel)]="filtroFechaFin">
+    </label>
+
+    <button (click)="filtrarCostos()">Aplicar Filtro</button>
+  </div>
+
+
 
 <table>
 <thead>

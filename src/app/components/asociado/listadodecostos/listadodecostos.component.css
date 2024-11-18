@@ -13,6 +13,7 @@
   margin-top: 20px; /* Espacio en la parte superior */
   margin-bottom: 20px; /* Espacio en la parte inferior */
   font-family: Arial, sans-serif; /* Fuente moderna y legible */
+
 }
 
 
@@ -312,6 +313,77 @@ button:hover {
     font-size: 0.9em;
   }
 }
+/* Contenedor de los filtros */
+.Filtro-f {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten si no caben */
+  gap: 10px; /* Espacio entre los elementos */
+  align-items: center; /* Alineación vertical centrada */
+}
+
+/* Estilo para el filtro de producto */
+.producto-filter {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  font-weight: bold;
+}
+
+.producto-filter select {
+  padding: 4px 8px;
+  font-size: 14px;
+  width: 150px; /* Ancho reducido */
+  height: 30px; /* Altura para que coincida con el texto grande */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.producto-filter select:hover {
+  border-color: #007bff;
+}
+
+.producto-filter select:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 4px rgba(0, 91, 181, 0.5);
+}
+
+/* Estilo para el filtro de fecha */
+.fecha-filter {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px; /* Aumento del tamaño de la fuente */
+  font-weight: 500;
+  font-weight: bold;
+}
+
+.fecha-filter input {
+  padding: 4px 8px;
+  font-size: 14px;
+  width: 120px; /* Ancho reducido */
+  height: 30px; /* Altura ligeramente aumentada */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fecha-filter input:hover {
+  border-color: #007bff;
+}
+
+.fecha-filter input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 4px rgba(0, 91, 181, 0.5);
+}
 
 /* Estilo del botón de filtro */
 .filter-btn {
@@ -321,7 +393,7 @@ button:hover {
   background-color: #fff;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 0px;
   display: flex;
   align-items: center;
   font-size: 14px;
