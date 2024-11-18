@@ -1,0 +1,172 @@
+<div class="center-wrapper">
+  <div id="container">
+    <h1>Fases de Producción</h1>
+    <div class="tabs">
+      <label
+        *ngFor="let fase of fasesProducion; let i = index"
+        (click)="selectTab(i)"
+        [class.active]="i === activeTab"
+        class="tab-label">
+        {{ fase.nombre_fase }}
+      </label>
+      <label
+        (click)="selectTab(fasesProducion.length)"
+        [class.active]="activeTab === fasesProducion.length"
+        class="tab-label">
+        Hoja de costos
+      </label>
+    </div>
+
+    <div id="content">
+      <div *ngFor="let fase of fasesProducion; let i = index" [class.visible]="i === activeTab" class="fase-content">
+        <h5>{{ fase.nombre_fase }}</h5>
+        <p>{{ fase.descripcion }}</p>
+
+        <!-- Move the *ngIf check inside the *ngFor loop -->
+        <div *ngIf="i < fasesProducion.length - 1">
+          <!-- Botón para alternar la visibilidad del formulario -->
+          <button (click)="toggleForm()" class="toggle-form-btn">Añadir Conceptos</button>
+
+          <div *ngFor="let seccion of [seccionesCarga1, seccionesCarga2, seccionesCarga3]; let i = index">
+            <!-- Verificamos si la sección tiene datos -->
+            <div *ngIf="seccion && seccion.length > 0">
+              <h3>{{ getNombreSeccion(i) }}</h3>  <!-- Título para cada grupo -->
+              <table border="1" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr>
+                    <th>Concepto</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Mostrar los elementos dentro de la sección actual -->
+                  <tr *ngFor="let item of seccion">
+                    <td>{{ item.concepto }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.valorUnitario | currency }}</td>
+                    <td>{{ item.subtotal | currency }}</td>
+                  </tr>
+                  <!-- Fila para mostrar el acumulado -->
+                  <tr>
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>
+                    <td>{{ getTotalAcumulado(seccion) | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal que contiene el formulario -->
+        <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
+          <div class="modal-container" (click)="$event.stopPropagation()">
+            <span class="close" (click)="toggleForm()">&times;</span>
+            <h2>Añadir Conceptos</h2>
+            <form (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="concepto">Sección:</label>
+                <select id="concepto" [(ngModel)]="selectedGrupo" name="concepto" class="form-control" (change)="onSelectGrupo(selectedGrupo)">
+                  <option [value]="0" disabled>Elija un grupo para cargar sus conceptos asociados</option>
+                  <option *ngFor="let grupo of gruposConceptos" [value]="grupo.id">{{ grupo.grupo }}</option>
+                </select>
+              </div>
+
+              <!-- Mostrar el select de concepto solo si se ha seleccionado un grupo -->
+              <div class="form-group">
+                <label for="concepto">Concepto:</label>
+                <select id="concepto" [(ngModel)]="selectedConcepto" name="concepto" class="form-control">
+                  <option [value]="0" disabled>Elija un concepto</option>
+                  <option *ngFor="let concepto of conceptos" [value]="concepto.id">{{ concepto.concepto }}</option>
+                </select>
+              </div>
+
+              <!-- Campo para ingresar la cantidad -->
+              <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" [(ngModel)]="cantidad" name="cantidad" class="form-control" required>
+              </div>
+
+              <!-- Campo para ingresar el valor unitario -->
+              <div class="form-group">
+                <label for="valorUnitario">Valor Unitario:</label>
+                <input type="number" id="valorUnitario" [(ngModel)]="valorUnitario" name="valorUnitario" class="form-control" required>
+              </div>
+
+              <button type="submit" class="submit-btn">Enviar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="activeTab === fasesProducion.length" [class.visible]="activeTab === fasesProducion.length" class="fase-content">
+        <!-- Mostrar contenido de "Hoja de costos" -->
+        <h5>Hoja de costos</h5>
+        <table border="1" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr>
+              <th><p>ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA</p><p>NIT: 890.211.458-4</p></th>
+              <th><img src="\assets\imagenes\logo_anuc.png" class="logo"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Mostrar los elementos dentro de la sección actual -->
+            <tr>
+              <td>Fecha inicio producción</td>
+              <td>{{ datosHoja[0].fechaInicio }}</td>
+            </tr>
+            <tr>
+              <td>Fecha fin producción</td>
+              <td>{{ datosHoja[0].fechaFin }}</td>
+            </tr>
+            <tr>
+              <td>Producto</td>
+              <td>{{ datosHoja[0].producto }}</td>
+            </tr>
+            <tr>
+              <td>Descripción</td>
+              <td>{{ datosHoja[0].descripcion }}</td>
+            </tr>
+            <tr>
+              <td>Hectareas o animales a trabajar</td>
+              <td>{{ datosHoja[0].cantidad }}</td>
+            </tr>
+            <tr>
+              <td>Cantidad esperada</td>
+              <td>{{ datosHoja[0].esperado }}</td>
+            </tr>
+            <tr>
+              <td>Unidad de producción</td>
+              <td>{{ datosHoja[0].unidad }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="datosTablas">
+            <table border="1" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th>Fases</th>
+                  <th>Subtotales</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let renglon of datosTablas">
+                  <td>{{ renglon.nombreFase }}</td>
+                  <td>{{ renglon.acumuladoFase | currency }}</td>
+                </tr>
+                <tr>
+                  <td style="text-align: right; font-weight: bold;">Total Costo:</td>
+                  <td>{{ datosHoja[0].totalcosto | currency }}</td>
+                </tr>
+                <tr>
+                  <td style="text-align: right; font-weight: bold;">Costo por unidad de producción:</td>
+                  <td>{{ datosHoja[0].costounidad | currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

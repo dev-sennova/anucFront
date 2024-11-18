@@ -1,0 +1,286 @@
+/* Contenedor principal */
+.categorias-container {
+  text-align: center;
+  background-color: #e0e0e0;
+  padding: 60px;
+  border-radius: 15px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.categorias-container h2 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.divider-line {
+  width: 80%;
+  height: 2px;
+  background-color: #000;
+  margin: 10px auto 20px;
+}
+
+/* Contenedor de tarjetas */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Permite que las tarjetas se ajusten en pantallas pequeñas */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Tarjeta individual */
+.card {
+  background-color: #b0b0b0;
+  border-radius: 10px;
+  padding: 20px;
+  width: 25%; /* Ancho en porcentaje para que sea responsivo */
+  max-width: 250px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Icono de la tarjeta */
+.card .icon {
+  width: 60%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* Responsividad para pantallas medianas */
+@media (max-width: 768px) {
+  .card {
+    width: 45%; /* En pantallas medianas, ocupa el 45% del ancho */
+    max-width: none;
+  }
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 480px) {
+  .categorias-container {
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%; /* En pantallas pequeñas, ocupa el 100% del ancho */
+    max-width: none;
+  }
+
+  .categorias-container h2 {
+    font-size: 1.8em;
+  }
+
+  .divider-line {
+    width: 90%;
+  }
+}
+
+/* Estilo para el modal */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro para el modal */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Asegura que el botón de cierre esté dentro de este contenedor */
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Contenedor del botón centrado */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Estilo del botón */
+.btn-primary {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo del botón al pasar el ratón (hover) */
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.close {
+  position: absolute; /* Relativo al modal */
+  top: 10px; /* Distancia desde la parte superior del modal */
+  right: 20px; /* Distancia desde el borde derecho del modal */
+  font-size: 28px; /* Tamaño del texto de la "X" */
+  font-weight: bold; /* Grosor del texto */
+  color: #000000; /* Color del texto */
+  cursor: pointer; /* Cambia el cursor a puntero */
+  z-index: 10; /* Asegura que esté por encima del contenido del modal */
+  transition: color 0.3s ease; /* Transición suave en el color */
+}
+
+.close:hover,
+.close:focus {
+  color: #ff0303; /* Cambia de color cuando se pasa el mouse o se enfoca */
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal */
+.modal-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 800px;  /* Aumenté el ancho máximo */
+  width: 90%;  /* Ancho responsivo para adaptarse bien en pantallas pequeñas */
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Título del modal */
+.modal-content h2 {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Campos dentro del modal */
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1.1em;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+/* Efecto al hacer focus en los campos */
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Botón dentro del modal */
+.modal-content button {
+  background-color: #007bff;
+  color: white;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para el formulario dentro del modal */
+.formulario-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+/* Estilo para la descripción dentro del modal */
+.descripcion-grupo {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  color: #555;
+  white-space: pre-wrap;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 25px;
+    max-width: 95%;  /* Se ajusta el tamaño para pantallas pequeñas */
+  }
+
+  .modal-content h2 {
+    font-size: 2em;
+  }
+
+  .modal-content input,
+  .modal-content select,
+  .modal-content textarea {
+    padding: 12px;
+  }
+
+  .modal-content button {
+    padding: 12px 25px;
+  }
+}

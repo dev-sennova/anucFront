@@ -1,0 +1,305 @@
+  /* Estilo para el modal */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+  .modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro mejorado */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  transition: opacity 0.3s ease; /* Transición para suavizar la aparición */
+  }
+  .modal-content {
+  background-color: white;
+  padding: 2.5em; /* 40px */
+  border-radius: 1em; /* 15px */
+  max-width: 800px;
+  width: 90%;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25em; /* 20px */
+  position: relative;
+  }
+  h2 {
+  text-align: center;
+  margin-bottom: 1.25em; /* 20px */
+  }
+  .modal-title {
+  margin: 0;
+  font-size: 1.5em; /* Mejorar tamaño */
+  font-weight: bold;
+  color: #333;
+  }
+  /* Contenedor del botón centrado */
+  .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25em; /* 20px */
+  }
+  /* Estilo del botón */
+  .btn-primary {
+  padding: 0.625em 1.25em; /* 10px 20px */
+  background-color: #007bff;
+  border: none;
+  border-radius: 0.5em; /* 8px */
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  /* Estilo del botón al pasar el ratón (hover) */
+  .btn-primary:hover {
+  background-color: #0056b3;
+  }
+  .close {
+  position: absolute;
+  top: 0.625em; /* 10px */
+  right: 1.25em; /* 20px */
+  font-size: 1.75em; /* 28px */
+  font-weight: bold;
+  color: #000000;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.3s ease;
+  }
+  .close:hover,
+  .close:focus {
+  color: #ff0303;
+  }
+  /* Estilo para los campos dentro del modal */
+  .modal-content input,
+  .modal-content select,
+  .modal-content textarea {
+  width: 100%;
+  padding: 0.875em; /* 14px */
+  border-radius: 0.5em; /* 8px */
+  border: 1px solid #ccc;
+  font-size: 1.1em;
+  box-sizing: border-box;
+  margin-bottom: 1em; /* 15px */
+  transition: border-color 0.3s ease;
+  }
+  /* Efecto al hacer focus en los campos */
+  .modal-content input:focus,
+  .modal-content select:focus,
+  .modal-content textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  }
+  /* Botón dentro del modal */
+  .modal-content button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.875em 2em; /* 14px 30px */
+  border: none;
+  border-radius: 0.5em; /* 8px */
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  .modal-content button:hover {
+  background-color: #0056b3;
+  }
+  /* Estilo para la descripción dentro del modal */
+  .descripcion-grupo {
+  background-color: #f9f9f9;
+  padding: 0.9375em; /* 15px */
+  border-radius: 0.5em; /* 8px */
+  font-size: 1.1em;
+  color: #555;
+  white-space: pre-wrap;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  }
+  /* Adaptación para pantallas pequeñas */
+  @media (max-width: 768px) {
+  .modal-content {
+  padding: 1.5em; /* 25px */
+  max-width: 95%;
+  }
+  .modal-content h2 {
+  font-size: 2em;
+  }
+  .modal-content input,
+  .modal-content select,
+  .modal-content textarea {
+  padding: 0.75em; /* 12px */
+  }
+  .modal-content button {
+  padding: 0.75em 1.5em; /* 12px 25px */
+  }
+  }
+  
+  /* Estilo para el botón "Crear Formulario" */
+  button {
+  padding: 10px 20px;
+  background-color: #007bff; /* Color verde */
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1em;
+  margin: 10px auto;
+  display: block; /* Centra el botón */
+  max-width: 200px;
+  text-align: center;
+  }
+  button:hover {
+  background-color: #65c7e6; /* Color verde más oscuro al hacer hover */
+  }
+
+  button:focus {
+  outline: none;
+  }
+  
+  button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  }
+  
+  button:hover {
+  background-color: #0056b3;
+  }
+
+
+  /* General styles for the table */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+table td {
+  background-color: #fff;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.no-costos {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content-V {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 600px;
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-content-V h2 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.modal-content-V p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.modal-content-V strong {
+  color: #333;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5em;
+  color: #333;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #ff0000;
+}
+
+/* Ensuring proper spacing when modal content overflows */
+.modal-content-V p {
+  margin-bottom: 10px;
+}
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .modal-content-V {
+    width: 90%;
+    padding: 20px;
+  }
+  
+  table th, table td {
+    font-size: 0.9em;
+  }
+
+  button {
+    font-size: 0.9em;
+  }
+}
+
+  

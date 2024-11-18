@@ -1,0 +1,16 @@
+<div class="categorias-container">
+  <h2>Categorías del Asociado</h2>
+
+  <div *ngIf="bloqcat.length > 0; else noData" class="cards-container">
+    <div class="card" *ngFor="let categoria of bloqcat" (click)="onClickCategoria(categoria)">
+      <img [src]="getIconUrl(categoria.grupo)" alt="{{ categoria.grupo }}" class="icon">
+      <h3>{{ categoria.grupo }}</h3>
+      <p>{{ categoria.descripcionGrupo }}</p>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <p>No se encontraron categorías.</p>
+  </ng-template>
+</div>
+
