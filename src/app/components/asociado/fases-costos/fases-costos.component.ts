@@ -191,6 +191,9 @@ export class FasesCostosComponent implements OnInit {
           text: 'Los datos se han guardado correctamente.',
           confirmButtonText: 'Aceptar',
         });
+        if (this.idHojaCostos){
+          this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
+        }
       },
       (error: any) => {
         console.error('Error al guardar:', error);
