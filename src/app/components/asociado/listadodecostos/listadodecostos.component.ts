@@ -206,6 +206,7 @@ this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario
 console.log('Formulario enviado con éxito', response);
 Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
 this.closeFormularioProduccion();
+this.loadData();
 },
 (error) => {
 console.error('Error al enviar el formulario', error);
