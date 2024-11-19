@@ -34,30 +34,42 @@ export class EditUbicacionComponent implements OnInit{
 
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
-
-    this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
+  
+    // Primero, cargar las veredas
+    this.veredasService.getVeredas().subscribe(
       (data) => {
-        if (data) {
-          this.produccion = data[0];
-
-          this.veredasService.getVeredas().subscribe(
-            (data) => {
-              this.veredas = data || [];
-              this.cargarFinca();
-            },
-            (error) => {
-              console.error('Error al obtener las veredas:', error);
+        this.veredas = data || [];
+  
+        // Luego, obtener los datos de producción del asociado
+        this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
+          (data) => {
+            if (data && data.length > 0) {
+              this.produccion = data[0];
+              if (this.produccion.idFinca) {
+                this.cargarFinca();
+              } else {
+                console.error('idFinca no está definido en los datos de producción');
+              }
             }
-          );
-        }
+          },
+          (error) => {
+            console.error('Error al obtener los datos de producción del asociado', error);
+          }
+        );
       },
       (error) => {
-        console.error('Error al obtener los datos de producción del asociado', error);
+        console.error('Error al obtener las veredas:', error);
       }
     );
   }
+  
 
   cargarFinca(): void {
+    if (!this.produccion.idFinca) {
+      console.error('idFinca no está definido');
+      return;
+    }
+  
     this.fincasService.getFinca(this.produccion.idFinca).subscribe(
       (data) => {
         this.finca = data[0] || {}; // Asigna un objeto vacío si no hay finca
@@ -69,6 +81,8 @@ export class EditUbicacionComponent implements OnInit{
       }
     );
   }
+  
+  
 
   trackByVereda(index: number, vereda: any): number {
     return vereda.id;
