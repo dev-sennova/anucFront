@@ -50,145 +50,122 @@ export class InicioAsociadoComponent implements OnInit {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
     const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
     const idPersona = localStorage.getItem('identificador_persona') || '';
-
-    if (idAsociado) {
-      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
-        (data) => {
-          if (data && data.produccion && data.produccion.length > 0) {
-            this.produccion = data.produccion.slice(0, 100);
-            this.loadingService.hideLoading();
-          } else {
-            console.error('No se encontraron personas en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener persona', error);
-        }
-      );
-    } else {
-      console.error('No se encontró id_usuario en el localStorage');
+  
+    if (!idAsociado) {
+      console.error('No se encontró idAsociado en el localStorage');
+      this.loadingService.hideLoading();
+      return;
     }
-
-    if (idAsociado) {
-      this.personasService.getInfoOneFamiliares(idAsociado).subscribe(
-        (data) => {
-          if (data && data.familiares && data.familiares.length > 0) {
-            this.familiares = data.familiares.slice(0, 100);
-            this.loadingService.hideLoading();
-          } else {
-            console.error('No se encontraron personas en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener persona', error);
-        }
-      );
-    } else {
-      console.error('No se encontró id_usuario en el localStorage');
-    }
-
+  
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
-        if (data && data.asociado && data.asociado.length > 0) {
-          this.persona = data.asociado[0];
+        if (data) {
+          if (data.produccion && data.produccion.length > 0) {
+            this.produccion = data.produccion.slice(0, 100);
+          }
+  
+          if (data.familiares && data.familiares.length > 0) {
+            this.familiares = data.familiares.slice(0, 100);
+          }
+  
+          if (data.asociado && data.asociado.length > 0) {
+            this.persona = data.asociado[0];
+          }
+  
+          if (data.permisos && data.permisos.length > 0) {
+            this.permisos = data.permisos[0];
+            this.checkHabeasData();
+          }
         } else {
-          console.error('No se encontró el asociado');
+          console.error('No se encontró información relevante en la respuesta');
         }
         this.loadingService.hideLoading();
       },
       (error) => {
-        console.error('Error al obtener persona', error);
+        console.error('Error al obtener la información del asociado', error);
+        this.loadingService.hideLoading();
       }
     );
-
-    if (idAsociado) {
-      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
-        (data) => {
-          if (data && data.permisos && data.permisos.length > 0) {
-            this.permisos = data.permisos[0];
-            this.checkHabeasData();
-          } else {
-            console.error('No se encontraron permisos en la respuesta');
-          }
-          this.loadingService.hideLoading();
-        },
-        (error) => {
-          console.error('Error al obtener permisos', error);
-        }
-      );
-    } else {
-      console.error('No se encontró idAsociado en el localStorage');
-    }
-
-
+  
     this.tipoDocumentoService.getTiposDocumento().subscribe(
       (data) => {
         if (data) {
           this.tiposDocumento = data;
-          this.loadingService.hideLoading();
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
         console.error('Error al obtener los tipos de documento:', error);
+        this.loadingService.hideLoading();
       }
     );
+  
     this.sexoService.getSexos().subscribe(
       (data) => {
         if (data) {
           this.sexos = data;
-          this.loadingService.hideLoading();
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
-        console.error('Error al obtener los estados civiles:', error);
+        console.error('Error al obtener los sexos:', error);
+        this.loadingService.hideLoading();
       }
     );
+  
     this.veredasService.getVeredas().subscribe(
       (data) => {
         if (data) {
           this.veredas = data;
-          this.loadingService.hideLoading();
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
-        console.error('Error al obtener los estados civiles:', error);
+        console.error('Error al obtener las veredas:', error);
+        this.loadingService.hideLoading();
       }
     );
+  
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {
           this.estadosCiviles = data;
-          this.loadingService.hideLoading();
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
         console.error('Error al obtener los estados civiles:', error);
+        this.loadingService.hideLoading();
       }
     );
-
+  
     this.parentescosService.getParentescos().subscribe(
       (data) => {
         if (data) {
           this.parentescos = data;
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
-        console.error('Error al obtener los estados civiles:', error);
+        console.error('Error al obtener los parentescos:', error);
+        this.loadingService.hideLoading();
       }
     );
-
+  
     this.tiposPredioService.getPredio().subscribe(
       (data) => {
         if (data) {
           this.tiposdepredios = data;
         }
+        this.loadingService.hideLoading();
       },
       (error) => {
-        console.error('Error al obtener los estados civiles:', error);
+        console.error('Error al obtener los tipos de predio:', error);
+        this.loadingService.hideLoading();
       }
     );
   }
-
+  
   checkHabeasData() {
     // Si el habeasData es 0, mostrar el modal
     if (this.permisos.habeasData === 0) {
