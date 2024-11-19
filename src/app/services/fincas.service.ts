@@ -13,7 +13,7 @@ export class FincasService {
   private apiUrl = GlobalConstants.apiURL + '/api/auth/finca'; 
   private apiUrlOneFinca = GlobalConstants.apiURL + '/api/auth/finca/selectfinca';// Actualiza esta URL según tu configuración
   private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
-
+  private  apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
 
   constructor(private http: HttpClient) { }
 
@@ -38,14 +38,20 @@ export class FincasService {
       catchError(this.handleError)
     );
   }
-
   storeFinca(fincaData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-
-    return this.http.post(this.apiFincaStore, fincaData, { headers });
+  
+    return this.http.post<any>(this.apiFincaStore, fincaData, { headers }).pipe(
+      catchError(this.handleError),
+      map(response => {
+        console.log('Respuesta de storeFinca:', response); // Log para verificar respuesta
+        return response;
+      })
+    );
   }
+  
 
   updateFinca(finca: any): Observable<any> {
     const url = `${this.apiUrl}/update`;
@@ -68,6 +74,19 @@ export class FincasService {
     );
   }
 
+
+// Actualiza este método en fincas.service.ts
+asociarFincaConAsociado(finca: string, asociado: string, tipo_predio: string): Observable<any> {
+  const url = this.apiAsociadoFinca; // Utiliza la URL completa
+  const body = { finca, asociado, tipo_predio };
+  console.log('Datos enviados al backend:', body); // Log para verificar datos enviados
+  return this.http.post<any>(url, body).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
+  
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

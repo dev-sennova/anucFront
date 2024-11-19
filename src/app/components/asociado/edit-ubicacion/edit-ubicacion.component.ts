@@ -15,7 +15,6 @@ export class EditUbicacionComponent implements OnInit {
   finca: any = {};
   veredas: any[] = [];
   fincaNueva: any = {}; // Datos para la nueva finca
-  mostrarFormularioCrear = false; // Controla si se muestra el formulario de creación
   fincaExiste = false;
 
   constructor(
@@ -30,19 +29,19 @@ export class EditUbicacionComponent implements OnInit {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
     this.cargarVeredasYProduccion(idUsuario);
   }
-  
+
   cargarVeredasYProduccion(idUsuario: string): void {
     this.veredasService.getVeredas().subscribe(
       (data) => {
         this.veredas = data || [];
         console.log('Veredas cargadas:', this.veredas);
-  
+
         this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
           (data) => {
             if (data && data.length > 0) {
               this.produccion = data[0];
               console.log('Producción cargada:', this.produccion);
-  
+
               if (this.produccion.idFinca) {
                 this.cargarFinca(); // Verificar si ya existe una finca
               } else {
@@ -61,7 +60,7 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
-  
+
   cargarFinca(): void {
     if (!this.produccion.idFinca) {
       console.error('idFinca no está definido');
@@ -69,17 +68,19 @@ export class EditUbicacionComponent implements OnInit {
     }
     this.fincasService.getFinca(this.produccion.idFinca).subscribe(
       (data) => {
-        this.finca = data[0] || {};
-        console.log('Finca cargada:', this.finca);
-        this.fincaExiste = !!data[0]; // Si la finca existe, fincaExiste es true
+        console.log('Datos de finca obtenidos:', data);
+        this.finca = data || {}; // Corrige aquí, usa data en lugar de data[0]
+        this.fincaExiste = !!data;
+        console.log('Estado de fincaExiste:', this.fincaExiste);
+        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
       },
       (error) => {
         console.error('Error al obtener la finca:', error);
         this.fincaExiste = false; // Asumimos que no existe finca si hay error
+        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
       }
     );
   }
-  
 
   trackByVereda(index: number, vereda: any): number {
     return vereda.id;
@@ -93,11 +94,11 @@ export class EditUbicacionComponent implements OnInit {
       longitud: this.fincaNueva.longitud,
       vereda: this.fincaNueva.vereda,
     };
-
+  
     this.fincasService.storeFinca(nuevaFinca).subscribe(
       (response) => {
         console.log('Respuesta completa de la API:', response);
-
+  
         if (response && response.estado === 'Ok') {
           Swal.fire({
             icon: 'success',
@@ -105,9 +106,40 @@ export class EditUbicacionComponent implements OnInit {
             text: response.message || 'La finca se ha creado exitosamente',
             confirmButtonText: 'Aceptar',
           });
-
-          // Refrescar datos
-          this.ngOnInit();
+  
+          const idFincaCreada = response.idFinca; // Asegúrate de que este es el ID correcto retornado por la API
+          console.log('ID de la finca creada:', idFincaCreada); // Log para verificar el ID
+          if (!idFincaCreada) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo obtener el ID de la finca recién creada.',
+              confirmButtonText: 'Aceptar',
+            });
+            return;
+          }
+  
+          const idAsociado = localStorage.getItem('identificador_asociado') || '';
+          const tipoPredio = 'tipo_predio_placeholder'; // Reemplaza esto con el valor adecuado
+  
+          // Asociar la finca creada con el asociado
+          this.fincasService.asociarFincaConAsociado(idFincaCreada, idAsociado, tipoPredio).subscribe(
+            (asociarResponse) => {
+              console.log('Finca asociada con el asociado:', asociarResponse);
+  
+              // Refrescar datos
+              this.ngOnInit();
+            },
+            (error) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al asociar la finca con el asociado. Inténtalo de nuevo.',
+                confirmButtonText: 'Aceptar',
+              });
+              console.error('Error al asociar la finca con el asociado:', error);
+            }
+          );
         } else {
           Swal.fire({
             icon: 'error',
@@ -128,7 +160,9 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
-
+  
+  
+  
   saveFinca(): void {
     const fincaEditada = {
       id: this.produccion.idFinca,
