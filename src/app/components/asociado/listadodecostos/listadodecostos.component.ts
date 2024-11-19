@@ -13,6 +13,7 @@ styleUrls: ['./listadodecostos.component.css']
 export class ListadodecostosComponent implements OnInit {
 idGrupo?: string | null = null;
 costos: any[] = [];
+originalCostos: any[] = [];
 showFormularioProduccion: boolean = false; // Variable para mostrar el formulario
 filteredProductos: any[] = []; // Productos filtrados
 productos: any[] = []; // Declaramos la propiedad productos
@@ -38,6 +39,11 @@ pregunta_6: string = '';
 
 selectedCosto: any = null;
 idHojaCostos: any;
+
+showFiltro: boolean = false;
+filtroProducto: string | null = null;
+filtroFechaInicio: string | null = null;
+filtroFechaFin: string | null = null;
 
 constructor(
 private route: ActivatedRoute,
@@ -80,26 +86,29 @@ this.cargarUnidades();
 }
 
 loadData() {
-if (!this.idGrupo) {
-console.error('No se puede cargar datos sin ID del grupo');
-return;
+  if (!this.idGrupo) {
+    console.error('No se puede cargar datos sin ID del grupo');
+    return;
+  }
+  this.calculoDeCostosService.getCostosDatos(Number(this.idGrupo)).subscribe(
+    (data) => {
+      console.log('Datos de costos:', data);
+      if (data && Array.isArray(data.hojas_por_grupo)) {
+        this.costos = data.hojas_por_grupo;
+        this.originalCostos = [...this.costos]; // Almacena los datos originales
+      } else {
+        console.error('No se encontraron datos de costos');
+        this.costos = [];
+        this.originalCostos = [];
+      }
+    },
+    (error) => {
+      console.error('Error al cargar costos:', error);
+      Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
+    }
+  );
 }
-this.calculoDeCostosService.getCostosDatos(Number(this.idGrupo)).subscribe(
-(data) => {
-console.log('Datos de costos:', data);
-if (data && Array.isArray(data.hojas_por_grupo)) {
-this.costos = data.hojas_por_grupo;
-} else {
-console.error('No se encontraron datos de costos');
-this.costos = [];
-}
-},
-(error) => {
-console.error('Error al cargar costos:', error);
-Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
-}
-);
-}
+
 cargarProductos(idAsociado: string): void {
 this.calculoDeCostosService.getProductosPorAsociado(idAsociado).subscribe(
 (data) => {
@@ -201,6 +210,7 @@ this.calculoDeCostosService.submitFormularioProduccion(this.respuestasFormulario
 console.log('Formulario enviado con éxito', response);
 Swal.fire('Éxito', 'Formulario enviado correctamente', 'success');
 this.closeFormularioProduccion();
+this.loadData();
 },
 (error) => {
 console.error('Error al enviar el formulario', error);
@@ -214,4 +224,46 @@ this.idHojaCostos = idHoja;
 this.router.navigate(['/asociado/fases-costos/'+ this.idGrupo + '/' + this.idHojaCostos]);
 }
 
+toggleFiltro(): void {
+this.showFiltro = !this.showFiltro;
 }
+
+
+filtrarCostos(): void {
+  let costosFiltrados = [...this.originalCostos]; // Usa la copia original de los costos
+
+  // Filtrar por producto si se seleccionó
+  if (this.filtroProducto) {
+    costosFiltrados = costosFiltrados.filter(costo => costo.producto === this.filtroProducto);
+    console.log("Producto filtrado: ", this.filtroProducto);
+  }
+
+  // Filtrar por rango de fechas si se proporcionaron
+  if (this.filtroFechaInicio) {
+    const fechaInicio = new Date(this.filtroFechaInicio);
+    costosFiltrados = costosFiltrados.filter(costo => {
+      const fechaCostoInicio = new Date(costo.fechaInicio);
+      return fechaCostoInicio >= fechaInicio;
+    });
+    console.log("Filtrado por fecha de inicio: ", this.filtroFechaInicio);
+  }
+  if (this.filtroFechaFin) {
+    const fechaFin = new Date(this.filtroFechaFin);
+    costosFiltrados = costosFiltrados.filter(costo => {
+      const fechaCostoFin = new Date(costo.fechaFin);
+      return fechaCostoFin <= fechaFin;
+    });
+    console.log("Filtrado por fecha fin: ", this.filtroFechaFin);
+  }
+
+  console.log('Costos Filtrados:', costosFiltrados);
+
+  // Asigna los costos filtrados a this.costos
+  this.costos = costosFiltrados;
+}
+
+
+
+
+}
+
