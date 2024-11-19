@@ -22,7 +22,9 @@
 
 .container {
   max-width: 95%;
-  margin: 150px auto; /* Ajusta el valor para que esté más abajo */
+  margin-top: 200px; /* Incrementa el valor para bajarlo más */
+  margin-left: auto; /* Centra horizontalmente */
+  margin-right: auto; /* Centra horizontalmente */
   background: #fff;
   padding: 80px;
   border-radius: 8px;
@@ -205,11 +207,12 @@
 
 
   /* General styles for the table */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
+  .container {
+    max-width: 1200px;
+    margin: 90px auto; /* Baja el contenedor más abajo ajustando margin-top */
+    padding: 20px;
+  }
+  
 
 table {
   width: 100%;
