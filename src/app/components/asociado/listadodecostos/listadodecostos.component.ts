@@ -241,11 +241,19 @@ filtrarCostos(): void {
   // Filtrar por rango de fechas si se proporcionaron
   if (this.filtroFechaInicio) {
     const fechaInicio = new Date(this.filtroFechaInicio);
-    costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaInicio) >= fechaInicio);
+    costosFiltrados = costosFiltrados.filter(costo => {
+      const fechaCostoInicio = new Date(costo.fechaInicio);
+      return fechaCostoInicio >= fechaInicio;
+    });
+    console.log("Filtrado por fecha de inicio: ", this.filtroFechaInicio);
   }
   if (this.filtroFechaFin) {
     const fechaFin = new Date(this.filtroFechaFin);
-    costosFiltrados = costosFiltrados.filter(costo => new Date(costo.fechaFin) <= fechaFin);
+    costosFiltrados = costosFiltrados.filter(costo => {
+      const fechaCostoFin = new Date(costo.fechaFin);
+      return fechaCostoFin <= fechaFin;
+    });
+    console.log("Filtrado por fecha fin: ", this.filtroFechaFin);
   }
 
   console.log('Costos Filtrados:', costosFiltrados);
@@ -253,6 +261,7 @@ filtrarCostos(): void {
   // Asigna los costos filtrados a this.costos
   this.costos = costosFiltrados;
 }
+
 
 
 
