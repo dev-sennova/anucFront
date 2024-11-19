@@ -1,59 +1,58 @@
-
 <div class="container">
-  <div class="header">
-<!-- Botón para crear formulario, solo se muestra si no hay registros -->
-<h1 class="form-title">Listado De Costos</h1>
-<button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
+  <h1 class="form-title">Listado De Costos</h1>
 
-<!-- Modal para el formulario de producción -->
-<div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
-<div class="modal-content" (click)="$event.stopPropagation()">
-<span class="close" (click)="closeFormularioProduccion()">&times;</span>
+  <!-- Botón para crear formulario, solo se muestra si no hay registros -->
+  <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
 
-<h2>Formulario Hoja de Costo</h2>
-<form (ngSubmit)="submitFormulario()">
-<div class="form-group">
-<label for="idProducto">{{this.pregunta_1}} :</label>
-<select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
-<option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
-</select>
-</div>
-<div class="form-group">
-<label for="fechaInicio">{{this.pregunta_4}} :</label>
-<input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
-</div>
+  <!-- Modal para el formulario de producción -->
+  <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <span class="close" (click)="closeFormularioProduccion()">&times;</span>
+      <h2>Formulario Hoja de Costo</h2>
 
-<div class="form-group">
-<label for="fechaFin">{{this.pregunta_5}} :</label>
-<input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
-</div>
+      <div class="formulario">
+        <form (ngSubmit)="submitFormulario()">
+          <div class="form-group">
+            <label for="idProducto">{{this.pregunta_1}} :</label>
+            <select id="idProducto" [(ngModel)]="productoSeleccionado" name="idProducto" required>
+              <option *ngFor="let producto of filteredProductos" [value]="producto.idProducto">{{ producto.producto }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fechaInicio">{{this.pregunta_4}} :</label>
+            <input type="date" id="fechaInicio" [(ngModel)]="respuestasFormulario.fechaInicio" name="fechaInicio" required />
+          </div>
 
-<div class="form-group">
-<label for="cantidad">{{this.pregunta_3}} :</label>
-<input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
-</div>
+          <div class="form-group">
+            <label for="fechaFin">{{this.pregunta_5}} :</label>
+            <input type="date" id="fechaFin" [(ngModel)]="respuestasFormulario.fechaFin" name="fechaFin" required />
+          </div>
 
-<div class="form-group">
-<label for="esperado">{{this.pregunta_6}} :</label>
-<input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
-</div>
+          <div class="form-group">
+            <label for="cantidad">{{this.pregunta_3}} :</label>
+            <input type="number" id="cantidad" [(ngModel)]="respuestasFormulario.cantidad" name="cantidad" required />
+          </div>
 
-<div class="form-group">
-<label for="unidad">Unidad de medida</label>
-<input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
-</div>
+          <div class="form-group">
+            <label for="esperado">{{this.pregunta_6}} :</label>
+            <input type="number" id="esperado" [(ngModel)]="respuestasFormulario.esperado" name="esperado" required/>
+          </div>
 
-<div class="form-group">
-<label for="descripcion">{{this.pregunta_2}} :</label>
-<input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
-</div>
+          <div class="form-group">
+            <label for="unidad">Unidad de medida</label>
+            <input type="text" id="unidad" [(ngModel)]="respuestasFormulario.unidad" name="unidad" placeholder="Ingrese en plural el nombre de unidad de medida de la producción" required />
+          </div>
 
-<button type="submit" class="btn-primary">Guardar</button>
-</form>
-</div>
-</div>
-</div>
+          <div class="form-group">
+            <label for="descripcion">{{this.pregunta_2}} :</label>
+            <input type="text" id="descripcion" [(ngModel)]="respuestasFormulario.descripcion" name="descripcion" placeholder="Ingrese un texto descriptivo para identificar esta hoja de costos" required />
+          </div>
 
+          <button type="submit" class="btn-primary">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <div *ngIf="costos.length > 0; else noCostos">
     <!-- Botón para abrir el formulario de filtro -->
