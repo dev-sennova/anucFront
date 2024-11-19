@@ -7,6 +7,7 @@
         <div class="form-crear">
           <div class="card">
             <div class="card-body">
+              <h3>Crear Finca</h3>
               <div class="input-group">
                 <label><strong>Nombre de la Finca:</strong></label>
                 <input [(ngModel)]="fincaNueva.nombre" placeholder="Ingrese nombre de la finca" />
@@ -33,7 +34,7 @@
               </div>
             </div>
             <div class="card-actions">
-              <button class="btn-secondary" (click)="crearFinca()">Crear Finca</button>
+              <button class="btn-secondary " (click)="crearFinca()">Crear Finca</button>
             </div>
           </div>
         </div>
@@ -44,13 +45,14 @@
         <div class="card-container">
           <div class="card">
             <div class="card-body">
+              <h3>Editar Finca</h3>
               <div class="input-group">
                 <label><strong>Nombre de la Finca:</strong></label>
                 <input [(ngModel)]="produccion.nombre" placeholder="Ingrese nombre de la finca" />
               </div>
               <div class="input-group">
                 <label><strong>Extensión en hectáreas:</strong></label>
-                <input [(ngModel)]="produccion.extension" placeholder="Ingrese extensión en hectáreas" />
+                <input [(ngModel)]="produccion.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
               </div>
               <div class="input-group">
                 <label><strong>Vereda:</strong></label>
@@ -62,7 +64,7 @@
               </div>
             </div>
             <div class="card-actions">
-              <button class="btn-secondary" (click)="saveFinca()">Guardar</button>
+              <button class="btn-secondary " (click)="saveFinca()">Guardar</button>
             </div>
           </div>
         </div>
