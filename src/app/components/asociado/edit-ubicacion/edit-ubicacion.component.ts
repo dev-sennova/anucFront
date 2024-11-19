@@ -20,6 +20,9 @@ export class EditUbicacionComponent implements OnInit{
   produccion: any = {};  
   finca: any = {}; 
   veredas: any[] = [];
+  fincaNueva: any = {}; // Datos para la nueva finca
+  mostrarFormularioCrear = false; // Controla si se muestra el formulario de creación
+  fincaExiste = false;
 
   constructor(
     private personasService: PersonasService,
@@ -31,12 +34,12 @@ export class EditUbicacionComponent implements OnInit{
 
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
-  
+
     this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
       (data) => {
         if (data) {
           this.produccion = data[0];
-          
+
           this.veredasService.getVeredas().subscribe(
             (data) => {
               this.veredas = data || [];
@@ -53,36 +56,67 @@ export class EditUbicacionComponent implements OnInit{
       }
     );
   }
-  
+
   cargarFinca(): void {
     this.fincasService.getFinca(this.produccion.idFinca).subscribe(
       (data) => {
-        this.finca = data[0];
-        this.produccion.vereda = this.finca.vereda;
+        this.finca = data[0] || {}; // Asigna un objeto vacío si no hay finca
+        this.produccion.vereda = this.finca.vereda || '';
+        this.fincaExiste = !!data[0]; 
       },
       (error) => {
         console.error('Error al obtener la finca:', error);
       }
     );
   }
-  
-  
+
   trackByVereda(index: number, vereda: any): number {
-    return vereda.id; 
+    return vereda.id;
   }
 
-  saveFinca() {
+  crearFinca(): void {
+    const nuevaFinca = {
+      nombre: this.fincaNueva.nombre,
+      extension: this.fincaNueva.extension,
+      latitud: this.fincaNueva.latitud,
+      longitud: this.fincaNueva.longitud,
+      vereda: this.fincaNueva.vereda,
+    };
+
+    this.fincasService.storeFinca(nuevaFinca).subscribe(
+      (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Finca creada',
+          text: 'La finca se ha creado exitosamente',
+          confirmButtonText: 'Aceptar',
+        });
+        this.ngOnInit();
+      },
+      (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al crear la finca. Inténtalo de nuevo.',
+          confirmButtonText: 'Aceptar',
+        });
+        console.error('Error al crear la finca:', error);
+      }
+    );
+  }
+
+  saveFinca(): void {
     const fincaEditada = {
       id: this.produccion.idFinca,
       nombre: this.produccion.nombre,
       extension: this.produccion.extension,
       latitud: this.finca.latitud || '',
       longitud: this.finca.longitud || '',
-      vereda: this.produccion.vereda
+      vereda: this.produccion.vereda,
     };
 
     this.fincasService.updateFinca(fincaEditada).subscribe(
-      response => {
+      (response) => {
         Swal.fire({
           icon: 'success',
           title: 'Finca actualizada',
@@ -91,17 +125,15 @@ export class EditUbicacionComponent implements OnInit{
         });
         this.ngOnInit();
       },
-      error => {
+      (error) => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Hubo un problema al actualizar la finca. Inténtalo de nuevo.',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
         console.error('Error al actualizar la finca', error);
       }
     );
   }
-
-
 }

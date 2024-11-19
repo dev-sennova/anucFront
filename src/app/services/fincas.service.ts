@@ -12,6 +12,8 @@ export class FincasService {
 
   private apiUrl = GlobalConstants.apiURL + '/api/auth/finca'; 
   private apiUrlOneFinca = GlobalConstants.apiURL + '/api/auth/finca/selectfinca';// Actualiza esta URL según tu configuración
+  private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
+
 
   constructor(private http: HttpClient) { }
 
@@ -35,6 +37,14 @@ export class FincasService {
     return this.http.post<any>(url, finca).pipe(
       catchError(this.handleError)
     );
+  }
+
+  storeFinca(fincaData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(this.apiFincaStore, fincaData, { headers });
   }
 
   updateFinca(finca: any): Observable<any> {
