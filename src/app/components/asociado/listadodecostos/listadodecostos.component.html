@@ -1,3 +1,6 @@
+
+<div class="container">
+  <div class="header">
 <!-- Botón para crear formulario, solo se muestra si no hay registros -->
 <h1 class="form-title">Listado De Costos</h1>
 <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
@@ -8,7 +11,7 @@
 <span class="close" (click)="closeFormularioProduccion()">&times;</span>
 <h2>Formulario Hoja de Costo</h2>
 
-<div class="formulario-container">
+
 <form (ngSubmit)="submitFormulario()">
 <div class="form-group">
 <label for="idProducto">{{this.pregunta_1}} :</label>
@@ -52,7 +55,7 @@
 </div>
 </div>
 
-<div class="container">
+
   <div *ngIf="costos.length > 0; else noCostos">
     <!-- Botón para abrir el formulario de filtro -->
     <button class="filter-btn" (click)="toggleFiltro()">

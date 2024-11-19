@@ -1,10 +1,14 @@
   /* Estilo para el modal */
   body {
-    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
     margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+    background: #f5f5f5; /* Fondo opcional */
+  }
+
+  
 .form-title {
   font-size: 28px; /* Tamaño de fuente grande */
   font-weight: bold; /* Negrita para mayor énfasis */
@@ -14,6 +18,15 @@
   margin-bottom: 20px; /* Espacio en la parte inferior */
   font-family: Arial, sans-serif; /* Fuente moderna y legible */
 
+}
+
+.container {
+  max-width: 95%;
+  margin: 150px auto; /* Ajusta el valor para que esté más abajo */
+  background: #fff;
+  padding: 80px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 
