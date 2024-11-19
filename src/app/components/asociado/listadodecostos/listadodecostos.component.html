@@ -9,9 +9,8 @@
 <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">
 <div class="modal-content" (click)="$event.stopPropagation()">
 <span class="close" (click)="closeFormularioProduccion()">&times;</span>
+
 <h2>Formulario Hoja de Costo</h2>
-
-
 <form (ngSubmit)="submitFormulario()">
 <div class="form-group">
 <label for="idProducto">{{this.pregunta_1}} :</label>

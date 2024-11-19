@@ -227,7 +227,6 @@ this.showFiltro = !this.showFiltro;
 
 filtrarCostos(): void {
     let costosFiltrados = [...this.costos];
-  
     // Filtrar por producto si se seleccionó
     if (this.filtroProducto) {
       costosFiltrados = costosFiltrados.filter(costo => costo.producto === this.filtroProducto);

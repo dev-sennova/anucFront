@@ -45,13 +45,13 @@
                   <tr *ngFor="let item of seccion">
                     <td>{{ item.concepto }}</td>
                     <td>{{ item.cantidad }}</td>
-                    <td>{{ item.valorUnitario | currency }}</td>
-                    <td>{{ item.subtotal | currency }}</td>
+                    <td>{{ item.valorUnitario | currency:'COP':'symbol':'1.0-0' }}</td>
+                    <td>{{ item.subtotal | currency:'COP':'symbol':'1.0-0' }}</td>
                   </tr>
                   <!-- Fila para mostrar el acumulado -->
                   <tr>
                     <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>
-                    <td>{{ getTotalAcumulado(seccion) | currency }}</td>
+                    <td>{{ getTotalAcumulado(seccion) | currency:'COP':'symbol':'1.0-0' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -153,15 +153,15 @@
               <tbody>
                 <tr *ngFor="let renglon of datosTablas">
                   <td>{{ renglon.nombreFase }}</td>
-                  <td>{{ renglon.acumuladoFase | currency }}</td>
+                  <td>{{ renglon.acumuladoFase | currency:'COP':'symbol':'1.0-0' }}</td>
                 </tr>
                 <tr>
                   <td style="text-align: right; font-weight: bold;">Total Costo:</td>
-                  <td>{{ datosHoja[0].totalcosto | currency }}</td>
+                  <td>{{ datosHoja[0].totalcosto | currency:'COP':'symbol':'1.0-0' }}</td>
                 </tr>
                 <tr>
                   <td style="text-align: right; font-weight: bold;">Costo por unidad de producción:</td>
-                  <td>{{ datosHoja[0].costounidad | currency }}</td>
+                  <td>{{ datosHoja[0].costounidad | currency:'COP':'symbol':'1.0-0' }}</td>
                 </tr>
               </tbody>
             </table>

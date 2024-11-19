@@ -21,18 +21,19 @@
 }
 
 .container {
-  max-width: 95%;
-  margin-top: 200px; /* Incrementa el valor para bajarlo más */
-  margin-left: auto; /* Centra horizontalmente */
-  margin-right: auto; /* Centra horizontalmente */
+  max-width: 90%; /* Reduce el ancho en pantallas pequeñas */
+  max-height: 90%; /* Asegura que el contenedor no exceda la ventana */
+  overflow-y: auto; /* Permite scroll si el contenido excede la altura */
+  margin: 20px auto;
+  padding: 20px;
   background: #fff;
-  padding: 80px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 
-  .modal {
+
+.modal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,30 +45,52 @@
   height: 100%;
   z-index: 1000;
   transition: opacity 0.3s ease; /* Transición para suavizar la aparición */
-  }
-  .modal-content {
+}
+
+.modal-content {
   background-color: white;
   padding: 2.5em; /* 40px */
   border-radius: 1em; /* 15px */
   max-width: 800px;
   width: 90%;
   box-sizing: border-box;
-  overflow: hidden;
+  overflow-y: auto; /* Habilita scroll vertical si es necesario */
+  max-height: 80vh; /* Limita la altura máxima al 80% de la pantalla */
   display: flex;
   flex-direction: column;
   gap: 1.25em; /* 20px */
   position: relative;
-  }
-  h2 {
+}
+
+h2 {
   text-align: center;
   margin-bottom: 1.25em; /* 20px */
-  }
-  .modal-title {
+}
+
+.modal-title {
   margin: 0;
   font-size: 1.5em; /* Mejorar tamaño */
   font-weight: bold;
   color: #333;
+}
+
+/* Estilo responsivo adicional para dispositivos más pequeños */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1.5em; /* Reduce el padding para pantallas pequeñas */
+    max-width: 90%;
   }
+
+  h2 {
+    font-size: 1.25em; /* Ajusta tamaño del título */
+  }
+
+  .modal-title {
+    font-size: 1.25em; /* Ajusta tamaño del título */
+  }
+}
+
+
   /* Contenedor del botón centrado */
   .button-container {
   display: flex;
@@ -470,4 +493,33 @@ button:hover {
 
 .filter-form.show {
   display: block;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    max-width: 95%;
+    max-height: 85%; /* Reduce la altura máxima */
+    padding: 15px;
+  }
+
+  .modal-content {
+    padding: 15px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.5em;
+  }
+
+  .modal-content input,
+  .modal-content select,
+  .modal-content textarea {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .modal-content button {
+    font-size: 0.9em;
+    padding: 8px 16px;
+  }
 }
