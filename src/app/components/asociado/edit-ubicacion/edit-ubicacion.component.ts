@@ -101,19 +101,19 @@ export class EditUbicacionComponent implements OnInit {
   
 
   cargarFinca(): void {
-    const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca'); // Obtener idFinca desde producción o localStorage
+    const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca');
     if (!idFinca) {
       console.error('idFinca no está definido');
       return;
     }
-    
+  
     this.fincasService.getFinca(idFinca).subscribe(
       (data) => {
         console.log('Datos de finca obtenidos:', data);
-        if (Array.isArray(data) && data.length > 0) {
-          this.finca = data[0] || {}; // Asigna el primer objeto si es un array
-          this.produccion = { ...this.produccion, ...data[0] }; // Asigna los datos de finca a produccion
-          this.fincaExiste = !!data[0];
+        if (data && data.id) {
+          this.finca = data;
+          this.produccion = { ...this.produccion, ...data }; // Asignar los datos de finca a produccion
+          this.fincaExiste = true;
         } else {
           console.error('Datos de finca no válidos:', data);
         }
