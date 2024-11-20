@@ -28,10 +28,21 @@ export class EditUbicacionComponent implements OnInit {
 
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
-    this.cargarVeredasYProduccion(idUsuario);
-    this.cargarTiposPredio(); // Llamar a cargarTiposPredio sin pasar el id
+    const fincaExiste = localStorage.getItem('finca_existe') === 'true';
+    this.fincaExiste = fincaExiste;
+  
+    if (fincaExiste) {
+      const idFinca = localStorage.getItem('id_finca');
+      if (idFinca) {
+        this.produccion.idFinca = idFinca;
+        this.cargarFinca(); // Cargar datos de la finca existente
+      }
+    } else {
+      this.cargarVeredasYProduccion(idUsuario);
+      this.cargarTiposPredio();
+    }
   }
-
+  
   
   cargarTiposPredio(): void {
     this.fincasService.getTiposPredio().subscribe(
@@ -89,18 +100,19 @@ export class EditUbicacionComponent implements OnInit {
     this.fincasService.getFinca(this.produccion.idFinca).subscribe(
       (data) => {
         console.log('Datos de finca obtenidos:', data);
-        this.finca = data || {}; // Corrige aquí, usa data en lugar de data[0]
+        this.finca = data || {};
+        this.produccion = { ...this.produccion, ...data }; // Asigna los datos de finca a produccion
         this.fincaExiste = !!data;
-        console.log('Estado de fincaExiste:', this.fincaExiste);
-        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
+        this.cdr.detectChanges();
       },
       (error) => {
         console.error('Error al obtener la finca:', error);
-        this.fincaExiste = false; // Asumimos que no existe finca si hay error
-        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
+        this.fincaExiste = false;
+        this.cdr.detectChanges();
       }
     );
   }
+  
 
   trackByVereda(index: number, vereda: any): number {
     return vereda.id;
@@ -112,14 +124,12 @@ export class EditUbicacionComponent implements OnInit {
       extension: this.fincaNueva.extension,
       latitud: this.fincaNueva.latitud,
       longitud: this.fincaNueva.longitud,
-      vereda: this.fincaNueva.vereda, // Asegúrate de incluir este campo
-      tipo_predio: this.fincaNueva.tipo_predio // Incluye también este campo
+      vereda: this.fincaNueva.vereda,
+      tipo_predio: this.fincaNueva.tipo_predio
     };
   
     this.fincasService.storeFinca(nuevaFinca).subscribe(
       (response) => {
-        console.log('Respuesta completa de la API:', response);
-  
         if (response && response.estado === 'Ok' && response.id) {
           Swal.fire({
             icon: 'success',
@@ -128,32 +138,20 @@ export class EditUbicacionComponent implements OnInit {
             confirmButtonText: 'Aceptar',
           });
   
-          const idFincaCreada = response.id; // Verifica el ID
-          console.log('ID de la finca creada:', idFincaCreada);
-  
-          if (!idFincaCreada) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'No se pudo obtener el ID de la finca recién creada.',
-              confirmButtonText: 'Aceptar',
-            });
-            return;
-          }
-  
-          // Almacenar el id en localStorage
+          const idFincaCreada = response.id;
           localStorage.setItem('id_finca', idFincaCreada);
+          localStorage.setItem('finca_existe', 'true'); // Guardar el estado de fincaExiste
   
           const idAsociado = localStorage.getItem('identificador_asociado') || '';
-          const tipoPredio = this.fincaNueva.tipo_predio; // Usar el valor real aquí
+          const tipoPredio = this.fincaNueva.tipo_predio;
   
-          // Asociar la finca creada con el asociado
           this.fincasService.asociarFincaConAsociado(idFincaCreada, idAsociado, tipoPredio).subscribe(
             (asociarResponse) => {
               console.log('Finca asociada con el asociado:', asociarResponse);
   
-              // Refrescar datos
-              this.ngOnInit();
+              // Redirigir al formulario de edición
+              this.fincaExiste = true;
+              this.cargarFinca();
             },
             (error) => {
               Swal.fire({
@@ -185,7 +183,6 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
-  
   
   
   saveFinca(): void {
