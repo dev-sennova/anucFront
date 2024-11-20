@@ -109,7 +109,13 @@ getTiposPredio(): Observable<any> {
   );
 }
 
-
+getFincaByAsociado(idAsociado: string): Observable<any> {
+  const url = `${this.apiUrl}/asociado/${idAsociado}`;
+  return this.http.get<any>(url).pipe(
+    map(response => response.finca),
+    catchError(this.handleError)
+  );
+}
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';

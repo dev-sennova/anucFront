@@ -26,33 +26,90 @@ export class EditUbicacionComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    const idUsuario = localStorage.getItem('identificador_asociado') || '';
+ngOnInit(): void {
+  const idUsuario = localStorage.getItem('identificador_asociado') || '';
 
+  if (idUsuario) {
     this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
       (data) => {
-        if (data) {
+        if (data && data.length > 0) {
           this.produccion = data[0];
+          console.log('Datos de producción obtenidos:', this.produccion); // Depuración
 
           this.veredasService.getVeredas().subscribe(
             (data) => {
               this.veredas = data || [];
-              this.cargarFinca();
+              console.log('Veredas cargadas:', this.veredas); // Depuración
+              this.fincasService.getFincaByAsociado(idUsuario).subscribe(
+                (fincaData) => {
+                  if (fincaData && fincaData.id) {
+                    this.finca = fincaData;
+                    this.produccion.idFinca = fincaData.id;
+                    this.fincaExiste = true;
+                    console.log('Finca cargada:', this.finca); // Depuración
+                    this.cdr.detectChanges();
+                  } else {
+                    this.fincaExiste = false;
+                  }
+                },
+                (error) => {
+                  console.error('Error al obtener la finca del asociado:', error);
+                  this.fincaExiste = false;
+                }
+              );
             },
             (error) => {
               console.error('Error al obtener las veredas:', error);
             }
           );
+        } else {
+          this.fincaExiste = false;
         }
       },
       (error) => {
         console.error('Error al obtener los datos de producción del asociado', error);
+        this.fincaExiste = false;
       }
     );
-    this.cargarFinca();
-    this.cargarVeredasYProduccion(idUsuario);
-    this.cargarTiposPredio();
+  } else {
+    this.fincaExiste = false;
   }
+
+  this.cargarVeredasYProduccion(idUsuario);
+  this.cargarTiposPredio();
+}
+
+  
+  
+  cargarFinca(): void {
+    const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca');
+    if (!idFinca) {
+      console.error('idFinca no está definido');
+      return;
+    }
+  
+    this.fincasService.getFinca(idFinca).subscribe(
+      (data) => {
+        console.log('Datos de finca obtenidos:', data);
+        if (data && data.id) {
+          this.finca = data;
+          this.produccion = { ...this.produccion, ...data }; // Asignar los datos de finca a producción
+          this.fincaExiste = true;
+          console.log('Producción actualizada:', this.produccion); // Depuración
+          console.log('Finca existe:', this.fincaExiste); // Depuración
+        } else {
+          console.error('Datos de finca no válidos:', data);
+        }
+        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
+      },
+      (error) => {
+        console.error('Error al obtener la finca:', error);
+        this.fincaExiste = false;
+        this.cdr.detectChanges();
+      }
+    );
+  }
+  
   
   
   cargarTiposPredio(): void {
@@ -99,36 +156,7 @@ export class EditUbicacionComponent implements OnInit {
     );
   }
   
-
-  cargarFinca(): void {
-    const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca');
-    if (!idFinca) {
-      console.error('idFinca no está definido');
-      return;
-    }
   
-    this.fincasService.getFinca(idFinca).subscribe(
-      (data) => {
-        console.log('Datos de finca obtenidos:', data);
-        if (data && data.id) {
-          this.finca = data;
-          this.produccion = { ...this.produccion, ...data }; // Asignar los datos de finca a produccion
-          this.fincaExiste = true;
-        } else {
-          console.error('Datos de finca no válidos:', data);
-        }
-        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
-      },
-      (error) => {
-        console.error('Error al obtener la finca:', error);
-        this.fincaExiste = false;
-        this.cdr.detectChanges();
-      }
-    );
-  }
-  
-  
-
   trackByVereda(index: number, vereda: any): number {
     return vereda.id;
   }
@@ -219,10 +247,7 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
-  
-  
-  
-  
+    
   saveFinca(): void {
     const fincaEditada = {
       id: this.produccion.idFinca,
