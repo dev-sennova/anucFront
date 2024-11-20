@@ -45,6 +45,7 @@ export class EditUbicacionComponent implements OnInit {
     );
   }
   
+  
   trackByTipoPredio(index: number, tipo: any): number {
     return tipo.id;
   }
@@ -111,7 +112,8 @@ export class EditUbicacionComponent implements OnInit {
       extension: this.fincaNueva.extension,
       latitud: this.fincaNueva.latitud,
       longitud: this.fincaNueva.longitud,
-      vereda: this.fincaNueva.vereda,
+      vereda: this.fincaNueva.vereda, // Asegúrate de incluir este campo
+      tipo_predio: this.fincaNueva.tipo_predio // Incluye también este campo
     };
   
     this.fincasService.storeFinca(nuevaFinca).subscribe(
@@ -126,8 +128,8 @@ export class EditUbicacionComponent implements OnInit {
             confirmButtonText: 'Aceptar',
           });
   
-          const idFincaCreada = response.id; // Asegúrate de que este es el ID correcto retornado por la API
-          console.log('ID de la finca creada:', idFincaCreada); // Verifica el ID
+          const idFincaCreada = response.id; // Verifica el ID
+          console.log('ID de la finca creada:', idFincaCreada);
   
           if (!idFincaCreada) {
             Swal.fire({
@@ -143,7 +145,7 @@ export class EditUbicacionComponent implements OnInit {
           localStorage.setItem('id_finca', idFincaCreada);
   
           const idAsociado = localStorage.getItem('identificador_asociado') || '';
-          const tipoPredio = 'tipo_predio_placeholder'; // Reemplaza esto con el valor adecuado
+          const tipoPredio = this.fincaNueva.tipo_predio; // Usar el valor real aquí
   
           // Asociar la finca creada con el asociado
           this.fincasService.asociarFincaConAsociado(idFincaCreada, idAsociado, tipoPredio).subscribe(
@@ -183,6 +185,8 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
+  
+  
   
   saveFinca(): void {
     const fincaEditada = {

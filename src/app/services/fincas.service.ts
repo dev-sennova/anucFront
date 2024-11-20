@@ -49,6 +49,7 @@ export class FincasService {
       'Content-Type': 'application/json',
     });
   
+    console.log('Datos enviados para crear la finca:', fincaData); // Verifica los datos enviados
     return this.http.post<any>(this.apiFincaStore, fincaData, { headers }).pipe(
       map(response => {
         console.log('Respuesta de storeFinca:', response); // Verifica la respuesta completa
@@ -57,6 +58,7 @@ export class FincasService {
       catchError(this.handleError)
     );
   }
+  
   
 
   updateFinca(finca: any): Observable<any> {
