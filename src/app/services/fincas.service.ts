@@ -29,10 +29,11 @@ export class FincasService {
   getFinca(id: string): Observable<any> {
     const url = `${this.apiUrlOneFinca}/${id}`;
     return this.http.get<any>(url).pipe(
-      map(response => response.finca),
+      map(response => response.finca[0]), // Accede al primer elemento del array
       catchError(this.handleError)
     );
-  }
+}
+
   
 
   addFinca(finca: any): Observable<any> {
