@@ -16,6 +16,7 @@ export class EditUbicacionComponent implements OnInit {
   veredas: any[] = [];
   fincaNueva: any = {}; // Datos para la nueva finca
   fincaExiste = false;
+  tiposPredio: any[] = [];
 
   constructor(
     private personasService: PersonasService,
@@ -28,7 +29,25 @@ export class EditUbicacionComponent implements OnInit {
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
     this.cargarVeredasYProduccion(idUsuario);
+    this.cargarTiposPredio(idUsuario); // Cargar tipos de predio
   }
+  
+  cargarTiposPredio(idUsuario: string): void {
+    this.fincasService.getTiposPredio(idUsuario).subscribe(
+      (data) => {
+        this.tiposPredio = data || [];
+        console.log('Tipos de predio cargados:', this.tiposPredio);
+      },
+      (error) => {
+        console.error('Error al obtener los tipos de predio:', error);
+      }
+    );
+  }
+  
+  trackByTipoPredio(index: number, tipo: any): number {
+    return tipo.id;
+  }
+  
 
   cargarVeredasYProduccion(idUsuario: string): void {
     this.veredasService.getVeredas().subscribe(
@@ -164,9 +183,6 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
-  
-  
-  
   
   saveFinca(): void {
     const fincaEditada = {

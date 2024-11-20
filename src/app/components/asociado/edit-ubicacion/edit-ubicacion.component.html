@@ -1,74 +1,81 @@
 <div class="body">
-    <div class="container">
-      <h2>Mi Finca</h2>
-  
-      <!-- Mostrar formulario para crear finca si no hay registros -->
-      <div *ngIf="!fincaExiste; else editarFinca">
-        <div class="form-crear">
-          <div class="card">
-            <div class="card-body">
-              <h3>Crear Finca</h3>
-              <div class="input-group">
-                <label><strong>Nombre de la Finca:</strong></label>
-                <input [(ngModel)]="fincaNueva.nombre" placeholder="Ingrese nombre de la finca" />
-              </div>
-              <div class="input-group">
-                <label><strong>Extensión en hectáreas:</strong></label>
-                <input [(ngModel)]="fincaNueva.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
-              </div>
-              <div class="input-group">
-                <label><strong>Latitud:</strong></label>
-                <input [(ngModel)]="fincaNueva.latitud" type="text" placeholder="Ingrese latitud" />
-              </div>
-              <div class="input-group">
-                <label><strong>Longitud:</strong></label>
-                <input [(ngModel)]="fincaNueva.longitud" type="text" placeholder="Ingrese longitud" />
-              </div>
-              <div class="input-group">
-                <label><strong>Vereda:</strong></label>
-                <select [(ngModel)]="fincaNueva.vereda">
-                  <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.id">
-                    {{ vereda.vereda }}
-                  </option>
-                </select>
-              </div>
+  <div class="container">
+    <h2>Mi Finca</h2>
+
+    <!-- Mostrar formulario para crear finca si no hay registros -->
+    <div *ngIf="!fincaExiste; else editarFinca">
+      <div class="form-crear">
+        <div class="card">
+          <div class="card-body">
+            <h3>Crear Finca</h3>
+            <div class="input-group">
+              <label><strong>Nombre de la Finca:</strong></label>
+              <input [(ngModel)]="fincaNueva.nombre" placeholder="Ingrese nombre de la finca" />
             </div>
-            <div class="card-actions">
-              <button class="btn-secondary" (click)="crearFinca()">Crear Finca</button>
+            <div class="input-group">
+              <label><strong>Extensión en hectáreas:</strong></label>
+              <input [(ngModel)]="fincaNueva.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
             </div>
+            <div class="input-group">
+              <label><strong>Latitud:</strong></label>
+              <input [(ngModel)]="fincaNueva.latitud" type="text" placeholder="Ingrese latitud" />
+            </div>
+            <div class="input-group">
+              <label><strong>Longitud:</strong></label>
+              <input [(ngModel)]="fincaNueva.longitud" type="text" placeholder="Ingrese longitud" />
+            </div>
+            <div class="input-group">
+              <label><strong>Vereda:</strong></label>
+              <select [(ngModel)]="fincaNueva.vereda">
+                <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.id">
+                  {{ vereda.vereda }}
+                </option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label><strong>Tipo de Predio:</strong></label>
+              <select [(ngModel)]="fincaNueva.tipo_predio">
+                <option *ngFor="let tipo of tiposPredio; trackBy: trackByTipoPredio" [value]="tipo.id">
+                  {{ tipo.descripcion }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-secondary" (click)="crearFinca()">Crear Finca</button>
           </div>
         </div>
       </div>
-  
-      <!-- Mostrar formulario de edición si hay registros -->
-      <ng-template #editarFinca>
-        <div class="card-container">
-          <div class="card">
-            <div class="card-body">
-              <h3>Editar Finca</h3>
-              <div class="input-group">
-                <label><strong>Nombre de la Finca:</strong></label>
-                <input [(ngModel)]="produccion.nombre" placeholder="Ingrese nombre de la finca" />
-              </div>
-              <div class="input-group">
-                <label><strong>Extensión en hectáreas:</strong></label>
-                <input [(ngModel)]="produccion.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
-              </div>
-              <div class="input-group">
-                <label><strong>Vereda:</strong></label>
-                <select [(ngModel)]="produccion.vereda">
-                  <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.id">
-                    {{ vereda.vereda }}
-                  </option>
-                </select>
-              </div>
+    </div>
+
+    <!-- Mostrar formulario de edición si hay registros -->
+    <ng-template #editarFinca>
+      <div class="card-container">
+        <div class="card">
+          <div class="card-body">
+            <h3>Editar Finca</h3>
+            <div class="input-group">
+              <label><strong>Nombre de la Finca:</strong></label>
+              <input [(ngModel)]="produccion.nombre" placeholder="Ingrese nombre de la finca" />
             </div>
-            <div class="card-actions">
-              <button class="btn-secondary" (click)="saveFinca()">Guardar</button>
+            <div class="input-group">
+              <label><strong>Extensión en hectáreas:</strong></label>
+              <input [(ngModel)]="produccion.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
+            </div>
+            <div class="input-group">
+              <label><strong>Vereda:</strong></label>
+              <select [(ngModel)]="produccion.vereda">
+                <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.tipo_predio">
+                  {{ vereda.vereda }}
+                </option>
+              </select>
             </div>
           </div>
+          <div class="card-actions">
+            <button class="btn-secondary" (click)="saveFinca()">Guardar</button>
+          </div>
         </div>
-      </ng-template>
-    </div>
+      </div>
+    </ng-template>
   </div>
-  
+</div>

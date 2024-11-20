@@ -13,7 +13,12 @@ export class FincasService {
   private apiUrl = GlobalConstants.apiURL + '/api/auth/finca'; 
   private apiUrlOneFinca = GlobalConstants.apiURL + '/api/auth/finca/selectfinca';// Actualiza esta URL según tu configuración
   private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
-  private  apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
+  private apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
+  private apiPredio = GlobalConstants.apiURL+ '/api/auth/tipo_predio';
+  private apiPredioFinca = GlobalConstants.apiURL+ '/api/auth/tipo_predio/selecttipo_predio';
+
+
+
 
   constructor(private http: HttpClient) { }
 
@@ -38,7 +43,7 @@ export class FincasService {
       catchError(this.handleError)
     );
   }
-  
+
   storeFinca(fincaData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -87,7 +92,18 @@ asociarFincaConAsociado(finca: string, asociado: string, tipo_predio: string): O
 }
 
 
-  
+getTiposPredio(id: string): Observable<any> {
+  const url = `${this.apiPredio}`;
+  return this.http.get<any>(url).pipe(
+    map(response => {
+      console.log('Respuesta de getTiposPredio:', response); // Verifica la respuesta completa
+      return response.tiposPredio; // Asegúrate de que esto coincide con el formato de tu respuesta
+    }),
+    catchError(this.handleError)
+  );
+}
+
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
