@@ -78,14 +78,6 @@
                 </option>
               </select>
             </div>
-            <div class="input-group">
-              <label><strong>Tipo de Predio:</strong></label>
-              <select [(ngModel)]="produccion.tipo_predio">
-                <option *ngFor="let tipo of tiposPredio; trackBy: trackByTipoPredio" [value]="tipo.id">
-                  {{ tipo.tipo_predio }}
-                </option>
-              </select>
-            </div>
           </div>
           <div class="card-actions">
             <button class="btn-secondary" (click)="saveFinca()">Guardar</button>
