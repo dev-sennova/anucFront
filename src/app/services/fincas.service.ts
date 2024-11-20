@@ -38,17 +38,18 @@ export class FincasService {
       catchError(this.handleError)
     );
   }
+  
   storeFinca(fincaData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
   
     return this.http.post<any>(this.apiFincaStore, fincaData, { headers }).pipe(
-      catchError(this.handleError),
       map(response => {
-        console.log('Respuesta de storeFinca:', response); // Log para verificar respuesta
+        console.log('Respuesta de storeFinca:', response); // Verifica la respuesta completa
         return response;
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   

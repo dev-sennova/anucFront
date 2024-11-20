@@ -99,7 +99,7 @@ export class EditUbicacionComponent implements OnInit {
       (response) => {
         console.log('Respuesta completa de la API:', response);
   
-        if (response && response.estado === 'Ok') {
+        if (response && response.estado === 'Ok' && response.id) {
           Swal.fire({
             icon: 'success',
             title: 'Finca creada',
@@ -107,8 +107,9 @@ export class EditUbicacionComponent implements OnInit {
             confirmButtonText: 'Aceptar',
           });
   
-          const idFincaCreada = response.idFinca; // Asegúrate de que este es el ID correcto retornado por la API
-          console.log('ID de la finca creada:', idFincaCreada); // Log para verificar el ID
+          const idFincaCreada = response.id; // Asegúrate de que este es el ID correcto retornado por la API
+          console.log('ID de la finca creada:', idFincaCreada); // Verifica el ID
+  
           if (!idFincaCreada) {
             Swal.fire({
               icon: 'error',
@@ -118,6 +119,9 @@ export class EditUbicacionComponent implements OnInit {
             });
             return;
           }
+  
+          // Almacenar el id en localStorage
+          localStorage.setItem('id_finca', idFincaCreada);
   
           const idAsociado = localStorage.getItem('identificador_asociado') || '';
           const tipoPredio = 'tipo_predio_placeholder'; // Reemplaza esto con el valor adecuado
@@ -144,7 +148,7 @@ export class EditUbicacionComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'No se pudo obtener la finca recién creada. Inténtalo de nuevo.',
+            text: 'No se pudo obtener el ID de la finca recién creada.',
             confirmButtonText: 'Aceptar',
           });
         }
@@ -160,6 +164,7 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
+  
   
   
   
