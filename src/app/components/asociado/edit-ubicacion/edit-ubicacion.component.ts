@@ -29,11 +29,12 @@ export class EditUbicacionComponent implements OnInit {
   ngOnInit(): void {
     const idUsuario = localStorage.getItem('identificador_asociado') || '';
     this.cargarVeredasYProduccion(idUsuario);
-    this.cargarTiposPredio(idUsuario); // Cargar tipos de predio
+    this.cargarTiposPredio(); // Llamar a cargarTiposPredio sin pasar el id
   }
+
   
-  cargarTiposPredio(idUsuario: string): void {
-    this.fincasService.getTiposPredio(idUsuario).subscribe(
+  cargarTiposPredio(): void {
+    this.fincasService.getTiposPredio().subscribe(
       (data) => {
         this.tiposPredio = data || [];
         console.log('Tipos de predio cargados:', this.tiposPredio);
@@ -48,7 +49,6 @@ export class EditUbicacionComponent implements OnInit {
     return tipo.id;
   }
   
-
   cargarVeredasYProduccion(idUsuario: string): void {
     this.veredasService.getVeredas().subscribe(
       (data) => {

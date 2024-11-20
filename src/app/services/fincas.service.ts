@@ -92,16 +92,17 @@ asociarFincaConAsociado(finca: string, asociado: string, tipo_predio: string): O
 }
 
 
-getTiposPredio(id: string): Observable<any> {
-  const url = `${this.apiPredio}`;
+getTiposPredio(): Observable<any> {
+  const url = `${GlobalConstants.apiURL}/api/auth/tipo_predio`;
   return this.http.get<any>(url).pipe(
     map(response => {
       console.log('Respuesta de getTiposPredio:', response); // Verifica la respuesta completa
-      return response.tiposPredio; // Asegúrate de que esto coincide con el formato de tu respuesta
+      return response.tipo_predio; // Asegúrate de que esto coincide con el formato de tu respuesta
     }),
     catchError(this.handleError)
   );
 }
+
 
 
   private handleError(error: HttpErrorResponse) {
