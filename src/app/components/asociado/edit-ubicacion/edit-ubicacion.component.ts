@@ -37,10 +37,9 @@ export class EditUbicacionComponent implements OnInit {
         this.produccion.idFinca = idFinca;
         this.cargarFinca(); // Cargar datos de la finca existente
       }
-    } else {
-      this.cargarVeredasYProduccion(idUsuario);
-      this.cargarTiposPredio();
     }
+    this.cargarVeredasYProduccion(idUsuario);
+    this.cargarTiposPredio();
   }
   
   
@@ -58,27 +57,26 @@ export class EditUbicacionComponent implements OnInit {
   }
   
   
+  
   trackByTipoPredio(index: number, tipo: any): number {
     return tipo.id;
   }
+
   
   cargarVeredasYProduccion(idUsuario: string): void {
     this.veredasService.getVeredas().subscribe(
       (data) => {
         this.veredas = data || [];
         console.log('Veredas cargadas:', this.veredas);
-
+  
         this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
           (data) => {
             if (data && data.length > 0) {
               this.produccion = data[0];
-              console.log('Producción cargada:', this.produccion);
-
               if (this.produccion.idFinca) {
-                this.cargarFinca(); // Verificar si ya existe una finca
+                this.cargarFinca();
               } else {
-                console.warn('No se encontró idFinca en los datos de producción');
-                this.fincaExiste = false; // No hay finca
+                this.fincaExiste = false;
               }
             }
           },
@@ -92,6 +90,7 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
+  
 
   cargarFinca(): void {
     const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca'); // Obtener idFinca desde producción o localStorage
