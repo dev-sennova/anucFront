@@ -44,6 +44,7 @@ export class EditUbicacionComponent implements OnInit {
   }
   
   
+  
   cargarTiposPredio(): void {
     this.fincasService.getTiposPredio().subscribe(
       (data) => {
@@ -93,17 +94,23 @@ export class EditUbicacionComponent implements OnInit {
   }
 
   cargarFinca(): void {
-    if (!this.produccion.idFinca) {
+    const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca'); // Obtener idFinca desde producción o localStorage
+    if (!idFinca) {
       console.error('idFinca no está definido');
       return;
     }
-    this.fincasService.getFinca(this.produccion.idFinca).subscribe(
+    
+    this.fincasService.getFinca(idFinca).subscribe(
       (data) => {
         console.log('Datos de finca obtenidos:', data);
-        this.finca = data || {};
-        this.produccion = { ...this.produccion, ...data }; // Asigna los datos de finca a produccion
-        this.fincaExiste = !!data;
-        this.cdr.detectChanges();
+        if (Array.isArray(data) && data.length > 0) {
+          this.finca = data[0] || {}; // Asigna el primer objeto si es un array
+          this.produccion = { ...this.produccion, ...data[0] }; // Asigna los datos de finca a produccion
+          this.fincaExiste = !!data[0];
+        } else {
+          console.error('Datos de finca no válidos:', data);
+        }
+        this.cdr.detectChanges(); // Asegúrate de que Angular detecte los cambios en la vista
       },
       (error) => {
         console.error('Error al obtener la finca:', error);
@@ -112,6 +119,7 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
+  
   
 
   trackByVereda(index: number, vereda: any): number {

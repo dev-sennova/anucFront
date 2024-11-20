@@ -50,7 +50,7 @@
 
     <!-- Mostrar formulario de edición si hay registros -->
     <ng-template #editarFinca>
-      <div class="card-container">
+      <div *ngIf="fincaExiste; else crearFinca">
         <div class="card">
           <div class="card-body">
             <h3>Editar Finca</h3>
@@ -63,6 +63,14 @@
               <input [(ngModel)]="produccion.extension" type="number" placeholder="Ingrese extensión en hectáreas" />
             </div>
             <div class="input-group">
+              <label><strong>Latitud:</strong></label>
+              <input [(ngModel)]="produccion.latitud" type="text" placeholder="Ingrese latitud" />
+            </div>
+            <div class="input-group">
+              <label><strong>Longitud:</strong></label>
+              <input [(ngModel)]="produccion.longitud" type="text" placeholder="Ingrese longitud" />
+            </div>
+            <div class="input-group">
               <label><strong>Vereda:</strong></label>
               <select [(ngModel)]="produccion.vereda">
                 <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.id">
@@ -72,7 +80,7 @@
             </div>
             <div class="input-group">
               <label><strong>Tipo de Predio:</strong></label>
-              <select [(ngModel)]="produccion.tipo_predio" name="tipoPredio">
+              <select [(ngModel)]="produccion.tipo_predio">
                 <option *ngFor="let tipo of tiposPredio; trackBy: trackByTipoPredio" [value]="tipo.id">
                   {{ tipo.tipo_predio }}
                 </option>
@@ -84,6 +92,9 @@
           </div>
         </div>
       </div>
-    </ng-template>
-  </div>
-
+      <ng-template #crearFinca>
+        <div class="form-crear">
+          <!-- Formulario de creación -->
+        </div>
+      </ng-template>
+      
