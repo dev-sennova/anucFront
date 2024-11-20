@@ -15,11 +15,8 @@ export class FincasService {
   private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
   private apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
   private apiPredio = GlobalConstants.apiURL+ '/api/auth/tipo_predio';
-  private apiPredioFinca = GlobalConstants.apiURL+ '/api/auth/tipo_predio/selecttipo_predio';
 
-
-
-
+  
   constructor(private http: HttpClient) { }
 
   getFincas(): Observable<any> {
@@ -36,6 +33,7 @@ export class FincasService {
       catchError(this.handleError)
     );
   }
+  
 
   addFinca(finca: any): Observable<any> {
     const url = `${this.apiUrl}/store`;
@@ -64,9 +62,14 @@ export class FincasService {
   updateFinca(finca: any): Observable<any> {
     const url = `${this.apiUrl}/update`;
     return this.http.put<any>(url, finca).pipe(
+      map(response => {
+        console.log('Respuesta del servidor al actualizar la finca:', response);
+        return response;
+      }),
       catchError(this.handleError)
     );
   }
+  
 
   activateFinca(id: string): Observable<any> {
     const url = `${this.apiUrl}/activate`;
@@ -95,7 +98,7 @@ asociarFincaConAsociado(finca: string, asociado: string, tipo_predio: string): O
 
 
 getTiposPredio(): Observable<any> {
-  const url = `${GlobalConstants.apiURL}/api/auth/tipo_predio`;
+  const url = `${this.apiPredio}`;
   return this.http.get<any>(url).pipe(
     map(response => {
       console.log('Respuesta de getTiposPredio:', response); // Verifica la respuesta completa

@@ -37,10 +37,12 @@ export class EditUbicacionComponent implements OnInit {
         this.produccion.idFinca = idFinca;
         this.cargarFinca(); // Cargar datos de la finca existente
       }
+    } else {
+      this.cargarVeredasYProduccion(idUsuario);
+      this.cargarTiposPredio();
     }
-    this.cargarVeredasYProduccion(idUsuario);
-    this.cargarTiposPredio();
   }
+  
   
   
   
@@ -201,7 +203,9 @@ export class EditUbicacionComponent implements OnInit {
       longitud: this.finca.longitud || '',
       vereda: this.produccion.vereda,
     };
-
+  
+    console.log('Datos enviados para actualizar la finca:', fincaEditada);
+  
     this.fincasService.updateFinca(fincaEditada).subscribe(
       (response) => {
         Swal.fire({
@@ -223,4 +227,5 @@ export class EditUbicacionComponent implements OnInit {
       }
     );
   }
+  
 }
