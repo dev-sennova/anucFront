@@ -66,7 +66,7 @@
               <label><strong>Vereda:</strong></label>
               <select [(ngModel)]="produccion.vereda">
                 <option *ngFor="let vereda of veredas; trackBy: trackByVereda" [value]="vereda.tipo_predio">
-                  {{ vereda.vereda }}
+                  {{ vereda.tipo_predio }}
                 </option>
               </select>
             </div>
