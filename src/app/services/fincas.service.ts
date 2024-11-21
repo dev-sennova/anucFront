@@ -34,7 +34,13 @@ export class FincasService {
     );
 }
 
-  
+getFincaAsociado(id: string): Observable<any> {
+  const url = `${this.apiAsociado}/${id}`;
+  return this.http.get<any>(url).pipe(
+    map(response => response.finca[0]), // Accede al primer elemento del array
+    catchError(this.handleError)
+  );
+}
 
   addFinca(finca: any): Observable<any> {
     const url = `${this.apiUrl}/store`;
