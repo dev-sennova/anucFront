@@ -15,7 +15,7 @@ export class FincasService {
   private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
   private apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
   private apiPredio = GlobalConstants.apiURL+ '/api/auth/tipo_predio';
-
+  private apiAsociado = GlobalConstants.apiURL+ '/api/auth/finca/selectfinca/';
   
   constructor(private http: HttpClient) { }
 
