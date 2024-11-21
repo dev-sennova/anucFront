@@ -26,60 +26,88 @@ export class EditUbicacionComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-ngOnInit(): void {
-  const idUsuario = localStorage.getItem('identificador_asociado') || '';
-
-  if (idUsuario) {
-    this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
-      (data) => {
-        if (data && data.length > 0) {
-          this.produccion = data[0];
-          console.log('Datos de producción obtenidos:', this.produccion); // Depuración
-
-          this.veredasService.getVeredas().subscribe(
-            (data) => {
-              this.veredas = data || [];
-              console.log('Veredas cargadas:', this.veredas); // Depuración
-              this.fincasService.getFincaByAsociado(idUsuario).subscribe(
-                (fincaData) => {
-                  if (fincaData && fincaData.id) {
-                    this.finca = fincaData;
-                    this.produccion.idFinca = fincaData.id;
-                    this.fincaExiste = true;
-                    console.log('Finca cargada:', this.finca); // Depuración
-                    this.cdr.detectChanges();
-                  } else {
-                    this.fincaExiste = false;
-                  }
+  ngOnInit(): void {
+    const fincaGuardada = localStorage.getItem('finca_creada_completa');
+    if (fincaGuardada) {
+      console.log('Recuperando finca desde localStorage:', fincaGuardada);
+      this.finca = JSON.parse(fincaGuardada);
+      this.produccion = { ...this.produccion, idFinca: this.finca.id, ...this.finca }; // Asegurar que todos los datos estén en producción
+      this.fincaExiste = true;
+      this.cargarVeredas(); // Cargar veredas al iniciar
+      this.cdr.detectChanges(); // Detectar cambios en la vista
+    } else {
+      // Si no hay datos en localStorage, cargar desde la base de datos
+      console.log('No se encontraron datos en localStorage, cargando desde la base de datos.');
+      const idUsuario = localStorage.getItem('identificador_asociado') || '';
+      if (idUsuario) {
+        this.personasService.getInfoOneAsociadoProductos(idUsuario).subscribe(
+          (data) => {
+            if (data && data.length > 0) {
+              this.produccion = data[0];
+              console.log('Datos de producción obtenidos:', this.produccion);
+  
+              this.veredasService.getVeredas().subscribe(
+                (data) => {
+                  this.veredas = data || [];
+                  console.log('Veredas cargadas:', this.veredas);
+                  this.fincasService.getFincaByAsociado(idUsuario).subscribe(
+                    (fincaData) => {
+                      if (fincaData && fincaData.id) {
+                        this.finca = fincaData;
+                        this.produccion = { ...this.produccion, idFinca: fincaData.id, ...fincaData };
+                        this.fincaExiste = true;
+                        console.log('Finca cargada:', this.finca);
+                        localStorage.setItem('finca_creada_completa', JSON.stringify(this.finca)); // Guardar en localStorage
+                        this.cdr.detectChanges();
+                      } else {
+                        this.fincaExiste = false;
+                      }
+                    },
+                    (error) => {
+                      console.error('Error al obtener la finca del asociado:', error);
+                      this.fincaExiste = false;
+                    }
+                  );
                 },
                 (error) => {
-                  console.error('Error al obtener la finca del asociado:', error);
-                  this.fincaExiste = false;
+                  console.error('Error al obtener las veredas:', error);
                 }
               );
-            },
-            (error) => {
-              console.error('Error al obtener las veredas:', error);
+            } else {
+              this.fincaExiste = false;
             }
-          );
-        } else {
-          this.fincaExiste = false;
-        }
-      },
-      (error) => {
-        console.error('Error al obtener los datos de producción del asociado', error);
+          },
+          (error) => {
+            console.error('Error al obtener los datos de producción del asociado', error);
+            this.fincaExiste = false;
+          }
+        );
+      } else {
         this.fincaExiste = false;
       }
-    );
-  } else {
-    this.fincaExiste = false;
-  }
-
-  this.cargarVeredasYProduccion(idUsuario);
-  this.cargarTiposPredio();
-}
-
   
+      this.cargarVeredasYProduccion(idUsuario);
+      this.cargarTiposPredio();
+    }
+  }
+  
+  
+  
+  
+  logout(): void {
+    // Guarda los datos de la finca en localStorage antes de cerrar sesión
+    if (this.finca) {
+      console.log('Guardando finca en localStorage antes de cerrar sesión:', this.finca);
+      localStorage.setItem('finca_creada_completa', JSON.stringify(this.finca));
+    }
+  
+    // Procede con la lógica de cierre de sesión
+    localStorage.removeItem('token'); // Remover solo el token de autenticación u otros datos sensibles
+    console.log('Token eliminado, redirigiendo a la página de login');
+    this.route.navigate(['/login']);
+  }
+  
+
   
   cargarFinca(): void {
     const idFinca = this.produccion.idFinca || localStorage.getItem('id_finca');
@@ -106,6 +134,20 @@ ngOnInit(): void {
         console.error('Error al obtener la finca:', error);
         this.fincaExiste = false;
         this.cdr.detectChanges();
+      }
+    );
+  }
+  
+
+  // Nueva función para cargar Veredas
+  cargarVeredas(): void {
+    this.veredasService.getVeredas().subscribe(
+      (data) => {
+        this.veredas = data || [];
+        console.log('Veredas cargadas:', this.veredas);
+      },
+      (error) => {
+        console.error('Error al obtener las veredas:', error);
       }
     );
   }
@@ -182,19 +224,19 @@ ngOnInit(): void {
           });
   
           const idFincaCreada = response.id;
-          console.log('ID de finca creada:', idFincaCreada); // Registro de depuración
+          console.log('ID de finca creada:', idFincaCreada);
   
-          // Obtener la finca completa con el ID recién creado
+          // Obtener la finca completa con el ID recién creado y guardarla en localStorage
           this.fincasService.getFinca(idFincaCreada).subscribe(
             (fincaCreada) => {
               if (fincaCreada) {
-                console.log('Finca creada obtenida:', fincaCreada); // Registro de depuración
                 this.finca = fincaCreada;
+                localStorage.setItem('finca_creada_completa', JSON.stringify(fincaCreada)); // Guardar en localStorage
   
                 const idAsociado = localStorage.getItem('identificador_asociado') || '';
                 const tipoPredio = this.fincaNueva.tipo_predio;
   
-                this.produccion = { ...this.produccion, idFinca: fincaCreada.id }; // Asegurar que produccion esté definido
+                this.produccion = { ...this.produccion, idFinca: fincaCreada.id };
                 this.fincaExiste = true;
   
                 // Asociar la finca creada con el asociado
@@ -247,14 +289,15 @@ ngOnInit(): void {
       }
     );
   }
-    
+  
+  
   saveFinca(): void {
     const fincaEditada = {
       id: this.produccion.idFinca,
       nombre: this.produccion.nombre,
       extension: this.produccion.extension,
-      latitud: this.finca.latitud || '',
-      longitud: this.finca.longitud || '',
+      latitud: this.produccion.latitud,
+      longitud: this.produccion.longitud,
       vereda: this.produccion.vereda,
     };
   
@@ -268,6 +311,10 @@ ngOnInit(): void {
           text: 'La finca se ha actualizado exitosamente',
           confirmButtonText: 'Aceptar',
         });
+  
+        // Guardar la finca editada en localStorage
+        console.log('Guardando finca editada en localStorage:', fincaEditada);
+        localStorage.setItem('finca_creada_completa', JSON.stringify(fincaEditada));
         this.ngOnInit();
       },
       (error) => {
@@ -281,5 +328,7 @@ ngOnInit(): void {
       }
     );
   }
+  
+  
   
 }
