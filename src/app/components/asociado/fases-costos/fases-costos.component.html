@@ -2,18 +2,11 @@
   <div id="container">
     <h1>Fases de Producción</h1>
     <div class="tabs">
-      <label
-        *ngFor="let fase of fasesProducion; let i = index"
-        (click)="selectTab(i)"
-        [class.active]="i === activeTab"
-        class="tab-label">
-        {{ fase.nombre_fase }}
+      <label *ngFor="let fase of fasesProducion; let i = index" (click)="selectTab(i)" [class.active]="i === activeTab" class="tab-label"> {{ fase.nombre_fase }}
       </label>
-      <label
-        (click)="selectTab(fasesProducion.length)"
-        [class.active]="activeTab === fasesProducion.length"
-        class="tab-label">
-        Hoja de costos
+      
+      <label (click)="selectTab(fasesProducion.length)"  [class.active]="activeTab === fasesProducion.length" class="tab-label">
+         Hoja de costos
       </label>
     </div>
 
@@ -23,7 +16,7 @@
         <p>{{ fase.descripcion }}</p>
 
         <!-- Move the *ngIf check inside the *ngFor loop -->
-        <div *ngIf="i < fasesProducion.length - 1">
+        <div *ngIf="i < fasesProducion.length">
           <!-- Botón para alternar la visibilidad del formulario -->
           <button (click)="toggleForm()" class="toggle-form-btn">Añadir Conceptos</button>
 
@@ -161,7 +154,7 @@
                 </tr>
                 <tr>
                   <td style="text-align: right; font-weight: bold;">Costo por unidad de producción:</td>
-                  <td>{{ datosHoja[0].costounidad | currency:'COP':'symbol':'1.0-0' }}</td>
+                  <td>{{ datosHoja[0].costounidad }}</td> 
                 </tr>
               </tbody>
             </table>

@@ -93,7 +93,6 @@ export class EditUbicacionComponent implements OnInit {
   
   
   
-  
   logout(): void {
     // Guarda los datos de la finca en localStorage antes de cerrar sesión
     if (this.finca) {
