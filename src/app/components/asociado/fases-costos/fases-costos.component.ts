@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , EventEmitter, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import Swal from 'sweetalert2';
@@ -166,7 +166,7 @@ export class FasesCostosComponent implements OnInit {
       });
       return;
     }
-
+  
     // Preparar datos para envío
     const formData = {
       idGrupo: this.selectedGrupo,
@@ -176,14 +176,14 @@ export class FasesCostosComponent implements OnInit {
       cantidad: this.cantidad,
       valorUnitario: this.valorUnitario,
     };
-
+  
     console.log('Datos del formulario:', formData);
-
+  
     // Enviar datos al servicio
     this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
-
+  
         // Mostrar confirmación
         Swal.fire({
           icon: 'success',
@@ -192,13 +192,14 @@ export class FasesCostosComponent implements OnInit {
           confirmButtonText: 'Aceptar',
         });
         this.showForm = false;
+        this.resetForm();
         if (this.idHojaCostos){
           this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
-        }
+        }    
       },
       (error: any) => {
         console.error('Error al guardar:', error);
-
+  
         // Mostrar error
         Swal.fire({
           icon: 'error',
@@ -209,6 +210,15 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
+  
+  // Método para resetear los valores del formulario
+  resetForm(): void {
+    this.selectedGrupo = 0;
+    this.selectedConcepto = 0;
+    this.cantidad = 0;
+    this.valorUnitario = 0;
+  }
+  
 
   obtenerDatosHojaCostos(idHojaCostos: number): void {
     this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
