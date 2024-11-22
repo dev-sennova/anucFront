@@ -355,6 +355,7 @@ export class FasesCostosComponent implements OnInit {
         return `Sección ${index + 1}`;  // Predeterminado si no existe el grupo
       }
     }
+ 
       exportToExcel(): void {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
         
@@ -376,7 +377,7 @@ export class FasesCostosComponent implements OnInit {
     
         const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);
     
-        // Aplicar bordes a todas las celdas
+        // Aplicar bordes y formato de celdas
         const range = XLSX.utils.decode_range(wsGeneral['!ref']!);
         for (let R = range.s.r; R <= range.e.r; ++R) {
           for (let C = range.s.c; C <= range.e.c; ++C) {
@@ -390,6 +391,10 @@ export class FasesCostosComponent implements OnInit {
               left: { style: "thin", color: { rgb: "000000" } },
               right: { style: "thin", color: { rgb: "000000" } }
             };
+            // Aplicar formato de decimales a las celdas numéricas
+            if (C === 1 && R > 3) { // Columna 2 (índice 1) y fila mayor a 3 para datos numéricos
+              wsGeneral[cell_ref].z = '0.00';
+            }
           }
         }
     
@@ -405,7 +410,7 @@ export class FasesCostosComponent implements OnInit {
     
         const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);
     
-        // Aplicar bordes a todas las celdas
+        // Aplicar bordes y formato de celdas
         const rangeFases = XLSX.utils.decode_range(wsFases['!ref']!);
         for (let R = rangeFases.s.r; R <= rangeFases.e.r; ++R) {
           for (let C = rangeFases.s.c; C <= rangeFases.e.c; ++C) {
@@ -419,6 +424,10 @@ export class FasesCostosComponent implements OnInit {
               left: { style: "thin", color: { rgb: "000000" } },
               right: { style: "thin", color: { rgb: "000000" } }
             };
+            // Aplicar formato de decimales a las celdas numéricas
+            if (C === 1 && R > 0) { // Columna 2 (índice 1) y fila mayor a 0 para datos numéricos
+              wsFases[cell_ref].z = '0.00';
+            }
           }
         }
     
