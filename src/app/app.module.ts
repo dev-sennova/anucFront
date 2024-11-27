@@ -153,7 +153,7 @@ const materialModules = [
     ListadodecostosComponent,
     ProducidoComponent,
     FasesCostosComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -179,10 +179,10 @@ const materialModules = [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: SessionInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'es' },
-    
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 

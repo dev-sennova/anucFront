@@ -240,6 +240,8 @@ export class FasesCostosComponent implements OnInit {
 
           this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad });
           console.log('Vector Hoja fase 0:', JSON.stringify(this.datosHoja));
+          console.log('Vector Hoja Acumulado:', JSON.stringify(this.datosHoja[0].totalcosto));
+          console.log('Vector Hoja Unidad:', JSON.stringify(this.datosHoja[0].costounidad));
 
           this.datosTablas = response.detallado_hoja; // Asigna los datos a la tabla
           console.log('Fase actual:', this.selectedPhaseId);
