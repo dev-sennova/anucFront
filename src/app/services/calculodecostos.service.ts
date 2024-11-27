@@ -20,15 +20,13 @@ export class CalculodecostosService {
   private categoriaProducto =
     GlobalConstants.apiURL + '/api/auth/costeo/productos_usuario/';
   private generalidad =
-    GlobalConstants.apiURL +
-    '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
+    GlobalConstants.apiURL + '/api/auth/generalidades_produccion/selectgeneralidades_produccion/';
   private generalidadStore =
     GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
   private hojasdecostos =
     GlobalConstants.apiURL + '/api/auth/costeo/hojas_grupo/';
   private fasesSeleccion =
-    GlobalConstants.apiURL +
-    '/api/auth/fases_produccion/selectfases_produccion/';
+    GlobalConstants.apiURL + '/api/auth/fases_produccion/selectfases_produccion/';
   private grupoConcepto =
     GlobalConstants.apiURL + '/api/auth/grupos_conceptos';
   private conceptosSeleccion =
@@ -167,16 +165,10 @@ export class CalculodecostosService {
     );
   }
 
-  getCostos(idGrupo: number): Observable<any> {
-    const url = `${this.hojasdecostos}${idGrupo}`;
-    return this.http.get<any>(url).pipe(catchError(this.handleError));
-  }
-
   // Obtener Datos
-  getCostosDatos(idGrupo: number): Observable<any> {
+  getCostosDatos(idGrupo: string): Observable<any> {
     const url = `${this.hojasdecostos}?idGrupo=${idGrupo}&idAsociado=${localStorage.getItem('identificador_asociado')}`;
     console.log('Request URL:', url);
-
     return this.http.get<any>(url);
   }
 
