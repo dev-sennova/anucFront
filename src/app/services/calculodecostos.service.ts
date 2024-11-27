@@ -174,25 +174,10 @@ export class CalculodecostosService {
 
   // Obtener Datos
   getCostosDatos(idGrupo: number): Observable<any> {
-    const url = `${
-      this.hojasdecostos
-    }?idGrupo=${idGrupo}&idAsociado=${localStorage.getItem(
-      'identificador_asociado'
-    )}`;
+    const url = `${this.hojasdecostos}?idGrupo=${idGrupo}&idAsociado=${localStorage.getItem('identificador_asociado')}`;
     console.log('Request URL:', url);
 
-    return this.http.get(url).pipe(
-      tap((response) => {
-        console.log('Request successful');
-        console.log('Response:', response);
-      }),
-      catchError((error) => {
-        console.error('Error fetching costos data:', error);
-        throw new Error(
-          `Failed to fetch costos data. Status: ${error.status}, Message: ${error.statusText}`
-        );
-      })
-    );
+    return this.http.get<any>(url);
   }
 
   // Fases

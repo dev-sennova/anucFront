@@ -18,7 +18,7 @@ import { FormasContactoAsociadoService } from 'src/app/services/formas-contacto-
 export class InicioAsociadoComponent implements OnInit {
 
 
-  persona: any;
+  persona: any={};
   sexos: any[] = [];
   veredas: any[] = [];
   tiposDocumento: any[] = [];
@@ -50,28 +50,28 @@ export class InicioAsociadoComponent implements OnInit {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
     const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
     const idPersona = localStorage.getItem('identificador_persona') || '';
-  
+
     if (!idAsociado) {
       console.error('No se encontró idAsociado en el localStorage');
       this.loadingService.hideLoading();
       return;
     }
-  
+
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
         if (data) {
           if (data.produccion && data.produccion.length > 0) {
             this.produccion = data.produccion.slice(0, 100);
           }
-  
+
           if (data.familiares && data.familiares.length > 0) {
             this.familiares = data.familiares.slice(0, 100);
           }
-  
+
           if (data.asociado && data.asociado.length > 0) {
             this.persona = data.asociado[0];
           }
-  
+
           if (data.permisos && data.permisos.length > 0) {
             this.permisos = data.permisos[0];
             this.checkHabeasData();
@@ -86,7 +86,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.tipoDocumentoService.getTiposDocumento().subscribe(
       (data) => {
         if (data) {
@@ -99,7 +99,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.sexoService.getSexos().subscribe(
       (data) => {
         if (data) {
@@ -112,7 +112,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.veredasService.getVeredas().subscribe(
       (data) => {
         if (data) {
@@ -125,7 +125,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.estadoCivilService.getEstadosCiviles().subscribe(
       (data) => {
         if (data) {
@@ -138,7 +138,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.parentescosService.getParentescos().subscribe(
       (data) => {
         if (data) {
@@ -151,7 +151,7 @@ export class InicioAsociadoComponent implements OnInit {
         this.loadingService.hideLoading();
       }
     );
-  
+
     this.tiposPredioService.getPredio().subscribe(
       (data) => {
         if (data) {
@@ -165,7 +165,7 @@ export class InicioAsociadoComponent implements OnInit {
       }
     );
   }
-  
+
   checkHabeasData() {
     // Si el habeasData es 0, mostrar el modal
     if (this.permisos.habeasData === 0) {

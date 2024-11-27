@@ -2,7 +2,7 @@
   <h1 class="form-title">Hoja De Costos</h1>
 
   <!-- Botón para crear formulario, solo se muestra si no hay registros -->
-  <button *ngIf="costos.length === 0" (click)="openFormulario()">Crear Hoja de Costo</button>
+  <button (click)="openFormulario()">Crear Hoja de Costo</button>
 
   <!-- Modal para el formulario de producción -->
   <div class="modal" *ngIf="showFormularioProduccion" (click)="closeFormularioProduccion()">

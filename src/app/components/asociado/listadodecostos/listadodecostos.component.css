@@ -8,13 +8,13 @@
     background: #f5f5f5; /* Fondo opcional */
   }
 
-  
+
 .form-title {
   font-size: 28px; /* Tamaño de fuente grande */
   font-weight: bold; /* Negrita para mayor énfasis */
   color: #333; /* Color oscuro para el texto, fácil de leer */
   text-align: center; /* Centra el título horizontalmente */
-  margin-top: 20px; /* Espacio en la parte superior */
+  margin-top: 5px; /* Espacio en la parte superior */
   margin-bottom: 20px; /* Espacio en la parte inferior */
   font-family: Arial, sans-serif; /* Fuente moderna y legible */
 
@@ -30,7 +30,6 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 
 
 .modal {
@@ -191,7 +190,7 @@ h2 {
   padding: 0.75em 1.5em; /* 12px 25px */
   }
   }
-  
+
   /* Estilo para el botón "Crear Formulario" */
   button {
   padding: 10px 20px;
@@ -215,7 +214,7 @@ h2 {
   button:focus {
   outline: none;
   }
-  
+
   button {
   background-color: #007bff;
   color: white;
@@ -223,7 +222,7 @@ h2 {
   padding: 10px;
   cursor: pointer;
   }
-  
+
   button:hover {
   background-color: #0056b3;
   }
@@ -232,10 +231,10 @@ h2 {
   /* General styles for the table */
   .container {
     max-width: 1200px;
-    margin: 90px auto; /* Baja el contenedor más abajo ajustando margin-top */
-    padding: 90px;
+    margin: 20px auto; /* Baja el contenedor más abajo ajustando margin-top */
+    padding: 30px;
   }
-  
+
 
 table {
   width: 100%;
@@ -343,7 +342,7 @@ button:hover {
     width: 90%;
     padding: 20px;
   }
-  
+
   table th, table td {
     font-size: 0.9em;
   }

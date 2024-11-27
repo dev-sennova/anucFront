@@ -124,7 +124,7 @@ this.filteredProductos = [];
 }
 },
 (error) => {
-Swal.fire('Error', 'No se pudieron cargar los productos del asociado.', 'error');
+Swal.fire('Error', 'No se pudieron cargar los productos del asociado.', error);
 }
 );
 }
@@ -161,7 +161,7 @@ this.unidadesService.getUnidades().subscribe(
 this.medidas = data;
 },
 (error) => {
-Swal.fire('Error', 'No se pudieron cargar las unidades de medida.', 'error');
+Swal.fire('Error', 'No se pudieron cargar las unidades de medida.', error);
 }
 );
 }
@@ -201,7 +201,7 @@ this.costos = [];
 }
 },
 (error) => {
-Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', 'error');
+Swal.fire('Error', 'No se pudieron cargar los costos del grupo.', error);
 }
 );
 
@@ -214,7 +214,7 @@ this.loadData();
 },
 (error) => {
 console.error('Error al enviar el formulario', error);
-Swal.fire('Error', 'No se pudo enviar el formulario', 'error');
+Swal.fire('Error', 'No se pudo enviar el formulario', error);
 }
 );
 }
@@ -261,9 +261,6 @@ filtrarCostos(): void {
   // Asigna los costos filtrados a this.costos
   this.costos = costosFiltrados;
 }
-
-
-
 
 }
 
