@@ -24,7 +24,7 @@ export class CalculodecostosService {
   private generalidadStore =
     GlobalConstants.apiURL + '/api/auth/hoja_de_costos/store';
   private hojasdecostos =
-    GlobalConstants.apiURL + '/api/auth/costeo/hojas_grupo/';
+    GlobalConstants.apiURL + '/api/auth/costeo/hojas_grupo';
   private fasesSeleccion =
     GlobalConstants.apiURL + '/api/auth/fases_produccion/selectfases_produccion/';
   private grupoConcepto =

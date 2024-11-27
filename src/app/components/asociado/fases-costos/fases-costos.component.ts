@@ -38,6 +38,7 @@ export class FasesCostosComponent implements OnInit {
   seccionesFiltradas3: any;
 
   TotalCostos: any[] = [];
+  datosFlag: number=0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -168,7 +169,7 @@ export class FasesCostosComponent implements OnInit {
       });
       return;
     }
-  
+
     // Preparar datos para envío
     const formData = {
       idGrupo: this.selectedGrupo,
@@ -178,14 +179,14 @@ export class FasesCostosComponent implements OnInit {
       cantidad: this.cantidad,
       valorUnitario: this.valorUnitario,
     };
-  
+
     console.log('Datos del formulario:', formData);
-  
+
     // Enviar datos al servicio
     this.calculoCostosService.storeDetalladoProduccion(formData).subscribe(
       (response: any) => {
         console.log('Respuesta del servidor:', response);
-  
+
         // Mostrar confirmación
         Swal.fire({
           icon: 'success',
@@ -197,11 +198,11 @@ export class FasesCostosComponent implements OnInit {
         this.resetForm();
         if (this.idHojaCostos){
           this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
-        }    
+        }
       },
       (error: any) => {
         console.error('Error al guardar:', error);
-  
+
         // Mostrar error
         Swal.fire({
           icon: 'error',
@@ -212,7 +213,7 @@ export class FasesCostosComponent implements OnInit {
       }
     );
   }
-  
+
   // Método para resetear los valores del formulario
   resetForm(): void {
     this.selectedGrupo = 0;
@@ -220,32 +221,23 @@ export class FasesCostosComponent implements OnInit {
     this.cantidad = 0;
     this.valorUnitario = 0;
   }
-  
 
   obtenerDatosHojaCostos(idHojaCostos: number): void {
     this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
       (response: any) => {
         if (response.estado === 'Ok') {
-          console.log('Detallado inicial Hoja:', JSON.stringify(response));
+          console.log('Detallado inicial Hoja:', response);
 
-          const fechaInicio = response.fechaInicio;
-          const fechaFin = response.fechaFin;
-          const descripcion = response.descripcion;
-          const unidad = response.unidad;
-          const cantidad = response.cantidad;
-          const esperado = response.esperado;
-          const producto = response.producto;
-          const totalcosto = response.totalcosto;
-          const costounidad = response.costounidad;
-
+          const { fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad } = response;
           this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad });
-          console.log('Vector Hoja fase 0:', JSON.stringify(this.datosHoja));
-          console.log('Vector Hoja Acumulado:', JSON.stringify(this.datosHoja[0].totalcosto));
-          console.log('Vector Hoja Unidad:', JSON.stringify(this.datosHoja[0].costounidad));
 
-          this.datosTablas = response.detallado_hoja; // Asigna los datos a la tabla
-          console.log('Fase actual:', this.selectedPhaseId);
-          console.log('Datos obtenidos:', this.datosTablas);
+          this.datosFlag=this.datosHoja.length - 1;
+
+          console.log('Vector Hoja fase 0:', this.datosHoja);
+          console.log('Vector Hoja Acumulado:', this.datosHoja[this.datosFlag].totalcosto);
+          console.log('Vector Hoja Unidad:', this.datosHoja[this.datosFlag].costounidad);
+
+          this.datosTablas = response.detallado_hoja;
           this.vectorTabla(this.selectedPhaseId, this.datosTablas);
         } else {
           console.error('Error en la respuesta:', response.message);
@@ -357,10 +349,10 @@ export class FasesCostosComponent implements OnInit {
         return `Sección ${index + 1}`;  // Predeterminado si no existe el grupo
       }
     }
- 
+
       exportToExcel(): void {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        
+
         // Hoja de costos generales
         const generalData = [
           ['ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA', ''],
@@ -376,9 +368,9 @@ export class FasesCostosComponent implements OnInit {
           ['Total Costo', this.datosHoja[0].totalcosto],
           ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
         ];
-    
+
         const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);
-    
+
         // Aplicar bordes y formato de celdas
         const range = XLSX.utils.decode_range(wsGeneral['!ref']!);
         for (let R = range.s.r; R <= range.e.r; ++R) {
@@ -399,9 +391,9 @@ export class FasesCostosComponent implements OnInit {
             }
           }
         }
-    
+
         XLSX.utils.book_append_sheet(wb, wsGeneral, 'Hoja de Costos Generales');
-    
+
         // Detalle de costos por fases
         const faseData = [
           ['Fase', 'Subtotales'],
@@ -409,9 +401,9 @@ export class FasesCostosComponent implements OnInit {
           ['Total Costo', this.datosHoja[0].totalcosto],
           ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
         ];
-    
+
         const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);
-    
+
         // Aplicar bordes y formato de celdas
         const rangeFases = XLSX.utils.decode_range(wsFases['!ref']!);
         for (let R = rangeFases.s.r; R <= rangeFases.e.r; ++R) {
@@ -432,20 +424,19 @@ export class FasesCostosComponent implements OnInit {
             }
           }
         }
-    
+
         XLSX.utils.book_append_sheet(wb, wsFases, 'Detalle de Costos por Fases');
-    
+
         // Generar archivo Excel y guardar
         const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
         this.saveAsExcelFile(excelBuffer, 'HojaDeCostos');
       }
-    
+
       private saveAsExcelFile(buffer: any, fileName: string): void {
         const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
         FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
       }
     }
-    
+
     const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const EXCEL_EXTENSION = '.xlsx';
-    

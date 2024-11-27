@@ -143,11 +143,11 @@
               </tr>
               <tr>
                 <td style="text-align: right; font-weight: bold;">Total Costo:</td>
-                <td>{{ datosHoja[0].totalcosto | currency:'COP':'symbol':'1.0-0' }}</td>
+                <td>{{ this.datosHoja[this.datosFlag].totalcosto | currency:'COP':'symbol':'1.0-0' }}</td>
               </tr>
               <tr>
                 <td style="text-align: right; font-weight: bold;">Costo por unidad de producción:</td>
-                <td>{{ datosHoja[0].costounidad }}</td>
+                <td>{{ this.datosHoja[this.datosFlag].costounidad | currency:'COP':'symbol':'1.0-0' }}</td>
               </tr>
             </tbody>
           </table>
