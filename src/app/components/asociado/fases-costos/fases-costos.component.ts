@@ -20,6 +20,7 @@ export class FasesCostosComponent implements OnInit {
   selectedConcepto: number = 0;
   showForm: boolean = false;
   cantidad: number = 0;
+  detalle: string = "";
   valorUnitario: number = 0;
   selectedPhaseId: number | null = null;
   idHojaCostos: string | null = null;
@@ -177,6 +178,7 @@ export class FasesCostosComponent implements OnInit {
       idFase: this.selectedPhaseId,
       idHojaCostos: this.idHojaCostos,
       cantidad: this.cantidad,
+      detalle: this.detalle,
       valorUnitario: this.valorUnitario,
     };
 
@@ -219,6 +221,7 @@ export class FasesCostosComponent implements OnInit {
     this.selectedGrupo = 0;
     this.selectedConcepto = 0;
     this.cantidad = 0;
+    this.detalle = "";
     this.valorUnitario = 0;
   }
 
@@ -228,8 +231,8 @@ export class FasesCostosComponent implements OnInit {
         if (response.estado === 'Ok') {
           console.log('Detallado inicial Hoja:', response);
 
-          const { fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad } = response;
-          this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad });
+          const { fechaInicio, fechaFin, descripcion, unidad, cantidad, detalle, esperado, producto, totalcosto, costounidad } = response;
+          this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, detalle, esperado, producto, totalcosto, costounidad });
 
           this.datosFlag=this.datosHoja.length - 1;
 

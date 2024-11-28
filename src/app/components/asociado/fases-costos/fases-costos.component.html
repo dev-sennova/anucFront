@@ -23,16 +23,18 @@
               <table border="1" style="width: 100%; border-collapse: collapse;">
                 <thead>
                   <tr>
-                    <th>Concepto</th>
                     <th>Cantidad</th>
+                    <th>Concepto</th>
+                    <th>Detalle</th>
                     <th>Valor Unitario</th>
                     <th>Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of seccion">
-                    <td>{{ item.concepto }}</td>
                     <td>{{ item.cantidad }}</td>
+                    <td>{{ item.concepto }}</td>
+                    <td>{{ item.detalle }}</td>
                     <td>{{ item.valorUnitario | currency:'COP':'symbol':'1.0-0' }}</td>
                     <td>{{ item.subtotal | currency:'COP':'symbol':'1.0-0' }}</td>
                   </tr>
@@ -67,6 +69,10 @@
               <div class="form-group">
                 <label for="cantidad">Cantidad:</label>
                 <input type="number" id="cantidad" [(ngModel)]="cantidad" name="cantidad" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="detalle">Detalle:</label>
+                <input type="text" id="detalle" [(ngModel)]="detalle" name="detalle" class="form-control" placeholder="Ingrese la cantidad o el detalle necesario para identificar" required>
               </div>
               <div class="form-group">
                 <label for="valorUnitario">Valor Unitario:</label>
