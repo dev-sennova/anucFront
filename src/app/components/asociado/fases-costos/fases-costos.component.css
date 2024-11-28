@@ -109,19 +109,31 @@
 
 
 /* Formulario */
-  .toggle-form-btn {
-    padding: 10px 20px;
-    margin: 20px 0;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+/* Estilo para botones */
+.toggle-form-btn,
+.export-excel-btn {
+  padding: 10px 20px;
+  margin: 20px 0;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  .toggle-form-btn:hover {
-    background-color: #0056b3;
-  }
+.toggle-form-btn:hover,
+.export-excel-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para la imagen dentro del botón */
+.toggle-form-btn .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+  fill: white; /* Cambia el color a blanco */
+}
 
   .form-container {
     margin-top: 20px;

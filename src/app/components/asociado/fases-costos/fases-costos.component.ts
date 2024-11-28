@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , EventEmitter, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-fases-costos',
@@ -18,6 +20,7 @@ export class FasesCostosComponent implements OnInit {
   selectedConcepto: number = 0;
   showForm: boolean = false;
   cantidad: number = 0;
+  detalle: string = "";
   valorUnitario: number = 0;
   selectedPhaseId: number | null = null;
   idHojaCostos: string | null = null;
@@ -36,6 +39,7 @@ export class FasesCostosComponent implements OnInit {
   seccionesFiltradas3: any;
 
   TotalCostos: any[] = [];
+  datosFlag: number=0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -174,6 +178,7 @@ export class FasesCostosComponent implements OnInit {
       idFase: this.selectedPhaseId,
       idHojaCostos: this.idHojaCostos,
       cantidad: this.cantidad,
+      detalle: this.detalle,
       valorUnitario: this.valorUnitario,
     };
 
@@ -192,6 +197,7 @@ export class FasesCostosComponent implements OnInit {
           confirmButtonText: 'Aceptar',
         });
         this.showForm = false;
+        this.resetForm();
         if (this.idHojaCostos){
           this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
         }
@@ -210,30 +216,31 @@ export class FasesCostosComponent implements OnInit {
     );
   }
 
+  // Método para resetear los valores del formulario
+  resetForm(): void {
+    this.selectedGrupo = 0;
+    this.selectedConcepto = 0;
+    this.cantidad = 0;
+    this.detalle = "";
+    this.valorUnitario = 0;
+  }
+
   obtenerDatosHojaCostos(idHojaCostos: number): void {
     this.calculoCostosService.obtenerCosteo(idHojaCostos).subscribe(
       (response: any) => {
         if (response.estado === 'Ok') {
-          console.log('Detallado inicial Hoja:', JSON.stringify(response));
+          console.log('Detallado inicial Hoja:', response);
 
-          const fechaInicio = response.fechaInicio;
-          const fechaFin = response.fechaFin;
-          const descripcion = response.descripcion;
-          const unidad = response.unidad;
-          const cantidad = response.cantidad;
-          const esperado = response.esperado;
-          const producto = response.producto;
-          const totalcosto = response.totalcosto;
-          const costounidad = response.costounidad;
+          const { fechaInicio, fechaFin, descripcion, unidad, cantidad, detalle, esperado, producto, totalcosto, costounidad } = response;
+          this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, detalle, esperado, producto, totalcosto, costounidad });
 
-          this.datosHoja.push({ fechaInicio, fechaFin, descripcion, unidad, cantidad, esperado, producto, totalcosto, costounidad });
-          console.log('Vector Hoja fase 0:', JSON.stringify(this.datosHoja));
-          console.log('Vector Hoja Acumulado:', JSON.stringify(this.datosHoja[0].totalcosto));
-          console.log('Vector Hoja Unidad:', JSON.stringify(this.datosHoja[0].costounidad));
+          this.datosFlag=this.datosHoja.length - 1;
 
-          this.datosTablas = response.detallado_hoja; // Asigna los datos a la tabla
-          console.log('Fase actual:', this.selectedPhaseId);
-          console.log('Datos obtenidos:', this.datosTablas);
+          console.log('Vector Hoja fase 0:', this.datosHoja);
+          console.log('Vector Hoja Acumulado:', this.datosHoja[this.datosFlag].totalcosto);
+          console.log('Vector Hoja Unidad:', this.datosHoja[this.datosFlag].costounidad);
+
+          this.datosTablas = response.detallado_hoja;
           this.vectorTabla(this.selectedPhaseId, this.datosTablas);
         } else {
           console.error('Error en la respuesta:', response.message);
@@ -346,4 +353,93 @@ export class FasesCostosComponent implements OnInit {
       }
     }
 
-}
+      exportToExcel(): void {
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+        // Hoja de costos generales
+        const generalData = [
+          ['ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA', ''],
+          ['NIT: 890.211.458-4', ''],
+          [''],
+          ['Fecha Inicio', this.datosHoja[0].fechaInicio],
+          ['Fecha Fin', this.datosHoja[0].fechaFin],
+          ['Producto', this.datosHoja[0].producto],
+          ['Descripción', this.datosHoja[0].descripcion],
+          ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad],
+          ['Cantidad Esperada', this.datosHoja[0].esperado],
+          ['Unidad de Producción', this.datosHoja[0].unidad],
+          ['Total Costo', this.datosHoja[0].totalcosto],
+          ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
+        ];
+
+        const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);
+
+        // Aplicar bordes y formato de celdas
+        const range = XLSX.utils.decode_range(wsGeneral['!ref']!);
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+          for (let C = range.s.c; C <= range.e.c; ++C) {
+            const cell_address = { c: C, r: R };
+            const cell_ref = XLSX.utils.encode_cell(cell_address);
+            if (!wsGeneral[cell_ref]) wsGeneral[cell_ref] = { t: 's', v: '' };
+            if (!wsGeneral[cell_ref].s) wsGeneral[cell_ref].s = {};
+            wsGeneral[cell_ref].s.border = {
+              top: { style: "thin", color: { rgb: "000000" } },
+              bottom: { style: "thin", color: { rgb: "000000" } },
+              left: { style: "thin", color: { rgb: "000000" } },
+              right: { style: "thin", color: { rgb: "000000" } }
+            };
+            // Aplicar formato de decimales a las celdas numéricas
+            if (C === 1 && R > 3) { // Columna 2 (índice 1) y fila mayor a 3 para datos numéricos
+              wsGeneral[cell_ref].z = '0.00';
+            }
+          }
+        }
+
+        XLSX.utils.book_append_sheet(wb, wsGeneral, 'Hoja de Costos Generales');
+
+        // Detalle de costos por fases
+        const faseData = [
+          ['Fase', 'Subtotales'],
+          ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
+          ['Total Costo', this.datosHoja[0].totalcosto],
+          ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
+        ];
+
+        const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);
+
+        // Aplicar bordes y formato de celdas
+        const rangeFases = XLSX.utils.decode_range(wsFases['!ref']!);
+        for (let R = rangeFases.s.r; R <= rangeFases.e.r; ++R) {
+          for (let C = rangeFases.s.c; C <= rangeFases.e.c; ++C) {
+            const cell_address = { c: C, r: R };
+            const cell_ref = XLSX.utils.encode_cell(cell_address);
+            if (!wsFases[cell_ref]) wsFases[cell_ref] = { t: 's', v: '' };
+            if (!wsFases[cell_ref].s) wsFases[cell_ref].s = {};
+            wsFases[cell_ref].s.border = {
+              top: { style: "thin", color: { rgb: "000000" } },
+              bottom: { style: "thin", color: { rgb: "000000" } },
+              left: { style: "thin", color: { rgb: "000000" } },
+              right: { style: "thin", color: { rgb: "000000" } }
+            };
+            // Aplicar formato de decimales a las celdas numéricas
+            if (C === 1 && R > 0) { // Columna 2 (índice 1) y fila mayor a 0 para datos numéricos
+              wsFases[cell_ref].z = '0.00';
+            }
+          }
+        }
+
+        XLSX.utils.book_append_sheet(wb, wsFases, 'Detalle de Costos por Fases');
+
+        // Generar archivo Excel y guardar
+        const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, 'HojaDeCostos');
+      }
+
+      private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      }
+    }
+
+    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const EXCEL_EXTENSION = '.xlsx';
