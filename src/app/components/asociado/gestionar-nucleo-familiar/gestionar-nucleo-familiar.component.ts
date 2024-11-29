@@ -104,6 +104,7 @@ export class GestionarNucleoFamiliarComponent {
 
   openCreateModal(): void {
     this.  newFamiliar = {
+      idRol: '0',
       nombres: '',
       apellidos: '',
       identificacion: '',
