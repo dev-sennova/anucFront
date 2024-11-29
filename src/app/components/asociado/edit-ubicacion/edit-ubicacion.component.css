@@ -83,6 +83,17 @@ h2 {
     transition: background-color 0.3s ease;
 }
 
+.btn-primary {
+  background-color: #1ccc66;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 .btn-secondary:hover {
     background-color: #007bff;
 }

@@ -10,13 +10,15 @@ import Swal from 'sweetalert2';
 })
 export class FincasService {
 
-  private apiUrl = GlobalConstants.apiURL + '/api/auth/finca'; 
+  private apiUrl = GlobalConstants.apiURL + '/api/auth/finca';
+  private apiUrlAsociacion = GlobalConstants.apiURL + '/api/auth/asociados_finca';
   private apiUrlOneFinca = GlobalConstants.apiURL + '/api/auth/finca/selectfinca';// Actualiza esta URL según tu configuración
   private apiFincaStore = GlobalConstants.apiURL+ '/api/auth/finca/store';
   private apiAsociadoFinca = GlobalConstants.apiURL+ '/api/auth/asociados_finca/store';
   private apiPredio = GlobalConstants.apiURL+ '/api/auth/tipo_predio';
   private apiAsociado = GlobalConstants.apiURL+ '/api/auth/finca/selectfinca/';
-  
+  private apiByAsociado = GlobalConstants.apiURL+ '/api/auth/asociados_finca/select_finca/';
+
   constructor(private http: HttpClient) { }
 
   getFincas(): Observable<any> {
@@ -53,7 +55,7 @@ getFincaAsociado(id: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-  
+
     console.log('Datos enviados para crear la finca:', fincaData); // Verifica los datos enviados
     return this.http.post<any>(this.apiFincaStore, fincaData, { headers }).pipe(
       map(response => {
@@ -63,10 +65,9 @@ getFincaAsociado(id: string): Observable<any> {
       catchError(this.handleError)
     );
   }
-  
-  
 
   updateFinca(finca: any): Observable<any> {
+    console.log('Datos act finca:', finca);
     const url = `${this.apiUrl}/update`;
     return this.http.put<any>(url, finca).pipe(
       map(response => {
@@ -76,7 +77,18 @@ getFincaAsociado(id: string): Observable<any> {
       catchError(this.handleError)
     );
   }
-  
+
+  updateAsociacion(finca: any): Observable<any> {
+    console.log('Datos act asociación finca:', finca);
+    const url = `${this.apiUrlAsociacion}/update`;
+    return this.http.put<any>(url, finca).pipe(
+      map(response => {
+        console.log('Respuesta del servidor al actualizar la asociación finca:', response);
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
 
   activateFinca(id: string): Observable<any> {
     const url = `${this.apiUrl}/activate`;
@@ -103,7 +115,6 @@ asociarFincaConAsociado(finca: string, asociado: string, tipo_predio: string): O
   );
 }
 
-
 getTiposPredio(): Observable<any> {
   const url = `${this.apiPredio}`;
   return this.http.get<any>(url).pipe(
@@ -121,6 +132,11 @@ getFincaByAsociado(idAsociado: string): Observable<any> {
     map(response => response.finca),
     catchError(this.handleError)
   );
+}
+
+getFincaResumenByAsociado(idAsociado: string): Observable<any> {
+  const url = `${this.apiByAsociado}${idAsociado}`;
+  return this.http.get<any>(url);
 }
 
   private handleError(error: HttpErrorResponse) {
