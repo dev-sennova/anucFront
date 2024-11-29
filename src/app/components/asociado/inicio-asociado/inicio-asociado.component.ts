@@ -173,7 +173,6 @@ export class InicioAsociadoComponent implements OnInit {
     }
   }
 
-
   acceptTerms() {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
     const idPersona = localStorage.getItem('identificador_persona') || '';

@@ -123,7 +123,7 @@ export class GestionarNucleoFamiliarComponent {
   }
 
   submitCreateForm(): void {
-    
+
     this.personasService.addPersona(this.newFamiliar).subscribe(
       (response: any) => {
         const personaId = response.id; // Asegúrate de que el ID de la persona creada se reciba en la respuesta
@@ -157,7 +157,7 @@ export class GestionarNucleoFamiliarComponent {
       }
     );
   }
-  
+
   openEditModal(familiar: any): void {
     this.selectedFamiliar = { ...familiar };
     this.editModalVisible = true;
@@ -169,7 +169,7 @@ export class GestionarNucleoFamiliarComponent {
 
   submitEditForm(): void {
     const personaToUpdate = {
-      id: this.selectedFamiliar.persona, 
+      id: this.selectedFamiliar.persona,
       identificacion: this.selectedFamiliar.identificacion,
       nombres: this.selectedFamiliar.nombres,
       apellidos: this.selectedFamiliar.apellidos,
@@ -177,17 +177,17 @@ export class GestionarNucleoFamiliarComponent {
       fecha_nacimiento: this.selectedFamiliar.fecha_nacimiento,
       tipo_documento: this.selectedFamiliar.tipo_documento,
       sexo: this.selectedFamiliar.sexo,
-      estado_civil: this.selectedFamiliar.estado_civil, 
+      estado_civil: this.selectedFamiliar.estado_civil,
     };
 
     this.personasService.updatePersona(personaToUpdate).subscribe(
       (response: any) => {
-        const personaId = response.id || this.selectedFamiliar.persona;  
-        const idUsuario = localStorage.getItem('identificador_asociado') || '';  
+        const personaId = response.id || this.selectedFamiliar.persona;
+        const idUsuario = localStorage.getItem('identificador_asociado') || '';
         const parentescoId = this.selectedFamiliar.parentesco;
-        const familiarId = this.selectedFamiliar.idFamiliar;  
+        const familiarId = this.selectedFamiliar.idFamiliar;
 
-        
+
         this.editarFamiliarAsociado(personaId, idUsuario, parentescoId, familiarId);
       },
       error => {
@@ -195,7 +195,7 @@ export class GestionarNucleoFamiliarComponent {
       }
     );
   }
-  
+
   editarFamiliarAsociado(personaId: number, asociadoId: string, parentescoId: number, familiarId: number): void {
     const asignacion = {
       id: familiarId,
@@ -208,7 +208,7 @@ export class GestionarNucleoFamiliarComponent {
       response => {
         Swal.fire('Éxito', 'Familiar editado correctamente.', 'success');
         this.closeEditModal();
-        this.ngOnInit();  
+        this.ngOnInit();
       },
       error => {
         Swal.fire('Error', 'No se pudo editar el familiar del asociado.', 'error');
@@ -232,7 +232,7 @@ export class GestionarNucleoFamiliarComponent {
       response => {
         Swal.fire('Éxito', 'Familiar desactivado correctamente.', 'success');
         this.closeDeactivateModal();
-        this.ngOnInit();  
+        this.ngOnInit();
       },
       error => {
         Swal.fire('Error', 'No se pudo desactivar al familiar.', 'error');

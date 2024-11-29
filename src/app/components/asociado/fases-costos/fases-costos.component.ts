@@ -368,8 +368,8 @@ export class FasesCostosComponent implements OnInit {
           ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad],
           ['Cantidad Esperada', this.datosHoja[0].esperado],
           ['Unidad de Producción', this.datosHoja[0].unidad],
-          ['Total Costo', this.datosHoja[0].totalcosto],
-          ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
+          ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
         ];
 
         const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);

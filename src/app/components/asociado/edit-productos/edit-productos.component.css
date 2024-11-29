@@ -104,25 +104,36 @@ h2 {
   background-color: #c82333;
 }
 
-/* Estilos básicos del modal */
+/* Modal Styles */
 .modal {
-  display: block; /* Mostrar el modal inicialmente oculto */
+  display: flex;
   position: fixed;
   z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow-y: auto; /* Asegura que aparezca el scroll cuando sea necesario */
+  padding: 10px; /* Añadir padding para evitar que el modal quede pegado al borde */
 }
 
+/* Modal Content */
 .modal-content {
-  background-color: #fff;
-  margin: 15% auto;
-  padding: 20px;
+  position: relative;
+  background-color: #ffffff;
   border-radius: 8px;
-  width: 80%;
-  max-width: 500px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh; /* Limitar la altura del modal para que no sobrepase la pantalla */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Activar scroll si el contenido sobrepasa la altura */
 }
 
 .close {
