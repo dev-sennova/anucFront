@@ -401,8 +401,8 @@ export class FasesCostosComponent implements OnInit {
         const faseData = [
           ['Fase', 'Subtotales'],
           ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-          ['Total Costo', this.datosHoja[0].totalcosto],
-          ['Costo por Unidad de Producción', this.datosHoja[0].costounidad]
+          ['Total Costo',  this.datosHoja[this.datosFlag].totalcosto],
+          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
         ];
 
         const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);

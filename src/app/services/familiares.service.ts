@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class FamiliaresService {
 
-  private apiUrl = GlobalConstants.apiURL + '/api/auth/familiares'; 
+  private apiUrl = GlobalConstants.apiURL + '/api/auth/familiares';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +23,8 @@ export class FamiliaresService {
 
   addFamiliar(familiares: any): Observable<any> {
     const url = `${this.apiUrl}/store`;
+    console.log("Url familiar: ", url);
+    console.log("Objeto enviado: ", familiares);
     return this.http.post<any>(url, familiares).pipe(
       catchError(this.handleError)
     );

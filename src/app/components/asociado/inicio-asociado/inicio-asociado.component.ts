@@ -17,7 +17,6 @@ import { FormasContactoAsociadoService } from 'src/app/services/formas-contacto-
 })
 export class InicioAsociadoComponent implements OnInit {
 
-
   persona: any={};
   sexos: any[] = [];
   veredas: any[] = [];
@@ -30,6 +29,7 @@ export class InicioAsociadoComponent implements OnInit {
   permisos: any;
   activeTab: string = 'personal';
   showModal: boolean = false;
+  finca: any;
 
   constructor(
     private personasService: PersonasService,
@@ -60,8 +60,13 @@ export class InicioAsociadoComponent implements OnInit {
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
         if (data) {
+          console.log("Data cargada: ", JSON.stringify(data));
           if (data.produccion && data.produccion.length > 0) {
             this.produccion = data.produccion.slice(0, 100);
+          }
+
+          if (data.finca && data.finca.length > 0) {
+            this.finca = data.finca.slice(0, 100);
           }
 
           if (data.familiares && data.familiares.length > 0) {

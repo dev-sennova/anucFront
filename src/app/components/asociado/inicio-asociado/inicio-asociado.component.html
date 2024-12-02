@@ -43,9 +43,9 @@
             </div>
         </div>
         <div class="location-info">
-            <p><strong>Nombre de la vereda:</strong> {{ getVeredas(produccion[0]?.vereda) || 'No tienes registrada la vereda' }}</p>
-            <p><strong>Finca:</strong> {{ produccion[0]?.nombre || 'No tienes registrado el nombre de la finca' }}</p>
-            <p><strong>Extensión en hectáreas:</strong> {{ produccion[0]?.extension || 'No tienes registrada la extensión en hectáreas' }}</p>
+            <p><strong>Nombre de la vereda:</strong> {{ finca[0]?.nombreVereda || 'No tienes registrada la vereda' }}</p>
+            <p><strong>Finca:</strong> {{ finca[0]?.nombre || 'No tienes registrado el nombre de la finca' }}</p>
+            <p><strong>Extensión en hectáreas:</strong> {{ finca[0]?.extension || 'No tienes registrada la extensión en hectáreas' }}</p>
         </div>
         <div *ngIf="produccion.length === 0">
             <p>No tienes registrados productos.</p>

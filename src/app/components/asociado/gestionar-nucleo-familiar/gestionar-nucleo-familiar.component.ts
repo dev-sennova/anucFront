@@ -147,6 +147,8 @@ export class GestionarNucleoFamiliarComponent {
       parentesco: parentescoId
     };
 
+    console.log("Datos para crear familiar: ", asignacion);
+
     this.familiaresService.addFamiliar(asignacion).subscribe(
       response => {
         Swal.fire('Éxito', 'Familiar asignado correctamente.', 'success');
