@@ -34,6 +34,7 @@ export class OfertaAsociadoComponent {
   imagenBase64: string | ArrayBuffer | null = null;
   contactoPublico: any[] = [];
   tieneContactoPublico: boolean = true;
+  idAsociacion: any;
 
 
   constructor(
@@ -55,6 +56,8 @@ export class OfertaAsociadoComponent {
   loadFormasDeContacto(): void {
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
 
+    this.loadAsociacion(idAsociado);
+
     this.personasService.getInfoOneAsociado(idAsociado).subscribe(
       (data) => {
         if (data && data.asociado && data.asociado.length > 0) {
@@ -65,7 +68,7 @@ export class OfertaAsociadoComponent {
             { label: 'WhatsApp', valor: this.persona.whatsapp, esPublico: this.permisos.whatsapp === 1 },
             { label: 'Facebook', valor: this.persona.facebook, esPublico: this.permisos.facebook === 1 },
             { label: 'Instagram', valor: this.persona.instagram, esPublico: this.permisos.instagram === 1 }
-          ].filter(contacto => contacto.esPublico); 
+          ].filter(contacto => contacto.esPublico);
         } else {
           console.error('No se encontró el asociado');
         }
@@ -75,8 +78,26 @@ export class OfertaAsociadoComponent {
       }
     );
   }
-  
 
+  loadAsociacion(idAsociado:string): void {
+    if (idAsociado) {
+      this.ofertasAsociadoService.getAsociacion(idAsociado).subscribe(
+        (data) => {
+          if (data && data.asociacion_finca && data.asociacion_finca.length > 0) {
+            this.idAsociacion = data.asociacion_finca[0].id;
+          } else {
+            console.error('No se encontraron asociaciones en la respuesta');
+          }
+        },
+        (error) => {
+          console.error('Error al obtener asociaciones', error);
+        }
+      );
+    } else {
+      console.error('No se encontró idAsociado en el localStorage');
+    }
+
+  }
 
   loadOfertas(): void {
     const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
@@ -98,7 +119,7 @@ export class OfertaAsociadoComponent {
 
   loadProductos(): void {
     const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
-    this.personasService.getInfoOneAsociadoProductos(asociadosFincaId).subscribe(
+    this.personasService.getProductosByAsociado(asociadosFincaId).subscribe(
       data => {
         if (data) {
           this.productos = data;
@@ -135,9 +156,7 @@ export class OfertaAsociadoComponent {
       console.error('No se encontró idAsociado en el localStorage');
     }
 
-
   }
-
 
   loadUnidades(): void {
     this.unidadesService.getUnidades().subscribe(
@@ -215,25 +234,26 @@ export class OfertaAsociadoComponent {
     };
     this.createModalVisible = true;
   }
-  
+
 
   closeCreateModal(): void {
     this.createModalVisible = false;
   }
 
   submitCreateForm(): void {
-    const idAsociadoFinca = localStorage.getItem('identificador_asociado_finca') || '';
-  
+
     // Verificar si al menos una forma de contacto es pública
-    this.tieneContactoPublico = 
+    this.tieneContactoPublico =
       (this.newOferta.telefono && this.newOferta.telefono_visible) ||
       (this.newOferta.whatsapp && this.newOferta.whatsapp_visible) ||
       (this.newOferta.correo && this.newOferta.correo_visible) ||
       (this.newOferta.facebook && this.newOferta.facebook_visible) ||
       (this.newOferta.instagram && this.newOferta.instagram_visible);
-  
+
     if (this.tieneContactoPublico) {
-      this.ofertasAsociadoService.addOferta(this.newOferta, idAsociadoFinca).subscribe(
+      console.log("NewOferta Value: ", this.newOferta);
+      console.log("idAsociadoFinca Value: ", this.idAsociacion);
+      this.ofertasAsociadoService.addOferta(this.newOferta, this.idAsociacion).subscribe(
         response => {
           Swal.fire('Éxito', 'Oferta creada correctamente.', 'success');
           this.loadOfertas();
@@ -248,7 +268,7 @@ export class OfertaAsociadoComponent {
       Swal.fire('Error', 'Debe tener al menos una forma de contacto pública.', 'error');
     }
   }
-  
+
 
   openEditModal(oferta: any): void {
     this.selectedOferta = { ...oferta };
@@ -270,7 +290,7 @@ export class OfertaAsociadoComponent {
     this.selectedOferta.instagram_visible = !!this.selectedOferta.instagram_visible;
 
     // Verificar si al menos una forma de contacto es pública
-    this.tieneContactoPublico = 
+    this.tieneContactoPublico =
         (this.selectedOferta.telefono && this.selectedOferta.telefono_visible) ||
         (this.selectedOferta.whatsapp && this.selectedOferta.whatsapp_visible) ||
         (this.selectedOferta.correo && this.selectedOferta.correo_visible) ||

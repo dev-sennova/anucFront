@@ -426,6 +426,6 @@ h3:hover::after {
 .logo {
   display: block;         /* Hace que el logo se comporte como un bloque */
   margin: 0 auto;         /* Centra el logo horizontalmente */
-  width: 90px;           
+  width: 90px;
   height: auto;           /* Mantiene la proporción del logo */
 }

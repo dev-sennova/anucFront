@@ -28,6 +28,7 @@
                     <th>Detalle</th>
                     <th>Valor Unitario</th>
                     <th>Subtotal</th>
+                    <th>Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,14 @@
                     <td>{{ item.detalle }}</td>
                     <td>{{ item.valorUnitario | currency:'COP':'symbol':'1.0-0' }}</td>
                     <td>{{ item.subtotal | currency:'COP':'symbol':'1.0-0' }}</td>
+                    <td>
+                      <img
+                      src="assets/iconos/trash_icon.png"
+                      alt="Eliminar"
+                      (click)="deleteConcepto(item.idDetallado)"
+                      style="cursor: pointer; width: 24px; height: 24px;"
+                      title="Eliminar">
+                    </td>
                   </tr>
                   <tr>
                     <td colspan="3" style="text-align: right; font-weight: bold;">Total Acumulado:</td>

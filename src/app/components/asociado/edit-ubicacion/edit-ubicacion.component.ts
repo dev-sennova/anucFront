@@ -63,6 +63,7 @@ export class EditUbicacionComponent implements OnInit {
           this.idAsociado= this.produccion.idAsociado;
           this.tipo_predio= this.produccion.idTipoPredio;
           this.fincaExiste = true;
+          localStorage.setItem('identificador_asociado_finca', this.idAsociacion);
         } else {
           this.nombre= "";
           this.extension= 0;
