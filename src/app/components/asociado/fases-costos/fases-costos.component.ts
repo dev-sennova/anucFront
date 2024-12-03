@@ -124,6 +124,9 @@ export class FasesCostosComponent implements OnInit {
   toggleForm(): void {
     this.selectedGrupo = 0;
     this.selectedConcepto = 0;
+    this.cantidad = 0;
+    this.detalle = "";
+    this.valorUnitario = 0;
     this.showForm = !this.showForm;
   }
 
@@ -252,8 +255,8 @@ export class FasesCostosComponent implements OnInit {
           text: 'Los datos se han guardado correctamente.',
           confirmButtonText: 'Aceptar',
         });
-        this.showForm = false;
         this.resetForm();
+        this.showForm = false;
         if (this.idHojaCostos) {
           this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
         }
