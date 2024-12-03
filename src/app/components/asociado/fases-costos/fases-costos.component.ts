@@ -537,7 +537,7 @@ export class FasesCostosComponent implements OnInit {
 
                             // Aplicar formato numérico a la columna B (colNumber 2)
                             if (colNumber === 2) {
-                                cell.numFmt = '0.00';
+                                cell.numFmt = '0';
                             }
                         });
 
