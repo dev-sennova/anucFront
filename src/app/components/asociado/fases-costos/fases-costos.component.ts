@@ -4,7 +4,8 @@ import { CalculodecostosService } from 'src/app/services/calculodecostos.service
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'; 
+const EXCEL_EXTENSION = '.xlsx';
 @Component({
   selector: 'app-fases-costos',
   templateUrl: './fases-costos.component.html',
@@ -353,79 +354,85 @@ export class FasesCostosComponent implements OnInit {
       }
     }
 
-      exportToExcel(): void {
+    exportToExcel(): void {
         const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
         // Hoja de costos generales
         const generalData = [
-          ['ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA', ''],
-          ['NIT: 890.211.458-4', ''],
-          [''],
-          ['Fecha Inicio', this.datosHoja[0].fechaInicio],
-          ['Fecha Fin', this.datosHoja[0].fechaFin],
-          ['Producto', this.datosHoja[0].producto],
-          ['Descripción', this.datosHoja[0].descripcion],
-          ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad],
-          ['Cantidad Esperada', this.datosHoja[0].esperado],
-          ['Unidad de Producción', this.datosHoja[0].unidad],
-          ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
+            ['ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA', ''],
+            ['NIT: 890.211.458-4', ''],
+            [''],
+            ['Fecha Inicio', this.datosHoja[0].fechaInicio],
+            ['Fecha Fin', this.datosHoja[0].fechaFin],
+            ['Producto', this.datosHoja[0].producto],
+            ['Descripción', this.datosHoja[0].descripcion],
+            ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad],
+            ['Cantidad Esperada', this.datosHoja[0].esperado],
+            ['Unidad de Producción', this.datosHoja[0].unidad],
+            ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+            ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
         ];
 
         const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);
 
+        // Ajustar el ancho de las columnas
+        wsGeneral['!cols'] = [{ wch: 40 }, { wch: 20 }];
+
         // Aplicar bordes y formato de celdas
         const range = XLSX.utils.decode_range(wsGeneral['!ref']!);
         for (let R = range.s.r; R <= range.e.r; ++R) {
-          for (let C = range.s.c; C <= range.e.c; ++C) {
-            const cell_address = { c: C, r: R };
-            const cell_ref = XLSX.utils.encode_cell(cell_address);
-            if (!wsGeneral[cell_ref]) wsGeneral[cell_ref] = { t: 's', v: '' };
-            if (!wsGeneral[cell_ref].s) wsGeneral[cell_ref].s = {};
-            wsGeneral[cell_ref].s.border = {
-              top: { style: "thin", color: { rgb: "000000" } },
-              bottom: { style: "thin", color: { rgb: "000000" } },
-              left: { style: "thin", color: { rgb: "000000" } },
-              right: { style: "thin", color: { rgb: "000000" } }
-            };
-            // Aplicar formato de decimales a las celdas numéricas
-            if (C === 1 && R > 3) { // Columna 2 (índice 1) y fila mayor a 3 para datos numéricos
-              wsGeneral[cell_ref].z = '0.00';
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+                const cell_address = { c: C, r: R };
+                const cell_ref = XLSX.utils.encode_cell(cell_address);
+                if (!wsGeneral[cell_ref]) wsGeneral[cell_ref] = { t: 's', v: '' };
+                if (!wsGeneral[cell_ref].s) wsGeneral[cell_ref].s = {};
+                wsGeneral[cell_ref].s.border = {
+                    top: { style: "thin", color: { rgb: "000000" } },
+                    bottom: { style: "thin", color: { rgb: "000000" } },
+                    left: { style: "thin", color: { rgb: "000000" } },
+                    right: { style: "thin", color: { rgb: "000000" } }
+                };
+                // Aplicar formato de decimales a las celdas numéricas
+                if (C === 1 && R > 3) { // Columna 2 (índice 1) y fila mayor a 3 para datos numéricos
+                    wsGeneral[cell_ref].z = '0.00';
+                }
             }
-          }
         }
 
         XLSX.utils.book_append_sheet(wb, wsGeneral, 'Hoja de Costos Generales');
 
         // Detalle de costos por fases
         const faseData = [
-          ['Fase', 'Subtotales'],
-          ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-          ['Total Costo',  this.datosHoja[this.datosFlag].totalcosto],
-          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
+            ['Fase', 'Subtotales'],
+            ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
+            ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+            ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
         ];
 
         const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);
 
+        // Ajustar el ancho de las columnas
+        wsFases['!cols'] = [{ wch: 40 }, { wch: 20 }];
+
         // Aplicar bordes y formato de celdas
         const rangeFases = XLSX.utils.decode_range(wsFases['!ref']!);
         for (let R = rangeFases.s.r; R <= rangeFases.e.r; ++R) {
-          for (let C = rangeFases.s.c; C <= rangeFases.e.c; ++C) {
-            const cell_address = { c: C, r: R };
-            const cell_ref = XLSX.utils.encode_cell(cell_address);
-            if (!wsFases[cell_ref]) wsFases[cell_ref] = { t: 's', v: '' };
-            if (!wsFases[cell_ref].s) wsFases[cell_ref].s = {};
-            wsFases[cell_ref].s.border = {
-              top: { style: "thin", color: { rgb: "000000" } },
-              bottom: { style: "thin", color: { rgb: "000000" } },
-              left: { style: "thin", color: { rgb: "000000" } },
-              right: { style: "thin", color: { rgb: "000000" } }
-            };
-            // Aplicar formato de decimales a las celdas numéricas
-            if (C === 1 && R > 0) { // Columna 2 (índice 1) y fila mayor a 0 para datos numéricos
-              wsFases[cell_ref].z = '0.00';
+            for (let C = rangeFases.s.c; C <= rangeFases.e.c; ++C) {
+                const cell_address = { c: C, r: R };
+                const cell_ref = XLSX.utils.encode_cell(cell_address);
+                if (!wsFases[cell_ref]) wsFases[cell_ref] = { t: 's', v: '' };
+                if (!wsFases[cell_ref].s) wsFases[cell_ref].s = {};
+                wsFases[cell_ref].s.border = {
+                    top: { style: "thin", color: { rgb: "000000" } },
+                    bottom: { style: "thin", color: { rgb: "000000" } },
+                    left: { style: "thin", color: { rgb: "000000" } },
+                    right: { style: "thin", color: { rgb: "000000" } }
+                };
+                // Aplicar formato de decimales a las celdas numéricas
+                if (C === 1 && R > 0) { // Columna 2 (índice 1) y fila mayor a 0 para datos numéricos
+                    wsFases[cell_ref].z = '0.00';
+                }
             }
-          }
         }
 
         XLSX.utils.book_append_sheet(wb, wsFases, 'Detalle de Costos por Fases');
@@ -433,13 +440,10 @@ export class FasesCostosComponent implements OnInit {
         // Generar archivo Excel y guardar
         const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
         this.saveAsExcelFile(excelBuffer, 'HojaDeCostos');
-      }
-
-      private saveAsExcelFile(buffer: any, fileName: string): void {
-        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-      }
     }
 
-    const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const EXCEL_EXTENSION = '.xlsx';
+    private saveAsExcelFile(buffer: any, fileName: string): void {
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    }
+}
