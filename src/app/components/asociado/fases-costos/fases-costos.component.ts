@@ -122,11 +122,13 @@ export class FasesCostosComponent implements OnInit {
   }
 
   toggleForm(): void {
+    this.resetForm();
     this.selectedGrupo = 0;
     this.selectedConcepto = 0;
     this.cantidad = 0;
     this.detalle = "";
     this.valorUnitario = 0;
+    this.formattedValorUnitario = ''; // También reinicia el valor formateado
     this.showForm = !this.showForm;
   }
 
@@ -135,9 +137,15 @@ export class FasesCostosComponent implements OnInit {
 
     const selectedConcepto = this.conceptos.find(c => c.id === conceptoId);
     if (selectedConcepto) {
-      this.cantidad = selectedConcepto.cantidad;
-      this.valorUnitario = selectedConcepto.valorUnitario;
+      this.cantidad = selectedConcepto.cantidad || 0;
+      this.valorUnitario = selectedConcepto.valorUnitario || 0; // Asegúrate de manejar casos no definidos
+      this.formattedValorUnitario = this.formatNumber(String(this.valorUnitario)); // Formatea si es necesario
+    } else {
+      this.cantidad = 0;
+      this.valorUnitario = 0;
+      this.formattedValorUnitario = '';
     }
+
   }
 
   selectTab(index: number): void {
