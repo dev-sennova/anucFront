@@ -466,43 +466,53 @@ export class FasesCostosComponent implements OnInit {
   
                   // Verificar si hay una última fila antes de agregar las fases
                   if (wsGeneral.lastRow) {
-                      const fasesStartRow = wsGeneral.lastRow.number + 2;
-  
-                      // Agregar tabla de fases debajo de la primera tabla
-                      const faseHeaderRow = wsGeneral.addRow(['Fase', 'Subtotales']);
-                      wsGeneral.mergeCells('B12:C12'); // Combinar celdas B12 y C12
-                      faseHeaderRow.getCell(2).alignment = { vertical: 'middle', horizontal: 'center' }; // Centrar el título Subtotales
-                      faseHeaderRow.font = { bold: true, color: { argb: 'FFFFFF' } };
-                      faseHeaderRow.fill = {
+                    const fasesStartRow = wsGeneral.lastRow.number + 2;
+
+                    // Agregar tabla de fases debajo de la primera tabla
+                    const faseHeaderRow = wsGeneral.addRow(['Fase', 'Subtotales']);
+                    wsGeneral.mergeCells('B12:C12'); // Combinar celdas B12 y C12
+
+                    // Cambiar la alineación de la celda en la columna C
+                    faseHeaderRow.getCell(2).alignment = { vertical: 'middle', horizontal: 'center' }; // Centrar el título Subtotales
+                    faseHeaderRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+
+                    // Aplicar el color de fondo a las primeras 3 celdas
+                    faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                      if (colNumber <= 3) {
+                        cell.fill = {
                           type: 'pattern',
                           pattern: 'solid',
                           fgColor: { argb: '007bff' }
-                      };
-                      faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                          if (colNumber <= 3) {
-                              cell.border = {
-                                  top: { style: 'thin' },
-                                  left: { style: 'thin' },
-                                  bottom: { style: 'thin' },
-                                  right: { style: 'thin' }
-                              };
-                              cell.alignment = { vertical: 'middle', horizontal: 'center' };
-                          }
-                      });
-  
-                      const faseData = [
-                          ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-                          ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-                          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
-                      ];
-  
-                      faseData.forEach((item, index) => {
+                        };
+                        cell.alignment = { vertical: 'middle', horizontal: 'center' }; // Alineación centrada
+                      }
+                    });
+                    
+                    faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                        // Asegurarse de que solo las celdas hasta la columna C sean procesadas
+                        if (colNumber <= 3) { // Aplicar solo a las primeras tres columnas
+                            cell.border = {
+                                top: { style: 'thin' },
+                                left: { style: 'thin' },
+                                bottom: { style: 'thin' },
+                                right: { style: 'thin' }
+                            };
+                            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                        }
+                    });
+
+                    const faseData = [
+                        ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
+                        ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+                        ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
+                    ];
+
+                    faseData.forEach((item, index) => {
                         const row = wsGeneral.addRow(item);
                         row.height = 30; // Aumentar la altura de cada fila para que se vea bien el contenido
-                    
-                        // Aplicar formato a las celdas de la fila
+
                         row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                            // General cell styling
+                            // Aplicar estilos a las celdas en general
                             cell.border = {
                                 top: { style: 'thin' },
                                 left: { style: 'thin' },
@@ -514,67 +524,34 @@ export class FasesCostosComponent implements OnInit {
                                 pattern: 'solid',
                                 fgColor: { argb: 'F2F2F2' }
                             };
-                            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true }; // Habilitar wrapText
-                    
-                            // Apply number formatting to column B (2) if needed
+                            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+
+                            // Aplicar color azul solo a las celdas A12, B12 y C12
+                            if (row.number === 12 && colNumber <= 3) {
+                                cell.fill = {
+                                    type: 'pattern',
+                                    pattern: 'solid',
+                                    fgColor: { argb: '007bff' }
+                                };
+                            }
+
+                            // Aplicar formato numérico a la columna B (colNumber 2)
                             if (colNumber === 2) {
                                 cell.numFmt = '0.00';
                             }
-                    
-                            // Apply blue fill color only to cells A12, B12, and C12 (row 12)
-                            if (row.number === 12) {
-                                if (colNumber === 1 || colNumber === 2 || colNumber === 3) {  // Target A12 (col 1), B12 (col 2), C12 (col 3)
-                                    cell.fill = {
-                                        type: 'pattern',
-                                        pattern: 'solid',
-                                        fgColor: { argb: '007bff' }
-                                    };
-                                }
-                            }
-
-                            if (row.number === 12) {
-                              wsGeneral.getCell('A12').fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: '007bff' }
-                              };
-                              wsGeneral.getCell('B12').fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: '007bff' }
-                              };
-                              wsGeneral.getCell('C12').fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: '007bff' }
-                              };
-                            }
-
-
-
                         });
-                    
+
                         // Combinar celdas B y C a partir de la fila 12
                         if (row.number >= 12) {
                             wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
                         }
-                        
-                        // Aplicar color azul solo a las celdas B12 y C12
-                        if (row.number === 12) {
-                            // Aplicar color azul en las celdas B12 y C12, no a toda la fila
-                            wsGeneral.getCell('B12').fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: '007bff' }
-                            };
-                            wsGeneral.getCell('C12').fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: '007bff' }
-                            };
-                        }
                     });
-                    }                    
+                  }
+
+
+
+
+                                       
                   // Generar archivo Excel
                   workbook.xlsx.writeBuffer().then(data => {
                       const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
