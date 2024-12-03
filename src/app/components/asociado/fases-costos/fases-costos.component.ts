@@ -2,6 +2,7 @@ import { Component, OnInit , EventEmitter, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import Swal from 'sweetalert2';
+import * as ExcelJS from 'exceljs';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'; 
@@ -355,95 +356,237 @@ export class FasesCostosComponent implements OnInit {
     }
 
     exportToExcel(): void {
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      const workbook = new ExcelJS.Workbook();
+      const wsGeneral = workbook.addWorksheet('Hoja de Costos Generales');
+  
+      // Ajustar el ancho de las columnas
+      wsGeneral.columns = [
+          { width: 60 }, // Aumentar el ancho de la primera columna para el nombre y NIT
+          { width: 10 },
+          { width: 30 }
+      ];
+  
+      // Cargar logo desde archivo local
+      fetch('/assets/imagenes/logo_anuc.png')
+          .then(response => response.blob())
+          .then(blob => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                  const base64Logo = reader.result as string;
+                  const logoId = workbook.addImage({
+                      base64: base64Logo,
+                      extension: 'png',
+                  });
+  
+                  // Fila 1: Nombre, NIT y logo
+                  const titleRow = wsGeneral.addRow([
+                      'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4',
+                      '',
+                      ''
+                  ]);
+                  titleRow.height = 100; // Aumentar la altura de la fila para acomodar el logo
+                  wsGeneral.mergeCells('A1:C1'); // Combinar celdas A1 a C1
+                  wsGeneral.getCell('A1').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
+                  wsGeneral.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
+                  wsGeneral.getCell('A1').fill = {
+                      type: 'pattern',
+                      pattern: 'solid',
+                      fgColor: { argb: 'F2F2F2' }
+                  };
+                  wsGeneral.getCell('A1').border = {
+                      top: { style: 'thin' },
+                      left: { style: 'thin' },
+                      bottom: { style: 'thin' },
+                      right: { style: 'thin' }
+                  };
+  
+                  // Insertar logo en la celda visualmente integrada
+                  wsGeneral.addImage(logoId, {
+                      tl: { col: 2.99, row: 0.5 }, // Ajustar la posición para que quede dentro del nombre y NIT pero separado de la línea de la columna 3
+                      ext: { width: 100, height: 60 }
+                  });
+  
+                  // Encabezados de fila 2 con estilo solo hasta la columna C
+                  const headerRow = wsGeneral.addRow(['Descripción', 'Valor', '']);
+                  headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                      if (colNumber <= 3) {
+                          cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+                          cell.fill = {
+                              type: 'pattern',
+                              pattern: 'solid',
+                              fgColor: { argb: '007bff' }
+                          };
+                          cell.border = {
+                              top: { style: 'thin' },
+                              left: { style: 'thin' },
+                              bottom: { style: 'thin' },
+                              right: { style: 'thin' }
+                          };
+                          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                      }
+                  });
+                  // Combinar celdas B2 y C2
+                  wsGeneral.mergeCells('B2:C2');
+  
+                  // Filas con datos adicionales
+                  const data = [
+                      ['Fecha Inicio', this.datosHoja[0].fechaInicio, ''],
+                      ['Fecha Fin', this.datosHoja[0].fechaFin, ''],
+                      ['Producto', this.datosHoja[0].producto, ''],
+                      ['Descripción', this.datosHoja[0].descripcion, ''],
+                      ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad, ''],
+                      ['Cantidad Esperada', this.datosHoja[0].esperado, ''],
+                      ['Unidad de Producción', this.datosHoja[0].unidad, ''],
+                      ['Total Costo', this.datosHoja[this.datosFlag].totalcosto, ''],
+                      ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad, '']
+                  ];
+  
+                  data.forEach(item => {
+                      const row = wsGeneral.addRow(item);
+                      row.height = 30; // Aumentar la altura de cada fila para que se vea bien el contenido
+                      row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                          if (colNumber <= 3) {
+                              cell.border = {
+                                  top: { style: 'thin' },
+                                  left: { style: 'thin' },
+                                  bottom: { style: 'thin' },
+                                  right: { style: 'thin' }
+                              };
+                              cell.fill = {
+                                  type: 'pattern',
+                                  pattern: 'solid',
+                                  fgColor: { argb: 'F2F2F2' }
+                              };
+                              cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true }; // Habilitar wrapText
+                          }
+                      });
+                      // Combinar celdas B y C
+                      wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
+                  });
+  
+                  // Verificar si hay una última fila antes de agregar las fases
+                  if (wsGeneral.lastRow) {
+                      const fasesStartRow = wsGeneral.lastRow.number + 2;
+  
+                      // Agregar tabla de fases debajo de la primera tabla
+                      const faseHeaderRow = wsGeneral.addRow(['Fase', 'Subtotales']);
+                      wsGeneral.mergeCells('B12:C12'); // Combinar celdas B12 y C12
+                      faseHeaderRow.getCell(2).alignment = { vertical: 'middle', horizontal: 'center' }; // Centrar el título Subtotales
+                      faseHeaderRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+                      faseHeaderRow.fill = {
+                          type: 'pattern',
+                          pattern: 'solid',
+                          fgColor: { argb: '007bff' }
+                      };
+                      faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                          if (colNumber <= 3) {
+                              cell.border = {
+                                  top: { style: 'thin' },
+                                  left: { style: 'thin' },
+                                  bottom: { style: 'thin' },
+                                  right: { style: 'thin' }
+                              };
+                              cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                          }
+                      });
+  
+                      const faseData = [
+                          ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
+                          ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+                          ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
+                      ];
+  
+                      faseData.forEach((item, index) => {
+                        const row = wsGeneral.addRow(item);
+                        row.height = 30; // Aumentar la altura de cada fila para que se vea bien el contenido
+                    
+                        // Aplicar formato a las celdas de la fila
+                        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                            // General cell styling
+                            cell.border = {
+                                top: { style: 'thin' },
+                                left: { style: 'thin' },
+                                bottom: { style: 'thin' },
+                                right: { style: 'thin' }
+                            };
+                            cell.fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: 'F2F2F2' }
+                            };
+                            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true }; // Habilitar wrapText
+                    
+                            // Apply number formatting to column B (2) if needed
+                            if (colNumber === 2) {
+                                cell.numFmt = '0.00';
+                            }
+                    
+                            // Apply blue fill color only to cells A12, B12, and C12 (row 12)
+                            if (row.number === 12) {
+                                if (colNumber === 1 || colNumber === 2 || colNumber === 3) {  // Target A12 (col 1), B12 (col 2), C12 (col 3)
+                                    cell.fill = {
+                                        type: 'pattern',
+                                        pattern: 'solid',
+                                        fgColor: { argb: '007bff' }
+                                    };
+                                }
+                            }
 
-        // Hoja de costos generales
-        const generalData = [
-            ['ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA', ''],
-            ['NIT: 890.211.458-4', ''],
-            [''],
-            ['Fecha Inicio', this.datosHoja[0].fechaInicio],
-            ['Fecha Fin', this.datosHoja[0].fechaFin],
-            ['Producto', this.datosHoja[0].producto],
-            ['Descripción', this.datosHoja[0].descripcion],
-            ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad],
-            ['Cantidad Esperada', this.datosHoja[0].esperado],
-            ['Unidad de Producción', this.datosHoja[0].unidad],
-            ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-            ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
-        ];
+                            if (row.number === 12) {
+                              wsGeneral.getCell('A12').fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '007bff' }
+                              };
+                              wsGeneral.getCell('B12').fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '007bff' }
+                              };
+                              wsGeneral.getCell('C12').fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '007bff' }
+                              };
+                            }
 
-        const wsGeneral: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(generalData);
 
-        // Ajustar el ancho de las columnas
-        wsGeneral['!cols'] = [{ wch: 40 }, { wch: 20 }];
 
-        // Aplicar bordes y formato de celdas
-        const range = XLSX.utils.decode_range(wsGeneral['!ref']!);
-        for (let R = range.s.r; R <= range.e.r; ++R) {
-            for (let C = range.s.c; C <= range.e.c; ++C) {
-                const cell_address = { c: C, r: R };
-                const cell_ref = XLSX.utils.encode_cell(cell_address);
-                if (!wsGeneral[cell_ref]) wsGeneral[cell_ref] = { t: 's', v: '' };
-                if (!wsGeneral[cell_ref].s) wsGeneral[cell_ref].s = {};
-                wsGeneral[cell_ref].s.border = {
-                    top: { style: "thin", color: { rgb: "000000" } },
-                    bottom: { style: "thin", color: { rgb: "000000" } },
-                    left: { style: "thin", color: { rgb: "000000" } },
-                    right: { style: "thin", color: { rgb: "000000" } }
-                };
-                // Aplicar formato de decimales a las celdas numéricas
-                if (C === 1 && R > 3) { // Columna 2 (índice 1) y fila mayor a 3 para datos numéricos
-                    wsGeneral[cell_ref].z = '0.00';
-                }
-            }
-        }
-
-        XLSX.utils.book_append_sheet(wb, wsGeneral, 'Hoja de Costos Generales');
-
-        // Detalle de costos por fases
-        const faseData = [
-            ['Fase', 'Subtotales'],
-            ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-            ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-            ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
-        ];
-
-        const wsFases: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(faseData);
-
-        // Ajustar el ancho de las columnas
-        wsFases['!cols'] = [{ wch: 40 }, { wch: 20 }];
-
-        // Aplicar bordes y formato de celdas
-        const rangeFases = XLSX.utils.decode_range(wsFases['!ref']!);
-        for (let R = rangeFases.s.r; R <= rangeFases.e.r; ++R) {
-            for (let C = rangeFases.s.c; C <= rangeFases.e.c; ++C) {
-                const cell_address = { c: C, r: R };
-                const cell_ref = XLSX.utils.encode_cell(cell_address);
-                if (!wsFases[cell_ref]) wsFases[cell_ref] = { t: 's', v: '' };
-                if (!wsFases[cell_ref].s) wsFases[cell_ref].s = {};
-                wsFases[cell_ref].s.border = {
-                    top: { style: "thin", color: { rgb: "000000" } },
-                    bottom: { style: "thin", color: { rgb: "000000" } },
-                    left: { style: "thin", color: { rgb: "000000" } },
-                    right: { style: "thin", color: { rgb: "000000" } }
-                };
-                // Aplicar formato de decimales a las celdas numéricas
-                if (C === 1 && R > 0) { // Columna 2 (índice 1) y fila mayor a 0 para datos numéricos
-                    wsFases[cell_ref].z = '0.00';
-                }
-            }
-        }
-
-        XLSX.utils.book_append_sheet(wb, wsFases, 'Detalle de Costos por Fases');
-
-        // Generar archivo Excel y guardar
-        const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, 'HojaDeCostos');
-    }
-
-    private saveAsExcelFile(buffer: any, fileName: string): void {
-        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-    }
-}
+                        });
+                    
+                        // Combinar celdas B y C a partir de la fila 12
+                        if (row.number >= 12) {
+                            wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
+                        }
+                        
+                        // Aplicar color azul solo a las celdas B12 y C12
+                        if (row.number === 12) {
+                            // Aplicar color azul en las celdas B12 y C12, no a toda la fila
+                            wsGeneral.getCell('B12').fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '007bff' }
+                            };
+                            wsGeneral.getCell('C12').fill = {
+                                type: 'pattern',
+                                pattern: 'solid',
+                                fgColor: { argb: '007bff' }
+                            };
+                        }
+                    });
+                    }                    
+                  // Generar archivo Excel
+                  workbook.xlsx.writeBuffer().then(data => {
+                      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                      FileSaver.saveAs(blob, 'HojaDeCostos_export_' + new Date().getTime() + '.xlsx');
+                  });
+              };
+              reader.readAsDataURL(blob);
+          })
+          .catch(error => {
+              console.error('Error al cargar el logo:', error);
+          });
+  }
+  
+  
+}    
