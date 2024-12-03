@@ -42,6 +42,7 @@ export class FasesCostosComponent implements OnInit {
   datosFlag: number=0;
 
   isSubmitting: boolean = false;
+  formattedValorUnitario: string= '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -179,6 +180,22 @@ export class FasesCostosComponent implements OnInit {
         );
       }
     });
+  }
+
+  // Función que se ejecuta al escribir en el input
+  onInputChange(event: any) {
+    const rawValue = event.target.value.replace(/\./g, ''); // Eliminar los puntos
+    this.formattedValorUnitario = this.formatNumber(rawValue); // Formatear el valor visual
+    this.valorUnitario = rawValue; // Guardar el valor real sin formato
+  }
+
+  // Función para agregar puntos de mil
+  formatNumber(value: string): string {
+    if (value) {
+      // Formatear el número agregando puntos cada tres dígitos
+      return value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    return value;
   }
 
   onSubmit(): void {
