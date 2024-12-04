@@ -429,12 +429,19 @@ export class FasesCostosComponent implements OnInit {
     exportToExcel(): void {
       const workbook = new ExcelJS.Workbook();
       const wsGeneral = workbook.addWorksheet('Hoja de Costos Generales');
+      const wsFases = workbook.addWorksheet('Fases'); // Nueva hoja para las fases
   
-      // Ajustar el ancho de las columnas
+      // Ajustar el ancho de las columnas en la hoja general
       wsGeneral.columns = [
-          { width: 60 }, // Aumentar el ancho de la primera columna para el nombre y NIT
+          { width: 60 },
           { width: 10 },
           { width: 30 }
+      ];
+  
+      // Ajustar el ancho de las columnas en la hoja de fases
+      wsFases.columns = [
+          { width: 40 }, // Ancho para la columna "Fase"
+          { width: 20 }  // Ancho para la columna "Subtotales"
       ];
   
       // Cargar logo desde archivo local
@@ -449,14 +456,14 @@ export class FasesCostosComponent implements OnInit {
                       extension: 'png',
                   });
   
-                  // Fila 1: Nombre, NIT y logo
+                  // Configurar hoja general (igual que antes)
                   const titleRow = wsGeneral.addRow([
                       'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4',
                       '',
                       ''
                   ]);
-                  titleRow.height = 100; // Aumentar la altura de la fila para acomodar el logo
-                  wsGeneral.mergeCells('A1:C1'); // Combinar celdas A1 a C1
+                  titleRow.height = 100;
+                  wsGeneral.mergeCells('A1:C1');
                   wsGeneral.getCell('A1').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
                   wsGeneral.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
                   wsGeneral.getCell('A1').fill = {
@@ -471,13 +478,11 @@ export class FasesCostosComponent implements OnInit {
                       right: { style: 'thin' }
                   };
   
-                  // Insertar logo en la celda visualmente integrada
                   wsGeneral.addImage(logoId, {
-                      tl: { col: 2.99, row: 0.5 }, // Ajustar la posición para que quede dentro del nombre y NIT pero separado de la línea de la columna 3
+                      tl: { col: 2.99, row: 0.5 },
                       ext: { width: 100, height: 60 }
                   });
   
-                  // Encabezados de fila 2 con estilo solo hasta la columna C
                   const headerRow = wsGeneral.addRow(['Descripción', 'Valor', '']);
                   headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
                       if (colNumber <= 3) {
@@ -496,10 +501,8 @@ export class FasesCostosComponent implements OnInit {
                           cell.alignment = { vertical: 'middle', horizontal: 'center' };
                       }
                   });
-                  // Combinar celdas B2 y C2
                   wsGeneral.mergeCells('B2:C2');
   
-                  // Filas con datos adicionales
                   const data = [
                       ['Fecha Inicio', this.datosHoja[0].fechaInicio, ''],
                       ['Fecha Fin', this.datosHoja[0].fechaFin, ''],
@@ -514,7 +517,7 @@ export class FasesCostosComponent implements OnInit {
   
                   data.forEach(item => {
                       const row = wsGeneral.addRow(item);
-                      row.height = 30; // Aumentar la altura de cada fila para que se vea bien el contenido
+                      row.height = 30;
                       row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
                           if (colNumber <= 3) {
                               cell.border = {
@@ -528,101 +531,55 @@ export class FasesCostosComponent implements OnInit {
                                   pattern: 'solid',
                                   fgColor: { argb: 'F2F2F2' }
                               };
-                              cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true }; // Habilitar wrapText
+                              cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
                           }
                       });
-                      // Combinar celdas B y C
                       wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
                   });
   
-                  // Verificar si hay una última fila antes de agregar las fases
-                  if (wsGeneral.lastRow) {
-                    const fasesStartRow = wsGeneral.lastRow.number + 2;
-
-                    // Agregar tabla de fases debajo de la primera tabla
-                    const faseHeaderRow = wsGeneral.addRow(['Fase', 'Subtotales']);
-                    wsGeneral.mergeCells('B12:C12'); // Combinar celdas B12 y C12
-
-                    // Cambiar la alineación de la celda en la columna C
-                    faseHeaderRow.getCell(2).alignment = { vertical: 'middle', horizontal: 'center' }; // Centrar el título Subtotales
-                    faseHeaderRow.font = { bold: true, color: { argb: 'FFFFFF' } };
-
-                    // Aplicar el color de fondo a las primeras 3 celdas
-                    faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                      if (colNumber <= 3) {
-                        cell.fill = {
+                  // Configurar la hoja de fases
+                  const faseHeaderRow = wsFases.addRow(['Fase', 'Subtotales']);
+                  faseHeaderRow.eachCell((cell, colNumber) => {
+                      cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+                      cell.fill = {
                           type: 'pattern',
                           pattern: 'solid',
                           fgColor: { argb: '007bff' }
-                        };
-                        cell.alignment = { vertical: 'middle', horizontal: 'center' }; // Alineación centrada
-                      }
-                    });
-                    
-                    faseHeaderRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                        // Asegurarse de que solo las celdas hasta la columna C sean procesadas
-                        if (colNumber <= 3) { // Aplicar solo a las primeras tres columnas
-                            cell.border = {
-                                top: { style: 'thin' },
-                                left: { style: 'thin' },
-                                bottom: { style: 'thin' },
-                                right: { style: 'thin' }
-                            };
-                            cell.alignment = { vertical: 'middle', horizontal: 'center' };
-                        }
-                    });
-
-                    const faseData = [
-                        ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-                        ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-                        ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
-                    ];
-
-                    faseData.forEach((item, index) => {
-                        const row = wsGeneral.addRow(item);
-                        row.height = 30; // Aumentar la altura de cada fila para que se vea bien el contenido
-
-                        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                            // Aplicar estilos a las celdas en general
-                            cell.border = {
-                                top: { style: 'thin' },
-                                left: { style: 'thin' },
-                                bottom: { style: 'thin' },
-                                right: { style: 'thin' }
-                            };
-                            cell.fill = {
-                                type: 'pattern',
-                                pattern: 'solid',
-                                fgColor: { argb: 'F2F2F2' }
-                            };
-                            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-
-                            // Aplicar color azul solo a las celdas A12, B12 y C12
-                            if (row.number === 12 && colNumber <= 3) {
-                                cell.fill = {
-                                    type: 'pattern',
-                                    pattern: 'solid',
-                                    fgColor: { argb: '007bff' }
-                                };
-                            }
-
-                            // Aplicar formato numérico a la columna B (colNumber 2)
-                            if (colNumber === 2) {
-                                cell.numFmt = '0';
-                            }
-                        });
-
-                        // Combinar celdas B y C a partir de la fila 12
-                        if (row.number >= 12) {
-                            wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
-                        }
-                    });
-                  }
-
-
-
-
-                                       
+                      };
+                      cell.border = {
+                          top: { style: 'thin' },
+                          left: { style: 'thin' },
+                          bottom: { style: 'thin' },
+                          right: { style: 'thin' }
+                      };
+                      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+                  });
+  
+                  const faseData = [
+                      ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
+                      ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
+                      ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
+                  ];
+  
+                  faseData.forEach(item => {
+                      const row = wsFases.addRow(item);
+                      row.height = 30;
+                      row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                          cell.border = {
+                              top: { style: 'thin' },
+                              left: { style: 'thin' },
+                              bottom: { style: 'thin' },
+                              right: { style: 'thin' }
+                          };
+                          cell.fill = {
+                              type: 'pattern',
+                              pattern: 'solid',
+                              fgColor: { argb: 'F2F2F2' }
+                          };
+                          cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                      });
+                  });
+  
                   // Generar archivo Excel
                   workbook.xlsx.writeBuffer().then(data => {
                       const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -635,6 +592,7 @@ export class FasesCostosComponent implements OnInit {
               console.error('Error al cargar el logo:', error);
           });
   }
+  
   
   
 }    
