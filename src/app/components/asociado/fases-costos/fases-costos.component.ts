@@ -441,7 +441,7 @@ export class FasesCostosComponent implements OnInit {
       // Ajustar el ancho de las columnas en la hoja de fases
       wsFases.columns = [
           { width: 40 }, // Ancho para la columna "Fase"
-          { width: 20 }  // Ancho para la columna "Subtotales"
+          { width: 30 }  // Ancho para la columna "Subtotales"
       ];
   
       // Cargar logo desde archivo local
@@ -456,7 +456,7 @@ export class FasesCostosComponent implements OnInit {
                       extension: 'png',
                   });
   
-                  // Configurar hoja general (igual que antes)
+                  // Configurar hoja general
                   const titleRow = wsGeneral.addRow([
                       'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4',
                       '',
@@ -537,7 +537,31 @@ export class FasesCostosComponent implements OnInit {
                       wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
                   });
   
-                  // Configurar la hoja de fases
+                  // Configurar la hoja de fases con encabezado
+                  const faseTitleRow = wsFases.addRow([
+                      'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4'
+                  ]);
+                  faseTitleRow.height = 60;
+                  wsFases.mergeCells('A1:B1');
+                  wsFases.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                  wsFases.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
+                  wsFases.getCell('A1').fill = {
+                      type: 'pattern',
+                      pattern: 'solid',
+                      fgColor: { argb: 'F2F2F2' }
+                  };
+                  wsFases.getCell('A1').border = {
+                      top: { style: 'thin' },
+                      left: { style: 'thin' },
+                      bottom: { style: 'thin' },
+                      right: { style: 'thin' }
+                  };
+  
+                  wsFases.addImage(logoId, {
+                      tl: { col: 1.8, row: 0.4},
+                      ext: { width: 100, height: 60 }
+                  });
+  
                   const faseHeaderRow = wsFases.addRow(['Fase', 'Subtotales']);
                   faseHeaderRow.eachCell((cell, colNumber) => {
                       cell.font = { bold: true, color: { argb: 'FFFFFF' } };
