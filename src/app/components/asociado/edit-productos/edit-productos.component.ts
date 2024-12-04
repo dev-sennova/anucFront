@@ -38,9 +38,9 @@ export class EditProductosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
+    const asociadosId = localStorage.getItem('identificador_asociado') || '';
 
-    this.produccionService.getInfoOneAsociado(asociadosFincaId).subscribe(
+    this.produccionService.getInfoOneAsociado(asociadosId).subscribe(
       response => {
         if (response.estado === 'Ok') {
           this.asociado = response.asociado[0];
@@ -141,8 +141,8 @@ export class EditProductosComponent implements OnInit {
     };
     this.showAddProductModal = true;
   }
-  
-  
+
+
 
   // Cerrar todos los modales
   closeModal() {
@@ -156,17 +156,17 @@ export class EditProductosComponent implements OnInit {
   editarProducto() {
     const updatedProduct = {
 
-        id: this.selectedProduct.idProduccion, 
+        id: this.selectedProduct.idProduccion,
         produccion: this.selectedProduct.produccion,
-        periodicidad: this.selectedProduct.periodicidad, 
-        producto: this.selectedProduct.idProducto, 
-        medida: this.selectedProduct.medida, 
-        asociados_finca: this.asociado.id 
+        periodicidad: this.selectedProduct.periodicidad,
+        producto: this.selectedProduct.idProducto,
+        medida: this.selectedProduct.medida,
+        asociados_finca: localStorage.getItem('identificador_asociado_finca')
     };
 
     this.produccionAsociadoService.updateProduccion(updatedProduct).subscribe(response => {
       Swal.fire('Guardado', 'El producto ha sido actualizado correctamente.', 'success');
-      this.closeModal(); 
+      this.closeModal();
       this.ngOnInit();
     }, error => {
       Swal.fire('Error', 'Ocurrió un error al actualizar el producto.', 'error');
@@ -197,7 +197,7 @@ export class EditProductosComponent implements OnInit {
 
   // Agregar nuevo producto
   agregarProducto() {
-    const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
+    const asociadosFincaId = localStorage.getItem('identificador_asociado_finca') || '';
     this.newProduct.asociados_finca = asociadosFincaId; // Asegurarse de tener el ID del asociado
     this.produccionAsociadoService.addProduccion(this.newProduct).subscribe(response => {
       Swal.fire('Agregado', 'El nuevo producto ha sido agregado.', 'success');

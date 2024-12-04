@@ -13,6 +13,7 @@ export class PersonasService {
 
   private apiUrl = GlobalConstants.apiURL + '/api/auth/personas';
   private apiUrlInfoAsociados = GlobalConstants.apiURL + '/api/auth/asociados/detallado';
+  private apiUrlInfoByAsociado = GlobalConstants.apiURL + '/api/auth/produccion/selectproduccionByAsociado';
   private apiUrlOnePersona = GlobalConstants.apiURL + '/api/auth/personas/selectpersonas';
 
 
@@ -50,6 +51,15 @@ export class PersonasService {
 
   getInfoOneAsociadoProductos(id: string): Observable<any> {
     const url = `${this.apiUrlInfoAsociados}/${id}`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.produccion),
+      catchError(this.handleError)
+    );
+  }
+
+
+  getProductosByAsociado(id: string): Observable<any> {
+    const url = `${this.apiUrlInfoByAsociado}/${id}`;
     return this.http.get<any>(url).pipe(
       map(response => response.produccion),
       catchError(this.handleError)

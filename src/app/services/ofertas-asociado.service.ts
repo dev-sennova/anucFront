@@ -11,10 +11,19 @@ import Swal from 'sweetalert2';
 })
 export class OfertasAsociadoService {
 
+  private apiUrlOfertasPublicas = GlobalConstants.apiURL + '/api/auth/ofertaspublicas';
   private apiUrlOfertas = GlobalConstants.apiURL + '/api/auth/ofertas';
   private apiUrlOfertasAsociado = GlobalConstants.apiURL + '/api/auth/asociados/ofertas';
+  private apiUrlAsociacionAsociado = GlobalConstants.apiURL + '/api/auth/asociados_finca/selectasociados_fincaAsociado';
+
 
   constructor(private http: HttpClient) { }
+
+  getAsociacion(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrlAsociacionAsociado}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   getOfertas(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrlOfertasAsociado}/${id}`).pipe(
@@ -23,7 +32,7 @@ export class OfertasAsociadoService {
   }
 
   getOfertaPublicas(): Observable<any> {
-    return this.http.get<any>(this.apiUrlOfertas).pipe(
+    return this.http.get<any>(this.apiUrlOfertasPublicas).pipe(
       catchError(this.handleError)
     );
   }

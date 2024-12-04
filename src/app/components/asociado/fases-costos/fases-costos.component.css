@@ -1,116 +1,153 @@
+/* Estilo general */
 * {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body, html {
-    height: 100%;
-    display: flex;
-    align-items: flex-start;  /* Alineación hacia la parte superior */
-    justify-content: center;
-    background-color: #f3f4f6;
-  }
+body, html {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+}
 
-  .center-wrapper {
-    display: flex;
-    align-items: flex-start;  /* Alineación hacia la parte superior */
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-  }
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
 
-  #container {
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 2em;  /* Aumento del padding para dar más espacio dentro */
-    width: 95%;     /* Aumento el ancho del contenedor */
-    max-width: 1600px;  /* Aumento el ancho máximo a 1600px */
-    height: 900px;  /* Aumento la altura a 900px */
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+#container {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2em;
+  width: 95%;
+  max-width: 1600px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+}
 
-  h1 {
-    margin-bottom: 1em;
-    font-size: 1.8em;
-    color: #333;
-  }
+h1 {
+  margin-bottom: 1em;
+  font-size: 1.8em;
+  color: #333;
+}
 
-  .tabs {
-    display: flex;
-    justify-content: space-between;
-    gap: 1em;  /* Más espacio entre las pestañas */
-    margin-bottom: 1em;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 0.5em;
-    overflow-x: auto; /* Para que las pestañas se deslicen si no caben en una línea */
-  }
+.layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
 
-  .tab-label {
-    background: #e9e9e9;
-    border-radius: 8px 8px 0 0;
-    color: #666;
-    cursor: pointer;
-    font-size: 1.2em;  /* Aumentar el tamaño de fuente */
-    padding: 0.8em 1.5em;  /* Aumentar el padding para que las pestañas sean más grandes */
-    flex: 1 1 calc(25% - 1em); /* Esto hará que las pestañas ocupen 25% del ancho del contenedor */
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+/* Estilo de los tabs */
+.tabs {
+  flex: 0 0 150px; /* Tamaño fijo de la columna de tabs */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  overflow-y: auto;
+  border-right: 2px solid #ddd;
+}
 
-  .tab-label:hover {
-    background: #d1d1d1;
-    color: #444;
-  }
+.tab-label {
+  background: #e9e9e9;
+  border-radius: 8px;
+  color: #666;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 0.8em 1.5em;
+  text-align: left;
+}
 
-  .tab-label.active {
-    background: #007bff;
-    color: #ffffff;
-    font-weight: bold;
-  }
+.tab-label:hover {
+  background: #d1d1d1;
+  color: #444;
+}
 
-  #content {
-    background: #f9f9f9;
-    border-radius: 0 0 8px 8px;
-    padding: 1em;
-    height: 60%;
-    overflow-y: auto;
-    flex-grow: 1; /* Asegura que el contenido ocupe el espacio restante */
-  }
+.tab-label.active {
+  background: #007bff;
+  color: #ffffff;
+  font-weight: bold;
+}
 
-  .fase-content {
-    display: none;
-    padding-top: 1em;
-  }
+/* Contenedor de contenido */
+#content {
+  flex: 1;
+  padding: 1em;
+  background: #f9f9f9;
+  overflow-y: auto;
+}
 
-  .fase-content.visible {
-    display: block;
-  }
+.fase-content {
+  display: none;
+}
 
-  .fase-content h5 {
-    color: #007bff;
-    margin-bottom: 0.5em;
-    font-size: 1.2em;
-  }
+.fase-content.visible {
+  display: block;
+}
 
-  .fase-content p {
-    color: #555;
-    line-height: 1.6;
-    font-size: 1em;
-    word-wrap: break-word;
-  }
+.fase-content h5 {
+  color: #007bff;
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+}
 
+.fase-content p {
+  color: #555;
+  line-height: 1.6;
+  font-size: 1em;
+  word-wrap: break-word;
+}
 
+/* Estilo de las tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
 
-/* Formulario */
-/* Estilo para botones */
-.toggle-form-btn,
+th, td {
+  text-align: left;
+  padding: 0.5em;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+td img {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.toggle-form-btn {
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
 .export-excel-btn {
   padding: 10px 20px;
   margin: 20px 0;
@@ -121,8 +158,7 @@
   cursor: pointer;
 }
 
-.toggle-form-btn:hover,
-.export-excel-btn:hover {
+.toggle-form-btn:hover {
   background-color: #0056b3;
 }
 
@@ -135,108 +171,19 @@
   fill: white; /* Cambia el color a blanco */
 }
 
-  .form-container {
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  label {
-    font-weight: bold;
-  }
-
-  select.form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-  .submit-btn {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .submit-btn:hover {
-    background-color: #218838;
-  }
-
-
-/* Contenedor del modal */
-.modal-container {
-  background-color: white;
+.form-container {
+  margin-top: 20px;
   padding: 20px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
 }
 
-/* Botón de cierre */
-.close-btn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-.close-btn:hover {
-  background-color: #c82333;
-}
-
-/* Estilos para el formulario */
 .form-group {
   margin-bottom: 15px;
 }
 
-label {
-  font-weight: bold;
-}
-
-select.form-control {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.submit-btn {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  background-color: #218838;
-}
-
-/* Botón para abrir el formulario */
-.toggle-form-btn {
-  padding: 10px 20px;
-  margin: 20px 0;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
+/* Contenedor del modal */
 /* Estilo para el contenedor de la superposición del modal */
 .modal-overlay {
   position: fixed;
@@ -279,16 +226,51 @@ select.form-control {
   color: #ff0303;
 }
 
+/* Botón de cierre */
+.close-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
 
-/* Estilo para los campos de cantidad y valor unitario */
+.close-btn:hover {
+  background-color: #c82333;
+}
+
+/* Estilos para el formulario */
 .form-group {
-  margin-bottom: 15px; /* Espaciado entre los grupos de campos */
+  margin-bottom: 15px;
 }
 
 label {
   font-weight: bold; /* Etiquetas en negrita */
   display: block; /* Asegura que las etiquetas estén por encima de los campos */
   margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+}
+
+
+select.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #218838;
 }
 
 .form-control {
@@ -426,6 +408,6 @@ h3:hover::after {
 .logo {
   display: block;         /* Hace que el logo se comporte como un bloque */
   margin: 0 auto;         /* Centra el logo horizontalmente */
-  width: 90px;           
+  width: 90px;
   height: auto;           /* Mantiene la proporción del logo */
 }

@@ -33,6 +33,8 @@ export class CalculodecostosService {
    GlobalConstants.apiURL + '/api/auth/conceptos/selectconceptosgrupo/';
   private guardarDetallado =
   GlobalConstants.apiURL + '/api/auth/detallado_produccion/store';
+  private borrarDetallado =
+  GlobalConstants.apiURL + '/api/auth/detallado_produccion/delete';
   private tabladerallado =
   GlobalConstants.apiURL + '/api/auth/costeo/hojas_calculo/';
 
@@ -195,6 +197,12 @@ export class CalculodecostosService {
     return this.http.post<any>(this.guardarDetallado, data, { headers });
   }
 
+  deleteDetalladoProduccion(data: any): Observable<any> {
+    console.log("DataDelete: ",data);
+    console.log("UrlDelete: ",this.borrarDetallado);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<any>(this.borrarDetallado, data, { headers });
+  }
 
   // Tabla detallado en la vista de fases
   obtenerCosteo(idHojaCostos: number): Observable<any> {

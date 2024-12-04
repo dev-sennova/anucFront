@@ -43,6 +43,9 @@ export class FasesCostosComponent implements OnInit {
   TotalCostos: any[] = [];
   datosFlag: number=0;
 
+  isSubmitting: boolean = false;
+  formattedValorUnitario: string= '';
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private calculoCostosService: CalculodecostosService
@@ -121,8 +124,13 @@ export class FasesCostosComponent implements OnInit {
   }
 
   toggleForm(): void {
+    this.resetForm();
     this.selectedGrupo = 0;
     this.selectedConcepto = 0;
+    this.cantidad = 0;
+    this.detalle = "";
+    this.valorUnitario = 0;
+    this.formattedValorUnitario = ''; // También reinicia el valor formateado
     this.showForm = !this.showForm;
   }
 
@@ -131,9 +139,15 @@ export class FasesCostosComponent implements OnInit {
 
     const selectedConcepto = this.conceptos.find(c => c.id === conceptoId);
     if (selectedConcepto) {
-      this.cantidad = selectedConcepto.cantidad;
-      this.valorUnitario = selectedConcepto.valorUnitario;
+      this.cantidad = selectedConcepto.cantidad || 0;
+      this.valorUnitario = selectedConcepto.valorUnitario || 0; // Asegúrate de manejar casos no definidos
+      this.formattedValorUnitario = this.formatNumber(String(this.valorUnitario)); // Formatea si es necesario
+    } else {
+      this.cantidad = 0;
+      this.valorUnitario = 0;
+      this.formattedValorUnitario = '';
     }
+
   }
 
   selectTab(index: number): void {
@@ -152,7 +166,57 @@ export class FasesCostosComponent implements OnInit {
     }
   }
 
+  deleteConcepto(idDetallado: any) {
+    // Mostrar el alert de confirmación
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Una vez eliminado, no podrás recuperar este concepto.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      // Si el usuario confirma
+      if (result.isConfirmed) {
+        console.log("IdDetallado: ", idDetallado);
+        // Llamar al servicio de eliminación
+        this.calculoCostosService.deleteDetalladoProduccion({ id: idDetallado }).subscribe(
+          response => {
+            Swal.fire('Éxito', 'Concepto borrado correctamente.', 'success');
+            this.ngOnInit();
+          },
+          error => {
+            Swal.fire('Error', 'No se pudo borrar el concepto.', 'error');
+          }
+        );
+      }
+    });
+  }
+
+  // Función que se ejecuta al escribir en el input
+  onInputChange(event: any) {
+    const rawValue = event.target.value.replace(/\./g, ''); // Eliminar los puntos
+    this.formattedValorUnitario = this.formatNumber(rawValue); // Formatear el valor visual
+    this.valorUnitario = rawValue; // Guardar el valor real sin formato
+  }
+
+  // Función para agregar puntos de mil
+  formatNumber(value: string): string {
+    if (value) {
+      // Formatear el número agregando puntos cada tres dígitos
+      return value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    return value;
+  }
+
   onSubmit(): void {
+    // Verifica si ya hay una solicitud en proceso
+    if (this.isSubmitting) {
+      return; // Evita ejecutar el código de guardado nuevamente
+    }
+
     // Validación de campos
     if (
       !this.selectedGrupo ||
@@ -172,6 +236,9 @@ export class FasesCostosComponent implements OnInit {
       });
       return;
     }
+
+    // Bloquea el botón para evitar más clics
+    this.isSubmitting = true;
 
     // Preparar datos para envío
     const formData = {
@@ -198,9 +265,9 @@ export class FasesCostosComponent implements OnInit {
           text: 'Los datos se han guardado correctamente.',
           confirmButtonText: 'Aceptar',
         });
-        this.showForm = false;
         this.resetForm();
-        if (this.idHojaCostos){
+        this.showForm = false;
+        if (this.idHojaCostos) {
           this.obtenerDatosHojaCostos(Number(this.idHojaCostos));
         }
       },
@@ -214,6 +281,10 @@ export class FasesCostosComponent implements OnInit {
           text: 'Hubo un error al guardar los datos. Por favor, intenta nuevamente.',
           confirmButtonText: 'Aceptar',
         });
+      },
+      () => {
+        // Habilita el botón nuevamente después de completar la solicitud
+        this.isSubmitting = false;
       }
     );
   }
