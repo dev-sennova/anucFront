@@ -53,9 +53,10 @@
               </div>
             </div>
           </div>
-          <div *ngIf="showForm" class="modal-overlay" (click)="toggleForm()">
+          <!-- Mantén el resto de tu código HTML tal como está -->
+          <div *ngIf="showForm" class="modal-overlay" appClickOutside (clickOutside)="closeForm()">
             <div class="modal-container" (click)="$event.stopPropagation()">
-              <span class="close" (click)="toggleForm()">&times;</span>
+              <span class="close" (click)="closeForm()">&times;</span>
               <h2>Añadir Conceptos</h2>
               <form (ngSubmit)="onSubmit()">
                 <div class="form-group">
@@ -83,13 +84,14 @@
                 <div class="form-group">
                   <label for="valorUnitario">Valor Unitario:</label>
                   <input type="text" id="valorUnitario" [(ngModel)]="valorUnitario" name="valorUnitario" class="form-control" required
-                         [ngModel]="formattedValorUnitario" (input)="onInputChange($event)">
+                        [ngModel]="formattedValorUnitario" (input)="onInputChange($event)">
                 </div>
                 <button type="submit" class="submit-btn">Enviar</button>
               </form>
             </div>
           </div>
-        </div>
+
+
 
         <!-- Contenido de "Hoja de costos" -->
         <div *ngIf="activeTab === fasesProducion.length" [class.visible]="activeTab === fasesProducion.length" class="fase-content">

@@ -1,4 +1,4 @@
-import { Component, OnInit , EventEmitter, Output} from '@angular/core';
+import { Component, OnInit , ElementRef, HostListener} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalculodecostosService } from 'src/app/services/calculodecostos.service';
 import Swal from 'sweetalert2';
@@ -48,8 +48,14 @@ export class FasesCostosComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private calculoCostosService: CalculodecostosService
+    private calculoCostosService: CalculodecostosService,
+    private eRef: ElementRef
   ) {}
+
+  @HostListener('document:click', ['$event']) clickout(event: Event)
+    { if (this.showForm && !this.eRef.nativeElement.contains(event.target)) 
+      { this.showForm = false; } }
+
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -67,6 +73,8 @@ export class FasesCostosComponent implements OnInit {
     this.cargarGruposConceptos();
   }
 
+  closeForm(): void { this.showForm = false; }
+  
   cargarFases(): void {
     if (!this.idGrupo) return;
 
@@ -133,7 +141,7 @@ export class FasesCostosComponent implements OnInit {
     this.formattedValorUnitario = ''; // También reinicia el valor formateado
     this.showForm = !this.showForm;
   }
-
+  
   onSelectConcepto(conceptoId: number): void {
     this.selectedConcepto = conceptoId;
 
