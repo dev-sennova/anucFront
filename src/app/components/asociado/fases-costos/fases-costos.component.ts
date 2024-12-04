@@ -487,8 +487,8 @@ export class FasesCostosComponent implements OnInit {
                   };
   
                   wsGeneral.addImage(logoId, {
-                      tl: { col: 2.99, row: 0.5 },
-                      ext: { width: 100, height: 60 }
+                      tl: { col: 2.99, row: 0.6 },
+                      ext: { width: 70, height: 60 }
                   });
   
                   const headerRow = wsGeneral.addRow(['Descripción', 'Valor', '']);
@@ -549,7 +549,7 @@ export class FasesCostosComponent implements OnInit {
                   const faseTitleRow = wsFases.addRow([
                       'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4'
                   ]);
-                  faseTitleRow.height = 60;
+                  faseTitleRow.height = 90;
                   wsFases.mergeCells('A1:B1');
                   wsFases.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
                   wsFases.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
@@ -566,9 +566,9 @@ export class FasesCostosComponent implements OnInit {
                   };
   
                   wsFases.addImage(logoId, {
-                      tl: { col: 1.8, row: 0.4},
-                      ext: { width: 100, height: 60 }
-                  });
+                    tl: { col: 0.2, row: 0.5 }, // Ajusta las coordenadas para mover el logo hacia arriba y a la izquierda
+                    ext: { width: 80, height: 70 } // Reduce ligeramente el tamaño del logo para que quepa mejor
+                });
   
                   const faseHeaderRow = wsFases.addRow(['Fase', 'Subtotales']);
                   faseHeaderRow.eachCell((cell, colNumber) => {
