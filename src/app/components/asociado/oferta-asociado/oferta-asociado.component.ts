@@ -35,6 +35,8 @@ export class OfertaAsociadoComponent {
   contactoPublico: any[] = [];
   tieneContactoPublico: boolean = true;
   idAsociacion: any;
+  imagenGeneral: any;
+  showImagenGeneral: boolean=false;
 
 
   constructor(
@@ -113,6 +115,20 @@ export class OfertaAsociadoComponent {
       },
       error => {
         Swal.fire('Error', 'No se pudo obtener las ofertas.', 'error');
+      }
+    );
+  }
+
+  loadImagenGeneral(idProducto:string){
+    this.productosService.getOneProducto(idProducto).subscribe(
+      data => {
+        if(data){
+          this.imagenGeneral=data;
+          this.showImagenGeneral=true;
+        }else{
+          this.imagenGeneral="";
+          this.showImagenGeneral=false;
+        }
       }
     );
   }

@@ -20,7 +20,10 @@
                 </div>
                 <div class="card-actions">
                     <button class="btn-secondary" (click)="openEditModal(familiar)">Editar</button>
-                    <button class="btn-danger" (click)="openDeactivateModal(familiar)">Desactivar</button>
+                    <button *ngIf="familiar.estado === 1; else activateBtn" class="btn-danger" (click)="openDeactivateModal(familiar)">Desactivar</button>
+                    <ng-template #activateBtn>
+                        <button class="btn-primary" (click)="openActivateModal(familiar)">Activar</button>
+                    </ng-template>
                 </div>
             </div>
         </div>
@@ -150,4 +153,12 @@
         <button class="btn-danger" (click)="confirmDeactivate()">Confirmar Desactivación</button>
         <button class="btn-secondary" (click)="closeDeactivateModal()">Cancelar</button>
     </div>
+</div>
+<!-- Modal para Activar Familiar -->
+<div id="deactivateModal" class="modal" *ngIf="showActivateModal">
+  <div class="modal-content">
+      <span class="close" (click)="closeDeactivateModal()">&times;</span>
+      <h2>¿Estás seguro que quieres activar a {{ selectedFamiliar.nombres }} {{ selectedFamiliar.apellidos }}?</h2>
+      <button (click)="activarFamiliar()" class="btn-modal">Activar</button>
+  </div>
 </div>

@@ -62,7 +62,7 @@ export class InicioAsociadoComponent implements OnInit {
         if (data) {
           console.log("Data cargada: ", JSON.stringify(data));
           if (data.produccion && data.produccion.length > 0) {
-            this.produccion = data.produccion.slice(0, 100);
+            this.produccion = data.produccion.filter((item: { estadoProduccion: number; }) => item.estadoProduccion === 1).slice(0, 100);
           }
 
           if (data.finca && data.finca.length > 0) {

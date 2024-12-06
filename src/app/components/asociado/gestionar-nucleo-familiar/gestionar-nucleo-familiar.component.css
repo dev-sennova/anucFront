@@ -261,3 +261,17 @@ h2 {
         max-width: 90%; /* Modal más ancho en pantallas pequeñas */
     }
 }
+
+.btn-modal {
+  background-color: #17a2b8;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
+.btn-modal:hover {
+  background-color: #1e7dd6;
+}

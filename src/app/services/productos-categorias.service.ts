@@ -23,6 +23,14 @@ export class ProductosCategoriasService {
     );
   }
 
+  getOneProducto(idProducto:any): Observable<any> {
+    const url = `${this.apiUrlProductos}/${idProducto}`;
+    return this.http.get<any>(url).pipe(
+      map(response => response.productos[0].imagenProducto),
+      catchError(this.handleError)
+    );
+  }
+
 
   addProducto(producto: any): Observable<any> {
     const url = `${this.apiUrlProductos}/store`;
@@ -56,7 +64,7 @@ export class ProductosCategoriasService {
     return this.http.get<any>(this.apiUrlCategorias).pipe(
       map(response => {
         if (response.estado === 'Ok') {
-          return response.producto_categorias; 
+          return response.producto_categorias;
         } else {
           throw new Error('Error en la respuesta del servicio: ' + response.estado);
         }

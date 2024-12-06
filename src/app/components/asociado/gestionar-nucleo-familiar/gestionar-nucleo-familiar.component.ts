@@ -28,6 +28,7 @@ export class GestionarNucleoFamiliarComponent {
   selectedFamiliar: any = {};
   newFamiliar: any = {};
   deactivateModalVisible: boolean = false;
+  showActivateModal: boolean=false;
 
 
   constructor(
@@ -170,6 +171,12 @@ export class GestionarNucleoFamiliarComponent {
     this.editModalVisible = false;
   }
 
+  openActivateModal(familiar: any) {
+    this.selectedFamiliar = { ...familiar };
+    this.showActivateModal = true;
+  }
+
+
   submitEditForm(): void {
     const personaToUpdate = {
       id: this.selectedFamiliar.persona,
@@ -226,6 +233,7 @@ export class GestionarNucleoFamiliarComponent {
 
   closeDeactivateModal(): void {
     this.deactivateModalVisible = false;
+    this.showActivateModal=false;
   }
 
   confirmDeactivate(): void {
@@ -242,6 +250,18 @@ export class GestionarNucleoFamiliarComponent {
       }
     );
   }
+
+    // Desactivar familiar
+    activarFamiliar() {
+      const familiarId = this.selectedFamiliar.idFamiliar;
+      this.familiaresService.activateFamiliar(familiarId).subscribe(response => {
+        Swal.fire('Activado', 'El familiar ha sido activado.', 'success');
+        this.closeDeactivateModal();
+        this.ngOnInit();
+      }, error => {
+        Swal.fire('Error', 'Ocurrió un error al activar el familiar.', 'error');
+      });
+    }
 
   getParentescos(id: number): string {
     const parentesco = this.parentescos.find((s) => s.id === id);

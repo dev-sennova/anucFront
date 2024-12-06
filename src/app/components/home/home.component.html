@@ -8,7 +8,7 @@
           d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
       </svg>
     </button>
-    
+
     <!-- Filtros por productos y categorías -->
     <div class="filters">
       <h3>Filtrar por: </h3>
@@ -27,7 +27,7 @@
   <div *ngIf="ofertas.length === 0" class="no-results">
     <p>No hay resultados para tu búsqueda</p>
   </div>
-  
+
 
   <div *ngIf="ofertaSeleccionada && ofertas.length > 0" class="featured-product">
     <!-- Mostrar detalles de oferta seleccionada -->
@@ -44,12 +44,20 @@
       <button class="contact-button" (click)="abrirModalContacto()">Contactar Vendedor</button>
     </div>
   </div>
-  
+
   <h2 *ngIf="ofertas.length > 0">{{ ofertaSeleccionada ? 'Más ofertas' : 'Ofertas principales' }}</h2>
-  
+
   <div *ngIf="ofertas.length > 0" class="product-grid">
     <div *ngFor="let oferta of ofertas" class="product-card" (click)="seleccionarOferta(oferta)">
-      <img [src]="'data:image/png;base64,' + oferta.imagenProducto" alt="{{oferta.descripcion}}">
+
+      <ng-container *ngIf="!oferta.imagenProducto; else imagePresent">
+        <img [src]="'assets/imagenes/imagen-no-disponible.jpg'" alt="{{oferta.descripcion}}">
+      </ng-container>
+
+      <ng-template #imagePresent>
+        <img [src]="'data:image/png;base64,' + oferta.imagenProducto" alt="{{oferta.descripcion}}">
+      </ng-template>
+
       <div class="product-info">
         <h1>{{ getProductoNombre(oferta.product_id) }}</h1>
         <h3>{{oferta.descripcion}}</h3>
@@ -58,7 +66,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Modal de contacto -->
   <div *ngIf="mostrarModal" class="modal">
     <div class="modal-content">
@@ -77,7 +85,7 @@
             </path>
           </svg>
         </a>
-  
+
         <!-- Enlace a Teléfono -->
           <a *ngIf="ofertaSeleccionada?.telefono_visible" [href]="'tel:' + ofertaSeleccionada?.telefono" class="contact-link"  target="_blank" aria-label="Llamar">
             <span class="Llamar">Llamar</span>
@@ -86,7 +94,7 @@
             </svg>
             <span class="Correo">{{ ofertaSeleccionada?.telefono}}</span>
           </a>
-  
+
         <!-- Enlace a Correo -->
           <a *ngIf="ofertaSeleccionada?.correo_visible" [href]="'mailto:' + ofertaSeleccionada?.correo" class="contact-link"  target="_blank" aria-label="Correo">
             <span class="Correo">Correo</span>
@@ -97,7 +105,7 @@
           <!-- Enlace a Facebook -->
           <a *ngIf="ofertaSeleccionada?.facebook_visible" [href]="'https://www.facebook.com/' + ofertaSeleccionada?.correo" class="contact-link"  target="_blank" aria-label="Correo">
             <span class="Correo">Facebook</span>
-            <img src="assets/iconos/facebook_icon.png" alt="Ícono de correo" width="34px" height="34px" /> 
+            <img src="assets/iconos/facebook_icon.png" alt="Ícono de correo" width="34px" height="34px" />
             <span class="Correo">{{ ofertaSeleccionada?.facebook_visible }}</span>
           </a>
 

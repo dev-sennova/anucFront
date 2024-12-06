@@ -40,6 +40,7 @@ export class OfertasAsociadoService {
   addOferta(oferta: any, asociados_finca_id: string): Observable<any> {
     const url = `${this.apiUrlOfertas}/store`;
     const body = { ...oferta, asociados_finca_id };
+    console.log("Body Sent: ",body);
     return this.http.post<any>(url, body).pipe(
       catchError(this.handleError)
     );
