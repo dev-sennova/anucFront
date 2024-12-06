@@ -51,8 +51,8 @@
             <!-- Información de la oferta -->
             <label>
                 Producto:
-                <select [(ngModel)]="newOferta.product_id" name="producto" required>
-                    <option value="" disabled>Seleccione un producto</option>
+                <select [(ngModel)]="newOferta.product_id" name="producto" required (change)="loadNewImagenGeneral()">
+                    <option value="0" disabled>Seleccione un producto</option>
                     <option *ngFor="let producto of productos" [value]="producto.idProducto">{{ producto.producto }}
                     </option>
                 </select>

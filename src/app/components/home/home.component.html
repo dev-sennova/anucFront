@@ -32,8 +32,15 @@
   <div *ngIf="ofertaSeleccionada && ofertas.length > 0" class="featured-product">
     <!-- Mostrar detalles de oferta seleccionada -->
     <div class="featured-product-image">
-      <img [src]="'data:image/png;base64,' + ofertaSeleccionada.imagenProducto"
-        alt="{{ofertaSeleccionada.descripcion}}">
+
+        <ng-container *ngIf="!ofertaSeleccionada.imagenProducto; else imagePresent">
+          <img [src]="'assets/imagenes/imagen-no-disponible.jpg'" alt="{{ofertaSeleccionada.descripcion}}">
+        </ng-container>
+
+        <ng-template #imagePresent>
+          <img [src]="'data:image/png;base64,' + ofertaSeleccionada.imagenProducto" alt="{{ofertaSeleccionada.descripcion}}">
+        </ng-template>
+
     </div>
     <div class="featured-product-details">
       <h1>{{getProductoNombre(ofertaSeleccionada.product_id)}}</h1>

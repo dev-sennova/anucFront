@@ -37,6 +37,11 @@ export class OfertaAsociadoComponent {
   idAsociacion: any;
   imagenGeneral: any;
   showImagenGeneral: boolean=false;
+  telefonoCargado: string='';
+  whatsappCargado: string='';
+  correoCargado: string='';
+  facebookCargado: string='';
+  instagramCargado: string='';
 
 
   constructor(
@@ -51,7 +56,6 @@ export class OfertaAsociadoComponent {
     this.loadOfertas();
     this.loadProductos();
     this.loadUnidades();
-    this.loadPermisos();
     this.loadFormasDeContacto();
 
   }
@@ -60,17 +64,29 @@ export class OfertaAsociadoComponent {
 
     this.loadAsociacion(idAsociado);
 
-    this.personasService.getInfoOneAsociado(idAsociado).subscribe(
+    this.personasService.getContactoOneAsociado(idAsociado).subscribe(
       (data) => {
-        if (data && data.asociado && data.asociado.length > 0) {
-          this.persona = data.asociado[0];
-          this.contactoPublico = [
-            { label: 'Teléfono', valor: this.persona.telefono, esPublico: this.permisos.telefono === 1 },
-            { label: 'Correo', valor: this.persona.correo, esPublico: this.permisos.correo === 1 },
-            { label: 'WhatsApp', valor: this.persona.whatsapp, esPublico: this.permisos.whatsapp === 1 },
-            { label: 'Facebook', valor: this.persona.facebook, esPublico: this.permisos.facebook === 1 },
-            { label: 'Instagram', valor: this.persona.instagram, esPublico: this.permisos.instagram === 1 }
-          ].filter(contacto => contacto.esPublico);
+        if (data && data.permisos && data.permisos.length > 0) {
+          this.persona = data.permisos[0]; // Asigna el objeto directamente
+
+          // Comprueba las propiedades y asigna valores
+          if (this.persona.telefono) {
+            this.telefonoCargado = this.persona.telefono;
+          }
+          if (this.persona.whatsapp) {
+            this.whatsappCargado = this.persona.whatsapp;
+          }
+          if (this.persona.correo) {
+            this.correoCargado = this.persona.correo;
+          }
+          if (this.persona.facebook) {
+            this.facebookCargado = this.persona.facebook;
+          }
+          if (this.persona.instagram) {
+            this.instagramCargado = this.persona.instagram;
+          }
+
+          console.log('Persona cargada: ', this.persona);
         } else {
           console.error('No se encontró el asociado');
         }
@@ -103,10 +119,12 @@ export class OfertaAsociadoComponent {
 
   loadOfertas(): void {
     const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
+    this.ofertas=[];
     this.ofertasAsociadoService.getOfertas(asociadosFincaId).subscribe(
       data => {
         if (data && data.estado === 'Ok' && Array.isArray(data.ofertasActivas)) {
           this.ofertas = data.ofertasActivas;
+          console.log("Array Ofertas: ", this.ofertas);
           this.filteredOfertas = [...this.ofertas];
           this.updatePagination();
         } else {
@@ -119,19 +137,22 @@ export class OfertaAsociadoComponent {
     );
   }
 
-  loadImagenGeneral(idProducto:string){
-    this.productosService.getOneProducto(idProducto).subscribe(
+  loadNewImagenGeneral(){
+    this.productosService.getOneProducto(this.newOferta.product_id).subscribe(
       data => {
         if(data){
           this.imagenGeneral=data;
+          this.newOferta.imagenProducto = this.imagenGeneral;
           this.showImagenGeneral=true;
         }else{
           this.imagenGeneral="";
+          console.log("Imagen Select: ",this.imagenGeneral);
           this.showImagenGeneral=false;
         }
       }
     );
   }
+
 
   loadProductos(): void {
     const asociadosFincaId = localStorage.getItem('identificador_asociado') || '';
@@ -151,27 +172,6 @@ export class OfertaAsociadoComponent {
         Swal.fire('Error', 'No se pudo obtener los productos.', 'error');
       }
     );
-  }
-
-  loadPermisos(): void {
-    const idAsociado = localStorage.getItem('identificador_asociado') || '';
-    if (idAsociado) {
-      this.personasService.getInfoOneAsociado(idAsociado).subscribe(
-        (data) => {
-          if (data && data.permisos && data.permisos.length > 0) {
-            this.permisos = data.permisos[0];
-          } else {
-            console.error('No se encontraron permisos en la respuesta');
-          }
-        },
-        (error) => {
-          console.error('Error al obtener permisos', error);
-        }
-      );
-    } else {
-      console.error('No se encontró idAsociado en el localStorage');
-    }
-
   }
 
   loadUnidades(): void {
@@ -227,7 +227,6 @@ export class OfertaAsociadoComponent {
     }
   }
   openCreateModal(): void {
-    const persona = this.persona || {};  // Verifica si el objeto persona existe.
     this.newOferta = {
       product_id: '',
       unidadId: '',
@@ -236,15 +235,15 @@ export class OfertaAsociadoComponent {
       medida_unidades_id: '',
       precio: '',
       descripcion: '',
-      telefono: persona.telefono || '',
+      telefono: this.telefonoCargado,
       telefono_visible: false,
-      whatsapp: persona.whatsapp || '',
+      whatsapp: this.whatsappCargado,
       whatsapp_visible: false,
-      correo: persona.correo || '',
+      correo: this.correoCargado,
       correo_visible: false,
-      facebook: persona.facebook || '',
+      facebook: this.facebookCargado,
       facebook_visible: false,
-      instagram: persona.instagram || '',
+      instagram: this.instagramCargado,
       instagram_visible: false,
       imagenProducto: ''
     };
@@ -284,7 +283,6 @@ export class OfertaAsociadoComponent {
       Swal.fire('Error', 'Debe tener al menos una forma de contacto pública.', 'error');
     }
   }
-
 
   openEditModal(oferta: any): void {
     this.selectedOferta = { ...oferta };

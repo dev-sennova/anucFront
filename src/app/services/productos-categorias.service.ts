@@ -24,7 +24,7 @@ export class ProductosCategoriasService {
   }
 
   getOneProducto(idProducto:any): Observable<any> {
-    const url = `${this.apiUrlProductos}/${idProducto}`;
+    const url = `${this.apiUrlProductos}/imagenproducto/${idProducto}`;
     return this.http.get<any>(url).pipe(
       map(response => response.productos[0].imagenProducto),
       catchError(this.handleError)
