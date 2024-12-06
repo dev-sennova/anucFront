@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonasService } from 'src/app/services/personas.service';
-import { VeredasService } from 'src/app/services/veredas.service';
 import { HttpClient } from '@angular/common/http';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import * as docx from 'docx';
 import { saveAs } from 'file-saver';
+import { EmpresaGlobalesService } from 'src/app/services/empresa-globales.service';
 
 
 
@@ -17,11 +17,15 @@ import { saveAs } from 'file-saver';
 export class CarnetAsociadoComponent implements OnInit {
 
   persona: any;
-  veredas: any[] = [];
+  vereda: any;
   produccion: any;
   fotoBase64: string = '';
+  vencimiento: any;
+  presidente: any;
+  secretario: any;
+  direccion: any;
 
-  constructor(private personasService: PersonasService, private http: HttpClient, private veredasService: VeredasService) { }
+  constructor(private personasService: PersonasService, private http: HttpClient, private empresaService: EmpresaGlobalesService) { }
   ngOnInit(): void {
 
     const idAsociado = localStorage.getItem('identificador_asociado') || '';
@@ -46,6 +50,7 @@ export class CarnetAsociadoComponent implements OnInit {
         (data) => {
           if (data && data.produccion && data.produccion.length > 0) {
             this.produccion = data.produccion.slice(0, 100);
+            this.vereda=data.finca[0].nombreVereda;
           } else {
             console.error('No se encontraron personas en la respuesta');
           }
@@ -58,21 +63,21 @@ export class CarnetAsociadoComponent implements OnInit {
       console.error('No se encontró id_usuario en el localStorage');
     }
 
-    this.veredasService.getVeredas().subscribe(
+    this.empresaService.getEmpresa().subscribe(
       (data) => {
-        if (data) {
-          this.veredas = data;
+        if (data && data.empresa && data.empresa.length > 0) {
+          this.direccion=data.empresa[0].direccion;
+          this.vencimiento=data.empresa[0].vencimiento;
+          this.presidente=data.empresa[0].presidente;
+          this.secretario=data.empresa[0].secretario;
+        } else {
+          console.error('No se encontraron datos en la respuesta');
         }
       },
       (error) => {
-        console.error('Error al obtener las veredas', error);
+        console.error('Error al obtener persona', error);
       }
     );
-  }
-
-  getVeredas(id: number): string {
-    const vereda = this.veredas.find((s) => s.id === id);
-    return vereda ? vereda.vereda : '';
   }
 
   downloadAsPDF(): void {

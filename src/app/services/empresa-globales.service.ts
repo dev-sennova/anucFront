@@ -9,9 +9,9 @@ import { GlobalConstants } from '../commons/global-constants';
 })
 export class EmpresaGlobalesService {
 
-  private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1'; 
-  private apiUrlPublico = GlobalConstants.apiURL + '/api/auth/empresa_globales_publico'; 
-  private apiUrlEstadisticas = GlobalConstants.apiURL + '/api/auth/empresa_globales/estadisticas'; 
+  private apiUrl = GlobalConstants.apiURL + '/api/auth/empresa_globales/selectempresa_globales/1';
+  private apiUrlPublico = GlobalConstants.apiURL + '/api/auth/empresa_globales_publico';
+  private apiUrlEstadisticas = GlobalConstants.apiURL + '/api/auth/empresa_globales/estadisticas';
   private apiUrlUpdate = GlobalConstants.apiURL + '/api/auth/empresa_globales'
 
   constructor(private http: HttpClient) { }
@@ -41,7 +41,20 @@ export class EmpresaGlobalesService {
       catchError(this.handleError)
     );
   }
-  
+
+  getEmpresa(): Observable<any> {
+    return this.http.get<any>(this.apiUrlUpdate).pipe(
+      map(response => {
+        if (response.estado === "Ok" && response.empresa) {
+          return response; // Asumiendo que siempre hay al menos una empresa en la respuesta
+        } else {
+          throw new Error('Respuesta inválida del servidor');
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   updateEmpresa(empresa: any): Observable<any> {
     const url = `${this.apiUrlUpdate}/update`;
     return this.http.put<any>(url, empresa).pipe(
@@ -53,7 +66,7 @@ export class EmpresaGlobalesService {
     return this.http.get<any>(this.apiUrlEstadisticas).pipe(
       map(response => {
         if (response.estado === "Ok") {
-          return response; 
+          return response;
         } else {
           throw new Error('Respuesta inválida del servidor');
         }

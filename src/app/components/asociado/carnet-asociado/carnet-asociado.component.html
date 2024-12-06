@@ -26,11 +26,15 @@
                 </div>
                 <div class="info">
                     <span>NOMBRE APELLIDOS</span>
+                  <p>
                     <span class="highlight">{{ persona.identificacion }}</span>
                     <span>DOCUMENTO DE IDENTIDAD</span>
+                  </p>
+                  <p>
                     <span class="highlight">ASOCIADO</span>
                     <span>CATEGORÍA</span>
-                    <span class="highlight">{{ getVeredas(produccion[0]?.vereda) }}</span>
+                  </p>
+                    <span class="highlight">{{ this.vereda }}</span>
                     <span>VEREDA</span>
                 </div>
             </div>
@@ -51,17 +55,17 @@
                 <img alt="ANUC logo" src="assets/imagenes/logo_anuc_edited.jpg" />
             </div>
         </div>
-        <p class="validity">VÁLIDO HASTA ABRIL DEL 2025</p>
+        <p class="validity">VÁLIDO HASTA {{ this.vencimiento }}</p>
         <div class="signature-section">
             <div class="signature">
-                <span>Gabiela Delgado Cano</span>
+                <span>{{ this.presidente }}</span>
                 <p>PRESIDENCIA DE LA ASOCIACIÓN</p>
             </div>
             <div class="signature">
-                <span>Gina Paola Ortiz Lozano</span>
+                <span>{{ this.secretario }}</span>
                 <p>SECRETARÍA DE LA ASOCIACIÓN</p>
             </div>
         </div>
-        <p class="address">CRA. 9 No 6 -16 FLORIDABLANCA</p>
+        <p class="address">{{ this.direccion }}</p>
     </div>
 </body>
