@@ -110,17 +110,17 @@
           </a>
 
           <!-- Enlace a Facebook -->
-          <a *ngIf="ofertaSeleccionada?.facebook_visible" [href]="'https://www.facebook.com/' + ofertaSeleccionada?.correo" class="contact-link"  target="_blank" aria-label="Correo">
+          <a *ngIf="ofertaSeleccionada?.facebook_visible" [href]="'https://www.facebook.com/' + ofertaSeleccionada?.facebook" class="contact-link"  target="_blank" aria-label="Correo">
             <span class="Correo">Facebook</span>
             <img src="assets/iconos/facebook_icon.png" alt="Ícono de correo" width="34px" height="34px" />
-            <span class="Correo">{{ ofertaSeleccionada?.facebook_visible }}</span>
+            <span class="Correo">{{ ofertaSeleccionada?.facebook }}</span>
           </a>
 
           <!-- Enlace a Instagram -->
-          <a *ngIf="ofertaSeleccionada?.instagram_visible" [href]="'https://www.instagram.com/' + ofertaSeleccionada?.correo" class="contact-link"  target="_blank" aria-label="Correo">
+          <a *ngIf="ofertaSeleccionada?.instagram_visible" [href]="'https://www.instagram.com/' + ofertaSeleccionada?.instagram" class="contact-link"  target="_blank" aria-label="Correo">
             <span class="Correo">Instagram</span>
             <img src="assets/iconos/instagram_icon.png" alt="Ícono de correo" width="34px" height="34px" />
-            <span class="Correo">{{ ofertaSeleccionada?.instagram_visible}}</span>
+            <span class="Correo">{{ ofertaSeleccionada?.instagram }}</span>
           </a>
           <button class="close-button" (click)="cerrarModalContacto()">Cerrar</button>
 </div>

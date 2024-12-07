@@ -13,6 +13,7 @@ export class ProductosCategoriasService {
 
   private apiUrlProductos = GlobalConstants.apiURL + '/api/auth/producto';
   private apiUrlCategorias = GlobalConstants.apiURL + '/api/auth/categoria';
+  private apiUrlGrupos = GlobalConstants.apiURL + '/api/auth/grupos';
 
   constructor(private http: HttpClient) { }
 
@@ -65,6 +66,19 @@ export class ProductosCategoriasService {
       map(response => {
         if (response.estado === 'Ok') {
           return response.producto_categorias;
+        } else {
+          throw new Error('Error en la respuesta del servicio: ' + response.estado);
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getGrupos(): Observable<any> {
+    return this.http.get<any>(this.apiUrlGrupos).pipe(
+      map(response => {
+        if (response.estado === 'Ok') {
+          return response.grupos;
         } else {
           throw new Error('Error en la respuesta del servicio: ' + response.estado);
         }

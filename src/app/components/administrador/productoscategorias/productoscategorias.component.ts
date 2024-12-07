@@ -22,12 +22,13 @@ export class ProductoscategoriasComponent implements OnInit {
   editModalVisible: boolean = false;
   activateModalVisible: boolean = false;
   deactivateModalVisible: boolean = false;
-  createModalVisible: boolean = false; 
+  createModalVisible: boolean = false;
   imageModalVisible: boolean = false;
   imagenProductoUrl: string = '';
   selectedProducto: any = {};
   newProducto: any = {};
   totalRegistros: number = 0;
+  grupos: any[]=[];
 
   constructor(
     private productosCategoriasService: ProductosCategoriasService
@@ -36,6 +37,7 @@ export class ProductoscategoriasComponent implements OnInit {
   ngOnInit(): void {
     this.loadProductos();
     this.loadCategorias();
+    this.loadGrupos();
   }
 
   loadProductos(): void {
@@ -72,6 +74,21 @@ export class ProductoscategoriasComponent implements OnInit {
     );
   }
 
+  loadGrupos(): void {
+    this.productosCategoriasService.getGrupos().subscribe(
+      data => {
+        console.log('Data:', data);
+        if (data) {
+          this.grupos = data;
+          console.log('Grupos:', this.grupos);
+        }
+      },
+      error => {
+        console.error('Error al obtener los grupos:', error);
+      }
+    );
+  }
+
   openImageModal(base64Image: string): void {
     if (base64Image) {
       this.imagenProductoUrl = `data:image/png;base64,${base64Image}`;
@@ -80,8 +97,8 @@ export class ProductoscategoriasComponent implements OnInit {
     }
     this.imageModalVisible = true;
   }
-  
-  
+
+
   closeImageModal(): void {
     this.imageModalVisible = false;
     this.imagenProductoUrl = '';

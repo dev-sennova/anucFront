@@ -69,6 +69,12 @@
         </select>
       </label>
       <label>
+        Grupo:
+        <select [(ngModel)]="newProducto.grupo" name="grupo" required>
+          <option *ngFor="let grupo of grupos" [value]="grupo.id">{{ grupo.grupo }}</option>
+        </select>
+      </label>
+      <label>
         Imagen:
         <input type="file" (change)="onFileSelected($event, 'create')">
       </label>

@@ -24,7 +24,9 @@ export interface Oferta {
   asociados_finca_id: number;
   medida_unidades_id: number;
   facebook_visible:number;
+  facebook: string;
   instagram_visible:number;
+  instagram: string;
 }
 
 @Component({
@@ -35,15 +37,15 @@ export interface Oferta {
 export class HomeComponent implements OnInit{
 
   todasOfertas: Oferta[] = [];
-  ofertas: Oferta[] = []; 
+  ofertas: Oferta[] = [];
   productos: any [] =[];
   unidades: any [] =[];
   categorias: any [] =[];
-  ofertaSeleccionada: Oferta | null = null; 
-  mostrarModal: boolean = false; 
+  ofertaSeleccionada: Oferta | null = null;
+  mostrarModal: boolean = false;
 
-  searchTerm: string = ''; 
-  selectedProduct: string = '';  
+  searchTerm: string = '';
+  selectedProduct: string = '';
   selectedCategory: string = '';
 
   constructor(private ofertasAsociados: OfertasAsociadoService,
@@ -77,7 +79,7 @@ export class HomeComponent implements OnInit{
       data => {
         if (data) {
           this.productos = data;
-          
+
         }
       },
       error => {
@@ -134,7 +136,7 @@ export class HomeComponent implements OnInit{
     console.log('Producto encontrado para ID:', id, producto); // Comprobar si se encuentra el producto correcto
     return producto ? producto.producto : 'Producto no encontrado';
   }
-  
+
   getCategoriaId(productId: number): string {
     const producto = this.productos.find(prod => prod.id === productId);
     return producto ? producto.categoria.toString() : '';
@@ -152,7 +154,7 @@ export class HomeComponent implements OnInit{
 
   seleccionarOferta(oferta: Oferta): void {
     // Restaurar las ofertas visibles incluyendo la oferta seleccionada previamente
-    //this.ofertas = [...this.todasOfertas]; 
+    //this.ofertas = [...this.todasOfertas];
 
     // Eliminar la oferta seleccionada actual de la lista de ofertas visibles
     //this.ofertas = this.ofertas.filter(o => o.id !== oferta.id);
@@ -163,13 +165,13 @@ export class HomeComponent implements OnInit{
     if (container) {
       const offset = -100;
       const topPosition = container.getBoundingClientRect().top + window.scrollY + offset;
-    
+
       window.scrollTo({
         top: topPosition,
         behavior: 'smooth'
       });
     }
-    
+
   }
   abrirModalContacto(): void {
     this.mostrarModal = true;
