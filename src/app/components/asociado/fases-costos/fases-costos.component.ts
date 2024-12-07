@@ -438,192 +438,198 @@ export class FasesCostosComponent implements OnInit {
       const workbook = new ExcelJS.Workbook();
       const wsGeneral = workbook.addWorksheet('Hoja de Costos Generales');
       const wsFases = workbook.addWorksheet('Fases'); // Nueva hoja para las fases
-  
+    
       // Ajustar el ancho de las columnas en la hoja general
       wsGeneral.columns = [
-          { width: 60 },
-          { width: 10 },
-          { width: 30 }
+        { width: 60 },
+        { width: 10 },
+        { width: 30 }
       ];
-  
+    
       // Ajustar el ancho de las columnas en la hoja de fases
       wsFases.columns = [
-          { width: 40 }, // Ancho para la columna "Fase"
-          { width: 30 }  // Ancho para la columna "Subtotales"
+        { width: 40 }, // Ancho para la columna "Fase"
+        { width: 30 }  // Ancho para la columna "Subtotales"
       ];
-  
+    
       // Cargar logo desde archivo local
       fetch('/assets/imagenes/logo_anuc.png')
-          .then(response => response.blob())
-          .then(blob => {
-              const reader = new FileReader();
-              reader.onload = () => {
-                  const base64Logo = reader.result as string;
-                  const logoId = workbook.addImage({
-                      base64: base64Logo,
-                      extension: 'png',
-                  });
-  
-                  // Configurar hoja general
-                  const titleRow = wsGeneral.addRow([
-                      'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4',
-                      '',
-                      ''
-                  ]);
-                  titleRow.height = 100;
-                  wsGeneral.mergeCells('A1:C1');
-                  wsGeneral.getCell('A1').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
-                  wsGeneral.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
-                  wsGeneral.getCell('A1').fill = {
-                      type: 'pattern',
-                      pattern: 'solid',
-                      fgColor: { argb: 'F2F2F2' }
+        .then(response => response.blob())
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const base64Logo = reader.result as string;
+            const logoId = workbook.addImage({
+              base64: base64Logo,
+              extension: 'png',
+            });
+    
+            // Función para formatear números con puntos de miles/millones y sin decimales
+            const formatNumber = (value: number): string => {
+              return value.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+            };
+    
+            // Configurar hoja general
+            const titleRow = wsGeneral.addRow([
+              'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4',
+              '',
+              ''
+            ]);
+            titleRow.height = 100;
+            wsGeneral.mergeCells('A1:C1');
+            wsGeneral.getCell('A1').alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };
+            wsGeneral.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
+            wsGeneral.getCell('A1').fill = {
+              type: 'pattern',
+              pattern: 'solid',
+              fgColor: { argb: 'F2F2F2' }
+            };
+            wsGeneral.getCell('A1').border = {
+              top: { style: 'thin' },
+              left: { style: 'thin' },
+              bottom: { style: 'thin' },
+              right: { style: 'thin' }
+            };
+    
+            wsGeneral.addImage(logoId, {
+              tl: { col: 2.99, row: 0.6 },
+              ext: { width: 70, height: 60 }
+            });
+    
+            const headerRow = wsGeneral.addRow(['Descripción', 'Valor', '']);
+            headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+              if (colNumber <= 3) {
+                cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+                cell.fill = {
+                  type: 'pattern',
+                  pattern: 'solid',
+                  fgColor: { argb: '007bff' }
+                };
+                cell.border = {
+                  top: { style: 'thin' },
+                  left: { style: 'thin' },
+                  bottom: { style: 'thin' },
+                  right: { style: 'thin' }
+                };
+                cell.alignment = { vertical: 'middle', horizontal: 'center' };
+              }
+            });
+            wsGeneral.mergeCells('B2:C2');
+    
+            const data = [
+              ['Fecha Inicio', this.datosHoja[0].fechaInicio, ''],
+              ['Fecha Fin', this.datosHoja[0].fechaFin, ''],
+              ['Producto', this.datosHoja[0].producto, ''],
+              ['Descripción', this.datosHoja[0].descripcion, ''],
+              ['Hectáreas o Animales a Trabajar', formatNumber(this.datosHoja[0].cantidad), ''],
+              ['Cantidad Esperada', formatNumber(this.datosHoja[0].esperado), ''],
+              ['Unidad de Producción', this.datosHoja[0].unidad, ''],
+              ['Total Costo', formatNumber(this.datosHoja[this.datosFlag].totalcosto), ''],
+              ['Costo por Unidad de Producción', formatNumber(this.datosHoja[this.datosFlag].costounidad), '']
+            ];
+    
+            data.forEach(item => {
+              const row = wsGeneral.addRow(item);
+              row.height = 30;
+              row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                if (colNumber <= 3) {
+                  cell.border = {
+                    top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    right: { style: 'thin' }
                   };
-                  wsGeneral.getCell('A1').border = {
-                      top: { style: 'thin' },
-                      left: { style: 'thin' },
-                      bottom: { style: 'thin' },
-                      right: { style: 'thin' }
+                  cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: 'F2F2F2' }
                   };
-  
-                  wsGeneral.addImage(logoId, {
-                      tl: { col: 2.99, row: 0.6 },
-                      ext: { width: 70, height: 60 }
-                  });
-  
-                  const headerRow = wsGeneral.addRow(['Descripción', 'Valor', '']);
-                  headerRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                      if (colNumber <= 3) {
-                          cell.font = { bold: true, color: { argb: 'FFFFFF' } };
-                          cell.fill = {
-                              type: 'pattern',
-                              pattern: 'solid',
-                              fgColor: { argb: '007bff' }
-                          };
-                          cell.border = {
-                              top: { style: 'thin' },
-                              left: { style: 'thin' },
-                              bottom: { style: 'thin' },
-                              right: { style: 'thin' }
-                          };
-                          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-                      }
-                  });
-                  wsGeneral.mergeCells('B2:C2');
-  
-                  const data = [
-                      ['Fecha Inicio', this.datosHoja[0].fechaInicio, ''],
-                      ['Fecha Fin', this.datosHoja[0].fechaFin, ''],
-                      ['Producto', this.datosHoja[0].producto, ''],
-                      ['Descripción', this.datosHoja[0].descripcion, ''],
-                      ['Hectáreas o Animales a Trabajar', this.datosHoja[0].cantidad, ''],
-                      ['Cantidad Esperada', this.datosHoja[0].esperado, ''],
-                      ['Unidad de Producción', this.datosHoja[0].unidad, ''],
-                      ['Total Costo', this.datosHoja[this.datosFlag].totalcosto, ''],
-                      ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad, '']
-                  ];
-  
-                  data.forEach(item => {
-                      const row = wsGeneral.addRow(item);
-                      row.height = 30;
-                      row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                          if (colNumber <= 3) {
-                              cell.border = {
-                                  top: { style: 'thin' },
-                                  left: { style: 'thin' },
-                                  bottom: { style: 'thin' },
-                                  right: { style: 'thin' }
-                              };
-                              cell.fill = {
-                                  type: 'pattern',
-                                  pattern: 'solid',
-                                  fgColor: { argb: 'F2F2F2' }
-                              };
-                              cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-                          }
-                      });
-                      wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
-                  });
-  
-                  // Configurar la hoja de fases con encabezado
-                  const faseTitleRow = wsFases.addRow([
-                      'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4'
-                  ]);
-                  faseTitleRow.height = 90;
-                  wsFases.mergeCells('A1:B1');
-                  wsFases.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-                  wsFases.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
-                  wsFases.getCell('A1').fill = {
-                      type: 'pattern',
-                      pattern: 'solid',
-                      fgColor: { argb: 'F2F2F2' }
-                  };
-                  wsFases.getCell('A1').border = {
-                      top: { style: 'thin' },
-                      left: { style: 'thin' },
-                      bottom: { style: 'thin' },
-                      right: { style: 'thin' }
-                  };
-  
-                  wsFases.addImage(logoId, {
-                    tl: { col: 0.2, row: 0.5 }, // Ajusta las coordenadas para mover el logo hacia arriba y a la izquierda
-                    ext: { width: 80, height: 70 } // Reduce ligeramente el tamaño del logo para que quepa mejor
-                });
-  
-                  const faseHeaderRow = wsFases.addRow(['Fase', 'Subtotales']);
-                  faseHeaderRow.eachCell((cell, colNumber) => {
-                      cell.font = { bold: true, color: { argb: 'FFFFFF' } };
-                      cell.fill = {
-                          type: 'pattern',
-                          pattern: 'solid',
-                          fgColor: { argb: '007bff' }
-                      };
-                      cell.border = {
-                          top: { style: 'thin' },
-                          left: { style: 'thin' },
-                          bottom: { style: 'thin' },
-                          right: { style: 'thin' }
-                      };
-                      cell.alignment = { vertical: 'middle', horizontal: 'center' };
-                  });
-  
-                  const faseData = [
-                      ...this.datosTablas.map(row => [row.nombreFase, row.acumuladoFase]),
-                      ['Total Costo', this.datosHoja[this.datosFlag].totalcosto],
-                      ['Costo por Unidad de Producción', this.datosHoja[this.datosFlag].costounidad]
-                  ];
-  
-                  faseData.forEach(item => {
-                      const row = wsFases.addRow(item);
-                      row.height = 30;
-                      row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
-                          cell.border = {
-                              top: { style: 'thin' },
-                              left: { style: 'thin' },
-                              bottom: { style: 'thin' },
-                              right: { style: 'thin' }
-                          };
-                          cell.fill = {
-                              type: 'pattern',
-                              pattern: 'solid',
-                              fgColor: { argb: 'F2F2F2' }
-                          };
-                          cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
-                      });
-                  });
-  
-                  // Generar archivo Excel
-                  workbook.xlsx.writeBuffer().then(data => {
-                      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                      FileSaver.saveAs(blob, 'HojaDeCostos_export_' + new Date().getTime() + '.xlsx');
-                  });
+                  cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+                }
+              });
+              wsGeneral.mergeCells(`B${row.number}:C${row.number}`);
+            });
+    
+            // Configurar la hoja de fases con encabezado
+            const faseTitleRow = wsFases.addRow([
+              'ASOCIACION MUNICIPAL DE USUARIOS CAMPESINOS DE FLORIDABLANCA\nNIT: 890.211.458-4'
+            ]);
+            faseTitleRow.height = 90;
+            wsFases.mergeCells('A1:B1');
+            wsFases.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+            wsFases.getCell('A1').font = { bold: true, size: 14, color: { argb: '000000' } };
+            wsFases.getCell('A1').fill = {
+              type: 'pattern',
+              pattern: 'solid',
+              fgColor: { argb: 'F2F2F2' }
+            };
+            wsFases.getCell('A1').border = {
+              top: { style: 'thin' },
+              left: { style: 'thin' },
+              bottom: { style: 'thin' },
+              right: { style: 'thin' }
+            };
+    
+            wsFases.addImage(logoId, {
+              tl: { col: 0.2, row: 0.5 }, // Ajusta las coordenadas para mover el logo hacia arriba y a la izquierda
+              ext: { width: 80, height: 70 } // Reduce ligeramente el tamaño del logo para que quepa mejor
+            });
+    
+            const faseHeaderRow = wsFases.addRow(['Fase', 'Subtotales']);
+            faseHeaderRow.eachCell((cell, colNumber) => {
+              cell.font = { bold: true, color: { argb: 'FFFFFF' } };
+              cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: '007bff' }
               };
-              reader.readAsDataURL(blob);
-          })
-          .catch(error => {
-              console.error('Error al cargar el logo:', error);
-          });
-  }
+              cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+              };
+              cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            });
+    
+            const faseData = [
+              ...this.datosTablas.map(row => [row.nombreFase, formatNumber(row.acumuladoFase)]),
+              ['Total Costo', formatNumber(this.datosHoja[this.datosFlag].totalcosto)],
+              ['Costo por Unidad de Producción', formatNumber(this.datosHoja[this.datosFlag].costounidad)]
+            ];
+    
+            faseData.forEach(item => {
+              const row = wsFases.addRow(item);
+              row.height = 30;
+              row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                cell.border = {
+                  top: { style: 'thin' },
+                  left: { style: 'thin' },
+                  bottom: { style: 'thin' },
+                  right: { style: 'thin' }
+                };
+                cell.fill = {
+                  type: 'pattern',
+                  pattern: 'solid',
+                  fgColor: { argb: 'F2F2F2' }
+                };
+                cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+              });
+            });
+    
+            // Generar archivo Excel
+            workbook.xlsx.writeBuffer().then(data => {
+              const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+              FileSaver.saveAs(blob, 'HojaDeCostos_export_' + new Date().getTime() + '.xlsx');
+            });
+          };
+          reader.readAsDataURL(blob);
+        })
+        .catch(error => {
+          console.error('Error al cargar el logo:', error);
+        });
+    }
+    
   
   
   
