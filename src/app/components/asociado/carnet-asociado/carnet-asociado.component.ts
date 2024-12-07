@@ -35,7 +35,7 @@ export class CarnetAsociadoComponent implements OnInit {
         if (data && data.asociado && data.asociado.length > 0) {
           this.persona = data.asociado[0];
 
-          this.fotoBase64 = this.persona.fotoAsociado ? this.persona.fotoAsociado : 'assets/imagenes/logo_anuc_edited.jpg';
+          this.fotoBase64 = this.persona.fotoAsociado;
         } else {
           console.error('No se encontró el asociado');
         }

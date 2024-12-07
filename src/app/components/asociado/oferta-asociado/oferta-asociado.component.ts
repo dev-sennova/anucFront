@@ -70,19 +70,19 @@ export class OfertaAsociadoComponent {
           this.persona = data.permisos[0]; // Asigna el objeto directamente
 
           // Comprueba las propiedades y asigna valores
-          if (this.persona.telefono) {
+          if (this.persona.telefono && this.persona.permisoTelefono===1) {
             this.telefonoCargado = this.persona.telefono;
           }
-          if (this.persona.whatsapp) {
+          if (this.persona.whatsapp && this.persona.permisoWhatsapp===1) {
             this.whatsappCargado = this.persona.whatsapp;
           }
-          if (this.persona.correo) {
+          if (this.persona.correo && this.persona.permisoCorreo===1) {
             this.correoCargado = this.persona.correo;
           }
-          if (this.persona.facebook) {
+          if (this.persona.facebook && this.persona.permisoFacebook===1) {
             this.facebookCargado = this.persona.facebook;
           }
-          if (this.persona.instagram) {
+          if (this.persona.instagram && this.persona.permisoInstagram===1) {
             this.instagramCargado = this.persona.instagram;
           }
 

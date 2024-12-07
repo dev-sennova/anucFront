@@ -19,7 +19,7 @@
             <div class="flag-line2"></div>
             <div class="flag-line3"></div>
         </div>
-        <div class="content">
+        <div class="content" *ngIf="persona">
             <div class="text-section">
                 <div class="sub-header">
                     {{ persona.nombres }} {{ persona.apellidos }}
@@ -39,7 +39,13 @@
                 </div>
             </div>
             <div class="logo-delantero">
-                <img [src]="'data:image/jpeg;base64,' + fotoBase64" alt="Foto asociado" class="foto-asociado" />
+              <ng-container *ngIf="!fotoBase64; else imagePresent">
+                <img [src]="'assets/imagenes/logo_anuc_edited.jpg'" alt="Foto asociado" class="foto-asociado">
+              </ng-container>
+
+              <ng-template #imagePresent>
+                <img [src]="'data:image/png;base64,' + fotoBase64" alt="Foto asociado" class="foto-asociado">
+              </ng-template>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <div class="body">
     <div class="container">
         <h2>Mis Ofertas</h2>
-        <div class="create-offer-bar">
+        <div class="create-offer-bar" *ngIf="persona">
             <button class="btn-primary" (click)="openCreateModal()">Crear Oferta</button>
         </div>
 
@@ -265,3 +265,6 @@
         <h2>Desactivar Oferta</h2>
         <p>¿Estás seguro de que deseas desactivar esta oferta?</p>
         <button class="action-btn deactivate-btn" (click)="deactivateOferta()">Desactivar</button>
+    </div>
+</div>
+
