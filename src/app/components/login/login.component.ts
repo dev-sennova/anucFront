@@ -54,14 +54,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   selectRole(role: any) {
+
     localStorage.setItem('idRol_usuario', role.idRol);
     localStorage.setItem('rol_usuario', role.rol);
+    console.log('idRol_usuario', role.idRol)
+    console.log('idRol_usuario type', typeof(role.idRol))
+    if (role.idRol == 1 || role.idRol == 2) {
+      this.router.navigate(['/administrador']);
 
-    if (role.idRol === 1 || role.idRol === 2) {
-      this.router.navigate(['administrador']);
-    } else if (role.idRol === 3) {
-      this.router.navigate(['asociado']);
-    }
+    } else if (role.idRol == 3) {
+      this.router.navigate(['/asociado']);
+    } 
   }
 
   closeModal() {

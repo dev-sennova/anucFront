@@ -66,15 +66,15 @@ export class LoginService {
         if (res.numeroRoles === 1) {
 
 
-          if (res.roles[0].idRol === 1) {
+          if (res.roles[0].idRol == 1) {
             this.router.navigate(['administrador']);
           }
 
-          if (res.roles[0].idRol === 2) {
+          if (res.roles[0].idRol == 2) {
             this.router.navigate(['administrador']);
           }
 
-          if (res.roles[0].idRol === 3) {
+          if (res.roles[0].idRol == 3) {
             this.router.navigate(['asociado']);
           }
 
